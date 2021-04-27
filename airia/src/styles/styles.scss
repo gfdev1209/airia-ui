@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+// Global themes
+:root {
+  --border-radius: 2rem;
+  --primary-text-color: white;
+  --primary-color: #6740e6;
+  --primary-color-RGB: 103, 64, 230;
+  --font-family: "Lato", "Helvetica Neue", sans-serif;
+  --heading-font-family: "Lato", "Helvetica Neue", sans-serif;
+  --heading-font-weight: 700;
+}
+
+@import "colors";
+@import "animations";
+@import "theme";
+
+// Import directories
+@import "./abstracts/abstracts-dir";
+@import "./base/base-dir";
+
+// Import vendor styles
+@import "./vendors/vendors-dir";
+
+// Import pages/components
+@import "./pages/pages-dir";
+@import "./components/components-dir";
+
+// Import print styles
+// @import 'print';
+
+body {
+  background-color: var(--background-primary-color);
+  color: var(--text-primary-color);
+  font-family: "Lato", sans-serif;
+}

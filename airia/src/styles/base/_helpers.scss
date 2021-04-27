@@ -1,0 +1,74 @@
+// Display
+.display-block {
+  display: block;
+}
+.display-inline {
+  display: inline;
+}
+.display-none {
+  display: none;
+}
+.display-inline-block {
+  display: inline-block;
+}
+// Positioning
+.top-0 {
+  top: 0;
+}
+.right-0 {
+  right: 0;
+}
+.bottom-0 {
+  bottom: 0;
+}
+.left-0 {
+  left: 0;
+}
+
+// Flex
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+.flex-grow-1 {
+  flex-grow: 1;
+}
+// Margins
+
+// Fonts
+.body-font-family {
+  font-family: var(--body-font-family);
+}
+.font-size-150-percent {
+  font-size: 150%;
+}
+.font-size-125-percent {
+  font-size: 125%;
+}
+.font-size-75-percent {
+  font-size: 75%;
+}
+.font-size-50-percent {
+  font-size: 50%;
+}
+// Text Transforms
+.uppercase {
+  text-transform: uppercase;
+}
+.line-height-1 {
+  line-height: 1;
+}
+.line-height-1-25 {
+  line-height: 1.25;
+}
+.line-height-1-5 {
+  line-height: 1.5;
+}
+// Colors
+
+// Sizing
+.width-100 {
+  width: 100%;
+}
+.max-width-100 {
+  max-width: 100%;
+}

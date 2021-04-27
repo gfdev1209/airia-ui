@@ -1,0 +1,30 @@
+$brand-primary-color: var(--primary-color);
+$brand-primary-color-dark: var(--primary-color);
+
+$background-primary-color: #ebeef0;
+$background-primary-color-dark: #17191a;
+
+$heading-primary-color: #303030;
+$heading-primary-color-dark: #ffffff;
+
+$text-primary-color: #303030;
+$text-primary-color-dark: rgb(255, 255, 255, 0.8);
+
+$colors: (
+  --brand-primary-color: (
+    $brand-primary-color,
+    $brand-primary-color-dark,
+  ),
+  --background-primary-color: (
+    $background-primary-color,
+    $background-primary-color-dark,
+  ),
+  --heading-primary-color: (
+    $heading-primary-color,
+    $heading-primary-color-dark,
+  ),
+  --text-primary-color: (
+    $text-primary-color,
+    $text-primary-color-dark,
+  ),
+);

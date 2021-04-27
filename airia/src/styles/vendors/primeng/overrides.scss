@@ -1,0 +1,7 @@
+// Theme overrides
+@import "./themes/material/variables";
+$borderRadius: var(--border-radius);
+@import "./themes/material/theme/fonts";
+@import "./designer/components";
+@import "./themes/material/theme/extensions/vendor_extensions";
+@import "./themes/material/theme/extensions";
