@@ -1,0 +1,82 @@
+.p-inputtext {
+  font-family: var(--body-font-family);
+  background-color: var(--background-secondary-color);
+  color: var(--text-primary-color);
+  border-radius: 6px;
+}
+.p-inputtext,
+.p-dropdown,
+.p-inputnumber,
+.p-input-icon-left,
+.p-input-icon-right {
+  width: 100%;
+  max-width: $input-width;
+  height: $input-height;
+}
+.p-dropdown .p-inputtext {
+  // padding-bottom: 0;
+  // padding-top: 1.5rem;
+}
+
+.p-radiobutton-label,
+.p-float-label label {
+  // text-transform: uppercase;
+  color: var(--background-secondary-color);
+}
+
+.p-float-label {
+  // margin: 0 0 0.35rem 0;
+}
+.p-float-label input:focus ~ label,
+.p-float-label input.p-filled ~ label,
+.p-float-label textarea:focus ~ label,
+.p-float-label textarea.p-filled ~ label,
+.p-float-label .p-inputwrapper-focus ~ label,
+.p-float-label .p-inputwrapper-filled ~ label {
+  top: 9px !important;
+  font-size: 11px;
+  background-color: transparent;
+  color: $grey;
+}
+input.p-inputtext {
+  // padding-top: 1rem;
+  // padding-bottom: 0;
+  padding: 0 1rem;
+}
+.p-input-icon-left > .p-inputtext,
+.p-input-icon-left .p-inputmask {
+  padding-left: 50px;
+}
+.p-input-icon-left {
+  label,
+  .p-inputwrapper-focus ~ label,
+  .p-inputwrapper-filled ~ label,
+  input.p-filled ~ label,
+  input:focus ~ label {
+    margin-left: 32px;
+  }
+}
+.p-input-icon-left > i,
+.p-input-icon-left > i:first-of-type,
+.p-input-icon-right > i,
+.p-input-icon-right > i:last-of-type {
+  font-size: 22px;
+  margin-top: -0.7rem;
+  z-index: 1;
+  color: $dark-grey;
+}
+// .p-invalid {
+//   display: block;
+// }
+
+.p-valid.p-input-icon-right {
+  > i:last-of-type {
+    color: var(--primary-color);
+  }
+}
+
+.p-valid.p-input-icon-left {
+  > i:first-of-type {
+    color: $dark-grey;
+  }
+}

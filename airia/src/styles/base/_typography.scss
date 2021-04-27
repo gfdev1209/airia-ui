@@ -1,0 +1,13 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--heading-primary-color);
+  font-family: var(--heading-font-family);
+  font-weight: var(--heading-font-weight);
+}
+a {
+  color: var(--brand-primary-color);
+}
