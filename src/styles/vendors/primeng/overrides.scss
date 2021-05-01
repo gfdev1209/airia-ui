@@ -1,7 +1,12 @@
 // Theme overrides
 @import "./themes/material/variables";
 $borderRadius: var(--border-radius);
+$fontSize: var(--font-size);
 @import "./themes/material/theme/fonts";
 @import "./designer/components";
 @import "./themes/material/theme/extensions/vendor_extensions";
 @import "./themes/material/theme/extensions";
+
+.p-field > label {
+  display: block;
+}

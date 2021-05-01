@@ -1,0 +1,141 @@
+<h1>Heading 1</h1>
+<h2>Heading 2</h2>
+<h3>Heading 3</h3>
+<h4>Heading 4</h4>
+<h5>Heading 5</h5>
+<h6>Heading 6</h6>
+<section>
+  <h3>Paragraphs</h3>
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel
+    rhoncus massa. <strong>Pellentesque habitant morbi</strong> tristique
+    senectus et netus et malesuada fames ac turpis egestas. Curabitur diam ante,
+    blandit a orci non, pretium maximus arcu.
+    <a href="#">Maecenas volutpat justo</a> sed consectetur pulvinar. Nam ut
+    tortor eros. Donec volutpat eros eget felis porta commodo. Cras porttitor
+    lorem est, nec accumsan justo eleifend vitae.
+  </p>
+  <p>
+    <small>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel
+      rhoncus massa. <strong>Pellentesque habitant morbi</strong> tristique
+      senectus et netus et malesuada fames ac turpis egestas. Curabitur diam
+      ante, blandit a orci non, pretium maximus arcu.
+      <a href="#">Maecenas volutpat justo</a> sed consectetur pulvinar. Nam ut
+      tortor eros. Donec volutpat eros eget felis porta commodo. Cras porttitor
+      lorem est, nec accumsan justo eleifend vitae.
+    </small>
+  </p>
+</section>
+<section>
+  <h3>Buttons</h3>
+  <button
+    pButton
+    pRipple
+    type="button"
+    label="View Alert Playback"
+    icon="fas fa-play-circle"
+    class="p-button-rounded p-button-sm"
+  ></button>
+  &nbsp;
+  <button
+    pButton
+    pRipple
+    type="button"
+    label="View Alert Playback"
+    icon="fas fa-play-circle"
+    class="p-button-rounded"
+  ></button>
+  &nbsp;
+  <button
+    pButton
+    pRipple
+    type="button"
+    icon="fas fa-times"
+    class="p-button-rounded p-button-outlined"
+  ></button>
+  &nbsp;
+  <small>
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="far fa-times"
+      class="p-button-rounded p-button-outlined color-light-grey"
+    ></button>
+  </small>
+  &nbsp;
+  <button
+    pButton
+    pRipple
+    icon="fas fa-times"
+    class="p-button-outlined"
+  ></button>
+  &nbsp;
+  <small>
+    <button
+      pButton
+      pRipple
+      icon="fas fa-download"
+      class="p-button-outlined color-light-grey"
+    ></button
+  ></small>
+</section>
+<section>
+  <h3>Checkboxes</h3>
+  <p-checkbox
+    name="groupname"
+    [(ngModel)]="checked"
+    [binary]="true"
+    checkboxIcon="fas fa-check"
+    label="Checked checkbox"
+  ></p-checkbox>
+  <br /><br />
+  <p-checkbox
+    name="groupname"
+    label="Unchecked checkbox"
+    checkboxIcon="fas fa-check"
+  ></p-checkbox>
+  <br /><br />
+  <small>
+    <p-checkbox
+      name="groupname"
+      [(ngModel)]="checked"
+      [binary]="true"
+      label="Small checkbox"
+      checkboxIcon="fas fa-check"
+    ></p-checkbox
+  ></small>
+</section>
+<section>
+  <h3>Inputs</h3>
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col">
+      <label for="firstname1">First Name</label>
+      <input id="firstname1" type="text" pInputText />
+    </div>
+    <div class="p-field p-col">
+      <label for="search">Icon</label>
+      <span class="p-input-icon-left">
+        <i class="far fa-search"></i>
+        <input id="search" type="text" pInputText placeholder="Search" />
+      </span>
+    </div>
+    <div class="p-field p-col">
+      <label for="firstname1">Small</label>
+      <input id="firstname1" class="p-inputtext-sm" type="text" pInputText />
+    </div>
+  </div>
+</section>
+<section>
+  <h3>Dropdowns</h3>
+  <p-dropdown
+    [options]="cities"
+    optionLabel="name"
+    dropdownIcon="fas fa-chevron-down"
+  ></p-dropdown>
+</section>
+<section>
+  <h3>Toggles</h3>
+  <p-inputSwitch [(ngModel)]="checked"></p-inputSwitch>
+</section>

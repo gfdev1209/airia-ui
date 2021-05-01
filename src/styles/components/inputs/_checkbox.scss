@@ -1,0 +1,30 @@
+.p-checkbox {
+  height: $checkbox-size;
+  width: $checkbox-size;
+  .p-checkbox-box {
+    background: none;
+    border-width: 1px;
+    border-color: $light-grey;
+    height: $checkbox-size;
+    width: $checkbox-size;
+    .p-checkbox-icon {
+      font-size: 1rem;
+    }
+  }
+}
+
+small .p-checkbox {
+  height: $checkbox-size-small;
+  width: $checkbox-size-small;
+  .p-checkbox-box {
+    height: $checkbox-size-small;
+    width: $checkbox-size-small;
+    .p-checkbox-icon {
+      font-size: 10px;
+    }
+  }
+}
+
+.p-checkbox-label {
+  @include font-weight(medium);
+}

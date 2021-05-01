@@ -123,6 +123,7 @@
 
   &.p-button-icon-only {
     width: $buttonIconOnlyWidth;
+    height: $buttonIconOnlyWidth;
     padding: $buttonIconOnlyPadding;
 
     .p-button-icon-left,
@@ -132,7 +133,6 @@
 
     &.p-button-rounded {
       border-radius: 50%;
-      height: $buttonIconOnlyWidth;
     }
   }
 

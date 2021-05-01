@@ -64,6 +64,24 @@
   line-height: 1.5;
 }
 // Colors
+.color-white {
+  color: $white !important;
+}
+.color-grey {
+  color: $grey !important;
+}
+.color-light-grey {
+  color: $light-grey !important;
+}
+.color-dark-grey {
+  color: $dark-grey !important;
+}
+.color-yellow {
+  color: $yellow;
+}
+.color-green {
+  color: $green;
+}
 
 // Sizing
 .width-100 {
