@@ -1,5 +1,5 @@
-$emphasis-high: rgba(0, 0, 0.87);
-$emphasis-medium: rgba(0, 0, 0, 0.6);
+$emphasis-high: var(--primary-text-color);
+$emphasis-medium: var(--text-medium-color);
 $emphasis-low: rgba(0, 0, 0, 0.38);
 $emphasis-lower: rgba(0, 0, 0, 0.12);
 
@@ -7,7 +7,7 @@ $accentColor: #ff4081;
 $accentTextColor: #ffffff;
 $overlayColor: #000000;
 //;
-$inputBorderColor: var(--input-border-color);
+$inputBorderColor: var(--text-input-border-color);
 $primaryColor: var(--primary-color);
 $primaryColorRGB: var(--primary-color-RGB);
 $background-color: var(--background-color);
@@ -17,7 +17,7 @@ $primaryTextColor: var(--primary-text-color);
 $fontFamily: var(--body-font-family);
 $fontSize: 1rem;
 $fontWeight: normal;
-$textColor: $emphasis-high;
+$textColor: var(--text-primary-color);
 $textSecondaryColor: $emphasis-medium;
 $borderRadius: 4px;
 $transitionDuration: 0.5s;
@@ -64,10 +64,10 @@ $actionIconBorderRadius: 50%;
 //input field (e.g. inputtext, spinner, inputmask)
 $inputPadding: 1rem 1rem;
 $inputTextFontSize: 1rem;
-$inputBg: #ffffff;
-$inputTextColor: $emphasis-high;
+$inputBg: var(--text-input-background-color);
+$inputTextColor: var(--text-primary-color);
 $inputIconColor: $emphasis-medium;
-$inputBorder: 1px solid var(--input-border-color);
+$inputBorder: 1px solid var(--text-input-border-color);
 $inputHoverBorderColor: var(--primary-color);
 $inputFocusBorderColor: $primaryColor;
 $inputErrorBorderColor: $errorColor;
@@ -82,14 +82,14 @@ $inputGroupTextColor: $emphasis-medium;
 $inputGroupAddOnMinWidth: 2.357rem;
 
 //input lists (e.g. dropdown, autocomplete, multiselect, orderlist)
-$inputListBg: #ffffff;
+$inputListBg: $inputBg;
 $inputListTextColor: $textColor;
 $inputListBorder: 1px solid #e5e5e5;
 $inputListPadding: 0;
 $inputListItemPadding: 1rem 1rem;
 $inputListItemBg: transparent;
 $inputListItemTextColor: $textColor;
-$inputListItemHoverBg: rgba(0, 0, 0, 0.04);
+$inputListItemHoverBg: $inputBorderColor;
 $inputListItemTextHoverColor: $textColor;
 $inputListItemBorder: 0 none;
 $inputListItemBorderRadius: 0;
@@ -109,8 +109,8 @@ $inputOverlayShadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
   0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
 
 //button
-$buttonPadding: 0.714rem 1rem;
-$buttonIconOnlyWidth: 3rem;
+$buttonPadding: 0.85rem 1rem;
+$buttonIconOnlyWidth: 2rem;
 $buttonIconOnlyPadding: 0.714rem;
 $buttonBg: $primaryColor;
 $buttonTextColor: $primaryTextColor;
@@ -315,19 +315,19 @@ $calendarBreakpoint: 769px;
 $calendarCellDatePaddingSM: 0;
 
 //input switch
-$inputSwitchWidth: 2.75rem;
-$inputSwitchHeight: 1rem;
-$inputSwitchBorderRadius: 0.5rem;
-$inputSwitchHandleWidth: 1.5rem;
-$inputSwitchHandleHeight: 1.5rem;
+$inputSwitchWidth: 3.5rem;
+$inputSwitchHeight: 1.5rem;
+$inputSwitchBorderRadius: 1rem;
+$inputSwitchHandleWidth: 1rem;
+$inputSwitchHandleHeight: 1rem;
 $inputSwitchHandleBorderRadius: 50%;
-$inputSwitchSliderPadding: -1px;
+$inputSwitchSliderPadding: 6px;
 $inputSwitchSliderOffBg: rgba(0, 0, 0, 0.38);
-$inputSwitchHandleOffBg: #ffffff;
-$inputSwitchSliderOffHoverBg: rgba(0, 0, 0, 0.38);
-$inputSwitchSliderOnBg: rgba($primaryColorRGB, 0.5);
+$inputSwitchHandleOffBg: $emphasis-medium;
+$inputSwitchSliderOffHoverBg: rgba($textColor, 0.8);
+$inputSwitchSliderOnBg: transparent;
 $inputSwitchSliderOnHoverBg: rgba($primaryColorRGB, 0.5);
-$inputSwitchHandleOnBg: $primaryColor;
+$inputSwitchHandleOnBg: #fff;
 
 //panel
 $panelHeaderBorder: 1px solid #e0e0e0;

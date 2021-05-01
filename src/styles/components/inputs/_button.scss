@@ -1,0 +1,17 @@
+.p-button {
+  &.p-button-sm {
+    font-size: 80%;
+  }
+  small &.p-button-icon-only {
+    height: 1rem;
+    width: 1rem;
+    padding: 0.62475rem;
+  }
+  span.p-button-icon {
+    position: relative;
+    top: 1px;
+  }
+}
+.p-button-label {
+  @include font-weight(medium);
+}

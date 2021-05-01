@@ -1,11 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap");
 // Global themes
 :root {
-  --border-radius: 2rem;
-  --primary-text-color: white;
+  // --border-radius: 2rem;
+  --primary-text-color: rgb(218, 218, 218);
   --primary-color: #9f64d1;
   --primary-color-RGB: 159, 100, 209;
-  --font-family: "Roboto", "Helvetica Neue", sans-serif;
+  --font-size: 14px;
+  --body-font-family: "Roboto", "Helvetica Neue", sans-serif;
   --heading-font-family: "Roboto", "Helvetica Neue", sans-serif;
   --heading-font-weight: 700;
 }
@@ -31,5 +32,6 @@
 body {
   background-color: var(--background-primary-color);
   color: var(--text-primary-color);
-  font-family: var(--font-family);
+  font-family: var(--body-font-family);
+  font-size: var(--font-size);
 }
