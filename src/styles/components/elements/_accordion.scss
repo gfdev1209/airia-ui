@@ -1,0 +1,21 @@
+.p-accordion {
+  .p-accordion-tab {
+    box-shadow: none;
+    border-bottom: 1px solid var(--background-color-shade-2);
+    .p-accordion-header {
+      .icon {
+        color: var(--background-color-shade-3);
+      }
+    }
+    &.p-accordion-tab-active {
+      .p-accordion-header {
+        .icon {
+          color: var(--primary-color);
+        }
+      }
+    }
+  }
+  .p-accordion-header-text {
+    font-size: 1rem;
+  }
+}
