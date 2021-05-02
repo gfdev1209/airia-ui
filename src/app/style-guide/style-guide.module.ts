@@ -7,6 +7,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { CardModule } from 'primeng/card';
 import { PanelModule } from 'primeng/panel';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 import { ChartModule } from 'primeng/chart';
 
@@ -25,6 +26,7 @@ import { FormsModule } from '@angular/forms';
     DropdownModule,
     InputSwitchModule,
     ChartModule,
+    ScrollPanelModule,
   ],
   declarations: [StyleGuideComponent],
 })

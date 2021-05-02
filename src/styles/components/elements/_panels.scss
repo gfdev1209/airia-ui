@@ -9,3 +9,20 @@
     border-radius: 0 0 12px 12px;
   }
 }
+.p-scrollpanel {
+  .p-scrollpanel-bar-y {
+    width: 6px;
+  }
+  .p-scrollpanel-content {
+    padding-right: 2rem;
+  }
+  .p-scrollpanel-bar {
+    background-color: var(--background-color-shade-4);
+    opacity: 1;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: var(--primary-color);
+    }
+  }
+}
