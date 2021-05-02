@@ -1,9 +1,10 @@
 // Colors
 $white: #fff;
-$black: #000;
+$black: #09030d;
 $light-grey: #a29aa9;
-$grey: #766881;
-$dark-grey: #29222e;
+$grey: #4b4053;
+$dark-grey: #342c3a;
+$darker-grey: #1f1823;
 $error-color: #b00020;
 $yellow: #faca00;
 $green: #61ae00;
@@ -11,40 +12,70 @@ $green: #61ae00;
 $brand-primary-color: var(--primary-color);
 $brand-primary-color-dark: var(--primary-color);
 
-$background-primary-color: #ebeef0;
-$background-primary-color-dark: #1d1522;
+$background-color: #ebeef0;
+$background-color-dark: $black;
 
-$heading-primary-color: #303030;
-$heading-primary-color-dark: #ffffff;
+$background-color-shade-1: #ebeef0;
+$background-color-shade-1-dark: $darker-grey;
 
-$text-primary-color: #303030;
-$text-primary-color-dark: rgb(221, 221, 221);
+$background-color-shade-2: #ebeef0;
+$background-color-shade-2-dark: $dark-grey;
+
+$background-color-shade-3: #ebeef0;
+$background-color-shade-3-dark: $grey;
+
+$background-color-shade-4: #ebeef0;
+$background-color-shade-4-dark: $light-grey;
+
+// Typography
+$text-color: #303030;
+$text-color-dark: rgb(221, 221, 221);
 
 $text-medium-color: #525252;
-$text-medium-color-dark: $grey;
+$text-medium-color-dark: $light-grey;
 
+$heading-color: #303030;
+$heading-color-dark: #ffffff;
+
+// Inputs
 $text-input-background-color: #e2e2e2;
-$text-input-background-color-dark: $dark-grey;
+$text-input-background-color-dark: #29222e;
 
 $text-input-border-color: #d3d3d3;
-$text-input-border-color-dark: lighten($dark-grey, 10%);
+$text-input-border-color-dark: $grey;
 
 $colors: (
   --brand-primary-color: (
     $brand-primary-color,
     $brand-primary-color-dark,
   ),
-  --background-primary-color: (
-    $background-primary-color,
-    $background-primary-color-dark,
+  --background-color: (
+    $background-color,
+    $background-color-dark,
   ),
-  --heading-primary-color: (
-    $heading-primary-color,
-    $heading-primary-color-dark,
+  --background-color-shade-1: (
+    $background-color-shade-1,
+    $background-color-shade-1-dark,
   ),
-  --text-primary-color: (
-    $text-primary-color,
-    $text-primary-color-dark,
+  --background-color-shade-2: (
+    $background-color-shade-2,
+    $background-color-shade-2-dark,
+  ),
+  --background-color-shade-3: (
+    $background-color-shade-3,
+    $background-color-shade-3-dark,
+  ),
+  --background-color-shade-4: (
+    $background-color-shade-4,
+    $background-color-shade-4-dark,
+  ),
+  --heading-color: (
+    $heading-color,
+    $heading-color-dark,
+  ),
+  --text-color: (
+    $text-color,
+    $text-color-dark,
   ),
   --text-medium-color: (
     $text-medium-color,

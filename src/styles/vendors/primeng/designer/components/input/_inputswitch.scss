@@ -20,7 +20,7 @@
 
   &.p-inputswitch-checked {
     .p-inputswitch-slider:before {
-      transform: translateX($inputSwitchWidth - $inputSwitchHandleWidth * 2);
+      transform: translateX($inputSwitchHandleWidth);
     }
   }
 

@@ -17,7 +17,7 @@ $primaryTextColor: var(--primary-text-color);
 $fontFamily: var(--body-font-family);
 $fontSize: 1rem;
 $fontWeight: normal;
-$textColor: var(--text-primary-color);
+$textColor: var(--text-color);
 $textSecondaryColor: $emphasis-medium;
 $borderRadius: 4px;
 $transitionDuration: 0.5s;
@@ -65,7 +65,7 @@ $actionIconBorderRadius: 50%;
 $inputPadding: 1rem 1rem;
 $inputTextFontSize: 1rem;
 $inputBg: var(--text-input-background-color);
-$inputTextColor: var(--text-primary-color);
+$inputTextColor: var(--text-color);
 $inputIconColor: $emphasis-medium;
 $inputBorder: 1px solid var(--text-input-border-color);
 $inputHoverBorderColor: var(--primary-color);
@@ -315,24 +315,24 @@ $calendarBreakpoint: 769px;
 $calendarCellDatePaddingSM: 0;
 
 //input switch
-$inputSwitchWidth: 3.5rem;
-$inputSwitchHeight: 1.5rem;
+$inputSwitchWidth: 3rem;
+$inputSwitchHeight: 1.6rem;
 $inputSwitchBorderRadius: 1rem;
-$inputSwitchHandleWidth: 1rem;
-$inputSwitchHandleHeight: 1rem;
+$inputSwitchHandleWidth: 1.25rem;
+$inputSwitchHandleHeight: 1.25rem;
 $inputSwitchHandleBorderRadius: 50%;
-$inputSwitchSliderPadding: 6px;
+$inputSwitchSliderPadding: 3px;
 $inputSwitchSliderOffBg: rgba(0, 0, 0, 0.38);
 $inputSwitchHandleOffBg: $emphasis-medium;
 $inputSwitchSliderOffHoverBg: rgba($textColor, 0.8);
-$inputSwitchSliderOnBg: transparent;
+$inputSwitchSliderOnBg: var(--primary-color);
 $inputSwitchSliderOnHoverBg: rgba($primaryColorRGB, 0.5);
 $inputSwitchHandleOnBg: #fff;
 
 //panel
-$panelHeaderBorder: 1px solid #e0e0e0;
-$panelHeaderBg: #ffffff;
-$panelHeaderTextColor: $textColor;
+$panelHeaderBorder: 1px solid var(--background-color-shade-2);
+$panelHeaderBg: var(--background-color-shade-1);
+$panelHeaderTextColor: var(--heading-color);
 $panelHeaderFontWeight: 500;
 $panelHeaderPadding: 1rem;
 $panelToggleableHeaderPadding: 0.5rem 1rem;
@@ -341,8 +341,8 @@ $panelHeaderHoverBg: rgba(0, 0, 0, 0.04);
 $panelHeaderHoverBorderColor: #e0e0e0;
 $panelHeaderTextHoverColor: $textColor;
 
-$panelContentBorder: 1px solid #e0e0e0;
-$panelContentBg: #ffffff;
+$panelContentBorder: 1px solid var(--background-color-shade-2);
+$panelContentBg: var(--background-color-shade-1);
 $panelContentTextColor: $textColor;
 $panelContentPadding: 1rem;
 
@@ -414,11 +414,11 @@ $scrollPanelTrackBg: rgba(0, 0, 0, 0.12);
 
 //card
 $cardBodyPadding: 1rem;
-$cardTitleFontSize: 1.5rem;
-$cardTitleFontWeight: 700;
+$cardTitleFontSize: 1rem;
+$cardTitleFontWeight: 500;
 $cardSubTitleFontWeight: 400;
 $cardSubTitleColor: $textSecondaryColor;
-$cardContentPadding: 1rem 0;
+$cardContentPadding: 0.5rem 0;
 $cardFooterPadding: 1rem 0 0 0;
 $cardShadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
   0 1px 3px 0 rgba(0, 0, 0, 0.12);
