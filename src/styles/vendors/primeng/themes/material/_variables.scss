@@ -354,27 +354,27 @@ $panelFooterPadding: 1rem 1rem;
 //accordion
 $accordionSpacing: 0;
 $accordionHeaderBorder: 0 none;
-$accordionHeaderBg: #ffffff;
+$accordionHeaderBg: none;
 $accordionHeaderTextColor: $textColor;
-$accordionHeaderFontWeight: 400;
-$accordionHeaderPadding: 1.5rem;
+$accordionHeaderFontWeight: 500;
+$accordionHeaderPadding: 1rem;
 
-$accordionHeaderHoverBg: #f6f6f6;
+$accordionHeaderHoverBg: none;
 $accordionHeaderHoverBorderColor: transparent;
 $accordionHeaderTextHoverColor: $textColor;
 
-$accordionHeaderActiveBg: #ffffff;
+$accordionHeaderActiveBg: none;
 $accordionHeaderActiveBorderColor: transparent;
-$accordionHeaderTextActiveColor: $textColor;
+$accordionHeaderTextActiveColor: var(--heading-color);
 
-$accordionHeaderActiveHoverBg: #ffffff;
+$accordionHeaderActiveHoverBg: none;
 $accordionHeaderActiveHoverBorderColor: transparent;
-$accordionHeaderTextActiveHoverColor: $textColor;
+$accordionHeaderTextActiveHoverColor: var(--heading-color);
 
 $accordionContentBorder: 0 none;
-$accordionContentBg: #ffffff;
+$accordionContentBg: none;
 $accordionContentTextColor: $textColor;
-$accordionContentPadding: 1rem 1.5rem;
+$accordionContentPadding: 1rem 1rem;
 
 //tabview
 $tabviewNavBorder: solid rgba(0, 0, 0, 0.12);
