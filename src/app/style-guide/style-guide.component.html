@@ -1,11 +1,12 @@
-<h1>Heading 1</h1>
-<h2>Heading 2</h2>
-<h3>Heading 3</h3>
-<h4>Heading 4</h4>
-<h5>Heading 5</h5>
-<h6>Heading 6</h6>
-<section>
-  <h3>Paragraphs</h3>
+<p-panel header="Headings" styleClass="p-mb-4"
+  ><h1>Heading 1</h1>
+  <h2>Heading 2</h2>
+  <h3>Heading 3</h3>
+  <h4>Heading 4</h4>
+  <h5>Heading 5</h5>
+  <h6>Heading 6</h6>
+</p-panel>
+<p-card header="Paragraphs" styleClass="p-mb-4">
   <p>
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel
     rhoncus massa. <strong>Pellentesque habitant morbi</strong> tristique
@@ -26,9 +27,27 @@
       lorem est, nec accumsan justo eleifend vitae.
     </small>
   </p>
-</section>
-<section>
-  <h3>Buttons</h3>
+</p-card>
+<p-card header="Inputs" styleClass="p-mb-4">
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col">
+      <label for="firstname1">First Name</label>
+      <input id="firstname1" type="text" pInputText />
+    </div>
+    <div class="p-field p-col">
+      <label for="search">Icon</label>
+      <span class="p-input-icon-left">
+        <i class="far fa-search"></i>
+        <input id="search" type="text" pInputText placeholder="Search" />
+      </span>
+    </div>
+    <div class="p-field p-col">
+      <label for="firstname1">Small</label>
+      <input id="firstname1" class="p-inputtext-sm" type="text" pInputText />
+    </div>
+  </div>
+</p-card>
+<p-card header="Buttons" styleClass="p-mb-4">
   <button
     pButton
     pRipple
@@ -80,9 +99,8 @@
       class="p-button-outlined color-light-grey"
     ></button
   ></small>
-</section>
-<section>
-  <h3>Checkboxes</h3>
+</p-card>
+<p-card header="Checkboxes" styleClass="p-mb-4">
   <p-checkbox
     name="groupname"
     [(ngModel)]="checked"
@@ -106,36 +124,56 @@
       checkboxIcon="fas fa-check"
     ></p-checkbox
   ></small>
-</section>
-<section>
-  <h3>Inputs</h3>
-  <div class="p-fluid p-formgrid p-grid">
-    <div class="p-field p-col">
-      <label for="firstname1">First Name</label>
-      <input id="firstname1" type="text" pInputText />
-    </div>
-    <div class="p-field p-col">
-      <label for="search">Icon</label>
-      <span class="p-input-icon-left">
-        <i class="far fa-search"></i>
-        <input id="search" type="text" pInputText placeholder="Search" />
-      </span>
-    </div>
-    <div class="p-field p-col">
-      <label for="firstname1">Small</label>
-      <input id="firstname1" class="p-inputtext-sm" type="text" pInputText />
-    </div>
-  </div>
-</section>
-<section>
-  <h3>Dropdowns</h3>
+</p-card>
+<p-card header="Dropdowns" styleClass="p-mb-4">
   <p-dropdown
     [options]="cities"
     optionLabel="name"
     dropdownIcon="fas fa-chevron-down"
   ></p-dropdown>
-</section>
+</p-card>
+<p-card header="Toggles" styleClass="p-mb-4">
+  <p-inputSwitch [(ngModel)]="checked"></p-inputSwitch
+></p-card>
+<p-panel header="Cards" styleClass="p-mb-4">
+  <div class="p-grid">
+    <div class="p-col">
+      <p-card> Contenta sfdsa fas fsdf as fsa </p-card>
+    </div>
+    <div class="p-col">
+      <p-card header="Title"> Content </p-card>
+    </div>
+  </div>
+</p-panel>
+<p-panel header="Panel"> Content </p-panel>
 <section>
-  <h3>Toggles</h3>
-  <p-inputSwitch [(ngModel)]="checked"></p-inputSwitch>
+  <h3>Graphs</h3>
+  <div class="p-grid">
+    <div class="p-col">
+      <p-panel header="Building Occupancy">
+        <p>
+          Average building capacity over the past 4 weeks, between 10 PM and 8
+          AM
+        </p>
+        <p-chart
+          type="line"
+          [data]="basicData"
+          [options]="basicOptions"
+        ></p-chart>
+      </p-panel>
+    </div>
+    <div class="p-col">
+      <p-panel header="Building Occupancy">
+        <p>
+          Average building capacity over the past 4 weeks, between 10 PM and 8
+          AM
+        </p>
+        <p-chart
+          type="bar"
+          [data]="stackedData"
+          [options]="stackedOptions"
+        ></p-chart>
+      </p-panel>
+    </div>
+  </div>
 </section>

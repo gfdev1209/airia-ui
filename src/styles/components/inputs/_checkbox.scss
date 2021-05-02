@@ -4,7 +4,7 @@
   .p-checkbox-box {
     background: none;
     border-width: 1px;
-    border-color: $light-grey;
+    border-color: var(--background-color-shade-3);
     height: $checkbox-size;
     width: $checkbox-size;
     .p-checkbox-icon {

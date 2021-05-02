@@ -5,6 +5,10 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { CardModule } from 'primeng/card';
+import { PanelModule } from 'primeng/panel';
+
+import { ChartModule } from 'primeng/chart';
 
 import { StyleGuideComponent } from './style-guide.component';
 import { FormsModule } from '@angular/forms';
@@ -13,11 +17,14 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule,
+    CardModule,
+    PanelModule,
     ButtonModule,
     CheckboxModule,
     InputTextModule,
     DropdownModule,
     InputSwitchModule,
+    ChartModule,
   ],
   declarations: [StyleGuideComponent],
 })
