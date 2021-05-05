@@ -1,0 +1,13 @@
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+}
+.application-view {
+  background-color: green;
+  flex: 1;
+}
+.left-nav {
+  background-color: grey;
+}
