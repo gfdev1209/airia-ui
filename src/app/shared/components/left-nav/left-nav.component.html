@@ -60,7 +60,10 @@
         </div>
         <span>Settings</span>
       </a>
-      <div class="p-d-flex p-justify-center p-mt-6">Logo</div>
+      <div class="logo p-d-flex p-justify-center p-mt-6">
+        <img *ngIf="!expanded" src="/assets/svg/logomark_purple.svg" />
+        <img *ngIf="expanded" src="/assets/svg/logo_horizontal_dark_2.svg" />
+      </div>
     </div>
   </div>
 </nav>
