@@ -3,8 +3,8 @@ $white: #fff;
 $black: #09030d;
 $light-grey: #a29aa9;
 $grey: #5a4e63;
-$dark-grey: #342c3a;
-$darker-grey: #1f1823;
+$dark-grey: #3a3241;
+$darker-grey: #29202e;
 $error-color: #b00020;
 $yellow: #faca00;
 $green: #61ae00;
@@ -33,6 +33,9 @@ $text-color-dark: rgb(221, 221, 221);
 
 $text-medium-color: #525252;
 $text-medium-color-dark: $light-grey;
+
+$text-medium-dark-color: #525252;
+$text-medium-dark-color-dark: $grey;
 
 $heading-color: #303030;
 $heading-color-dark: #ffffff;
@@ -80,6 +83,10 @@ $colors: (
   --text-medium-color: (
     $text-medium-color,
     $text-medium-color-dark,
+  ),
+  --text-medium-dark-color: (
+    $text-medium-dark-color,
+    $text-medium-dark-color-dark,
   ),
   --text-input-background-color: (
     $text-input-background-color,
