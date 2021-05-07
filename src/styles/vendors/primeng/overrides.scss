@@ -10,3 +10,12 @@ $fontSize: var(--font-size);
 .p-field > label {
   display: block;
 }
+.p-button,
+.p-button.p-button-secondary {
+  &.p-button-outlined {
+    &:enabled:hover {
+      background: rgba($buttonBgRGB, $textButtonHoverBgOpacity);
+      color: var(--text-color);
+    }
+  }
+}
