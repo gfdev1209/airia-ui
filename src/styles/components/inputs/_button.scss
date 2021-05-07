@@ -1,6 +1,9 @@
 .p-button {
   &.p-button-sm {
     font-size: 80%;
+    &.p-button-outlined {
+      padding: 0.3rem 0.5rem;
+    }
   }
   small &.p-button-icon-only {
     height: 1rem;
