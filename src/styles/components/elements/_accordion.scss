@@ -9,6 +9,10 @@
   .p-accordion-tab {
     box-shadow: none;
     border-bottom: 1px solid var(--background-color-shade-1);
+
+    &.p-accordion-tab-active {
+      margin-bottom: 0;
+    }
     .p-accordion-header-link,
     .p-accordion-header-link .icon {
       transition: color 0.5s;

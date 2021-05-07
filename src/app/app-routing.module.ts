@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { MapLayoutComponent } from './map/layouts/map-layout/map-layout.component';
+import { MapComponent } from './map/pages/map/map.component';
 import { InteriorLayoutComponent } from './shared/layouts/interior-layout/interior-layout.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
 
@@ -16,7 +18,15 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('./map/map.module').then((m) => m.MapModule),
+        component: MapLayoutComponent,
+        children: [
+          {
+            path: '',
+            component: MapComponent,
+            loadChildren: () =>
+              import('./map/map.module').then((m) => m.MapModule),
+          },
+        ],
       },
     ],
   },

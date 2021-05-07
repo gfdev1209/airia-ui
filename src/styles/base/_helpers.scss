@@ -67,6 +67,9 @@
   line-height: 1.5;
 }
 // Colors
+.color-primary {
+  color: var(--primary-color) !important;
+}
 .color-white {
   color: $white !important;
 }

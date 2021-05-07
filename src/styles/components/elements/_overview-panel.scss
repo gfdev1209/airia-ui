@@ -1,15 +1,16 @@
-$overview-panel-width: 60px;
+$overview-panel-width: 40px;
 $overview-panel-width-expanded: 270px;
 $overview-panel-active-border-width: 4px;
 $overview-panel-item-height: 44px;
 
 .overview-panel {
   width: $overview-panel-width;
-  padding: 14px 18px 18px;
+  padding: 14px 9px 18px;
   transition: width 0.5s;
   transition-timing-function: ease-in-out;
   background: var(--background-color);
   &.expanded {
+    padding: 14px 18px 18px;
     width: $overview-panel-width-expanded;
     .menu-link span {
       opacity: 1;
