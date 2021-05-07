@@ -355,9 +355,9 @@ $panelFooterPadding: 1rem 1rem;
 $accordionSpacing: 0;
 $accordionHeaderBorder: 0 none;
 $accordionHeaderBg: none;
-$accordionHeaderTextColor: $textColor;
+$accordionHeaderTextColor: var(--text-medium-dark-color);
 $accordionHeaderFontWeight: 500;
-$accordionHeaderPadding: 1rem;
+$accordionHeaderPadding: 0.75rem 0;
 
 $accordionHeaderHoverBg: none;
 $accordionHeaderHoverBorderColor: transparent;
@@ -374,7 +374,7 @@ $accordionHeaderTextActiveHoverColor: var(--heading-color);
 $accordionContentBorder: 0 none;
 $accordionContentBg: none;
 $accordionContentTextColor: $textColor;
-$accordionContentPadding: 1rem 1rem;
+$accordionContentPadding: 0 0 1rem 0;
 
 //tabview
 $tabviewNavBorder: solid rgba(0, 0, 0, 0.12);
