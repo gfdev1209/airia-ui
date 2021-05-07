@@ -6,7 +6,7 @@ name: Build and deploy Node.js app to Azure Web App - dev-app-eus2-ui
 on:
   push:
     branches:
-      - devops/ghactions
+      - develop
   workflow_dispatch:
 
 jobs:
@@ -15,23 +15,26 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Set up Node.js version
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
 
     - name: Set up Node.js version
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
 
-    - name: npm install, build, and test
+    - name: npm install and build
       run: |
         npm install
-        npm run build --if-present
-        npm run test --if-present
+        npm run build -- --prod
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
       with:
         name: node-app
-        path: .
+        path: dist/airia
 
   deploy:
     runs-on: ubuntu-latest
@@ -53,4 +56,4 @@ jobs:
         app-name: 'dev-app-eus2-ui'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_5f81b7e62db34959aeb85e5238068122 }}
-        package: .
+        path: .
