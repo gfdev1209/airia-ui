@@ -1,69 +1,72 @@
-<nav [class.expanded]="expanded === true">
-  <div class="p-d-flex p-flex-column overflow-hidden vh-100">
-    <div class="p-d-flex p-flex-column">
-      <a class="menu-toggle p-d-flex p-align-center" (click)="toggleMenu()">
-        <i
-          class="fas"
-          [class.fa-bars]="expanded === false"
-          [class.fa-arrow-to-left]="expanded === true"
-        ></i>
-      </a>
-      <a
-        routerLink="/map"
-        routerLinkActive="active"
-        class="menu-link p-text-center"
-      >
-        <div class="icon">
-          <img src="/assets/svg/icoMap.svg" />
+<div class="left-nav">
+  <nav [class.expanded]="expanded === true">
+    <div class="p-d-flex p-flex-column overflow-hidden vh-100">
+      <div class="p-d-flex p-flex-column">
+        <a class="menu-toggle p-d-flex p-align-center" (click)="toggleSize()">
+          <i
+            class="fas"
+            [class.fa-bars]="expanded === false"
+            [class.fa-arrow-to-left]="expanded === true"
+            [class.fa-border]="expanded === true"
+          ></i>
+        </a>
+        <a
+          routerLink="/map"
+          routerLinkActive="active"
+          class="menu-link p-text-center"
+        >
+          <div class="icon">
+            <img src="/assets/svg/icoMap.svg" />
+          </div>
+          <span>Maps</span>
+        </a>
+        <a
+          routerLink="/analytics"
+          routerLinkActive="active"
+          class="menu-link p-text-center"
+        >
+          <div class="icon">
+            <img src="/assets/svg/icoAnalytics.svg" />
+          </div>
+          <span>Analytics</span>
+        </a>
+        <a
+          routerLink="/reports"
+          routerLinkActive="active"
+          class="menu-link p-text-center"
+        >
+          <div class="icon">
+            <i class="fas fa-fw fa-file-chart-line"></i>
+          </div>
+          <span>Reports</span>
+        </a>
+      </div>
+      <div class="p-d-flex p-flex-column p-mt-auto p-as-stretch">
+        <a
+          routerLink="/account"
+          routerLinkActive="active"
+          class="menu-link p-text-center"
+        >
+          <div class="icon">
+            <i class="fas fa-fw fa-user"></i>
+          </div>
+          <span>Account</span>
+        </a>
+        <a
+          routerLink="/settings"
+          routerLinkActive="active"
+          class="menu-link p-text-center"
+        >
+          <div class="icon">
+            <i class="fas fa-fw fa-cog"></i>
+          </div>
+          <span>Settings</span>
+        </a>
+        <div class="logo p-d-flex p-justify-center p-mt-6">
+          <img *ngIf="!expanded" src="/assets/svg/logomark_purple.svg" />
+          <img *ngIf="expanded" src="/assets/svg/logo_horizontal_dark_2.svg" />
         </div>
-        <span>Maps</span>
-      </a>
-      <a
-        routerLink="/analytics"
-        routerLinkActive="active"
-        class="menu-link p-text-center"
-      >
-        <div class="icon">
-          <img src="/assets/svg/icoAnalytics.svg" />
-        </div>
-        <span>Analytics</span>
-      </a>
-      <a
-        routerLink="/reports"
-        routerLinkActive="active"
-        class="menu-link p-text-center"
-      >
-        <div class="icon">
-          <i class="fas fa-file-chart-line"></i>
-        </div>
-        <span>Reports</span>
-      </a>
-    </div>
-    <div class="p-d-flex p-flex-column p-mt-auto p-as-stretch">
-      <a
-        routerLink="/account"
-        routerLinkActive="active"
-        class="menu-link p-text-center"
-      >
-        <div class="icon">
-          <i class="fas fa-user"></i>
-        </div>
-        <span>Account</span>
-      </a>
-      <a
-        routerLink="/settings"
-        routerLinkActive="active"
-        class="menu-link p-text-center"
-      >
-        <div class="icon">
-          <i class="fas fa-cog"></i>
-        </div>
-        <span>Settings</span>
-      </a>
-      <div class="logo p-d-flex p-justify-center p-mt-6">
-        <img *ngIf="!expanded" src="/assets/svg/logomark_purple.svg" />
-        <img *ngIf="expanded" src="/assets/svg/logo_horizontal_dark_2.svg" />
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
+</div>

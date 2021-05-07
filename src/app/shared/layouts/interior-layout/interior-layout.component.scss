@@ -5,9 +5,6 @@
   padding: 0;
 }
 .application-view {
-  background-color: green;
+  background-color: var(--background-color-shade-2);
   flex: 1;
-}
-.left-nav {
-  background-color: grey;
 }

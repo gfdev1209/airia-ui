@@ -6,13 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./left-nav.component.scss'],
 })
 export class LeftNavComponent implements OnInit {
-  expanded: boolean = false;
+  expanded = false;
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
-  toggleMenu(): void {
+  toggleSize(): void {
     this.expanded = !this.expanded;
   }
 }

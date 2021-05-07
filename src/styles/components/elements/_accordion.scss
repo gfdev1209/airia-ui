@@ -1,7 +1,18 @@
 .p-accordion {
+  p-accordiontab {
+    &:first-child {
+      .p-accordion-tab {
+        border-top: 1px solid var(--background-color-shade-1);
+      }
+    }
+  }
   .p-accordion-tab {
     box-shadow: none;
-    border-bottom: 1px solid var(--background-color-shade-2);
+    border-bottom: 1px solid var(--background-color-shade-1);
+    .p-accordion-header-link,
+    .p-accordion-header-link .icon {
+      transition: color 0.5s;
+    }
     .p-accordion-header {
       .icon {
         color: var(--background-color-shade-3);

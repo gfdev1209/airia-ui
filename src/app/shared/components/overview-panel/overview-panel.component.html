@@ -1,0 +1,60 @@
+<div class="overview-panel" [class.expanded]="expanded === true">
+  <div class="p-d-flex p-flex-column overflow-hidden vh-100">
+    <div class="p-d-flex p-flex-column">
+      <a class="menu-toggle p-d-flex p-align-center" (click)="toggleSize()">
+        <i
+          class="fas fa-border"
+          [class.fa-arrow-to-left]="expanded === false"
+          [class.fa-arrow-to-right]="expanded === true"
+        ></i>
+      </a>
+      <div *ngIf="expanded">
+        <div class="p-d-flex p-align-top p-mt-4">
+          <div class="p-flex-column p-mr-2">
+            <i class="fas fa-graduation-cap fa-fw color-grey"></i>
+          </div>
+          <div class="p-flex-column flex-grow-1">
+            <h3 class="p-m-0">University Campus</h3>
+            <div class="p-d-flex p-jc-between color-text-medium">
+              <div class="p-flex-column">
+                <small>February 13, 2021</small>
+              </div>
+              <div class="p-flex-column p-align-right">
+                <small>3:15 PM EST</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="p-mt-3">
+          <p-accordion>
+            <p-accordionTab>
+              <ng-template pTemplate="header">
+                <i class="icon fas fa-play-circle fa-fw p-mr-2"></i> Playback
+              </ng-template>
+              <ng-template pTemplate="content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit
+              </ng-template>
+            </p-accordionTab>
+            <p-accordionTab>
+              <ng-template pTemplate="header">
+                <i class="icon fas fa-eye fa-fw p-mr-2"></i> Map View
+              </ng-template>
+              <ng-template pTemplate="content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit
+              </ng-template>
+            </p-accordionTab>
+            <p-accordionTab>
+              <ng-template pTemplate="header">
+                <i class="icon fas fa-exclamation-triangle fa-fw p-mr-2"></i>
+                Alerts
+              </ng-template>
+              <ng-template pTemplate="content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit
+              </ng-template>
+            </p-accordionTab>
+          </p-accordion>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

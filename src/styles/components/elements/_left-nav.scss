@@ -19,14 +19,18 @@ $left-nav-item-height: 44px;
     .menu-toggle {
       height: $left-nav-item-height;
       cursor: pointer;
-      color: var(--text-medium-dark-color);
+      color: var(--background-color-shade-2);
       transition: color 0.5s;
       [class*="fa-"] {
-        margin: 0 0 0 22px;
+        margin: 0 0 0 18px;
         position: relative;
-        width: 16px;
-        height: 16px;
         font-size: 1rem;
+        line-height: 1;
+        padding: 0.1rem 0.25rem;
+        border-color: var(--background-color-shade-2);
+      }
+      .fa-border {
+        font-size: 13px;
       }
       &:hover {
         color: var(--text-color);
@@ -60,7 +64,7 @@ $left-nav-item-height: 44px;
         height: 16px;
       }
       span {
-        transition: opacity 0.5s;
+        transition: opacity 0.5s, color 0.5s;
         opacity: 0;
         margin: 0 0 0 1rem;
         color: var(--text-medium-dark-color);

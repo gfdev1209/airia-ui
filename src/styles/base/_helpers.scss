@@ -85,6 +85,12 @@
 .color-green {
   color: $green;
 }
+.color-text-medium {
+  color: var(--text-medium-color);
+}
+.color-text-medium-dark {
+  color: var(--text-medium-dark-color);
+}
 
 // Sizing
 .width-100 {
