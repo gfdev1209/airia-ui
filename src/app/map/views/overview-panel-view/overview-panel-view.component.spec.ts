@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { InteriorLayoutComponent } from './interior-layout.component';
+import { OverviewPanelViewComponent } from './overview-panel-view.component';
 
-describe('InteriorLayoutComponent', () => {
-  let component: InteriorLayoutComponent;
-  let fixture: ComponentFixture<InteriorLayoutComponent>;
+describe('OverviewPanelViewComponent', () => {
+  let component: OverviewPanelViewComponent;
+  let fixture: ComponentFixture<OverviewPanelViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InteriorLayoutComponent ]
+      declarations: [ OverviewPanelViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InteriorLayoutComponent);
+    fixture = TestBed.createComponent(OverviewPanelViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

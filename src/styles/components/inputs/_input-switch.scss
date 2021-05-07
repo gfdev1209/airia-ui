@@ -4,3 +4,16 @@
 .p-inputswitch .p-inputswitch-slider {
   border: 1px solid var(--text-medium-color);
 }
+
+small .p-inputswitch,
+p-inputswitch {
+  height: 1.25rem;
+  width: 2.5rem;
+  display: block;
+  .p-inputswitch-slider:before {
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    margin-top: -7px;
+  }
+}

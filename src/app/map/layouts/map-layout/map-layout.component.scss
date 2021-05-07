@@ -1,0 +1,8 @@
+.application-view {
+  background-color: var(--background-color-shade-2);
+  flex: 1;
+}
+:host(app-map-layout) {
+  display: flex;
+  flex-grow: 1;
+}

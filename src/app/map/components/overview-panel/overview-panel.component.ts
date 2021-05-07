@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Client } from '../../models';
 
 @Component({
   selector: 'app-overview-panel',
@@ -6,13 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./overview-panel.component.scss'],
 })
 export class OverviewPanelComponent implements OnInit {
-  expanded = true;
+  client: Client = {
+    id: 1,
+    name: 'University Campus',
+    coordLatitude: 123.23,
+    coordLongitude: 12.32,
+    createdAt: new Date(),
+  };
 
   constructor() {}
 
   ngOnInit(): void {}
-
-  toggleSize(): void {
-    this.expanded = !this.expanded;
-  }
 }
