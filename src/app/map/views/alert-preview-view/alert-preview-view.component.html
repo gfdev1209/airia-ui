@@ -1,0 +1,10 @@
+<div *ngIf="alert" class="p-d-flex alert-preview">
+  <div class="p-flex-column p-mr-3">
+    <i class="{{ alert.alertType | alertIconByType }}"></i>
+  </div>
+  <div class="p-flex-column flex-grow-1">
+    {{ alert.message }}
+    <br />
+    <small>{{ alert.createdAt | date }}</small>
+  </div>
+</div>

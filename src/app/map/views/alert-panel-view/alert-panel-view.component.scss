@@ -1,0 +1,16 @@
+.alert-panel p-virtualscroller,
+::ng-deep .alert-panel .p-virtualscroller,
+::ng-deep .alert-panel .p-virtualscroller-content,
+::ng-deep .alert-panel .p-virtualscroller-list,
+::ng-deep .alert-panel .cdk-virtual-scroll-viewport {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100%;
+}
+::ng-deep .alert-panel .p-virtualscroller-item {
+  height: auto !important;
+}
+::ng-deep .alert-panel .cdk-virtual-scroll-spacer {
+  height: 1px !important;
+}

@@ -1,14 +1,14 @@
 <div
-  style="background: yellow"
+  *ngIf="alerts"
+  class="alert-panel"
   [ngStyle]="{ height: 'calc(100vh - ' + height + 'px' }"
 >
-  <p-table [value]="alerts" [scrollable]="true" scrollHeight="flex">
-    <ng-template pTemplate="body" let-alert>
-      <tr>
-        <td>{{ alert.icon }}</td>
-        <td>{{ alert.message }}</td>
-        <td>{{ alert.createdAt }}</td>
-      </tr>
+  <p-virtualScroller [value]="alerts" scrollHeight="100px" [itemSize]="50">
+    <ng-template pTemplate="item" let-alert>
+      <app-alert-preview
+        [alert]="alert"
+        class="alert-preview"
+      ></app-alert-preview>
     </ng-template>
-  </p-table>
+  </p-virtualScroller>
 </div>

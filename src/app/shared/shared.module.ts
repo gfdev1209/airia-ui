@@ -12,15 +12,24 @@ import { DropdownModule as PrimeDropdownModule } from 'primeng/dropdown';
 import { CheckboxModule as PrimeCheckboxModule } from 'primeng/checkbox';
 import { ScrollPanelModule as PrimeScrollPanelModule } from 'primeng/scrollpanel';
 import { TableModule as PrimeTableModule } from 'primeng/table';
+import { VirtualScrollerModule as PrimeVirtualScrollerModule } from 'primeng/virtualscroller';
 
 // Components
 import { LeftNavComponent } from './components/left-nav/left-nav.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
 import { InteriorLayoutComponent } from './layouts/interior-layout/interior-layout.component';
+import { AlertIconByTypePipe } from './pipes/alert-icon-by-type.pipe';
+import { ColorByAlertSeverityPipe } from './pipes/color-by-alert-severity.pipe';
 // Components
 
 @NgModule({
-  declarations: [InteriorLayoutComponent, LeftNavComponent, LeftMenuComponent],
+  declarations: [
+    InteriorLayoutComponent,
+    LeftNavComponent,
+    LeftMenuComponent,
+    AlertIconByTypePipe,
+    ColorByAlertSeverityPipe,
+  ],
   imports: [
     // Angular Modules
     CommonModule,
@@ -35,6 +44,7 @@ import { InteriorLayoutComponent } from './layouts/interior-layout/interior-layo
     PrimeCheckboxModule,
     PrimeScrollPanelModule,
     PrimeTableModule,
+    PrimeVirtualScrollerModule,
   ],
   exports: [
     // Components
@@ -48,6 +58,10 @@ import { InteriorLayoutComponent } from './layouts/interior-layout/interior-layo
     PrimeCheckboxModule,
     PrimeScrollPanelModule,
     PrimeTableModule,
+    PrimeVirtualScrollerModule,
+    // Pipes
+    AlertIconByTypePipe,
+    ColorByAlertSeverityPipe,
   ],
   providers: [],
 })

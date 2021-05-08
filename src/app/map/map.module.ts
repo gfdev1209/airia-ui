@@ -9,6 +9,8 @@ import { AlertPanelComponent } from './components/alert-panel/alert-panel.compon
 import { AlertPanelViewComponent } from './views/alert-panel-view/alert-panel-view.component';
 import { OverviewPanelComponent } from './components/overview-panel/overview-panel.component';
 import { OverviewPanelViewComponent } from './views/overview-panel-view/overview-panel-view.component';
+import { AlertPreviewComponent } from './components/alert-preview/alert-preview.component';
+import { AlertPreviewViewComponent } from './views/alert-preview-view/alert-preview-view.component';
 
 @NgModule({
   imports: [
@@ -25,6 +27,8 @@ import { OverviewPanelViewComponent } from './views/overview-panel-view/overview
     OverviewPanelViewComponent,
     AlertPanelComponent,
     AlertPanelViewComponent,
+    AlertPreviewComponent,
+    AlertPreviewViewComponent,
   ],
 })
 export class MapModule {}

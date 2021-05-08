@@ -4,4 +4,5 @@ export enum AlertType {
   Covid_Capacity,
   Access_Point_Offline,
   Access_Point_Online,
+  Network_Health,
 }
