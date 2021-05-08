@@ -1,1 +1,4 @@
-<app-overview-panel-view [client]="client"></app-overview-panel-view>
+<app-overview-panel-view
+  [client]="client"
+  (topPanelHeightChanged)="onTopPanelHeightChanged($event)"
+></app-overview-panel-view>

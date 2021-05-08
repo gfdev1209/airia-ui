@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Client } from '../../models';
+import { MapService } from '../../services/map.service';
 
 @Component({
   selector: 'app-overview-panel',
@@ -15,7 +16,11 @@ export class OverviewPanelComponent implements OnInit {
     createdAt: new Date(),
   };
 
-  constructor() {}
+  constructor(private mapService: MapService) {}
 
   ngOnInit(): void {}
+
+  onTopPanelHeightChanged(height: number): void {
+    this.mapService.updateOverviewPanelHeight(height);
+  }
 }

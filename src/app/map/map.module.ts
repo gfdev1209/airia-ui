@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { MapComponent } from './pages/map/map.component';
-import { RouterModule, Routes } from '@angular/router';
-import { OverviewPanelComponent } from './components/overview-panel/overview-panel.component';
-import { OverviewPanelViewComponent } from './views/overview-panel-view/overview-panel-view.component';
+import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MapLayoutComponent } from './layouts/map-layout/map-layout.component';
+import { AlertPanelComponent } from './components/alert-panel/alert-panel.component';
+import { AlertPanelViewComponent } from './views/alert-panel-view/alert-panel-view.component';
+import { OverviewPanelComponent } from './components/overview-panel/overview-panel.component';
+import { OverviewPanelViewComponent } from './views/overview-panel-view/overview-panel-view.component';
 
 @NgModule({
   imports: [
@@ -21,6 +23,8 @@ import { MapLayoutComponent } from './layouts/map-layout/map-layout.component';
     MapLayoutComponent,
     OverviewPanelComponent,
     OverviewPanelViewComponent,
+    AlertPanelComponent,
+    AlertPanelViewComponent,
   ],
 })
 export class MapModule {}
