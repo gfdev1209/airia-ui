@@ -39,3 +39,12 @@ body {
   flex-grow: 1;
   background: green;
 }
+p-virtualScroller,
+::ng-deep .ui-virtualscroller,
+::ng-deep .ui-virtualscroller-content,
+::ng-deep .ui-virtualscroller-list,
+::ng-deep cdk-virtual-scroll-viewport {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Alert } from '../../models';
 
 @Component({
@@ -12,69 +7,14 @@ import { Alert } from '../../models';
   styleUrls: ['./alert-panel-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AlertPanelViewComponent implements OnInit {
+export class AlertPanelViewComponent {
   @Input() height?: number | null;
-
-  alerts: Alert[] = [
-    {
-      id: 1,
-      message: 'High level alert. Immediate action.',
-      createdAt: new Date(),
-      alertSeverity: 1,
-      alertType: 1,
-    },
-    {
-      id: 1,
-      message: 'High level alert. Immediate action.',
-      createdAt: new Date(),
-      alertSeverity: 1,
-      alertType: 1,
-    },
-    {
-      id: 1,
-      message: 'High level alert. Immediate action.',
-      createdAt: new Date(),
-      alertSeverity: 1,
-      alertType: 1,
-    },
-    {
-      id: 1,
-      message: 'High level alert. Immediate action.',
-      createdAt: new Date(),
-      alertSeverity: 1,
-      alertType: 1,
-    },
-    {
-      id: 1,
-      message: 'High level alert. Immediate action.',
-      createdAt: new Date(),
-      alertSeverity: 1,
-      alertType: 1,
-    },
-    {
-      id: 1,
-      message: 'High level alert. Immediate action.',
-      createdAt: new Date(),
-      alertSeverity: 1,
-      alertType: 1,
-    },
-    {
-      id: 1,
-      message: 'High level alert. Immediate action.',
-      createdAt: new Date(),
-      alertSeverity: 1,
-      alertType: 1,
-    },
-    {
-      id: 1,
-      message: 'High level alert. Immediate action.',
-      createdAt: new Date(),
-      alertSeverity: 1,
-      alertType: 1,
-    },
-  ];
+  @Input() alerts?: Alert[] | null;
+  Math = Math;
 
   constructor() {}
 
-  ngOnInit() {}
+  randomInteger(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 }

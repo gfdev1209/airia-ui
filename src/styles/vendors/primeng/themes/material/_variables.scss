@@ -476,7 +476,7 @@ $tableHeaderCellHighlightHoverBg: rgba(0, 0, 0, 0.04);
 $tableHeaderCellHighlightTextHoverColor: $textColor;
 $tableSortableColumnBadgeSize: 1.143rem;
 
-$tableBodyRowBg: #ffffff;
+$tableBodyRowBg: var(--background-color);
 $tableBodyRowTextColor: $textColor;
 $tableBodyRowEvenBg: rgba(0, 0, 0, 0.02);
 $tableBodyRowHoverBg: rgba(0, 0, 0, 0.04);

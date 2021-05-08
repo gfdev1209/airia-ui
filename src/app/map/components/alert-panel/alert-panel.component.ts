@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  AfterContentInit,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MapService } from '../../services/map.service';
 
 @Component({
@@ -13,8 +7,8 @@ import { MapService } from '../../services/map.service';
   styleUrls: ['./alert-panel.component.scss'],
 })
 export class AlertPanelComponent implements OnInit {
-  height: number = 0;
   overviewPanelHeight$ = this.mapService.overviewPanelHeight$;
+  alerts$ = this.mapService.alerts$;
 
   constructor(private mapService: MapService) {}
 
