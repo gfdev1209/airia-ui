@@ -1,6 +1,14 @@
 .alert-preview {
+  cursor: pointer;
   padding: 0.5rem 0.75rem;
   background: var(--background-color-shade-1);
+  transition: color 0.5s, background 0.5s;
   margin-bottom: 6px;
   border-radius: 6px;
+  &:hover {
+    background: var(--background-color-shade-2);
+  }
+  [class*="fa-"] {
+    font-size: 0.75rem;
+  }
 }

@@ -6,6 +6,18 @@ import { AlertSeverity } from 'src/app/map/enums';
 })
 export class ColorByAlertSeverityPipe implements PipeTransform {
   transform(alertSeverity: AlertSeverity): string {
-    return '#ff00ff';
+    let color = '';
+    switch (alertSeverity) {
+      case AlertSeverity.High:
+        color = 'color-red';
+        break;
+      case AlertSeverity.Medium:
+        color = 'color-yellow';
+        break;
+      case AlertSeverity.Low:
+        color = 'color-green';
+        break;
+    }
+    return color;
   }
 }
