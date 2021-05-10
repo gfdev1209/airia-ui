@@ -5,9 +5,11 @@ $light-grey: #a29aa9;
 $grey: #73697b;
 $dark-grey: #3a3241;
 $darker-grey: #29202e;
-$error-color: #b00020;
+$red: #ee4057;
 $yellow: #faca00;
 $green: #61ae00;
+
+$error-color: $red;
 
 $brand-primary-color: var(--primary-color);
 $brand-primary-color-dark: var(--primary-color);

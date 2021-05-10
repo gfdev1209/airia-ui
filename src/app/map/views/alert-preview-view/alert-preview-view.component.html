@@ -1,10 +1,19 @@
 <div *ngIf="alert" class="p-d-flex alert-preview">
   <div class="p-flex-column p-mr-3">
-    <i class="{{ alert.alertType | alertIconByType }}"></i>
+    <i
+      class="{{ alert.type | alertIconByType }} {{
+        alert.severity | colorByAlertSeverity
+      }}"
+    ></i>
   </div>
   <div class="p-flex-column flex-grow-1">
-    {{ alert.message }}
-    <br />
-    <small>{{ alert.createdAt | date }}</small>
+    <span
+      class="display-block line-height-1-5 font-size-90-percent {{
+        alert.severity | colorByAlertSeverity
+      }}"
+      [ngClass]="{ 'color-white': alert.severity === 0 }"
+      >{{ alert.message }}</span
+    >
+    <small class="color-text-medium">{{ alert.createdAt | date }}</small>
   </div>
 </div>
