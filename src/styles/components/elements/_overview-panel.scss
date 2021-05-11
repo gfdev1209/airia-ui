@@ -10,7 +10,7 @@ $overview-panel-item-height: 44px;
   transition-timing-function: ease-in-out;
   background: var(--background-color);
   &.expanded {
-    padding: 14px 18px 18px;
+    padding: 14px 18px 0;
     width: $overview-panel-width-expanded;
     .menu-link span {
       opacity: 1;

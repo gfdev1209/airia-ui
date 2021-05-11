@@ -12,4 +12,8 @@ export class AlertPreviewViewComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  onClick(): void {
+    console.log('clicked', this.alert);
+  }
 }

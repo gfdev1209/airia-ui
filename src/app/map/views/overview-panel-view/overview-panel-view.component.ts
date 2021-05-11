@@ -58,7 +58,7 @@ export class OverviewPanelViewComponent implements OnInit, AfterViewInit {
   getTopPanelHeight(): void {
     if (this.topPanel) {
       const rect: any = this.topPanel.nativeElement.getBoundingClientRect();
-      const height = rect.height + 48;
+      const height = rect.height + 32;
       this.topPanelHeightChanged.emit(height);
     }
   }
