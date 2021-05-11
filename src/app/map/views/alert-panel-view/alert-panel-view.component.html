@@ -3,12 +3,28 @@
   class="alert-panel"
   [ngStyle]="{ height: 'calc(100vh - ' + height + 'px' }"
 >
-  <p-virtualScroller [value]="alerts" scrollHeight="100px" [itemSize]="50">
+  <p-virtualScroller
+    [value]="virtualAlerts"
+    scrollHeight="100px"
+    [itemSize]="75"
+    [lazy]="true"
+    [rows]="10"
+    [totalRecords]="alerts.length"
+    (onLazyLoad)="loadAlertsLazy($event)"
+  >
     <ng-template pTemplate="item" let-alert>
       <app-alert-preview
         [alert]="alert"
         class="alert-preview"
       ></app-alert-preview>
+    </ng-template>
+    <ng-template let-alert pTemplate="loadingItem">
+      <p-skeleton
+        width="100%"
+        height="75px"
+        borderRadius="6px"
+        styleClass="p-mb-2 background-color-shade-1"
+      ></p-skeleton>
     </ng-template>
   </p-virtualScroller>
 </div>

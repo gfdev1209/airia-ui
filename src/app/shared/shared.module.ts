@@ -13,6 +13,7 @@ import { CheckboxModule as PrimeCheckboxModule } from 'primeng/checkbox';
 import { ScrollPanelModule as PrimeScrollPanelModule } from 'primeng/scrollpanel';
 import { TableModule as PrimeTableModule } from 'primeng/table';
 import { VirtualScrollerModule as PrimeVirtualScrollerModule } from 'primeng/virtualscroller';
+import { SkeletonModule as PrimeSkeletonModule } from 'primeng/skeleton';
 
 // Components
 import { LeftNavComponent } from './components/left-nav/left-nav.component';
@@ -45,6 +46,7 @@ import { ColorByAlertSeverityPipe } from './pipes/color-by-alert-severity.pipe';
     PrimeScrollPanelModule,
     PrimeTableModule,
     PrimeVirtualScrollerModule,
+    PrimeSkeletonModule,
   ],
   exports: [
     // Components
@@ -59,6 +61,7 @@ import { ColorByAlertSeverityPipe } from './pipes/color-by-alert-severity.pipe';
     PrimeScrollPanelModule,
     PrimeTableModule,
     PrimeVirtualScrollerModule,
+    PrimeSkeletonModule,
     // Pipes
     AlertIconByTypePipe,
     ColorByAlertSeverityPipe,

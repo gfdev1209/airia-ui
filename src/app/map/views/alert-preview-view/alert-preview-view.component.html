@@ -1,4 +1,8 @@
-<div *ngIf="alert" class="p-d-flex alert-preview" (click)="onClick()">
+<div
+  *ngIf="alert"
+  class="p-d-flex alert-preview p-align-center p-mb-2"
+  (click)="onClick()"
+>
   <div class="p-flex-column p-mr-3">
     <i
       class="{{ alert.type | alertIconByType }} {{
@@ -12,7 +16,7 @@
         alert.severity | colorByAlertSeverity
       }}"
       [ngClass]="{ 'color-white': alert.severity === 0 }"
-      >{{ alert.message }}</span
+      >{{ alert.id }} {{ alert.message }}</span
     >
     <small class="color-text-medium">{{
       alert.createdAt | date: "dd MMM h:mm a"
