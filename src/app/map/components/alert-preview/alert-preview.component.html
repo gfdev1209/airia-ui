@@ -1,1 +1,4 @@
-<app-alert-preview-view [alert]="alert"></app-alert-preview-view>
+<app-alert-preview-view
+  (alertSelected)="alertSelected($event)"
+  [alert]="alert"
+></app-alert-preview-view>
