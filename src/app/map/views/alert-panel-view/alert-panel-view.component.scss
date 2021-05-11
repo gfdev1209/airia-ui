@@ -14,3 +14,6 @@
 ::ng-deep .alert-panel .cdk-virtual-scroll-spacer {
   height: 1px !important;
 }
+::ng-deep .alert-panel .p-virtualscroller-content {
+  padding-bottom: 0;
+}
