@@ -9,6 +9,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { AlertSortType } from '../../enums';
 import { Client } from '../../models';
 
 @Component({
@@ -33,13 +34,15 @@ export class OverviewPanelViewComponent implements OnInit, AfterViewInit {
   networkHealth = false;
 
   alertSortOptions = [
-    { name: 'Urgency', code: '1' },
-    { name: 'Type', code: '2' },
+    { name: 'Date', code: AlertSortType.Date },
+    { name: 'Urgency', code: AlertSortType.Urgency },
+    { name: 'Type', code: AlertSortType.Type },
   ];
 
   @ViewChild('topPanel') topPanel!: ElementRef;
 
   @Output() topPanelHeightChanged = new EventEmitter<number>();
+  @Output() alertSortTypeChanged = new EventEmitter<AlertSortType>();
 
   constructor() {}
 
@@ -64,5 +67,8 @@ export class OverviewPanelViewComponent implements OnInit, AfterViewInit {
   }
   stopPropagation($event: MouseEvent): void {
     $event.stopPropagation();
+  }
+  onSortChange(event: any): void {
+    this.alertSortTypeChanged.emit(event?.value?.code);
   }
 }

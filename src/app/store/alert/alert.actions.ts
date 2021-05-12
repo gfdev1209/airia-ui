@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { AlertSortType } from 'src/app/map/enums';
 import { Alert } from 'src/app/map/models';
 
 export const getAll = createAction('[Map] Get All Alerts');
@@ -17,3 +18,8 @@ export const selectSuccess = createAction(
   props<{ alert: Alert }>()
 );
 export const selectFailed = createAction('[Alert Panel] Select Alert Failed');
+
+export const setSortType = createAction(
+  '[Overview Panel] Set Alert Sort Type',
+  props<{ sortType: AlertSortType }>()
+);

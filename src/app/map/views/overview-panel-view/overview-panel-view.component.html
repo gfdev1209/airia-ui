@@ -188,6 +188,7 @@
                         <p-dropdown
                           [options]="alertSortOptions"
                           (click)="stopPropagation($event)"
+                          (onChange)="onSortChange($event)"
                           placeholder="Sort By"
                           optionLabel="name"
                           dropdownIcon="fas fa-chevron-down"

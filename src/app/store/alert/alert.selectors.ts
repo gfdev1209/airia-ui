@@ -16,3 +16,8 @@ export const selectSelectedAlert = createSelector(
   selectFeature,
   (state: AlertState) => state.selected
 );
+
+export const selectSortType = createSelector(
+  selectFeature,
+  (state: AlertState) => state.sortType
+);
