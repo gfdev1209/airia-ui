@@ -38,5 +38,9 @@ export const alertReducer = createReducer(
       ...state,
       loading: false,
     };
-  })
+  }),
+  on(Actions.setSortType, (state, { sortType }) => ({
+    ...state,
+    sortType,
+  }))
 );

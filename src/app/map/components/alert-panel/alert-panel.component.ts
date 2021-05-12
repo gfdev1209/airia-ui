@@ -13,6 +13,7 @@ import * as AlertActions from '../../../store/alert/alert.actions';
 export class AlertPanelComponent implements OnInit {
   overviewPanelHeight$ = this.mapService.overviewPanelHeight$;
   alerts$ = this.store.select(AlertSelectors.selectAll);
+  alertSortType$ = this.store.select(AlertSelectors.selectSortType);
 
   constructor(
     private store: Store<RootState>,

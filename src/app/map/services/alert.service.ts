@@ -177,12 +177,26 @@ export class AlertService {
       severity: 0,
       type: AlertType.Access_Point_Online,
     },
+    {
+      id: 25,
+      message: 'Soder Hall network health is optimal.',
+      createdAt: new Date(2021, 1, 3, 4, 6, 34),
+      severity: 0,
+      type: AlertType.Network_Health,
+    },
+    {
+      id: 26,
+      message: 'AP-2190-A is back online.',
+      createdAt: new Date(),
+      severity: 0,
+      type: AlertType.Access_Point_Online,
+    },
   ];
 
   constructor() {}
 
   getAll(): Observable<Alert[]> {
-    return of(this.sampleAlerts).pipe(delay(0));
+    return of(this.sampleAlerts).pipe(delay(2000));
   }
   get(id: number): Observable<Alert> {
     const alert = this.sampleAlerts.find(

@@ -8,8 +8,7 @@
     scrollHeight="100px"
     [itemSize]="75"
     [lazy]="true"
-    [rows]="10"
-    [totalRecords]="alerts.length"
+    [rows]="alertsDisplayedNum"
     (onLazyLoad)="loadAlertsLazy($event)"
   >
     <ng-template pTemplate="item" let-alert>
