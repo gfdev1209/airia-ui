@@ -15,6 +15,12 @@ export class AlertPanelComponent implements OnInit {
   alerts$ = this.store.select(AlertSelectors.selectAll);
   alertSortType$ = this.store.select(AlertSelectors.selectSortType);
 
+  showHighUrgency = true;
+  showMediumUrgency = true;
+  showNetworkHealth = true;
+  showAPStatus = true;
+  showCapacity = true;
+
   constructor(
     private store: Store<RootState>,
     private mapService: MapService
@@ -22,5 +28,21 @@ export class AlertPanelComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(AlertActions.getAll());
+  }
+
+  onToggleHighUrgency($event: any): void {
+    this.showHighUrgency = $event.checked;
+  }
+  onToggleMediumUrgency($event: any): void {
+    this.showMediumUrgency = $event.checked;
+  }
+  onToggleNetworkHealth($event: any): void {
+    this.showNetworkHealth = $event.checked;
+  }
+  onToggleShowAPStatus($event: any): void {
+    this.showAPStatus = $event.checked;
+  }
+  onToggleShowCapacity($event: any): void {
+    this.showCapacity = $event.checked;
   }
 }

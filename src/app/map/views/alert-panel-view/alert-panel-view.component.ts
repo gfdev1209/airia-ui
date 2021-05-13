@@ -8,7 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api';
-import { AlertSortType } from '../../enums';
+import { AlertSeverity, AlertSortType, AlertType } from '../../enums';
 import { Alert } from '../../models';
 
 @Component({
@@ -20,6 +20,11 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
   @Input() height?: number | null;
   @Input() alerts: Alert[] | null = [];
   @Input() sortType: AlertSortType | null = AlertSortType.Date;
+  @Input() showHighUrgency!: boolean;
+  @Input() showMediumUrgency!: boolean;
+  @Input() showNetworkHealth!: boolean;
+  @Input() showAPStatus!: boolean;
+  @Input() showCapacity!: boolean;
   // List of alerts for lazy loading
   virtualAlerts: Alert[] = [];
   // Amount of alerts displayed in panel at one time
@@ -41,8 +46,17 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
       }
     }
     if (sortType) {
-      console.log('sort by', sortType.currentValue);
       this.sort(sortType.currentValue);
+    }
+    if (
+      changes.showHighUrgency ||
+      changes.showMediumUrgency ||
+      changes.showNetworkHealth ||
+      changes.showAPStatus ||
+      changes.showCapacity
+    ) {
+      const filteredAlerts = this.filterAlerts();
+      this.virtualAlerts = [...filteredAlerts];
     }
   }
 
@@ -53,8 +67,9 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
       event.first != null &&
       event.rows != null
     ) {
-      this.virtualAlerts = Array.from({ length: this.alerts.length });
-      const loadedAlerts = this.alerts.slice(
+      const filteredAlerts = this.filterAlerts();
+      this.virtualAlerts = Array.from({ length: filteredAlerts.length });
+      const loadedAlerts = filteredAlerts.slice(
         event.first,
         event.first + event.rows
       );
@@ -64,10 +79,56 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
         event.first + event.rows,
         ...loadedAlerts
       );
-      // trigger change detection
-      this.virtualAlerts = [...this.virtualAlerts];
+      // apply existing filters and trigger change detection
+      this.filterAlerts();
     }
   }
+  combineFilters =
+    (...filters: any[]) =>
+    (item: any) => {
+      return filters.map((filter) => filter(item)).every((x) => x === true);
+    };
+  filterAlerts(): Alert[] {
+    let alerts: Alert[] = [];
+    if (this.alerts) {
+      alerts = this.alerts.filter(
+        this.combineFilters(
+          this.filterSeverityHigh,
+          this.filterSeverityMedium,
+          this.filterNetworkHealth,
+          this.filterAPStatus,
+          this.filterCapacity
+        )
+      );
+    }
+    return alerts;
+  }
+  filterSeverityHigh = (alert: Alert) => {
+    return this.showHighUrgency ? true : alert?.severity !== AlertSeverity.High;
+  };
+  filterSeverityMedium = (alert: Alert) => {
+    return this.showMediumUrgency
+      ? true
+      : alert?.severity !== AlertSeverity.Medium;
+  };
+  filterCapacity = (alert: Alert) => {
+    return this.showCapacity
+      ? true
+      : alert?.type !== AlertType.Covid_Capacity &&
+          alert?.type !== AlertType.High_Capacity &&
+          alert?.type !== AlertType.Low_Capacity;
+  };
+  filterNetworkHealth = (alert: Alert) => {
+    return this.showNetworkHealth
+      ? true
+      : alert?.type !== AlertType.Network_Health;
+  };
+  filterAPStatus = (alert: Alert) => {
+    return this.showAPStatus
+      ? true
+      : alert?.type !== AlertType.Access_Point_Offline &&
+          alert?.type !== AlertType.Access_Point_Online;
+  };
 
   sort(order: number): void {
     if (this.alerts) {
