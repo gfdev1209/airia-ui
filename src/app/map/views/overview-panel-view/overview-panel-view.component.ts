@@ -9,6 +9,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { AlertPanelComponent } from '../../components/alert-panel/alert-panel.component';
 import { AlertSortType } from '../../enums';
 import { Client } from '../../models';
 
@@ -29,17 +30,18 @@ export class OverviewPanelViewComponent implements OnInit, AfterViewInit {
 
   highUrgency = true;
   medUrgency = true;
-  usage = false;
-  apStatus = false;
-  networkHealth = false;
+  capacity = true;
+  apStatus = true;
+  networkHealth = true;
 
   alertSortOptions = [
-    { name: 'Date', code: AlertSortType.Date },
-    { name: 'Urgency', code: AlertSortType.Urgency },
-    { name: 'Type', code: AlertSortType.Type },
+    { name: 'Sort by Date', code: AlertSortType.Date },
+    { name: 'Sort by Urgency', code: AlertSortType.Urgency },
+    { name: 'Sort by Type', code: AlertSortType.Type },
   ];
 
   @ViewChild('topPanel') topPanel!: ElementRef;
+  @ViewChild('alertPanel') private alertPanel!: AlertPanelComponent;
 
   @Output() topPanelHeightChanged = new EventEmitter<number>();
   @Output() alertSortTypeChanged = new EventEmitter<AlertSortType>();
@@ -70,5 +72,20 @@ export class OverviewPanelViewComponent implements OnInit, AfterViewInit {
   }
   onSortChange(event: any): void {
     this.alertSortTypeChanged.emit(event?.value?.code);
+  }
+  onToggleHighUrgency(event: any): void {
+    this.alertPanel.onToggleHighUrgency(event);
+  }
+  onToggleMediumUrgency(event: any): void {
+    this.alertPanel.onToggleMediumUrgency(event);
+  }
+  onToggleCapacity(event: any): void {
+    this.alertPanel.onToggleShowCapacity(event);
+  }
+  onToggleNetworkHealth(event: any): void {
+    this.alertPanel.onToggleNetworkHealth(event);
+  }
+  onToggleShowNetworkHealth(event: any): void {
+    this.alertPanel.onToggleShowAPStatus(event);
   }
 }

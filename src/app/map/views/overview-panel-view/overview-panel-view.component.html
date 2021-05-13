@@ -30,6 +30,7 @@
             <p-accordion
               (onOpen)="onAccordionToggle($event)"
               (onClose)="onAccordionToggle($event)"
+              expandIcon=""
             >
               <p-accordionTab transitionOptions="0ms">
                 <ng-template pTemplate="header">
@@ -176,14 +177,14 @@
               </p-accordionTab>
               <p-accordionTab transitionOptions="0ms">
                 <ng-template pTemplate="header">
-                  <div class="p-d-flex p-align-center flex-grow-1">
+                  <div class="p-d-flex p-align-center p-jc-between flex-grow-1">
                     <div class="p-flex-column flex-grow-1">
                       <i
                         class="icon fas fa-exclamation-triangle fa-fw p-mr-2"
                       ></i>
                       Alerts
                     </div>
-                    <div class="p-flex-column flex-grow-1">
+                    <div class="p-flex-column">
                       <small>
                         <p-dropdown
                           [options]="alertSortOptions"
@@ -191,8 +192,8 @@
                           (onChange)="onSortChange($event)"
                           placeholder="Sort By"
                           optionLabel="name"
+                          value="2"
                           dropdownIcon="fas fa-chevron-down"
-                          styleClass="width-100"
                         ></p-dropdown>
                       </small>
                     </div>
@@ -206,6 +207,7 @@
                           <p-checkbox
                             name="highUrgency"
                             [(ngModel)]="highUrgency"
+                            (onChange)="onToggleHighUrgency($event)"
                             [binary]="true"
                             checkboxIcon="fas fa-check"
                             label="High urgency"
@@ -217,6 +219,7 @@
                           <p-checkbox
                             name="medUrgency"
                             [(ngModel)]="medUrgency"
+                            (onChange)="onToggleMediumUrgency($event)"
                             [binary]="true"
                             checkboxIcon="fas fa-check"
                             label="Med. urgency"
@@ -226,11 +229,12 @@
                       <div class="p-mt-2">
                         <small>
                           <p-checkbox
-                            name="usage"
-                            [(ngModel)]="usage"
+                            name="capacity"
+                            [(ngModel)]="capacity"
+                            (onChange)="onToggleCapacity($event)"
                             [binary]="true"
                             checkboxIcon="fas fa-check"
-                            label="Usage"
+                            label="Capacity"
                           ></p-checkbox>
                         </small>
                       </div>
@@ -242,6 +246,7 @@
                             name="apStatus"
                             [(ngModel)]="apStatus"
                             [binary]="true"
+                            (onChange)="onToggleShowNetworkHealth($event)"
                             checkboxIcon="fas fa-check"
                             label="AP status"
                           ></p-checkbox>
@@ -252,6 +257,7 @@
                           <p-checkbox
                             name="networkHealth"
                             [(ngModel)]="networkHealth"
+                            (onChange)="onToggleNetworkHealth($event)"
                             [binary]="true"
                             checkboxIcon="fas fa-check"
                             label="Network Health"
@@ -265,7 +271,10 @@
             </p-accordion>
           </div>
         </div>
-        <app-alert-panel class="alert-panel-container"></app-alert-panel>
+        <app-alert-panel
+          #alertPanel
+          class="alert-panel-container"
+        ></app-alert-panel>
       </ng-container>
     </div>
   </div>
