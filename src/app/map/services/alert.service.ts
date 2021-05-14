@@ -180,7 +180,7 @@ export class AlertService {
     {
       id: 25,
       message: 'Soder Hall network health is optimal.',
-      createdAt: new Date(2021, 1, 3, 4, 6, 34),
+      createdAt: new Date(),
       severity: 0,
       type: AlertType.Network_Health,
     },
@@ -196,7 +196,7 @@ export class AlertService {
   constructor() {}
 
   getAll(): Observable<Alert[]> {
-    return of(this.sampleAlerts).pipe(delay(2000));
+    return of(this.sampleAlerts).pipe(delay(100));
   }
   get(id: number): Observable<Alert> {
     const alert = this.sampleAlerts.find(

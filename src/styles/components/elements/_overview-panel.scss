@@ -4,6 +4,9 @@ $overview-panel-active-border-width: 4px;
 $overview-panel-item-height: 44px;
 
 .overview-panel {
+  position: fixed;
+  right: 0;
+  height: 100vh;
   width: $overview-panel-width;
   padding: 14px 9px 18px;
   transition: width 0.5s;

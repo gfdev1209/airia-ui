@@ -14,6 +14,11 @@ import { ScrollPanelModule as PrimeScrollPanelModule } from 'primeng/scrollpanel
 import { TableModule as PrimeTableModule } from 'primeng/table';
 import { VirtualScrollerModule as PrimeVirtualScrollerModule } from 'primeng/virtualscroller';
 import { SkeletonModule as PrimeSkeletonModule } from 'primeng/skeleton';
+import { PanelModule as PrimePanelModule } from 'primeng/panel';
+import { CardModule as PrimeCardModule } from 'primeng/card';
+import { MessageModule as PrimeMessageModule } from 'primeng/message';
+import { MessagesModule as PrimeMessagesModule } from 'primeng/messages';
+import { ChartModule as PrimeChartModule } from 'primeng/chart';
 
 // Components
 import { LeftNavComponent } from './components/left-nav/left-nav.component';
@@ -47,6 +52,11 @@ import { ColorByAlertSeverityPipe } from './pipes/color-by-alert-severity.pipe';
     PrimeTableModule,
     PrimeVirtualScrollerModule,
     PrimeSkeletonModule,
+    PrimePanelModule,
+    PrimeCardModule,
+    PrimeMessageModule,
+    PrimeMessagesModule,
+    PrimeChartModule,
   ],
   exports: [
     // Components
@@ -62,6 +72,11 @@ import { ColorByAlertSeverityPipe } from './pipes/color-by-alert-severity.pipe';
     PrimeTableModule,
     PrimeVirtualScrollerModule,
     PrimeSkeletonModule,
+    PrimePanelModule,
+    PrimeCardModule,
+    PrimeMessageModule,
+    PrimeMessagesModule,
+    PrimeChartModule,
     // Pipes
     AlertIconByTypePipe,
     ColorByAlertSeverityPipe,

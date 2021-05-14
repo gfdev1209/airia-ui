@@ -32,6 +32,7 @@ export class OverviewPanelComponent implements OnInit {
   }
 
   onAlertSortTypeChanged(sortType: AlertSortType): void {
+    console.log(sortType);
     this.store.dispatch(AlertActions.setSortType({ sortType }));
   }
 }

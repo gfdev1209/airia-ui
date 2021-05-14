@@ -190,8 +190,10 @@
                           [options]="alertSortOptions"
                           (click)="stopPropagation($event)"
                           (onChange)="onSortChange($event)"
+                          [(ngModel)]="selectedAlertSortOption"
                           placeholder="Sort By"
                           optionLabel="name"
+                          optionValue="value"
                           value="2"
                           dropdownIcon="fas fa-chevron-down"
                         ></p-dropdown>

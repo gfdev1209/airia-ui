@@ -38,6 +38,15 @@
 .body-font-family {
   font-family: var(--body-font-family);
 }
+.font-weight-normal {
+  @include font-weight(normal);
+}
+.font-weight-medium {
+  @include font-weight(medium);
+}
+.font-weight-bold {
+  @include font-weight(bold);
+}
 .font-size-1-rem {
   font-size: 1rem;
 }
@@ -102,6 +111,9 @@
 }
 
 // Backgrounds
+.background-color {
+  background-color: var(--background-color);
+}
 .background-color-shade-1 {
   background-color: var(--background-color-shade-1);
 }
@@ -121,4 +133,8 @@
 }
 .overflow-hidden {
   overflow: hidden;
+}
+// Misc
+.rounded-corners {
+  border-radius: $border-radius;
 }
