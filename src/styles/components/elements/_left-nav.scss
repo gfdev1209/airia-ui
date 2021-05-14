@@ -1,9 +1,7 @@
-$left-nav-width: 60px;
-$left-nav-width-expanded: 180px;
-$left-nav-active-border-width: 4px;
-$left-nav-item-height: 44px;
-
 .left-nav {
+  position: fixed;
+  left: 0;
+  z-index: 3;
   nav {
     width: $left-nav-width;
     transition: width 0.5s;

@@ -35,10 +35,11 @@ export class OverviewPanelViewComponent implements OnInit, AfterViewInit {
   networkHealth = true;
 
   alertSortOptions = [
-    { name: 'Sort by Date', code: AlertSortType.Date },
-    { name: 'Sort by Urgency', code: AlertSortType.Urgency },
-    { name: 'Sort by Type', code: AlertSortType.Type },
+    { name: 'Sort by Date', value: AlertSortType.Date },
+    { name: 'Sort by Urgency', value: AlertSortType.Urgency },
+    { name: 'Sort by Type', value: AlertSortType.Type },
   ];
+  selectedAlertSortOption = AlertSortType.Date;
 
   @ViewChild('topPanel') topPanel!: ElementRef;
   @ViewChild('alertPanel') private alertPanel!: AlertPanelComponent;
@@ -71,7 +72,7 @@ export class OverviewPanelViewComponent implements OnInit, AfterViewInit {
     $event.stopPropagation();
   }
   onSortChange(event: any): void {
-    this.alertSortTypeChanged.emit(event?.value?.code);
+    this.alertSortTypeChanged.emit(event?.value);
   }
   onToggleHighUrgency(event: any): void {
     this.alertPanel.onToggleHighUrgency(event);
