@@ -16,6 +16,10 @@ export class AlertPreviewComponent {
   constructor(private store: Store<RootState>) {}
 
   alertSelected(alert: Alert): void {
-    this.store.dispatch(AlertActions.select({ id: alert.id }));
+    this.store.dispatch(AlertActions.deselect());
+    setTimeout(
+      () => this.store.dispatch(AlertActions.select({ id: alert.id })),
+      300
+    );
   }
 }

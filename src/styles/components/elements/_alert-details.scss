@@ -7,17 +7,17 @@
   height: calc(100vh - 130px);
   z-index: 2;
 
-  animation-duration: 0.75s;
-  animation-name: slidein;
-  @keyframes slidein {
-    from {
-      left: -$alert-details-panel-width;
-    }
+  // animation-duration: 0.75s;
+  // animation-name: slidein;
+  // @keyframes slidein {
+  //   from {
+  //     left: -$alert-details-panel-width;
+  //   }
 
-    to {
-      left: $left-nav-width + 10px;
-    }
-  }
+  //   to {
+  //     left: $left-nav-width + 10px;
+  //   }
+  // }
 
   .p-panel-header {
     background: var(--background-color);
