@@ -19,6 +19,7 @@ import { Alert } from '../../models';
 export class AlertPanelViewComponent implements OnInit, OnChanges {
   @Input() height?: number | null;
   @Input() alerts: Alert[] | null = [];
+  @Input() selectedAlert: Alert | null = null;
   @Input() sortType: AlertSortType | null = AlertSortType.Date;
   @Input() showHighUrgency!: boolean;
   @Input() showMediumUrgency!: boolean;

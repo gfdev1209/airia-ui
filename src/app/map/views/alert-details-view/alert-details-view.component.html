@@ -1,6 +1,18 @@
 <p-panel *ngIf="alert" styleClass="alert-details rounded-corners">
   <ng-template pTemplate="header">
-    <h2 class="color-yellow p-m-0">Capacity Alert</h2>
+    <div class="p-d-flex p-align-center p-jc-between width-100">
+      <h2 class="color-yellow p-m-0">Capacity Alert</h2>
+      <small>
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="far fa-times"
+          class="p-button-rounded p-button-outlined color-grey"
+          (click)="onClose($event)"
+        ></button
+      ></small>
+    </div>
   </ng-template>
   <div style="height: 100%; overflow-y: scroll">
     <h3 class="font-weight-medium">

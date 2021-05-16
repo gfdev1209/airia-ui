@@ -15,6 +15,7 @@ import { Alert } from '../../models';
 })
 export class AlertPreviewViewComponent {
   @Input() alert?: Alert;
+  @Input() isSelected = false;
   @Output() alertSelected = new EventEmitter<Alert>();
 
   constructor() {}

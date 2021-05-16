@@ -11,6 +11,7 @@ import * as AlertActions from '../../../store/alert/alert.actions';
 })
 export class AlertPreviewComponent {
   @Input() alert?: Alert;
+  @Input() isSelected = false;
 
   constructor(private store: Store<RootState>) {}
 

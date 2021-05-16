@@ -19,6 +19,8 @@ export const selectSuccess = createAction(
 );
 export const selectFailed = createAction('[Alert Panel] Select Alert Failed');
 
+export const deselect = createAction('[Alert Details] Deselect Alert');
+
 export const setSortType = createAction(
   '[Overview Panel] Set Alert Sort Type',
   props<{ sortType: AlertSortType }>()

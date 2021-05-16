@@ -39,6 +39,12 @@ export const alertReducer = createReducer(
       loading: false,
     };
   }),
+  on(Actions.deselect, (state) => {
+    return {
+      ...state,
+      selected: null,
+    };
+  }),
   on(Actions.setSortType, (state, { sortType }) => ({
     ...state,
     sortType,
