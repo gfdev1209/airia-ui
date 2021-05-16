@@ -5,7 +5,26 @@
   <p-panel styleClass="alert-details rounded-corners">
     <ng-template pTemplate="header">
       <div class="p-d-flex p-align-center p-jc-between width-100">
-        <h2 class="color-yellow p-m-0">Capacity Alert</h2>
+        <div
+          *ngIf="alert"
+          class="p-d-flex p-align-center {{
+            alert.severity | colorByAlertSeverity
+          }}"
+        >
+          <i
+            class="font-size-1-rem fa-fw {{
+              alert.type | alertIconByType
+            }} p-mr-2"
+          ></i>
+          <h2
+            class="display-inline-block p-m-0 {{
+              alert.severity | colorByAlertSeverity
+            }}"
+            [ngClass]="{ 'color-white': alert.severity === 0 }"
+          >
+            Capacity Alert
+          </h2>
+        </div>
         <small>
           <button
             pButton
