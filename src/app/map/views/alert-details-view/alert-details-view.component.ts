@@ -1,4 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  trigger,
+  transition,
+  animate,
+  style,
+  state,
+} from '@angular/animations';
+
 import { Message } from 'primeng/api';
 import { Alert } from '../../models';
 
@@ -6,6 +14,13 @@ import { Alert } from '../../models';
   selector: 'app-alert-details-view',
   templateUrl: './alert-details-view.component.html',
   styleUrls: ['./alert-details-view.component.scss'],
+  animations: [
+    trigger('slideDownUp', [
+      state('true', style({ transform: 'translateX(0)', opacity: 1 })),
+      state('false', style({ transform: 'translateX(-50%)', opacity: 0 })),
+      transition('* => *', animate('350ms ease-out')),
+    ]),
+  ],
 })
 export class AlertDetailsViewComponent implements OnInit {
   @Input() alert?: Alert | null;

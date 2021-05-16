@@ -1,47 +1,50 @@
-<p-panel *ngIf="alert" styleClass="alert-details rounded-corners">
-  <ng-template pTemplate="header">
-    <div class="p-d-flex p-align-center p-jc-between width-100">
-      <h2 class="color-yellow p-m-0">Capacity Alert</h2>
-      <small>
-        <button
-          pButton
-          pRipple
-          type="button"
-          icon="far fa-times"
-          class="p-button-rounded p-button-outlined color-grey"
-          (click)="onClose($event)"
-        ></button
-      ></small>
+<div [@slideDownUp]="alert !== null ? 'true' : 'false'">
+  <p-panel styleClass="alert-details rounded-corners">
+    <ng-template pTemplate="header">
+      <div class="p-d-flex p-align-center p-jc-between width-100">
+        <h2 class="color-yellow p-m-0">Capacity Alert</h2>
+        <small>
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="far fa-times"
+            class="p-button-rounded p-button-outlined color-grey"
+            (click)="onClose($event)"
+          ></button
+        ></small>
+      </div>
+    </ng-template>
+    <div style="height: 100%; overflow-y: scroll">
+      <h3 class="font-weight-medium">
+        University Center is continuously below typical capacity
+      </h3>
+      <button
+        pButton
+        pRipple
+        type="button"
+        label="View Alert Playback"
+        icon="fas fa-play-circle"
+        class="p-button-rounded p-button-sm p-d-block p-mb-4"
+      ></button>
+      <p-messages
+        [(value)]="messages"
+        [enableService]="false"
+        [closable]="false"
+        styleClass="p-mb-4"
+      ></p-messages>
+      <p-panel styleClass="standard" header="Building Occupancy">
+        <p class="p-mt-0 p-mb-4">
+          Average building capacity over the past 4 weeks, between 10 PM and 8
+          AM
+        </p>
+        <p-chart
+          type="bar"
+          height="200"
+          [data]="stackedData"
+          [options]="stackedOptions"
+        ></p-chart>
+      </p-panel>
     </div>
-  </ng-template>
-  <div style="height: 100%; overflow-y: scroll">
-    <h3 class="font-weight-medium">
-      University Center is continuously below typical capacity
-    </h3>
-    <button
-      pButton
-      pRipple
-      type="button"
-      label="View Alert Playback"
-      icon="fas fa-play-circle"
-      class="p-button-rounded p-button-sm p-d-block p-mb-4"
-    ></button>
-    <p-messages
-      [(value)]="messages"
-      [enableService]="false"
-      [closable]="false"
-      styleClass="p-mb-4"
-    ></p-messages>
-    <p-panel styleClass="standard" header="Building Occupancy">
-      <p class="p-mt-0 p-mb-4">
-        Average building capacity over the past 4 weeks, between 10 PM and 8 AM
-      </p>
-      <p-chart
-        type="bar"
-        height="200"
-        [data]="stackedData"
-        [options]="stackedOptions"
-      ></p-chart>
-    </p-panel>
-  </div>
-</p-panel>
+  </p-panel>
+</div>
