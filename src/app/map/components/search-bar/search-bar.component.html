@@ -1,0 +1,5 @@
+<app-search-bar-view
+  [searchResults]="searchResults$ | async"
+  (search)="search($event)"
+  (selectBuilding)="selectBuilding($event)"
+></app-search-bar-view>

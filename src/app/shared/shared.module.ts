@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 // Prime
 import { RippleModule as PrimeRippleModule } from 'primeng/ripple';
 import { ButtonModule as PrimeButtonModule } from 'primeng/button';
+import { InputTextModule as PrimeInputTextModule } from 'primeng/inputtext';
 import { AccordionModule as PrimeAccordionModule } from 'primeng/accordion';
 import { InputSwitchModule as PrimeInputSwitchModule } from 'primeng/inputswitch';
 import { DropdownModule as PrimeDropdownModule } from 'primeng/dropdown';
@@ -18,6 +19,7 @@ import { PanelModule as PrimePanelModule } from 'primeng/panel';
 import { CardModule as PrimeCardModule } from 'primeng/card';
 import { MessageModule as PrimeMessageModule } from 'primeng/message';
 import { MessagesModule as PrimeMessagesModule } from 'primeng/messages';
+import { AutoCompleteModule as PrimeAutoCompleteModule } from 'primeng/autocomplete';
 import { ChartModule as PrimeChartModule } from 'primeng/chart';
 
 // Components
@@ -57,6 +59,8 @@ import { ColorByAlertSeverityPipe } from './pipes/color-by-alert-severity.pipe';
     PrimeMessageModule,
     PrimeMessagesModule,
     PrimeChartModule,
+    PrimeInputTextModule,
+    PrimeAutoCompleteModule,
   ],
   exports: [
     // Components
@@ -77,6 +81,8 @@ import { ColorByAlertSeverityPipe } from './pipes/color-by-alert-severity.pipe';
     PrimeMessageModule,
     PrimeMessagesModule,
     PrimeChartModule,
+    PrimeInputTextModule,
+    PrimeAutoCompleteModule,
     // Pipes
     AlertIconByTypePipe,
     ColorByAlertSeverityPipe,

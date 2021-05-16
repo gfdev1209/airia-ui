@@ -31,8 +31,18 @@
     font-size: small;
   }
 }
+.p-autocomplete.p-inputtext-sm {
+  padding: 0;
+  .p-autocomplete-input {
+    padding: 0.469rem 0.875rem;
+  }
+}
+
 .p-input-icon-left > .p-inputtext,
-.p-input-icon-left .p-inputmask {
+.p-input-icon-left .p-inputtext,
+.p-input-icon-left .p-inputmask,
+.p-input-icon-left .p-autocomplete-input,
+.p-input-icon-left .p-autocomplete.p-inputtext-sm .p-autocomplete-input {
   padding-left: 44px;
 }
 .p-input-icon-left {

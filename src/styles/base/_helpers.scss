@@ -103,6 +103,9 @@
 .color-green {
   color: $green;
 }
+.color-heading {
+  color: var(--heading-color);
+}
 .color-text-medium {
   color: var(--text-medium-color);
 }
