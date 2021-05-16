@@ -1,26 +1,14 @@
 .alert-details-container {
   opacity: 0;
-}
-.alert-details {
   position: fixed;
   left: $left-nav-width + 10px;
   // bottom: 65px;
   top: 55px;
+}
+.alert-details {
   width: $alert-details-panel-width;
   height: calc(100vh - 130px);
   z-index: 2;
-
-  // animation-duration: 0.75s;
-  // animation-name: slidein;
-  // @keyframes slidein {
-  //   from {
-  //     left: -$alert-details-panel-width;
-  //   }
-
-  //   to {
-  //     left: $left-nav-width + 10px;
-  //   }
-  // }
 
   .p-panel-header {
     background: var(--background-color);

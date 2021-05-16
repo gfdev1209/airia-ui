@@ -13,6 +13,8 @@ import { AlertPreviewComponent } from './components/alert-preview/alert-preview.
 import { AlertPreviewViewComponent } from './views/alert-preview-view/alert-preview-view.component';
 import { AlertDetailsComponent } from './components/alert-details/alert-details.component';
 import { AlertDetailsViewComponent } from './views/alert-details-view/alert-details-view.component';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { SearchBarViewComponent } from './views/search-bar-view/search-bar-view.component';
 
 @NgModule({
   imports: [
@@ -33,6 +35,8 @@ import { AlertDetailsViewComponent } from './views/alert-details-view/alert-deta
     AlertPreviewViewComponent,
     AlertDetailsComponent,
     AlertDetailsViewComponent,
+    SearchBarComponent,
+    SearchBarViewComponent,
   ],
 })
 export class MapModule {}

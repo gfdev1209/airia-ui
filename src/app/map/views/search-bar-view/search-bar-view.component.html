@@ -1,0 +1,15 @@
+<div class="search-bar p-field p-mt-2 p-ml-2">
+  <span class="p-input-icon-left">
+    <i class="far fa-search"></i>
+    <p-autoComplete
+      [(ngModel)]="searchTerm"
+      [suggestions]="searchResults!"
+      styleClass="p-inputtext-sm"
+      field="name"
+      [minLength]="3"
+      placeholder="Search by building name, keyword, etc."
+      (completeMethod)="onSearch()"
+      (onSelect)="onSelect($event)"
+    ></p-autoComplete>
+  </span>
+</div>

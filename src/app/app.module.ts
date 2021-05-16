@@ -1,6 +1,4 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -11,6 +9,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { reducers } from './store';
 import { AlertEffects } from './store/alert/alert.effects';
+import { BuildingEffects } from './store/building/building.effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,7 +17,7 @@ import { AlertEffects } from './store/alert/alert.effects';
     CoreModule,
     AppRoutingModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([AlertEffects]),
+    EffectsModule.forRoot([AlertEffects, BuildingEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 20,
       logOnly: environment.production,

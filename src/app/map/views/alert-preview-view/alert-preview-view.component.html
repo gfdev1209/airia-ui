@@ -16,7 +16,7 @@
       class="display-block line-height-1-5 font-size-90-percent {{
         alert.severity | colorByAlertSeverity
       }}"
-      [ngClass]="{ 'color-white': alert.severity === 0 }"
+      [ngClass]="{ 'color-heading': alert.severity === 0 }"
       >{{ alert.message }}</span
     >
     <small class="color-text-medium">{{
