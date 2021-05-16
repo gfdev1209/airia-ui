@@ -14,6 +14,7 @@
     <ng-template pTemplate="item" let-alert>
       <app-alert-preview
         [alert]="alert"
+        [isSelected]="alert.id === selectedAlert?.id"
         class="alert-preview"
       ></app-alert-preview>
     </ng-template>

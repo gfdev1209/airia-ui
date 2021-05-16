@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Message } from 'primeng/api';
 import { Alert } from '../../models';
 
@@ -9,6 +9,8 @@ import { Alert } from '../../models';
 })
 export class AlertDetailsViewComponent implements OnInit {
   @Input() alert?: Alert | null;
+
+  @Output() closeAlert = new EventEmitter();
 
   messages: Message[] = [
     {
@@ -87,5 +89,9 @@ export class AlertDetailsViewComponent implements OnInit {
         ],
       },
     };
+  }
+
+  onClose($event: any): void {
+    this.closeAlert.emit();
   }
 }

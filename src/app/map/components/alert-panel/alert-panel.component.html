@@ -1,6 +1,7 @@
 <app-alert-panel-view
   [height]="overviewPanelHeight$ | async"
   [alerts]="alerts$ | async"
+  [selectedAlert]="selectedAlert$ | async"
   [sortType]="alertSortType$ | async"
   [showHighUrgency]="showHighUrgency"
   [showMediumUrgency]="showMediumUrgency"
