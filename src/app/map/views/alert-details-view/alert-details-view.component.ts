@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   trigger,
   transition,
@@ -14,6 +21,7 @@ import { Alert } from '../../models';
   selector: 'app-alert-details-view',
   templateUrl: './alert-details-view.component.html',
   styleUrls: ['./alert-details-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('slidePanel', [
       state('true', style({ transform: 'translateX(0)', opacity: 1 })),

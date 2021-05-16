@@ -1,9 +1,14 @@
 .p-button {
-  &.p-button-sm {
+  &.p-button-sm,
+  &.p-button-xs {
+    font-size: 90%;
     padding: 0.5rem 1rem;
     &.p-button-outlined {
       padding: 0.3rem 0.5rem;
     }
+  }
+  &.p-button-xs {
+    font-size: 80%;
   }
   small &.p-button-icon-only {
     height: 1rem;
