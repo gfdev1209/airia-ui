@@ -15,7 +15,7 @@ import { Alert } from '../../models';
   templateUrl: './alert-details-view.component.html',
   styleUrls: ['./alert-details-view.component.scss'],
   animations: [
-    trigger('slideDownUp', [
+    trigger('slidePanel', [
       state('true', style({ transform: 'translateX(0)', opacity: 1 })),
       state('false', style({ transform: 'translateX(-50%)', opacity: 0 })),
       transition('* => *', animate('350ms ease-out')),

@@ -1,4 +1,7 @@
-<div [@slideDownUp]="alert !== null ? 'true' : 'false'">
+<div
+  class="alert-details-container"
+  [@slidePanel]="alert !== null ? 'true' : 'false'"
+>
   <p-panel styleClass="alert-details rounded-corners">
     <ng-template pTemplate="header">
       <div class="p-d-flex p-align-center p-jc-between width-100">
@@ -39,6 +42,7 @@
           AM
         </p>
         <p-chart
+          *ngIf="alert"
           type="bar"
           height="200"
           [data]="stackedData"
