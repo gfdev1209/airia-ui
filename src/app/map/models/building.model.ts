@@ -1,6 +1,6 @@
-import { IBase } from '../interfaces';
+import { IBase, IHasCoordinates } from '../interfaces';
 
-export class Building implements IBase {
+export class Building implements IBase, IHasCoordinates {
   id!: number;
   createdAt!: Date;
   clientId!: number;
@@ -8,4 +8,6 @@ export class Building implements IBase {
   name!: string;
   maxOccupancy!: number;
   floors!: number;
+  coordLatitude!: number;
+  coordLongitude!: number;
 }
