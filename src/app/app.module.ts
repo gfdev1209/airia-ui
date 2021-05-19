@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from 'src/environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -22,8 +23,12 @@ import { BuildingEffects } from './store/building/building.effects';
       maxAge: 20,
       logOnly: environment.production,
     }),
+    NgxMapboxGLModule.withConfig({
+      accessToken:
+        'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',
+    }),
   ],
-  exports: [],
+  exports: [NgxMapboxGLModule],
   providers: [],
   bootstrap: [AppComponent],
 })

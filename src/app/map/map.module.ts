@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
-import { MapComponent } from './pages/map/map.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+
 import { MapLayoutComponent } from './layouts/map-layout/map-layout.component';
 import { AlertPanelComponent } from './components/alert-panel/alert-panel.component';
 import { AlertPanelViewComponent } from './views/alert-panel-view/alert-panel-view.component';
@@ -15,6 +16,8 @@ import { AlertDetailsComponent } from './components/alert-details/alert-details.
 import { AlertDetailsViewComponent } from './views/alert-details-view/alert-details-view.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { SearchBarViewComponent } from './views/search-bar-view/search-bar-view.component';
+import { MapComponent } from './components/map/map.component';
+import { MapViewComponent } from './views/map-view/map-view.component';
 
 @NgModule({
   imports: [
@@ -23,9 +26,14 @@ import { SearchBarViewComponent } from './views/search-bar-view/search-bar-view.
     FormsModule,
     RouterModule,
     SharedModule,
+    NgxMapboxGLModule.withConfig({
+      accessToken:
+        'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',
+    }),
   ],
   declarations: [
     MapComponent,
+    MapViewComponent,
     MapLayoutComponent,
     OverviewPanelComponent,
     OverviewPanelViewComponent,
