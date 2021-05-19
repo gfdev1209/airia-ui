@@ -9,7 +9,7 @@ import { Building } from '../../models';
 export class SearchBarViewComponent implements OnInit {
   @Input() searchResults?: Building[] | null;
   @Output() search = new EventEmitter<string>();
-  @Output() selectBuilding = new EventEmitter<number>();
+  @Output() selectBuilding = new EventEmitter<Building>();
 
   searchTerm = '';
 
@@ -21,6 +21,6 @@ export class SearchBarViewComponent implements OnInit {
     this.search.emit(this.searchTerm);
   }
   onSelect(building: Building): void {
-    this.selectBuilding.emit(building?.id);
+    this.selectBuilding.emit(building);
   }
 }

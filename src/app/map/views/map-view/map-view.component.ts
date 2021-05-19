@@ -1,19 +1,48 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { Map, MapboxGeoJSONFeature, Point, SymbolLayer } from 'mapbox-gl';
+import { Building } from '../../models';
 
 @Component({
   selector: 'app-map-view',
   templateUrl: './map-view.component.html',
   styleUrls: ['./map-view.component.scss'],
 })
-export class MapViewComponent {
+export class MapViewComponent implements OnChanges {
   // UT [center] = '[-85.2974959, 35.0458509]';
+
+  @Input() selectedBuilding?: Building | null;
+
+  map!: Map;
+  highlightedBuildings: MapboxGeoJSONFeature[] = [];
 
   constructor() {}
 
-  map!: Map;
-  title = 'Airia';
-  highlightedBuildings: MapboxGeoJSONFeature[] = [];
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.selectedBuilding?.currentValue) {
+      console.log(changes.selectedBuilding);
+      this.flyToLocation(
+        changes.selectedBuilding.currentValue.coordLatitude,
+        changes.selectedBuilding.currentValue.coordLongitude
+      );
+    }
+  }
+
+  flyToLocation(latitude: number, longitude: number): void {
+    this.map.flyTo({
+      center: [longitude, latitude],
+      essential: true,
+      speed: 0.375,
+      curve: 2.0,
+      zoom: 18,
+    });
+  }
+
   mapLoad(map: Map): void {
     this.map = map;
     // map.addLayer(
@@ -57,7 +86,7 @@ export class MapViewComponent {
     }
   }
   mapClick(event: any): void {
-    // console.log(event);
+    console.log(event);
     const features = this.map.queryRenderedFeatures(
       new Point(event.point.x, event.point.y)
     ); // This is where I get building information

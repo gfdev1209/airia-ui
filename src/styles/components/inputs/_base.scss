@@ -82,19 +82,23 @@
   /* Chrome/Opera/Safari */
   color: $grey;
   font-weight: normal;
+  font-size: var(--font-size);
 }
 ::-moz-placeholder {
   /* Firefox 19+ */
   color: $grey;
   font-weight: normal;
+  font-size: var(--font-size);
 }
 :-ms-input-placeholder {
   /* IE 10+ */
   color: $grey;
   font-weight: normal;
+  font-size: var(--font-size);
 }
 :-moz-placeholder {
   /* Firefox 18- */
   color: $grey;
   font-weight: normal;
+  font-size: var(--font-size);
 }

@@ -20,7 +20,7 @@ export class SearchBarComponent implements OnInit {
   search(term: string): void {
     this.store.dispatch(BuildingActions.search({ term }));
   }
-  selectBuilding(id: number): void {
-    this.store.dispatch(BuildingActions.select({ id }));
+  selectBuilding(building: Building): void {
+    this.store.dispatch(BuildingActions.select({ id: building.id }));
   }
 }

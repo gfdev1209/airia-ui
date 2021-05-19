@@ -24,8 +24,18 @@ import { Alert } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('slidePanel', [
-      state('true', style({ transform: 'translateX(0)', opacity: 1 })),
-      state('false', style({ transform: 'translateX(-50%)', opacity: 0 })),
+      state(
+        'true',
+        style({ transform: 'translateX(0)', opacity: 1, visibility: 'visible' })
+      ),
+      state(
+        'false',
+        style({
+          transform: 'translateX(-50%)',
+          opacity: 0,
+          visibility: 'hidden',
+        })
+      ),
       transition('* => *', animate('350ms ease-out')),
     ]),
   ],
