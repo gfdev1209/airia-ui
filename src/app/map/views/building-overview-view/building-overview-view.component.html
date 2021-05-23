@@ -1,0 +1,52 @@
+<div *ngIf="building && show === true" class="building-overview">
+  <p-panel styleClass="rounded-corners">
+    <ng-template pTemplate="header">
+      <div class="p-d-flex p-align-center p-jc-between width-100">
+        <h3 class="display-inline-block p-m-0">
+          {{ building.name }}
+        </h3>
+        <small>
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="far fa-times"
+            class="p-button-rounded p-button-outlined color-grey"
+            (click)="onClose()"
+          ></button
+        ></small>
+      </div>
+    </ng-template>
+    <div>
+      <div class="p-d-flex p-jc-between p-align-center">
+        <small class="p-mr-4">
+          <i class="far fa-building fa-fw color-text-medium-dark p-mr-2"></i>
+          5000 ft2
+        </small>
+        <small>
+          <i class="far fa-users fa-fw color-text-medium-dark p-mr-2"></i>
+          Occupancy: 212 / 1,180
+        </small>
+      </div>
+      <div class="p-d-flex p-jc-between p-align-center p-mt-1">
+        <small class="p-mr-4">
+          <i class="far fa-router fa-fw color-green p-mr-2"></i> 12 Access
+          Points Online
+        </small>
+      </div>
+      <div class="p-d-flex p-jc-between p-align-center p-mt-1">
+        <small class="p-mr-4">
+          <i class="far fa-signal-stream fa-fw color-green p-mr-2"></i> High
+          Transmission
+        </small>
+      </div>
+      <button
+        pButton
+        pRipple
+        type="button"
+        label="View Details"
+        class="p-button-rounded p-button-sm p-d-block p-mt-3"
+      ></button>
+    </div>
+  </p-panel>
+</div>

@@ -1,8 +1,10 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import { Map, MapboxGeoJSONFeature, Point, SymbolLayer } from 'mapbox-gl';
@@ -17,6 +19,9 @@ export class MapViewComponent implements OnChanges {
   // UT [center] = '[-85.2974959, 35.0458509]';
 
   @Input() selectedBuilding?: Building | null;
+  @Input() showBuildingOverview: boolean | null = false;
+
+  @Output() flyToBuildingComplete = new EventEmitter();
 
   map!: Map;
   highlightedBuildings: MapboxGeoJSONFeature[] = [];
@@ -24,6 +29,7 @@ export class MapViewComponent implements OnChanges {
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
     if (changes.selectedBuilding?.currentValue) {
       console.log(changes.selectedBuilding);
       this.flyToLocation(
@@ -34,6 +40,9 @@ export class MapViewComponent implements OnChanges {
   }
 
   flyToLocation(latitude: number, longitude: number): void {
+    this.map.once('moveend', () => {
+      this.flyToBuildingComplete.emit();
+    });
     this.map.flyTo({
       center: [longitude, latitude],
       essential: true,

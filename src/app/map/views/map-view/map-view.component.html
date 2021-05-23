@@ -18,4 +18,14 @@
     position="top-left"
     [showUserLocation]="true"
   ></mgl-control>
+  <mgl-popup
+    *ngIf="selectedBuilding && showBuildingOverview"
+    [lngLat]="[selectedBuilding.coordLongitude, selectedBuilding.coordLatitude]"
+    [closeOnClick]="false"
+    maxWidth="400px"
+    [offset]="[0, -30]"
+    className="building-overview-popup"
+  >
+    <app-building-overview></app-building-overview>
+  </mgl-popup>
 </mgl-map>

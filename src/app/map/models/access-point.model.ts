@@ -6,6 +6,7 @@ export class AccessPoint implements IBase, IHasCoordinates {
   createdAt!: Date;
   buildingId!: number;
   name!: string;
+  wapmac?: string;
   status!: AccessPointStatus;
   coordLongitude!: number;
   coordLatitude!: number;

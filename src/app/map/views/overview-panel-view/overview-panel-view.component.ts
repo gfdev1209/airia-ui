@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { AlertPanelComponent } from '../../components/alert-panel/alert-panel.component';
 import { AlertSortType } from '../../enums';
-import { Client } from '../../models';
+import { Tenant } from '../../models';
 
 @Component({
   selector: 'app-overview-panel-view',
@@ -20,7 +20,7 @@ import { Client } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OverviewPanelViewComponent implements OnInit, AfterViewInit {
-  @Input() client!: Client;
+  @Input() tenant!: Tenant;
 
   expanded = true;
 

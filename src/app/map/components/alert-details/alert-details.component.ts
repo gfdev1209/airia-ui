@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { RootState } from 'src/app/store';
-import * as AlertSelectors from '../../../store/alert/alert.selectors';
-import * as AlertActions from '../../../store/alert/alert.actions';
+import * as AlertSelectors from '@store/alert/alert.selectors';
+import * as AlertActions from '@store/alert/alert.actions';
 
 @Component({
   selector: 'app-alert-details',

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { Alert } from 'src/app/map/models';
+import { Alert } from '@map/models';
 import { of } from 'rxjs';
 import * as AlertActions from './alert.actions';
-import { AlertService } from 'src/app/map/services/alert.service';
+import { AlertService } from '@map/services/alert.service';
 
 @Injectable({
   providedIn: 'root',
