@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { RootState } from 'src/app/store';
 import { Alert } from '../../models';
-import * as AlertActions from '../../../store/alert/alert.actions';
+import * as AlertActions from '@store/alert/alert.actions';
 
 @Component({
   selector: 'app-alert-preview',

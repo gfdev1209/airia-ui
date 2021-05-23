@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { RootState } from 'src/app/store';
-import { Building } from '../../models';
-import * as BuildingActions from './../../../store/building/building.actions';
-import * as BuildingSelectors from './../../../store/building/building.selectors';
+import { Building } from '@map/models';
+import * as BuildingActions from '@store/building/building.actions';
+import * as BuildingSelectors from '@store/building/building.selectors';
 
 @Component({
   selector: 'app-search-bar',

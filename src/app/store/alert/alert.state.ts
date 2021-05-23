@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
-import { AlertSortType } from 'src/app/map/enums';
-import { Alert } from 'src/app/map/models';
+import { AlertSortType } from '@map/enums';
+import { Alert } from '@map/models';
 
 export interface AlertState extends EntityState<Alert> {
   selected: Alert | null;

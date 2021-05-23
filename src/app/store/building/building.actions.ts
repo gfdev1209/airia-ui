@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Building } from 'src/app/map/models';
+import { Building } from '@map/models';
 
 export const getAll = createAction('[Map] Get All Buildings');
 export const getAllSuccess = createAction(
@@ -33,5 +33,8 @@ export const selectSuccess = createAction(
 export const selectFailed = createAction(
   '[Building Effect] Select Building Failed'
 );
+
+export const showOverview = createAction('[Map] Show Building Overview');
+export const hideOverview = createAction('[Map] Hide Building Overview');
 
 export const deselect = createAction('[Building Details] Deselect Building');

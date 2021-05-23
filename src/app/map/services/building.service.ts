@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { Alert, Building } from '../models';
+import { Building } from '@map/models';
 
 @Injectable({
   providedIn: 'root',
@@ -10,36 +10,66 @@ export class BuildingService {
   sampleBuildings: Building[] = [
     {
       id: 1,
+      locationId: 1,
       createdAt: new Date(),
-      clientId: 1,
       mapboxId: 45277690,
       name: 'University Centre',
       coordLatitude: 35.047873555387994,
       coordLongitude: -85.2983487354471,
-      maxOccupancy: 1000,
-      floors: 3,
+      floors: [
+        {
+          id: 1,
+          buildingId: 1,
+          maxOccupancy: 500,
+          createdAt: new Date(),
+        },
+      ],
     },
     {
       id: 2,
+      locationId: 1,
       createdAt: new Date(),
-      clientId: 1,
       mapboxId: 66955070,
       name: 'UTC Stagmaier Dorms',
       coordLatitude: 35.04529094226686,
       coordLongitude: -85.29839712222879,
-      maxOccupancy: 500,
-      floors: 1,
+      floors: [
+        {
+          id: 2,
+          buildingId: 2,
+          maxOccupancy: 250,
+          createdAt: new Date(),
+        },
+        {
+          id: 3,
+          buildingId: 2,
+          maxOccupancy: 300,
+          createdAt: new Date(),
+        },
+        {
+          id: 4,
+          buildingId: 2,
+          maxOccupancy: 225,
+          createdAt: new Date(),
+        },
+      ],
     },
     {
       id: 3,
+      locationId: 1,
       createdAt: new Date(),
-      clientId: 1,
       mapboxId: 148490310,
       name: 'UTC Metro Building',
       coordLatitude: 35.04700133238397,
       coordLongitude: -85.30368804441464,
-      maxOccupancy: 500,
-      floors: 1,
+      floors: [
+        {
+          id: 5,
+          buildingId: 3,
+          maxOccupancy: 1500,
+          createdAt: new Date(),
+        },
+      ],
     },
   ];
 

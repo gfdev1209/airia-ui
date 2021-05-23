@@ -21,7 +21,7 @@ export const buildingReducer = createReducer(
       loading: false,
     };
   }),
-  on(Actions.search, (state, { term }) => {
+  on(Actions.search, (state) => {
     return {
       ...state,
       loading: true,
@@ -45,11 +45,12 @@ export const buildingReducer = createReducer(
     return {
       ...state,
       loading: true,
+      showOverview: false,
     };
   }),
   on(Actions.selectSuccess, (state, { building }) => ({
     ...state,
-    selected: building,
+    selected: { ...building },
     loading: false,
     loaded: true,
   })),
@@ -63,6 +64,18 @@ export const buildingReducer = createReducer(
     return {
       ...state,
       selected: null,
+    };
+  }),
+  on(Actions.showOverview, (state) => {
+    return {
+      ...state,
+      showOverview: true,
+    };
+  }),
+  on(Actions.hideOverview, (state) => {
+    return {
+      ...state,
+      showOverview: false,
     };
   })
 );

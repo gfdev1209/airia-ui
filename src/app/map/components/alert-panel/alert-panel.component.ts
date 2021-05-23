@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { RootState } from 'src/app/store';
-import { MapService } from '../../services/map.service';
-import * as AlertSelectors from '../../../store/alert/alert.selectors';
-import * as AlertActions from '../../../store/alert/alert.actions';
+import { MapService } from '@map/services/map.service';
+import * as AlertSelectors from '@store/alert/alert.selectors';
+import * as AlertActions from '@store/alert/alert.actions';
 
 @Component({
   selector: 'app-alert-panel',

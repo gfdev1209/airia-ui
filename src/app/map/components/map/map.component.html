@@ -1,1 +1,5 @@
-<app-map-view [selectedBuilding]="selectedBuilding$ | async"></app-map-view>
+<app-map-view
+  [selectedBuilding]="selectedBuilding$ | async"
+  [showBuildingOverview]="showBuildingOverview$ | async"
+  (flyToBuildingComplete)="flyToBuildingComplete()"
+></app-map-view>

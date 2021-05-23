@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { RootState } from 'src/app/store';
-import * as BuildingSelectors from './../../../store/building/building.selectors';
+import * as BuildingSelectors from '@store/building/building.selectors';
+import * as BuildingActions from '@store/building/building.actions';
 
 @Component({
   selector: 'app-map',
@@ -12,8 +13,15 @@ export class MapComponent implements OnInit {
   selectedBuilding$ = this.store.select(
     BuildingSelectors.selectSelectedBuilding
   );
+  showBuildingOverview$ = this.store.select(
+    BuildingSelectors.selectShowOverview
+  );
 
   constructor(private store: Store<RootState>) {}
 
   ngOnInit(): void {}
+
+  flyToBuildingComplete(): void {
+    this.store.dispatch(BuildingActions.showOverview());
+  }
 }

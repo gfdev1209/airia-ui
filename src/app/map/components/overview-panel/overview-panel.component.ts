@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { RootState } from 'src/app/store';
-import { AlertSortType } from '../../enums';
-import { Client } from '../../models';
-import { MapService } from '../../services/map.service';
-import * as AlertActions from '../../../store/alert/alert.actions';
+import { AlertSortType } from '@map/enums';
+import { Tenant } from '@map/models';
+import { MapService } from '@map/services/map.service';
+import * as AlertActions from '@store/alert/alert.actions';
 
 @Component({
   selector: 'app-overview-panel',
@@ -12,11 +12,9 @@ import * as AlertActions from '../../../store/alert/alert.actions';
   styleUrls: ['./overview-panel.component.scss'],
 })
 export class OverviewPanelComponent implements OnInit {
-  client: Client = {
+  tenant: Tenant = {
     id: 1,
     name: 'University Campus',
-    coordLatitude: 123.23,
-    coordLongitude: 12.32,
     createdAt: new Date(),
   };
 

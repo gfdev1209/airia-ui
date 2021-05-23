@@ -21,3 +21,8 @@ export const selectSelectedBuilding = createSelector(
   selectFeature,
   (state: BuildingState) => state.selected
 );
+
+export const selectShowOverview = createSelector(
+  selectFeature,
+  (state: BuildingState) => state.showOverview
+);

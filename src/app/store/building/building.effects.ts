@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { Building } from 'src/app/map/models';
+import { Building } from '@map/models';
 import { of } from 'rxjs';
 import * as BuildingActions from './building.actions';
-import { BuildingService } from 'src/app/map/services/building.service';
+import { BuildingService } from '@map/services/building.service';
 
 @Injectable({
   providedIn: 'root',

@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { AlertSortType } from 'src/app/map/enums';
-import { Alert } from 'src/app/map/models';
+import { AlertSortType } from '@map/enums';
+import { Alert } from '@map/models';
 
 export const getAll = createAction('[Map] Get All Alerts');
 export const getAllSuccess = createAction(

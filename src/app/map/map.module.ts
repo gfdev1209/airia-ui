@@ -18,6 +18,8 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
 import { SearchBarViewComponent } from './views/search-bar-view/search-bar-view.component';
 import { MapComponent } from './components/map/map.component';
 import { MapViewComponent } from './views/map-view/map-view.component';
+import { BuildingOverviewComponent } from './components/building-overview/building-overview.component';
+import { BuildingOverviewViewComponent } from './views/building-overview-view/building-overview-view.component';
 
 @NgModule({
   imports: [
@@ -45,6 +47,8 @@ import { MapViewComponent } from './views/map-view/map-view.component';
     AlertDetailsViewComponent,
     SearchBarComponent,
     SearchBarViewComponent,
+    BuildingOverviewComponent,
+    BuildingOverviewViewComponent,
   ],
 })
 export class MapModule {}
