@@ -22,6 +22,7 @@ export class MapViewComponent implements OnChanges {
   @Input() showBuildingOverview: boolean | null = false;
 
   @Output() flyToBuildingComplete = new EventEmitter();
+  @Output() clickedBuildingId = new EventEmitter<number>();
 
   map!: Map;
   highlightedBuildings: MapboxGeoJSONFeature[] = [];
@@ -102,9 +103,11 @@ export class MapViewComponent implements OnChanges {
     console.log(features);
     features.forEach((feature) => {
       console.log(feature);
-      if (feature.layer.id.toString() === 'building-extrusion') {
+      if (feature.layer.id.toString() === 'building-extrusion' && feature.id) {
+        console.log(feature.id);
         console.log(feature.geometry); // feature.geometry getter returns building shape points (basement)
         console.log('height', feature?.properties?.height); // this is the building height
+        this.clickedBuildingId.emit(+feature.id);
       }
     });
   }

@@ -1,5 +1,6 @@
 <app-map-view
   [selectedBuilding]="selectedBuilding$ | async"
   [showBuildingOverview]="showBuildingOverview$ | async"
+  (clickedBuildingId)="clickedBuildingId($event)"
   (flyToBuildingComplete)="flyToBuildingComplete()"
 ></app-map-view>
