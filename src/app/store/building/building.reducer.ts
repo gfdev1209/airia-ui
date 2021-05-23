@@ -48,12 +48,16 @@ export const buildingReducer = createReducer(
       showOverview: false,
     };
   }),
-  on(Actions.selectSuccess, (state, { building }) => ({
-    ...state,
-    selected: { ...building },
-    loading: false,
-    loaded: true,
-  })),
+  on(
+    Actions.selectSuccess,
+    Actions.selectByMapboxIdSuccess,
+    (state, { building }) => ({
+      ...state,
+      selected: { ...building },
+      loading: false,
+      loaded: true,
+    })
+  ),
   on(Actions.selectFailed, (state) => {
     return {
       ...state,
@@ -64,6 +68,13 @@ export const buildingReducer = createReducer(
     return {
       ...state,
       selected: null,
+    };
+  }),
+  on(Actions.selectByMapboxId, (state) => {
+    return {
+      ...state,
+      loading: true,
+      showOverview: false,
     };
   }),
   on(Actions.showOverview, (state) => {

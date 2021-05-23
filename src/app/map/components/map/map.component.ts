@@ -24,4 +24,7 @@ export class MapComponent implements OnInit {
   flyToBuildingComplete(): void {
     this.store.dispatch(BuildingActions.showOverview());
   }
+  clickedBuildingId(mapboxId: number): void {
+    this.store.dispatch(BuildingActions.selectByMapboxId({ mapboxId }));
+  }
 }

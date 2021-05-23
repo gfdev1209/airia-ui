@@ -30,7 +30,25 @@ export const selectSuccess = createAction(
   '[Building Effect] Select Building Success',
   props<{ building: Building }>()
 );
+export const selectNotFound = createAction(
+  '[Building Effect] Select Building Entity Not Found'
+);
 export const selectFailed = createAction(
+  '[Building Effect] Select Building Failed'
+);
+
+export const selectByMapboxId = createAction(
+  '[Map View] Select Building by Mapbox Id',
+  props<{ mapboxId: number }>()
+);
+export const selectByMapboxIdSuccess = createAction(
+  '[Building Effect] Select Building by Mapbox Id Success',
+  props<{ building: Building }>()
+);
+export const selectByMapboxIdNotFound = createAction(
+  '[Building Effect] Select Building by Mapbox Id Not Found'
+);
+export const selectByMapboxIdFailed = createAction(
   '[Building Effect] Select Building Failed'
 );
 
