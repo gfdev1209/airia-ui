@@ -8,6 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Map, MapboxGeoJSONFeature, Point, SymbolLayer } from 'mapbox-gl';
+import { of } from 'rxjs';
 import { Building } from '../../models';
 
 @Component({
@@ -16,8 +17,7 @@ import { Building } from '../../models';
   styleUrls: ['./map-view.component.scss'],
 })
 export class MapViewComponent implements OnChanges {
-  // UT [center] = '[-85.2974959, 35.0458509]';
-
+  @Input() buildings: Building[] | null = [];
   @Input() selectedBuilding?: Building | null;
   @Input() showBuildingOverview: boolean | null = false;
 
@@ -30,9 +30,7 @@ export class MapViewComponent implements OnChanges {
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     if (changes.selectedBuilding?.currentValue) {
-      console.log(changes.selectedBuilding);
       this.flyToLocation(
         changes.selectedBuilding.currentValue.coordLatitude,
         changes.selectedBuilding.currentValue.coordLongitude
@@ -66,44 +64,124 @@ export class MapViewComponent implements OnChanges {
     //       'fill-extrusion-color': [
     //         'case',
     //         ['boolean', ['feature-state', 'hover'], false],
-    //         '#57517b',
+    //         '#9389bf',
     //         '#3a325c',
     //       ],
     //       'fill-extrusion-height': ['number', ['get', 'height'], 5],
-    //       'fill-extrusion-base': ['number', ['get', 'min_height'], 0],
-    //       'fill-extrusion-opacity': 1,
+    //       'fill-extrusion-base': ['number', ['get', 'min_height'], 30],
+    //       'fill-extrusion-opacity': 0.5,
     //     },
     //   },
-    //   'building (1)'
+    //   'building (1) copy'
     // );
+
+    map.addLayer({
+      id: 'building-outline',
+      type: 'line',
+      source: 'composite',
+      'source-layer': 'building',
+      paint: {
+        'line-width': 4,
+        'line-color': [
+          'case',
+          ['boolean', ['feature-state', 'hover'], false],
+          'rgba(159,100,209,1.0)',
+          'rgba(255,255,255,0.0)',
+        ],
+      },
+    });
+    map.addLayer({
+      id: '3d-buildings',
+      type: 'fill',
+      source: 'composite',
+      'source-layer': 'building',
+      paint: {
+        'fill-outline-color': 'rgba(0,0,0,0)',
+        // 'fill-color': 'rgba(0,0,0,0)',
+        'fill-color': [
+          'case',
+          ['boolean', ['feature-state', 'hover'], false],
+          'rgba(159,100,209,0.3)',
+          'rgba(255,255,255,0.0)',
+        ],
+        'fill-opacity': 1.0,
+      },
+    });
+    // if (this.buildings) {
+    //   for (const building of this.buildings) {
+    //     if (building) {
+    //       let source = this.map.queryRenderedFeatures([
+    //         building.coordLongitude,
+    //         building.coordLatitude,
+    //       ]);
+    //       console.log(source);
+    //       //   this.map.setFeatureState(building, {
+    //       //     source: building.source,
+    //       //     sourceLayer: building.sourceLayer,
+    //       //     id: building.mapboxId,
+    //       //     hover: true,
+    //       //   });
+    //       // }
+    //     }
+    //   }
+    // }
+  }
+  isTenantBuilding(mapboxId: number): boolean {
+    return this.buildings?.find((e) => e.mapboxId === mapboxId) !== undefined;
+  }
+  isFeatureBuilding(feature: MapboxGeoJSONFeature): boolean {
+    return feature.layer.id.toString() === '3d-buildings';
   }
   mapMouseMove(event: any): void {
-    const features = this.map?.queryRenderedFeatures(event.point);
-    if (features) {
+    if (this.map) {
       this.map.getCanvasContainer().style.cursor = 'default';
-      features.forEach((feature) => {
-        // console.log(feature);
-        if (this.highlightedBuildings.find((e) => e === feature) == null) {
-          this.highlightedBuildings.push(feature);
+      const features = this.map?.queryRenderedFeatures(event.point);
+      const selectedBuilding = this.highlightedBuildings.find(
+        (building) => building.id === this.selectedBuilding?.mapboxId
+      );
+      for (const building of this.highlightedBuildings) {
+        if (building && building.id !== selectedBuilding?.id) {
+          this.map.setFeatureState(building, {
+            source: building.source,
+            sourceLayer: building.sourceLayer,
+            id: building.id,
+            hover: false,
+          });
         }
-        this.map.setFeatureState(feature, {
-          source: feature.source,
-          sourceLayer: feature.sourceLayer,
-          id: feature.id,
-          hover: true,
+      }
+      this.highlightedBuildings = [];
+      if (selectedBuilding) {
+        this.highlightedBuildings.push(selectedBuilding);
+      }
+      if (features) {
+        features.forEach((feature) => {
+          if (this.isFeatureBuilding(feature) && feature.id) {
+            if (this.isTenantBuilding(+feature.id)) {
+              this.map.getCanvasContainer().style.cursor = 'pointer';
+              if (
+                this.highlightedBuildings.find((e) => e === feature) == null
+              ) {
+                this.highlightedBuildings.push(feature);
+                this.map.setFeatureState(feature, {
+                  source: feature.source,
+                  sourceLayer: feature.sourceLayer,
+                  id: feature.id,
+                  hover: true,
+                });
+              }
+            }
+          }
         });
-      });
+      }
     }
   }
   mapClick(event: any): void {
-    console.log(event);
     const features = this.map.queryRenderedFeatures(
       new Point(event.point.x, event.point.y)
-    ); // This is where I get building information
-    console.log(features);
+    );
     features.forEach((feature) => {
-      console.log(feature);
-      if (feature.layer.id.toString() === 'building-extrusion' && feature.id) {
+      if (this.isFeatureBuilding(feature) && feature.id) {
+        console.log(feature);
         console.log(feature.id);
         console.log(feature.geometry); // feature.geometry getter returns building shape points (basement)
         console.log('height', feature?.properties?.height); // this is the building height

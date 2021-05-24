@@ -10,6 +10,7 @@ import * as BuildingActions from '@store/building/building.actions';
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit {
+  buildings$ = this.store.select(BuildingSelectors.selectAll);
   selectedBuilding$ = this.store.select(
     BuildingSelectors.selectSelectedBuilding
   );
