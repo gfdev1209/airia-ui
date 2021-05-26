@@ -5,13 +5,15 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { AlertPanelComponent } from '../../components/alert-panel/alert-panel.component';
 import { AlertSortType } from '../../enums';
-import { Tenant } from '../../models';
+import { Location } from '../../models';
 
 @Component({
   selector: 'app-overview-panel-view',
@@ -19,10 +21,10 @@ import { Tenant } from '../../models';
   styleUrls: ['./overview-panel-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OverviewPanelViewComponent implements OnInit, AfterViewInit {
-  @Input() tenant!: Tenant;
+export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
+  @Input() selectedLocation!: Location | null;
 
-  expanded = true;
+  expanded = false;
 
   footTraffic = true;
   staticDevices = true;
@@ -49,12 +51,18 @@ export class OverviewPanelViewComponent implements OnInit, AfterViewInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
-    setTimeout(() => this.getTopPanelHeight(), 10);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.selectedLocation.currentValue) {
+      this.expandPanel();
+      setTimeout(() => this.getTopPanelHeight(), 600);
+    }
   }
 
+  ngAfterViewInit(): void {}
+
+  expandPanel(): void {
+    this.expanded = true;
+  }
   toggleSize(): void {
     this.expanded = !this.expanded;
   }

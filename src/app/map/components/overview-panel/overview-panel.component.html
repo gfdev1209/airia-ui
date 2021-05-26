@@ -1,5 +1,5 @@
 <app-overview-panel-view
-  [tenant]="tenant"
+  [selectedLocation]="selectedLocation$ | async"
   (topPanelHeightChanged)="onTopPanelHeightChanged($event)"
   (alertSortTypeChanged)="onAlertSortTypeChanged($event)"
 ></app-overview-panel-view>

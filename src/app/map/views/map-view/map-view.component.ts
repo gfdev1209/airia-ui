@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { Map, MapboxGeoJSONFeature, Point, SymbolLayer } from 'mapbox-gl';
 import { of } from 'rxjs';
-import { Building } from '../../models';
+import { Building, Location } from '../../models';
 
 @Component({
   selector: 'app-map-view',
@@ -17,6 +17,8 @@ import { Building } from '../../models';
   styleUrls: ['./map-view.component.scss'],
 })
 export class MapViewComponent implements OnChanges {
+  @Input() locations: Location[] | null = [];
+  @Input() selectedLocation: Location | null = null;
   @Input() buildings: Building[] | null = [];
   @Input() selectedBuilding?: Building | null;
   @Input() showBuildingOverview: boolean | null = false;

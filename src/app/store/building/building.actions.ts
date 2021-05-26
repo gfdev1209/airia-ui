@@ -15,11 +15,11 @@ export const search = createAction(
   props<{ term: string }>()
 );
 export const searchSuccess = createAction(
-  '[Building Effect] Get All Buildings Success',
-  props<{ buildings: Building[] }>()
+  '[Building Effect] Search Buildings Success',
+  props<{ searchResults: Building[] }>()
 );
 export const searchFailed = createAction(
-  '[Building Effect] Get All Buildings Failed'
+  '[Building Effect] Search Buildings Failed'
 );
 
 export const select = createAction(

@@ -14,13 +14,21 @@ export class BaseService {
     @Inject(String) protected apiName: string,
     protected http: HttpClient
   ) {
-    this.apiUrl += apiName;
+    this.apiUrl += 'api/' + apiName;
+  }
+
+  getAll<T>(): Observable<T> {
+    return this.http.get(`${this.apiUrl}/`).pipe(
+      retry(2),
+      map((response: any) => response as T),
+      share()
+    );
   }
 
   get<T>(id: number): Observable<T> {
     return this.http
-      .get<T>(`${this.apiUrl}/Get?id=${id}`)
-      .pipe(map((response: any) => response.result as T));
+      .get<T>(`${this.apiUrl}/${id}`)
+      .pipe(map((response: any) => response as T));
   }
 
   getByQuery<T>(id: number, queryParams: any): Observable<T> {
@@ -29,15 +37,7 @@ export class BaseService {
       catchError((error) => {
         return this.handleError(error);
       }),
-      map((response: any) => response.result as T),
-      share()
-    );
-  }
-
-  getAll<T>(): Observable<T> {
-    return this.http.get(`${this.apiUrl}/GetAll`).pipe(
-      retry(2),
-      map((response: any) => response.result.items as T),
+      map((response: any) => response as T),
       share()
     );
   }
@@ -47,7 +47,7 @@ export class BaseService {
       // catchError((error) => {
       //   return this.handleError(error);
       // }),
-      map((response: any) => response.result as T),
+      map((response: any) => response as T),
       share()
     );
   }
@@ -57,7 +57,7 @@ export class BaseService {
       catchError((error) => {
         return this.handleError(error);
       }),
-      map((response: any) => response.result as T),
+      map((response: any) => response as T),
       share()
     );
   }
@@ -67,20 +67,20 @@ export class BaseService {
       // catchError((error) => {
       //   return this.handleError(error);
       // }),
-      map((response: any) => response.result as T),
+      map((response: any) => response as T),
       share()
     );
   }
 
-  search<T>(term: string): Observable<T[]> {
-    return this.http.get(`${this.apiUrl}/Search?term=${term}`).pipe(
-      // catchError((error) => {
-      //   return this.handleError(error);
-      // }),
-      map((response: any) => response.result as T[]),
-      share()
-    );
-  }
+  // search<T>(term: string): Observable<T[]> {
+  //   return this.http.get(`${this.apiUrl}/Search?term=${term}`).pipe(
+  //     // catchError((error) => {
+  //     //   return this.handleError(error);
+  //     // }),
+  //     map((response: any) => response as T[]),
+  //     share()
+  //   );
+  // }
   handleError(error: any): Observable<any> {
     let errorMessage = '';
 

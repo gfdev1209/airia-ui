@@ -1,4 +1,3 @@
-export * from './tenant.model';
 export * from './location.model';
 export * from './building.model';
 export * from './floor.model';
