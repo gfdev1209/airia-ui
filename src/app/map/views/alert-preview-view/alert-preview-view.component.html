@@ -17,7 +17,7 @@
         alert.severity | colorByAlertSeverity
       }}"
       [ngClass]="{ 'color-heading': alert.severity === 0 }"
-      >{{ alert.message }}</span
+      >{{ alert.id }} {{ alert.message }}</span
     >
     <small class="color-text-medium">{{
       alert.createdAt | date: "dd MMM h:mm a"

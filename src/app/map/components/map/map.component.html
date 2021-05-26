@@ -1,4 +1,6 @@
 <app-map-view
+  [locations]="locations$ | async"
+  [selectedLocation]="selectedLocation$ | async"
   [buildings]="buildings$ | async"
   [selectedBuilding]="selectedBuilding$ | async"
   [showBuildingOverview]="showBuildingOverview$ | async"

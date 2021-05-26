@@ -29,7 +29,7 @@ export class BuildingEffects {
     this.actions$.pipe(
       ofType(BuildingActions.getAll),
       mergeMap(() =>
-        this.buildingService.getAll().pipe(
+        this.buildingService.getAll<Building[]>().pipe(
           map((buildings: Building[]) =>
             BuildingActions.getAllSuccess({ buildings })
           ),
@@ -42,14 +42,18 @@ export class BuildingEffects {
   search$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BuildingActions.search),
-      mergeMap(({ term }) =>
-        this.buildingService.search(term).pipe(
-          map((buildings: Building[]) =>
-            BuildingActions.searchSuccess({ buildings })
-          ),
-          catchError(() => of(BuildingActions.searchFailed()))
-        )
-      )
+      withLatestFrom(this.store.select(BuildingSelectors.selectAll)),
+      switchMap(([{ term }, buildings]) => {
+        const searchResults = buildings.filter((entity) =>
+          entity.name.toLowerCase().includes(term.toLowerCase())
+        );
+        return of(
+          BuildingActions.searchSuccess({
+            searchResults,
+          })
+        );
+      }),
+      catchError(() => of(BuildingActions.searchFailed()))
     )
   );
 

@@ -16,7 +16,7 @@ export class AlertEffects {
     this.actions$.pipe(
       ofType(AlertActions.getAll),
       mergeMap(() =>
-        this.alertService.getAll().pipe(
+        this.alertService.getAll<Alert[]>().pipe(
           map((alerts: Alert[]) => AlertActions.getAllSuccess({ alerts })),
           catchError(() => of(AlertActions.getAllFailed()))
         )
@@ -28,7 +28,7 @@ export class AlertEffects {
     this.actions$.pipe(
       ofType(AlertActions.select),
       mergeMap(({ id }) =>
-        this.alertService.get(id).pipe(
+        this.alertService.get<Alert>(id).pipe(
           map((alert: Alert) => AlertActions.selectSuccess({ alert })),
           catchError(() => of(AlertActions.selectFailed()))
         )

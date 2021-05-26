@@ -1,9 +1,10 @@
 <mgl-map
+  *ngIf="selectedLocation"
   [style]="'mapbox://styles/mikeairia/ckothwa8k17hn18lngdslao64'"
   [zoom]="[17]"
   [pitch]="[0]"
   [bearing]="[0]"
-  [center]="[-85.2974959, 35.0458509]"
+  [center]="[selectedLocation.coordLongitude, selectedLocation.coordLatitude]"
   (mapClick)="mapClick($event)"
   (mapMouseMove)="mapMouseMove($event)"
   (mapLoad)="mapLoad($event)"

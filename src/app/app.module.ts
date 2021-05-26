@@ -2,6 +2,10 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { InMemApiService } from '@shared/services/in-mem-api.service';
+import { FloorEffects } from '@store/floor/floor.effects';
+import { LocationEffects } from '@store/location/location.effects';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from 'src/environments/environment';
 
@@ -18,10 +22,19 @@ import { BuildingEffects } from './store/building/building.effects';
     CoreModule,
     AppRoutingModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([AlertEffects, BuildingEffects]),
+    EffectsModule.forRoot([
+      AlertEffects,
+      BuildingEffects,
+      LocationEffects,
+      FloorEffects,
+    ]),
     StoreDevtoolsModule.instrument({
       maxAge: 20,
       logOnly: environment.production,
+    }),
+    HttpClientInMemoryWebApiModule.forRoot(InMemApiService, {
+      delay: 500,
+      passThruUnknownUrl: true,
     }),
     NgxMapboxGLModule.withConfig({
       accessToken:

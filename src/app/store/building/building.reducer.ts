@@ -27,10 +27,10 @@ export const buildingReducer = createReducer(
       loading: true,
     };
   }),
-  on(Actions.searchSuccess, (state, { buildings }) => {
+  on(Actions.searchSuccess, (state, { searchResults }) => {
     return {
       ...state,
-      searchResults: buildings,
+      searchResults,
       loading: false,
       loaded: true,
     };
