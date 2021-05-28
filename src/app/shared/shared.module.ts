@@ -24,7 +24,6 @@ import { ChartModule as PrimeChartModule } from 'primeng/chart';
 
 // Components
 import { LeftNavComponent } from './components/left-nav/left-nav.component';
-import { LeftMenuComponent } from './components/left-menu/left-menu.component';
 import { InteriorLayoutComponent } from './layouts/interior-layout/interior-layout.component';
 import { AlertIconByTypePipe } from './pipes/alert-icon-by-type.pipe';
 import { ColorByAlertSeverityPipe } from './pipes/color-by-alert-severity.pipe';
@@ -34,7 +33,6 @@ import { ColorByAlertSeverityPipe } from './pipes/color-by-alert-severity.pipe';
   declarations: [
     InteriorLayoutComponent,
     LeftNavComponent,
-    LeftMenuComponent,
     AlertIconByTypePipe,
     ColorByAlertSeverityPipe,
   ],

@@ -5,7 +5,13 @@ import * as BuildingSelectors from '@store/building/building.selectors';
 import * as BuildingActions from '@store/building/building.actions';
 import * as LocationActions from '@store/location/location.actions';
 import * as LocationSelectors from '@store/location/location.selectors';
-import { tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
+import { MsalService, MsalBroadcastService } from '@azure/msal-angular';
+import {
+  EventMessage,
+  EventType,
+  AuthenticationResult,
+} from '@azure/msal-browser';
 
 @Component({
   selector: 'app-map',
@@ -32,11 +38,16 @@ export class MapComponent implements OnInit {
     BuildingSelectors.selectShowOverview
   );
 
-  constructor(private store: Store<RootState>) {
+  constructor(
+    private store: Store<RootState>,
+    private authService: MsalService
+  ) {
     this.store.dispatch(LocationActions.getAll());
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.authService.instance.getAllAccounts());
+  }
 
   flyToBuildingComplete(): void {
     this.store.dispatch(BuildingActions.showOverview());
