@@ -62,6 +62,12 @@
           </div>
           <span>Settings</span>
         </a>
+        <a class="menu-link p-text-center" (click)="logout()">
+          <div class="icon">
+            <i class="fas fa-fw fa-sign-out"></i>
+          </div>
+          <span>Logout</span>
+        </a>
         <div class="logo p-d-flex p-justify-center p-mt-6">
           <img *ngIf="!expanded" src="/assets/svg/logomark_purple.svg" />
           <img *ngIf="expanded" src="/assets/svg/logo_horizontal_dark_2.svg" />

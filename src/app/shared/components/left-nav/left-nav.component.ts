@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MsalService } from '@azure/msal-angular';
 
 @Component({
   selector: 'app-left-nav',
@@ -8,11 +9,15 @@ import { Component, OnInit } from '@angular/core';
 export class LeftNavComponent implements OnInit {
   expanded = false;
 
-  constructor() {}
+  constructor(private authService: MsalService) {}
 
   ngOnInit(): void {}
 
   toggleSize(): void {
     this.expanded = !this.expanded;
+  }
+
+  logout(): void {
+    this.authService.logoutRedirect({ postLogoutRedirectUri: '/login' });
   }
 }
