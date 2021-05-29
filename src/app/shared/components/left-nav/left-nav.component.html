@@ -68,9 +68,19 @@
           </div>
           <span>Logout</span>
         </a>
-        <div class="logo p-d-flex p-justify-center p-mt-6">
-          <img *ngIf="!expanded" src="/assets/svg/logomark_purple.svg" />
-          <img *ngIf="expanded" src="/assets/svg/logo_horizontal_dark_2.svg" />
+        <div class="logo p-d-flex p-justify-center p-flex-column p-mt-4">
+          <div class="p-text-center" *ngIf="expanded">
+            <small class="color-text-medium white-space-nowrap"
+              >Logged in as Mike Wojcik</small
+            >
+          </div>
+          <div>
+            <img *ngIf="!expanded" src="/assets/svg/logomark_purple.svg" />
+            <img
+              *ngIf="expanded"
+              src="/assets/svg/logo_horizontal_dark_2.svg"
+            />
+          </div>
         </div>
       </div>
     </div>

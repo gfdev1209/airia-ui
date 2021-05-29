@@ -11,6 +11,7 @@ import {
   EventMessage,
   EventType,
   AuthenticationResult,
+  AccountInfo,
 } from '@azure/msal-browser';
 
 @Component({
@@ -38,6 +39,8 @@ export class MapComponent implements OnInit {
     BuildingSelectors.selectShowOverview
   );
 
+  accountInfo?: AccountInfo;
+
   constructor(
     private store: Store<RootState>,
     private authService: MsalService
@@ -46,7 +49,11 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.authService.instance.getAllAccounts());
+    const accounts = this.authService?.instance?.getAllAccounts();
+    if (accounts?.length > 0) {
+      this.accountInfo = accounts[0];
+      console.log(this.accountInfo);
+    }
   }
 
   flyToBuildingComplete(): void {
