@@ -1,10 +1,25 @@
-<div class="p-d-flex vh-100">
-  <button
-    pButton
-    pRipple
-    type="button"
-    label="Log into Airia"
-    (click)="onLogin()"
-    class="p-button-rounded p-m-auto"
-  ></button>
+<div class="p-d-flex vh-100 login-container">
+  <div class="p-flex-column p-m-auto p-text-center">
+    <img
+      src="/assets/svg/logo_horizontal_dark_2.svg"
+      class="logo p-d-block width-100 p-mb-6"
+    />
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Log In"
+      (click)="onLogin()"
+      class="p-button-rounded p-mt-6"
+    ></button
+    ><br />
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Register"
+      (click)="onRegister()"
+      class="p-button-rounded p-button-outlined p-mt-3"
+    ></button>
+  </div>
 </div>

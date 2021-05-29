@@ -1,0 +1,15 @@
+.login-container {
+  background: linear-gradient(rgb(0 0 0 / 85%), rgb(0 0 0 / 90%)),
+    url(/assets/img/BG.png);
+  background-size: cover;
+  .logo {
+    max-width: 300px;
+  }
+  .p-button {
+    width: 200px;
+
+    &.p-button-outlined {
+      border-width: 2px;
+    }
+  }
+}
