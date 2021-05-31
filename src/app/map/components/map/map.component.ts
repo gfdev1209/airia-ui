@@ -13,6 +13,7 @@ import {
   AuthenticationResult,
   AccountInfo,
 } from '@azure/msal-browser';
+import { UserService } from '@map/services/user.service';
 
 @Component({
   selector: 'app-map',
@@ -43,7 +44,8 @@ export class MapComponent implements OnInit {
 
   constructor(
     private store: Store<RootState>,
-    private authService: MsalService
+    private authService: MsalService,
+    private userService: UserService
   ) {
     this.store.dispatch(LocationActions.getAll());
   }
@@ -53,6 +55,7 @@ export class MapComponent implements OnInit {
     if (accounts?.length > 0) {
       this.accountInfo = accounts[0];
       console.log(this.accountInfo);
+      this.userService.getUserDetails().subscribe();
     }
   }
 
