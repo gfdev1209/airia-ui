@@ -26,8 +26,6 @@ export const b2cPolicies = {
  * The current application coordinates were pre-registered in a B2C tenant.
  */
 export const apiConfig: { scopes: string[]; uri: string } = {
-  scopes: [
-    'https://airia20develop.onmicrosoft.com/c5f385f7-8c81-4623-8c7c-a9bdb5929559/Departments.Read',
-  ],
-  uri: 'https://fabrikamb2chello.azurewebsites.net/hello',
+  scopes: ['https://airia20develop.onmicrosoft.com/api/demo.read'],
+  uri: 'https://api.dev.airia20.com',
 };
