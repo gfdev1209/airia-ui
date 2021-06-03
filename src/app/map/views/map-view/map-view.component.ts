@@ -38,6 +38,10 @@ export class MapViewComponent implements OnChanges {
         changes.selectedBuilding.currentValue.coordLongitude
       );
     }
+    console.log(changes);
+    if (changes.zoomIn?.firstChange === false) {
+      this.onZoomIn();
+    }
   }
 
   flyToLocation(latitude: number, longitude: number): void {
@@ -51,6 +55,13 @@ export class MapViewComponent implements OnChanges {
       curve: 2.0,
       zoom: 18,
     });
+  }
+
+  onZoomIn(): void {
+    this.map.zoomIn();
+  }
+  onZoomOut(): void {
+    this.map.zoomOut();
   }
 
   mapLoad(map: Map): void {

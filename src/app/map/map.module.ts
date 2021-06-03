@@ -20,6 +20,8 @@ import { MapComponent } from './components/map/map.component';
 import { MapViewComponent } from './views/map-view/map-view.component';
 import { BuildingOverviewComponent } from './components/building-overview/building-overview.component';
 import { BuildingOverviewViewComponent } from './views/building-overview-view/building-overview-view.component';
+import { ZoomControlsComponent } from './components/zoom-controls/zoom-controls.component';
+import { ZoomControlsViewComponent } from './views/zoom-controls-view/zoom-controls-view.component';
 
 @NgModule({
   imports: [
@@ -49,6 +51,8 @@ import { BuildingOverviewViewComponent } from './views/building-overview-view/bu
     SearchBarViewComponent,
     BuildingOverviewComponent,
     BuildingOverviewViewComponent,
+    ZoomControlsComponent,
+    ZoomControlsViewComponent,
   ],
 })
 export class MapModule {}

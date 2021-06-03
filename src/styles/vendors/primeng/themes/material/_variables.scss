@@ -4,6 +4,7 @@ $emphasis-low: rgba(0, 0, 0, 0.38);
 $emphasis-lower: rgba(0, 0, 0, 0.12);
 
 $accentColor: var(--background-color-shade-3);
+$accentColorRGB: var(--background-color-shade-3-RGB);
 $accentTextColor: #ffffff;
 $overlayColor: #000000;
 //;
@@ -110,7 +111,7 @@ $inputOverlayShadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
 
 //button
 $buttonPadding: 0.85rem 1rem;
-$buttonIconOnlyWidth: 2rem;
+$buttonIconOnlyWidth: 1.75rem;
 $buttonIconOnlyPadding: 0.714rem;
 $buttonBg: $primaryColor;
 $buttonBgRGB: $primaryColorRGB;
@@ -136,10 +137,10 @@ $plainButtonActiveBgColor: rgba(0, 0, 0, 0.16);
 $secondaryButtonBg: $accentColor;
 $secondaryButtonTextColor: $accentTextColor;
 $secondaryButtonBorder: 0 none;
-$secondaryButtonHoverBg: rgba($accentColor, 0.92);
+$secondaryButtonHoverBg: rgba($accentColorRGB, 0.92);
 $secondaryButtonTextHoverColor: $accentTextColor;
 $secondaryButtonHoverBorderColor: transparent;
-$secondaryButtonActiveBg: rgba($accentColor, 0.68);
+$secondaryButtonActiveBg: rgba($accentColorRGB, 0.68);
 $secondaryButtonTextActiveColor: $accentTextColor;
 $secondaryButtonActiveBorderColor: transparent;
 $secondaryButtonFocusShadow: none;

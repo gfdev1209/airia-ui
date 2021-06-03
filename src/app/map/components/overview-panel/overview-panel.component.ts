@@ -30,4 +30,11 @@ export class OverviewPanelComponent implements OnInit {
   onAlertSortTypeChanged(sortType: AlertSortType): void {
     this.store.dispatch(AlertActions.setSortType({ sortType }));
   }
+
+  onZoomIn(): void {
+    this.mapService.mapZoomIn();
+  }
+  onZoomOut(): void {
+    this.mapService.mapZoomOut();
+  }
 }
