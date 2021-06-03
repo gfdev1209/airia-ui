@@ -48,6 +48,8 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
 
   @Output() topPanelHeightChanged = new EventEmitter<number>();
   @Output() alertSortTypeChanged = new EventEmitter<AlertSortType>();
+  @Output() zoomIn = new EventEmitter();
+  @Output() zoomOut = new EventEmitter();
 
   constructor() {}
 
@@ -65,6 +67,12 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   }
   toggleSize(): void {
     this.expanded = !this.expanded;
+  }
+  onZoomIn(): void {
+    this.zoomIn.emit();
+  }
+  onZoomOut(): void {
+    this.zoomOut.emit();
   }
   onAccordionToggle(e: any): void {
     setTimeout(() => this.getTopPanelHeight(), 10);

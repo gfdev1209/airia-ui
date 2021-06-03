@@ -1,4 +1,7 @@
 <div class="overview-panel" [class.expanded]="expanded === true">
+  <div class="zoom-controls">
+    <app-zoom-controls></app-zoom-controls>
+  </div>
   <div class="p-d-flex p-flex-column overflow-hidden">
     <div class="p-d-flex p-flex-column">
       <a class="menu-toggle p-d-flex p-align-center" (click)="toggleSize()">

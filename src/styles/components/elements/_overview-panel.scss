@@ -20,6 +20,12 @@ $overview-panel-item-height: 44px;
     }
   }
 
+  .zoom-controls {
+    position: absolute;
+    left: -40px;
+    top: 8px;
+  }
+
   .menu-toggle {
     cursor: pointer;
     color: var(--background-color-shade-3);

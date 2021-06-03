@@ -2,4 +2,6 @@
   [selectedLocation]="selectedLocation$ | async"
   (topPanelHeightChanged)="onTopPanelHeightChanged($event)"
   (alertSortTypeChanged)="onAlertSortTypeChanged($event)"
+  (zoomIn)="onZoomIn()"
+  (zoomOut)="onZoomOut()"
 ></app-overview-panel-view>
