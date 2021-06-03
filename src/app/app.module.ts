@@ -51,7 +51,7 @@ export function loggerCallback(logLevel: LogLevel, message: string): void {
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
-      clientId: 'c5f385f7-8c81-4623-8c7c-a9bdb5929559',
+      clientId: environment.b2cClientId,
       authority: b2cPolicies.authorities.signUpSignIn.authority,
       redirectUri: '/',
       postLogoutRedirectUri: '/',
@@ -86,6 +86,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     authRequest: {
       scopes: [...apiConfig.scopes],
     },
+    loginFailedRoute: '/login',
   };
 }
 
