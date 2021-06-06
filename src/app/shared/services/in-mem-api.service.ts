@@ -215,7 +215,7 @@ export class InMemApiService implements InMemoryDbService {
       locationId: 1,
       createdAt: new Date(),
       mapboxId: 45277690,
-      name: 'University Centre',
+      name: 'University Center',
       coordLatitude: 35.047873555387994,
       coordLongitude: -85.2983487354471,
       floors: [

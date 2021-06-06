@@ -63,11 +63,7 @@
                         pRipple
                         type="button"
                         [icon]="isPlaybackLive ? 'fas fa-pause' : 'fas fa-play'"
-                        class="
-                          btn-playback
-                          p-button-sm p-button-xs p-button-outlined
-                          height-100
-                        "
+                        class="btn-playback p-button-outlined height-100"
                         [ngClass]="{ 'is-active': isPlaybackLive === true }"
                         (click)="onTogglePlayback()"
                       ></button>

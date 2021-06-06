@@ -66,21 +66,25 @@ export class AlertDetailsViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.stackedData = {
-      labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+      labels: [
+        '10 PM',
+        '11 PM',
+        '12 AM',
+        '1 AM',
+        '2 AM',
+        '3 AM',
+        '4 AM',
+        '5 AM',
+        '6 AM',
+        '7 AM',
+      ],
       datasets: [
         {
           type: 'bar',
-          label: 'Actual Occupancy',
-          backgroundColor: '#D9C1ED',
-          barPercentage: 0.75,
-          data: [100, 600, 680, 660, 520, 670, 600, 680, 800, 620],
-        },
-        {
-          type: 'bar',
-          label: 'Max Occupancy',
+          label: 'Occupancy %',
           backgroundColor: '#9f64d1',
           barPercentage: 0.75,
-          data: [850, 200, 300, 320, 400, 150, 320, 180, 200, 300],
+          data: [40, 60, 68, 66, 52, 67, 60, 68, 80, 62],
         },
       ],
     };
