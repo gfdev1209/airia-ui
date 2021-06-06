@@ -15,6 +15,8 @@ import { AlertPanelComponent } from '../../components/alert-panel/alert-panel.co
 import { AlertSortType } from '../../enums';
 import { Location } from '../../models';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-overview-panel-view',
   templateUrl: './overview-panel-view.component.html',
@@ -23,8 +25,21 @@ import { Location } from '../../models';
 })
 export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   @Input() selectedLocation!: Location | null;
+  @Input() mapDateTime?: Date | null;
+
+  @Output() topPanelHeightChanged = new EventEmitter<number>();
+  @Output() alertSortTypeChanged = new EventEmitter<AlertSortType>();
+  @Output() zoomIn = new EventEmitter();
+  @Output() zoomOut = new EventEmitter();
+  @Output() mapTimeChanged = new EventEmitter<Date>();
+
+  @ViewChild('topPanel') topPanel!: ElementRef;
+  @ViewChild('alertPanel') private alertPanel!: AlertPanelComponent;
 
   expanded = false;
+
+  playbackDate: Date = new Date();
+  isPlaybackLive = true;
 
   footTraffic = true;
   staticDevices = true;
@@ -43,18 +58,10 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   ];
   selectedAlertSortOption = AlertSortType.Date;
 
-  @ViewChild('topPanel') topPanel!: ElementRef;
-  @ViewChild('alertPanel') private alertPanel!: AlertPanelComponent;
-
-  @Output() topPanelHeightChanged = new EventEmitter<number>();
-  @Output() alertSortTypeChanged = new EventEmitter<AlertSortType>();
-  @Output() zoomIn = new EventEmitter();
-  @Output() zoomOut = new EventEmitter();
-
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.selectedLocation.currentValue) {
+    if (changes.selectedLocation?.currentValue) {
       this.expandPanel();
       setTimeout(() => this.getTopPanelHeight(), 600);
     }
@@ -104,5 +111,28 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   }
   onToggleShowNetworkHealth(event: any): void {
     this.alertPanel.onToggleShowAPStatus(event);
+  }
+
+  onTogglePlayback(): void {
+    this.isPlaybackLive = !this.isPlaybackLive;
+    // If we are live now, change the date to current time
+    if (this.isPlaybackLive === true) {
+      this.changeDate(new Date());
+    }
+  }
+  onPlaybackCalendarSelect(newDate: any): void {
+    this.changeDate(newDate);
+    this.isPlaybackLive = false;
+  }
+  onPlaybackIntervalChange(
+    amount: number,
+    unit: moment.unitOfTime.DurationConstructor
+  ): void {
+    const newDate = moment(this.mapDateTime).add(amount, unit).toDate();
+    this.changeDate(newDate);
+    this.isPlaybackLive = false;
+  }
+  changeDate(newDate: Date): void {
+    this.mapTimeChanged.emit(newDate);
   }
 }

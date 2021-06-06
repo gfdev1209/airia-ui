@@ -21,6 +21,7 @@ import { MessageModule as PrimeMessageModule } from 'primeng/message';
 import { MessagesModule as PrimeMessagesModule } from 'primeng/messages';
 import { AutoCompleteModule as PrimeAutoCompleteModule } from 'primeng/autocomplete';
 import { ChartModule as PrimeChartModule } from 'primeng/chart';
+import { CalendarModule as PrimeCalendarModule } from 'primeng/calendar';
 
 // Components
 import { LeftNavComponent } from './components/left-nav/left-nav.component';
@@ -59,6 +60,7 @@ import { ColorByAlertSeverityPipe } from './pipes/color-by-alert-severity.pipe';
     PrimeChartModule,
     PrimeInputTextModule,
     PrimeAutoCompleteModule,
+    PrimeCalendarModule,
   ],
   exports: [
     // Components
@@ -81,6 +83,7 @@ import { ColorByAlertSeverityPipe } from './pipes/color-by-alert-severity.pipe';
     PrimeChartModule,
     PrimeInputTextModule,
     PrimeAutoCompleteModule,
+    PrimeCalendarModule,
     // Pipes
     AlertIconByTypePipe,
     ColorByAlertSeverityPipe,

@@ -1,6 +1,6 @@
 $emphasis-high: var(--primary-text-color);
 $emphasis-medium: var(--text-medium-color);
-$emphasis-low: rgba(0, 0, 0, 0.38);
+$emphasis-low: var(--text-medium-dark-color);
 $emphasis-lower: rgba(0, 0, 0, 0.12);
 
 $accentColor: var(--background-color-shade-3);
@@ -134,13 +134,13 @@ $plainButtonTextColor: $textSecondaryColor;
 $plainButtonHoverBgColor: rgba(0, 0, 0, 0.04);
 $plainButtonActiveBgColor: rgba(0, 0, 0, 0.16);
 
-$secondaryButtonBg: $accentColor;
+$secondaryButtonBg: var(--text-input-background-color);
 $secondaryButtonTextColor: $accentTextColor;
 $secondaryButtonBorder: 0 none;
-$secondaryButtonHoverBg: rgba($accentColorRGB, 0.92);
+$secondaryButtonHoverBg: rgba($primaryColorRGB, 0.92);
 $secondaryButtonTextHoverColor: $accentTextColor;
 $secondaryButtonHoverBorderColor: transparent;
-$secondaryButtonActiveBg: rgba($accentColorRGB, 0.68);
+$secondaryButtonActiveBg: rgba($primaryColorRGB, 0.68);
 $secondaryButtonTextActiveColor: $accentTextColor;
 $secondaryButtonActiveBorderColor: transparent;
 $secondaryButtonFocusShadow: none;
@@ -284,14 +284,14 @@ $sliderRangeBg: $primaryColor;
 //calendar
 $calendarTableMargin: 0.5rem 0;
 $calendarPadding: 0.5rem;
-$calendarBg: #ffffff;
+$calendarBg: var(--background-color-shade-1);
 $calendarInlineBg: $calendarBg;
 $calendarTextColor: $textColor;
 $calendarBorder: $inputListBorder;
 $calendarOverlayBorder: $inputOverlayBorder;
 
 $calendarHeaderPadding: 0.5rem;
-$calendarHeaderBg: #ffffff;
+$calendarHeaderBg: var(--background-color-shade-1);
 $calendarInlineHeaderBg: $calendarBg;
 $calendarHeaderBorder: $divider;
 $calendarHeaderTextColor: $textColor;
@@ -304,8 +304,8 @@ $calendarCellDateHeight: 2.5rem;
 $calendarCellDateBorderRadius: 50%;
 $calendarCellDateBorder: 1px solid transparent;
 $calendarCellDateHoverBg: rgba(0, 0, 0, 0.04);
-$calendarCellDateTodayBg: #ffffff;
-$calendarCellDateTodayBorderColor: rgba(0, 0, 0, 12);
+$calendarCellDateTodayBg: var(--background-color-shade-1);
+$calendarCellDateTodayBorderColor: var(--background-color-shade-3);
 $calendarCellDateTodayTextColor: $textColor;
 
 $calendarButtonBarPadding: 1rem 0;

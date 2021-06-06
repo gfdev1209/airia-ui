@@ -1,0 +1,8 @@
+.flash-color-white {
+  animation: flash 1s linear;
+}
+@keyframes flash {
+  50% {
+    color: white;
+  }
+}

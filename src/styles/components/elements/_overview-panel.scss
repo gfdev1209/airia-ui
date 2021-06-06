@@ -25,7 +25,9 @@ $overview-panel-item-height: 44px;
     left: -40px;
     top: 8px;
   }
-
+  .p-accordion-toggle-icon {
+    display: none;
+  }
   .menu-toggle {
     cursor: pointer;
     color: var(--background-color-shade-3);

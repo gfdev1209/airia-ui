@@ -15,6 +15,7 @@ export class OverviewPanelComponent implements OnInit {
   selectedLocation$ = this.store.select(
     LocationSelectors.selectSelectedLocation
   );
+  mapDateTime$ = this.mapService.mapDateTime$;
 
   constructor(
     private mapService: MapService,
@@ -29,6 +30,10 @@ export class OverviewPanelComponent implements OnInit {
 
   onAlertSortTypeChanged(sortType: AlertSortType): void {
     this.store.dispatch(AlertActions.setSortType({ sortType }));
+  }
+
+  onMapTimeChanged(mapTime: Date): void {
+    this.mapService.updateMapDateTime(mapTime);
   }
 
   onZoomIn(): void {

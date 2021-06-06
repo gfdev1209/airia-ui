@@ -66,10 +66,10 @@ export class MapComponent implements OnInit, OnDestroy {
       this.userService.getUserDetails().subscribe();
     }
     this.zoomIn$ = this.mapService.zoomIn$.subscribe(() =>
-      this.mapView.onZoomIn()
+      this.mapView?.onZoomIn()
     );
     this.zoomOut$ = this.mapService.zoomOut$.subscribe(() =>
-      this.mapView.onZoomOut()
+      this.mapView?.onZoomOut()
     );
   }
 
