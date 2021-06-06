@@ -58,10 +58,10 @@ export class MapViewComponent implements OnChanges {
   }
 
   onZoomIn(): void {
-    this.map.zoomIn();
+    this.map?.zoomIn();
   }
   onZoomOut(): void {
-    this.map.zoomOut();
+    this.map?.zoomOut();
   }
 
   mapLoad(map: Map): void {

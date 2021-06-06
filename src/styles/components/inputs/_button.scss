@@ -11,8 +11,8 @@
     font-size: 80%;
   }
   &.p-button-sm.p-button-icon-only {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.75rem;
+    height: 1.75rem;
     padding: inherit;
   }
   small &.p-button-icon-only {
@@ -23,6 +23,12 @@
   span.p-button-icon {
     position: relative;
     top: 1px;
+  }
+  &.with-outline {
+    border: 1px solid var(--text-input-border-color);
+  }
+  &.is-active {
+    color: var(--primary-color);
   }
 }
 .p-button-label {

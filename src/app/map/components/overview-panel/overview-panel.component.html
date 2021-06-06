@@ -1,7 +1,9 @@
 <app-overview-panel-view
   [selectedLocation]="selectedLocation$ | async"
+  [mapDateTime]="mapDateTime$ | async"
   (topPanelHeightChanged)="onTopPanelHeightChanged($event)"
   (alertSortTypeChanged)="onAlertSortTypeChanged($event)"
+  (mapTimeChanged)="onMapTimeChanged($event)"
   (zoomIn)="onZoomIn()"
   (zoomOut)="onZoomOut()"
 ></app-overview-panel-view>

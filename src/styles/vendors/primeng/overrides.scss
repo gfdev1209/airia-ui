@@ -13,6 +13,7 @@ $fontSize: var(--font-size);
 .p-button,
 .p-button.p-button-secondary {
   &.p-button-outlined {
+    color: var(--background-color-shade-3);
     &:enabled:hover {
       background: rgba($buttonBgRGB, $textButtonHoverBgOpacity);
       color: var(--text-color);

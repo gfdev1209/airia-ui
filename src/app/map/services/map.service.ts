@@ -8,6 +8,9 @@ export class MapService {
   private overviewPanelHeight: BehaviorSubject<number> = new BehaviorSubject(0);
   overviewPanelHeight$ = this.overviewPanelHeight.asObservable();
 
+  private mapDateTime: BehaviorSubject<Date> = new BehaviorSubject(new Date());
+  mapDateTime$ = this.mapDateTime.asObservable();
+
   private zoomIn: Subject<void> = new Subject();
   zoomIn$ = this.zoomIn.asObservable();
   private zoomOut: Subject<void> = new Subject();
@@ -24,5 +27,9 @@ export class MapService {
   }
   mapZoomOut(): void {
     this.zoomOut.next();
+  }
+
+  updateMapDateTime(newDate: Date): void {
+    this.mapDateTime.next(newDate);
   }
 }

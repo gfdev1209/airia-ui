@@ -21,10 +21,8 @@
               <h3 class="p-m-0">{{ selectedLocation?.name }}</h3>
               <div class="p-d-flex p-jc-between color-text-medium">
                 <div class="p-flex-column">
-                  <small>February 13, 2021</small>
-                </div>
-                <div class="p-flex-column p-align-right">
-                  <small>3:15 PM EST</small>
+                  <small>{{ mapDateTime | date: "longDate" }}</small>
+                  &nbsp;<small>{{ mapDateTime | date: "shortTime" }}</small>
                 </div>
               </div>
             </div>
@@ -37,21 +35,44 @@
             >
               <p-accordionTab transitionOptions="0ms">
                 <ng-template pTemplate="header">
-                  <i class="icon fas fa-play-circle fa-fw p-mr-2"></i> Playback
+                  <div class="p-flex-column flex-grow-1">
+                    <i class="icon fas fa-play-circle fa-fw p-mr-2"></i>
+                    Playback
+                  </div>
+                  <div class="p-flex-column">
+                    <p-calendar
+                      [(ngModel)]="playbackDate"
+                      [showIcon]="true"
+                      icon="fas fa-clock"
+                      inputId="icon"
+                      appendTo="body"
+                      class="only-icon"
+                      (click)="stopPropagation($event)"
+                      (onSelect)="onPlaybackCalendarSelect($event)"
+                      panelStyleClass="small"
+                      [showTime]="true"
+                      hourFormat="12"
+                    ></p-calendar>
+                  </div>
                 </ng-template>
                 <ng-template pTemplate="content">
-                  <div class="p-d-flex">
-                    <div class="p-flex-column flex-grow-1">
+                  <div class="p-d-flex p-ai-center">
+                    <div class="p-flex-column flex-grow-1 p-as-stretch">
                       <button
                         pButton
                         pRipple
                         type="button"
-                        label="Live"
-                        icon="fas fa-pause"
-                        class="p-button-sm p-button-xs p-button-outlined"
+                        [icon]="isPlaybackLive ? 'fas fa-pause' : 'fas fa-play'"
+                        class="
+                          btn-playback
+                          p-button-sm p-button-xs p-button-outlined
+                          height-100
+                        "
+                        [ngClass]="{ 'is-active': isPlaybackLive === true }"
+                        (click)="onTogglePlayback()"
                       ></button>
                     </div>
-                    <div class="p-flex-column p-align-right">
+                    <div class="p-flex-column p-text-right">
                       <button
                         pButton
                         pRipple
@@ -64,7 +85,9 @@
                           p-button-xs
                           p-button-outlined
                           p-mr-1
+                          p-mb-1
                         "
+                        (click)="onPlaybackIntervalChange(-1, 'day')"
                       ></button>
                       <button
                         pButton
@@ -78,20 +101,68 @@
                           p-button-xs
                           p-button-outlined
                           p-mr-1
+                          p-mb-1
                         "
+                        (click)="onPlaybackIntervalChange(-1, 'hour')"
                       ></button>
                       <button
                         pButton
                         pRipple
                         type="button"
-                        label="15m"
+                        label="5m"
                         icon="fas fa-chevron-left"
                         class="
                           p-button-secondary
                           p-button-sm
                           p-button-xs
                           p-button-outlined
+                          p-mb-1
                         "
+                        (click)="onPlaybackIntervalChange(-5, 'minute')"
+                      ></button>
+                      <button
+                        pButton
+                        pRipple
+                        type="button"
+                        label="1d"
+                        icon="fas fa-chevron-double-right"
+                        class="
+                          p-button-secondary
+                          p-button-sm
+                          p-button-xs
+                          p-button-outlined
+                          p-mr-1
+                        "
+                        (click)="onPlaybackIntervalChange(1, 'day')"
+                      ></button>
+                      <button
+                        pButton
+                        pRipple
+                        type="button"
+                        label="1hr"
+                        icon="fas fa-chevron-right"
+                        class="
+                          p-button-secondary
+                          p-button-sm
+                          p-button-xs
+                          p-button-outlined
+                          p-mr-1
+                        "
+                        (click)="onPlaybackIntervalChange(1, 'hour')"
+                      ></button>
+                      <button
+                        pButton
+                        pRipple
+                        type="button"
+                        label="5m"
+                        icon="fas fa-chevron-right"
+                        class="
+                          p-button-secondary
+                          p-button-sm
+                          p-button-xs
+                          p-button-outlined
+                        "
+                        (click)="onPlaybackIntervalChange(5, 'minute')"
                       ></button>
                     </div>
                   </div>
