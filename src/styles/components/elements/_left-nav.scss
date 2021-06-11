@@ -1,5 +1,6 @@
 .left-nav {
-  position: fixed;
+  position: relative;
+  float: left;
   left: 0;
   z-index: 3;
   nav {

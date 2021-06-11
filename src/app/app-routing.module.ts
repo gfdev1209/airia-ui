@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MsalGuard } from '@azure/msal-angular';
 import { LoginComponent } from './login/components/login/login.component';
 import { MapLayoutComponent } from './map/layouts/map-layout/map-layout.component';
+import { ReportLayoutComponent } from './report/layouts/report-layout/report-layout.component';
 import { InteriorLayoutComponent } from './shared/layouts/interior-layout/interior-layout.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
 
@@ -26,6 +27,19 @@ const routes: Routes = [
         path: '',
         component: MapLayoutComponent,
         loadChildren: () => import('./map/map.module').then((m) => m.MapModule),
+      },
+    ],
+    canActivate: [MsalGuard],
+  },
+  {
+    path: 'report',
+    component: InteriorLayoutComponent,
+    children: [
+      {
+        path: '',
+        component: ReportLayoutComponent,
+        loadChildren: () =>
+          import('./report/report.module').then((m) => m.ReportModule),
       },
     ],
     canActivate: [MsalGuard],

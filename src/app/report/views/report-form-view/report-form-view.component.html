@@ -1,0 +1,24 @@
+<div class="report-container">
+  <h2 class="p-m-0 p-p-0">Generate Report</h2>
+  <hr class="p-mt-4 p-mb-4" />
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-col-12 p-md-6">
+      <label for="reportTitle">Report Title</label>
+      <input id="reportTitle" type="text" pInputText />
+    </div>
+    <div class="p-field p-col-12 p-md-6">
+      <label for="reportMemo">Report Memo</label>
+      <input id="reportMemo" type="text" pInputText />
+    </div>
+    <div class="p-field p-col-12">
+      <label for="reportMemo">Email Report To</label>
+      <input id="reportMemo" type="text" pInputText />
+    </div>
+  </div>
+  <hr class="p-mt-4 p-mb-4" />
+  <h3 class="p-mb-0">Report Data</h3>
+  <p class="p-mt-1">
+    Select the alerts from the list below to add them to your custom report.
+  </p>
+  <app-alert-table></app-alert-table>
+</div>

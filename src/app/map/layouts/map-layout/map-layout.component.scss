@@ -1,6 +1,6 @@
 .application-view {
-  background-color: var(--background-color-shade-2);
   flex: 1;
+  height: 100%;
 }
 :host(app-map-layout) {
   display: flex;
