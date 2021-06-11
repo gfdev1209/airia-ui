@@ -1,6 +1,10 @@
 .interior-container {
+  position: relative;
+  // float: left;
   height: 100vh;
-  display: flex;
-  flex-direction: row;
-  padding: 0 0 0 $left-nav-width;
+  // left: var(--left-nav-width);
+  background-color: var(--background-color-shade-1);
+  // display: flex;
+  // flex-direction: row;
+  // padding: 0 0 0 $left-nav-width;
 }

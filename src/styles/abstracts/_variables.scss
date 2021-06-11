@@ -13,8 +13,8 @@ $checkbox-size-small: 18px;
 $border-radius: 6px;
 
 // Left Nav
-$left-nav-width: 60px;
-$left-nav-width-expanded: 180px;
+$left-nav-width: var(--left-nav-width);
+$left-nav-width-expanded: var(--left-nav-width-expanded);
 $left-nav-active-border-width: 4px;
 $left-nav-item-height: 44px;
 

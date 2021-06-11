@@ -1,0 +1,15 @@
+.p-tag {
+  padding: 0.25rem 1rem;
+  &.severity-0 {
+    background-color: var(--background-color-shade-4);
+  }
+  &.severity-1 {
+    background-color: $yellow;
+  }
+  &.severity-2 {
+    background-color: $red;
+  }
+  &.p-tag-info {
+    color: var(--text-input-background-color);
+  }
+}
