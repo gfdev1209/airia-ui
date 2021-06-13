@@ -63,7 +63,7 @@ $actionIconHoverColor: $textSecondaryColor;
 $actionIconBorderRadius: 50%;
 
 //input field (e.g. inputtext, spinner, inputmask)
-$inputPadding: 1rem 1rem;
+$inputPadding: 0.5rem 1rem;
 $inputTextFontSize: 1rem;
 $inputBg: var(--text-input-background-color);
 $inputTextColor: var(--text-color);
@@ -436,11 +436,11 @@ $editorContentBorder: $panelContentBorder;
 $editorContentBg: $panelContentBg;
 
 //paginator
-$paginatorBg: #ffffff;
+$paginatorBg: var(--background-color-shade-1);
 $paginatorTextColor: $textColor;
-$paginatorBorder: solid #e4e4e4;
+$paginatorBorder: solid var(--background-color-shade-2);
 $paginatorBorderWidth: 0;
-$paginatorPadding: 0.5rem 1rem;
+$paginatorPadding: 1rem 1rem;
 $paginatorElementWidth: $buttonIconOnlyWidth;
 $paginatorElementHeight: $buttonIconOnlyWidth;
 $paginatorElementBg: transparent;
@@ -456,35 +456,35 @@ $paginatorElementPadding: 0;
 //table
 $tableHeaderBorder: 1px solid #e4e4e4;
 $tableHeaderBorderWidth: 0 0 1px 0;
-$tableHeaderBg: #ffffff;
+$tableHeaderBg: var(--background-color-shade-2);
 $tableHeaderTextColor: $textColor;
 $tableHeaderFontWeight: 500;
-$tableHeaderPadding: 1rem 1rem;
+$tableHeaderPadding: 0.5rem 1rem;
 
-$tableHeaderCellPadding: 1rem 1rem;
-$tableHeaderCellBg: #ffffff;
+$tableHeaderCellPadding: 0.75rem 1rem;
+$tableHeaderCellBg: var(--text-input-background-color);
 $tableHeaderCellTextColor: $textColor;
 $tableHeaderCellFontWeight: 500;
-$tableHeaderCellBorder: 1px solid #e4e4e4;
+$tableHeaderCellBorder: 1px solid var(--text-input-background-color);
 $tableHeaderCellBorderWidth: 0 0 1px 0;
-$tableHeaderCellHoverBg: rgba(0, 0, 0, 0.04);
+$tableHeaderCellHoverBg: var(--background-color-shade-2);
 $tableHeaderCellTextHoverColor: $textColor;
 $tableHeaderCellIconColor: $textSecondaryColor;
 $tableHeaderCellIconHoverColor: $textSecondaryColor;
-$tableHeaderCellHighlightBg: #ffffff;
+$tableHeaderCellHighlightBg: var(--background-color-shade-2);
 $tableHeaderCellHighlightTextColor: $textColor;
-$tableHeaderCellHighlightHoverBg: rgba(0, 0, 0, 0.04);
+$tableHeaderCellHighlightHoverBg: var(--background-color-shade-2);
 $tableHeaderCellHighlightTextHoverColor: $textColor;
 $tableSortableColumnBadgeSize: 1.143rem;
 
-$tableBodyRowBg: var(--background-color);
+$tableBodyRowBg: var(--background-color-shade-1);
 $tableBodyRowTextColor: $textColor;
 $tableBodyRowEvenBg: rgba(0, 0, 0, 0.02);
 $tableBodyRowHoverBg: rgba(0, 0, 0, 0.04);
 $tableBodyRowTextHoverColor: $textColor;
-$tableBodyCellBorder: 1px solid #e4e4e4;
+$tableBodyCellBorder: 1px solid var(--text-input-background-color);
 $tableBodyCellBorderWidth: 0 0 1px 0;
-$tableBodyCellPadding: 1rem 1rem;
+$tableBodyCellPadding: 0.5rem 1rem;
 
 $tableFooterCellPadding: 1rem 1rem;
 $tableFooterCellBg: #ffffff;

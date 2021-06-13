@@ -18,6 +18,9 @@
   .standard .p-panel-content {
     background: var(--background-color-shade-1);
     border-color: var(--background-color-shade-2);
+    border-top: none;
+    border-right: none;
+    border-left: none;
   }
 
   .p-toggleable-content {
@@ -27,6 +30,7 @@
     overflow: scroll;
     height: inherit;
     background: var(--background-color);
+    border: none;
   }
 
   .p-message-custom {

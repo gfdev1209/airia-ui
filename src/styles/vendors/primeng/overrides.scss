@@ -29,3 +29,6 @@ $fontSize: var(--font-size);
     rgba(255, 255, 255, 0)
   );
 }
+.p-virtualscroller .p-virtualscroller-content {
+  background: var(--background-color);
+}

@@ -1,5 +1,6 @@
 <div *ngIf="alerts">
   <p-table
+    class="report-table"
     [value]="alerts"
     [(selection)]="selectedAlerts"
     [paginator]="true"
@@ -7,7 +8,8 @@
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [rowsPerPageOptions]="[10, 25, 50]"
-    [globalFilterFields]="['severity']"
+    [globalFilterFields]="['createdAt']"
+    [responsive]="true"
     dataKey="id"
   >
     <ng-template pTemplate="header">
@@ -15,10 +17,10 @@
         <th style="width: 3rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
-        <th pSortableColumn="createdAt">
+        <th style="width: 175px" pSortableColumn="createdAt">
           Date <p-sortIcon field="createdAt"></p-sortIcon>
         </th>
-        <th pSortableColumn="message">
+        <th style="width: 33%" pSortableColumn="message">
           Alert <p-sortIcon field="message"></p-sortIcon>
         </th>
         <th pSortableColumn="severity">
@@ -27,6 +29,9 @@
         <th pSortableColumn="type">
           Type <p-sortIcon field="type"></p-sortIcon>
         </th>
+        <!-- <th pSortableColumn="buildingId">
+          Tag <p-sortIcon field="buildingId"></p-sortIcon>
+        </th> -->
         <th pSortableColumn="buildingId">
           Building <p-sortIcon field="buildingId"></p-sortIcon>
         </th>
@@ -35,13 +40,11 @@
         <th style="width: 3rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
-        <th></th>
         <th>
-          <p-columnFilter
-            type="text"
-            field="message"
-            display="menu"
-          ></p-columnFilter>
+          <p-columnFilter type="date" field="createdAt"></p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter type="text" field="message"></p-columnFilter>
         </th>
         <th>
           <p-columnFilter field="severity" matchMode="in" [showMenu]="false">
@@ -100,7 +103,31 @@
             </ng-template>
           </p-columnFilter>
         </th>
-        <th></th>
+        <th>
+          <p-columnFilter field="buildingId" matchMode="in" [showMenu]="false">
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <p-multiSelect
+                [ngModel]="value"
+                [options]="buildingList"
+                placeholder="Any"
+                optionLabel="label"
+                optionValue="value"
+                (onChange)="filter($event.value)"
+                [showHeader]="false"
+              >
+                <ng-template let-option pTemplate="item">
+                  <div class="p-multiselect-representative-option">
+                    {{ option.label }}
+                  </div>
+                </ng-template>
+              </p-multiSelect>
+            </ng-template>
+          </p-columnFilter>
+        </th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-alert>
@@ -108,7 +135,7 @@
         <td>
           <p-tableCheckbox [value]="alert"></p-tableCheckbox>
         </td>
-        <td>{{ alert.createdAt | date }}</td>
+        <td>{{ alert.createdAt | date: "medium" }}</td>
         <td>
           {{ alert.message }}
         </td>

@@ -20,7 +20,11 @@ small .p-checkbox {
     height: $checkbox-size-small;
     width: $checkbox-size-small;
     .p-checkbox-icon {
-      font-size: 10px;
+      font-size: 12px;
+      &.pi-check:before {
+        top: 8px;
+        left: 2px;
+      }
     }
   }
 }

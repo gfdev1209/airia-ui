@@ -1,0 +1,55 @@
+.p-datatable-wrapper {
+  border: 1px solid var(--text-input-border-color);
+}
+.p-datatable .p-datatable-thead > tr:nth-child(2) > th {
+  background: var(--background-color-shade-1);
+  padding: 0.5rem 1rem;
+}
+.p-datatable {
+  .p-column-filter-clear-button,
+  .p-column-filter-menu-button {
+    color: var(--text-medium-color);
+  }
+}
+.p-column-filter-row p-columnfilterformelement {
+  margin-right: 0.5rem;
+}
+.p-column-filter-overlay {
+  background: var(--text-input-background-color);
+  padding: 1rem;
+  box-shadow: $panel-box-shadow;
+
+  .p-inputtext {
+    padding: 0.35rem 0.75rem;
+    font-size: small;
+  }
+  .p-column-filter-row-item {
+    padding: 0.5rem 1rem;
+    min-width: 160px;
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
+  .p-column-filter-separator {
+    border-top: 1px solid var(--background-color-shade-2);
+  }
+  .p-column-filter-row-item.p-highlight {
+    background: var(--background-color-shade-2);
+    color: var(--primary-color);
+  }
+  li.p-column-filter-row-item:hover {
+    background: var(--background-color-shade-2);
+  }
+  .p-column-filter-operator,
+  .p-column-filter-constraints,
+  .p-column-filter-add-rule,
+  .p-calendar {
+    margin: 0 0 1rem 0;
+  }
+  .p-calendar {
+    margin-top: 0.5rem;
+  }
+}
+
+.p-column-filter .p-datepicker {
+  width: 400px;
+}
