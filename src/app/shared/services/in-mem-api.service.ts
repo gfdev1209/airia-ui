@@ -17,6 +17,7 @@ export class InMemApiService implements InMemoryDbService {
     },
     {
       id: 2,
+      buildingId: 1,
       message: 'Medium level alert, attention needed.',
       createdAt: this.getRandomDate(new Date(2021, 2), new Date()),
       severity: 1,
@@ -24,6 +25,7 @@ export class InMemApiService implements InMemoryDbService {
     },
     {
       id: 3,
+      buildingId: 2,
       message: 'Soder Hall network health is optimal.',
       createdAt: this.getRandomDate(new Date(2021, 2), new Date()),
       severity: 0,

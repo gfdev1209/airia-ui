@@ -1,12 +1,12 @@
 .p-panel {
   .p-panel-header {
-    border-radius: 12px 12px 0 0;
+    border-radius: $border-radius $border-radius 0 0;
     .p-panel-title {
       font-size: 1rem;
     }
   }
   .p-panel-content {
-    border-radius: 0 0 12px 12px;
+    border-radius: 0 0 $border-radius $border-radius;
   }
 }
 .p-scrollpanel {

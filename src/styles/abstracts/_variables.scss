@@ -8,9 +8,12 @@ $breakPoint-xl: 1200px;
 $input-width: 480px;
 $input-height: 36px;
 $checkbox-size: 28px;
-$checkbox-size-small: 18px;
+$checkbox-size-small: 20px;
 
 $border-radius: 6px;
+
+// Box shadow
+$panel-box-shadow: 0 2px 5px 0px #000;
 
 // Left Nav
 $left-nav-width: var(--left-nav-width);

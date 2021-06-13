@@ -1,0 +1,25 @@
+p-table.report-table {
+  .p-datatable-tbody > tr > td {
+    font-size: smaller;
+  }
+  .p-multiselect .p-multiselect-label,
+  .p-inputtext {
+    padding: 0.35rem 1rem;
+    font-size: small;
+  }
+  .p-checkbox {
+    height: $checkbox-size-small;
+    width: $checkbox-size-small;
+    .p-checkbox-box {
+      height: $checkbox-size-small;
+      width: $checkbox-size-small;
+      .p-checkbox-icon {
+        font-size: 12px;
+        &.pi-check:before {
+          top: 8px;
+          left: 2px;
+        }
+      }
+    }
+  }
+}
