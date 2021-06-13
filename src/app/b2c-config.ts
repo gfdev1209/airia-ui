@@ -1,3 +1,5 @@
+import { environment } from 'src/environments/environment';
+
 /**
  * Enter here the user flows and custom policies for your B2C application
  * To learn more about user flows, visit: https://docs.microsoft.com/en-us/azure/active-directory-b2c/user-flow-overview
@@ -5,20 +7,18 @@
  */
 export const b2cPolicies = {
   names: {
-    signUpSignIn: 'B2C_1_airiasignupin',
-    editProfile: 'B2C_1_airiaprofile',
+    signUpSignIn: environment.b2cNameSignUpSignIn,
+    editProfile: environment.b2cNameEditProfile,
   },
   authorities: {
     signUpSignIn: {
-      authority:
-        'https://airia20develop.b2clogin.com/airia20develop.onmicrosoft.com/B2C_1_airiasignupin',
+      authority: environment.b2cAuthoritySignUpSignIn,
     },
     editProfile: {
-      authority:
-        'https://airia20develop.b2clogin.com/airia20develop.onmicrosoft.com/B2C_1_airiaprofile',
+      authority: environment.b2cAuthorityEditProfile,
     },
   },
-  authorityDomain: 'airia20develop.b2clogin.com',
+  authorityDomain: environment.b2cAuthorityDomain,
 };
 
 /**
@@ -26,6 +26,6 @@ export const b2cPolicies = {
  * The current application coordinates were pre-registered in a B2C tenant.
  */
 export const apiConfig: { scopes: string[]; uri: string } = {
-  scopes: ['https://airia20develop.onmicrosoft.com/api/demo.read'],
-  uri: 'https://api.dev.airia20.com',
+  scopes: environment.b2cScopes,
+  uri: environment.b2cApiUrl,
 };

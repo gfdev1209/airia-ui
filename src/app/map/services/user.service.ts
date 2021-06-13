@@ -11,7 +11,7 @@ export class UserService {
 
   getUserDetails(): Observable<any> {
     return this.http
-      .get('https://api.dev.airia20.com/api/Users/Self')
+      .get('https://api.stuartshome.airia20.com/api/AccessPoints')
       .pipe(tap((response) => console.log('self', response)));
   }
 }
