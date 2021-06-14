@@ -14,7 +14,7 @@ export class BaseService {
     @Inject(String) protected apiName: string,
     protected http: HttpClient
   ) {
-    this.apiUrl += 'api/' + apiName;
+    this.apiUrl += apiName;
   }
 
   getAll<T>(): Observable<T> {

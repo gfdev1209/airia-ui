@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class UserService {
 
   getUserDetails(): Observable<any> {
     return this.http
-      .get('https://api.stuartshome.airia20.com/api/AccessPoints')
+      .get(`${environment.apiUrl}AccessPoints`)
       .pipe(tap((response) => console.log('self', response)));
   }
 }
