@@ -107,10 +107,10 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
       maxAge: 20,
       logOnly: environment.production,
     }),
-    HttpClientInMemoryWebApiModule.forRoot(InMemApiService, {
-      delay: 500,
-      passThruUnknownUrl: true,
-    }),
+    // HttpClientInMemoryWebApiModule.forRoot(InMemApiService, {
+    //   delay: 500,
+    //   passThruUnknownUrl: true,
+    // }),
     NgxMapboxGLModule.withConfig({
       accessToken:
         'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',

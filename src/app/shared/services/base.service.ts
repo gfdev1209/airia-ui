@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { retry, catchError, tap, map, share } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Location } from '@map/models';
 
 @Injectable({
   providedIn: 'root',
@@ -20,10 +21,23 @@ export class BaseService {
   getAll<T>(): Observable<T> {
     return this.http.get(`${this.apiUrl}/`).pipe(
       retry(2),
-      map((response: any) => response as T),
+      map((response: any) => this.mapResponseToObject<T>(response)),
+      catchError((error) => {
+        return this.handleError(error);
+      }),
       share()
     );
   }
+  mapResponseToObject<T>(response: any): T {
+    throw new Error('mapResponseToObject must be set in specified service');
+    // const mapped = response.map((responseJson: any) =>
+    //   this.factory<T>(responseJson)
+    // );
+    // return mapped;
+  }
+  // factory<T>(C: new (args: any) => T, args?: any): Location {
+  //   return new Location(args);
+  // }
 
   get<T>(id: number): Observable<T> {
     return this.http

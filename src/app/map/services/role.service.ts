@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from '@shared/services/base.service';
-import { User } from '@map/models';
+import { Role } from '@map/models';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserService extends BaseService {
+export class AlertService extends BaseService {
   constructor(private httpClient: HttpClient) {
-    super('Users', httpClient);
+    super('Roles', httpClient);
   }
 
   mapResponseToObject<T>(response: any): T {
-    return response.map((responseJson: any) => new User(responseJson));
+    return response.map((responseJson: any) => new Role(responseJson));
   }
 }

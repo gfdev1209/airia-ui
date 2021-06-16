@@ -5,6 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { AlertSeverity } from '@map/enums';
 import { Alert } from '../../models';
 
 @Component({
@@ -17,6 +18,8 @@ export class AlertPreviewViewComponent {
   @Input() alert?: Alert;
   @Input() isSelected = false;
   @Output() alertSelected = new EventEmitter<Alert>();
+
+  AlertSeverityEnum = AlertSeverity;
 
   constructor() {}
 

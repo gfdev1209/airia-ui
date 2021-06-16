@@ -1,13 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseService } from '@shared/services/base.service';
+import { Location } from '@map/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocationService extends BaseService {
   constructor(private httpClient: HttpClient) {
-    super('locations', httpClient);
+    super('Locations', httpClient);
+  }
+
+  mapResponseToObject<T>(response: any): T {
+    return response.map((responseJson: any) => new Location(responseJson));
   }
 
   // getAll(): Observable<Location[]> {

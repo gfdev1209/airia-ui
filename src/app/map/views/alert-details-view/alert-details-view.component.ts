@@ -16,6 +16,7 @@ import {
 
 import { Message } from 'primeng/api';
 import { Alert } from '../../models';
+import { AlertSeverity } from '@map/enums';
 
 @Component({
   selector: 'app-alert-details-view',
@@ -44,6 +45,8 @@ export class AlertDetailsViewComponent implements OnInit {
   @Input() alert?: Alert | null;
 
   @Output() closeAlert = new EventEmitter();
+
+  AlertSeverityEnum = AlertSeverity;
 
   messages: Message[] = [
     {

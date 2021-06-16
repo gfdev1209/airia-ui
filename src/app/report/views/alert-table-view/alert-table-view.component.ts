@@ -21,16 +21,6 @@ export class AlertTableViewComponent implements OnChanges {
   @Input() alerts: Alert[] | null = [];
   @Input() buildings: Building[] | null = [];
 
-  alerts2: Alert[] = [
-    {
-      id: 1,
-      severity: AlertSeverity.High,
-      type: AlertType.Access_Point_Offline,
-      message: 'test',
-      createdAt: new Date(),
-    },
-  ];
-
   AlertSeverityName = AlertSeverity;
   AlertTypeName = AlertType;
 

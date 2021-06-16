@@ -135,7 +135,7 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
   };
 
   sort(order: number): void {
-    if (this.alerts) {
+    if (this.alerts && this.alerts.length > 0) {
       const alerts = [...this.alerts];
       alerts.sort((data1, data2) => {
         let value1: any;

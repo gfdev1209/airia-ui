@@ -1,5 +1,5 @@
 export enum AlertSeverity {
-  Low = 0,
-  Medium,
-  High,
+  Low = 'low',
+  Medium = 'medium',
+  High = 'high',
 }

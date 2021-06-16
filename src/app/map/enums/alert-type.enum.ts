@@ -1,8 +1,8 @@
 export enum AlertType {
-  Low_Capacity = 0,
-  High_Capacity,
-  Covid_Capacity,
-  Access_Point_Offline,
-  Access_Point_Online,
-  Network_Health,
+  Low_Capacity = 'low capacity',
+  High_Capacity = 'high capacity',
+  Covid_Capacity = 'covid capacity',
+  Access_Point_Offline = 'access point offline',
+  Access_Point_Online = 'access point online',
+  Network_Health = 'network health',
 }

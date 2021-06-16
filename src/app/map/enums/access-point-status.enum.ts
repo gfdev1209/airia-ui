@@ -1,4 +1,4 @@
 export enum AccessPointStatus {
-  Offline = 0,
-  Online = 1,
+  Offline = 'offline',
+  Online = 'online',
 }
