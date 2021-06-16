@@ -27,7 +27,9 @@ export class MapComponent implements OnInit, OnDestroy {
   locations$ = this.store.select(LocationSelectors.selectAll).pipe(
     tap((locations) => {
       if (locations?.length > 0) {
-        this.store.dispatch(LocationActions.select({ id: locations[0].id }));
+        this.store.dispatch(
+          LocationActions.select({ id: locations[0].locationId })
+        );
         this.store.dispatch(BuildingActions.getAll());
       }
     })
@@ -63,7 +65,6 @@ export class MapComponent implements OnInit, OnDestroy {
     if (accounts?.length > 0) {
       this.accountInfo = accounts[0];
       console.log(this.accountInfo);
-      this.userService.getUserDetails().subscribe();
     }
     this.zoomIn$ = this.mapService.zoomIn$.subscribe(() =>
       this.mapView?.onZoomIn()

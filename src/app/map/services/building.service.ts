@@ -10,7 +10,11 @@ import { HttpClient } from '@angular/common/http';
 })
 export class BuildingService extends BaseService {
   constructor(private httpClient: HttpClient) {
-    super('buildings', httpClient);
+    super('Buildings', httpClient);
+  }
+
+  mapResponseToObject<T>(response: any): T {
+    return response.map((responseJson: any) => new Building(responseJson));
   }
 
   // getAll(): Observable<Building[]> {
