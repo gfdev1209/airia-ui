@@ -5,15 +5,11 @@ import * as BuildingSelectors from '@store/building/building.selectors';
 import * as BuildingActions from '@store/building/building.actions';
 import * as LocationActions from '@store/location/location.actions';
 import * as LocationSelectors from '@store/location/location.selectors';
-import { filter, tap } from 'rxjs/operators';
-import { MsalService, MsalBroadcastService } from '@azure/msal-angular';
-import {
-  EventMessage,
-  EventType,
-  AuthenticationResult,
-  AccountInfo,
-} from '@azure/msal-browser';
-import { UserService } from '@map/services/user.service';
+import * as AccessPointActions from '@store/access-point/access-point.actions';
+import * as AccessPointSelectors from '@store/access-point/access-point.selectors';
+import { tap } from 'rxjs/operators';
+import { MsalService } from '@azure/msal-angular';
+import { AccountInfo } from '@azure/msal-browser';
 import { MapService } from '@map/services/map.service';
 import { MapViewComponent } from '@map/views/map-view/map-view.component';
 import { Subscription } from 'rxjs';
@@ -31,6 +27,7 @@ export class MapComponent implements OnInit, OnDestroy {
           LocationActions.select({ id: locations[0].locationId })
         );
         this.store.dispatch(BuildingActions.getAll());
+        this.store.dispatch(AccessPointActions.getAll());
       }
     })
   );
@@ -44,6 +41,8 @@ export class MapComponent implements OnInit, OnDestroy {
   showBuildingOverview$ = this.store.select(
     BuildingSelectors.selectShowOverview
   );
+  accessPoints$ = this.store.select(AccessPointSelectors.selectAll);
+
   zoomIn$: Subscription = new Subscription();
   zoomOut$: Subscription = new Subscription();
 
@@ -54,7 +53,6 @@ export class MapComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<RootState>,
     private authService: MsalService,
-    private userService: UserService,
     private mapService: MapService
   ) {
     this.store.dispatch(LocationActions.getAll());

@@ -1,0 +1,25 @@
+.mapboxgl-map {
+  font-family: var(--body-font-family);
+  font-weight: var(--body-font-weight);
+  font: 12px/20px var(--body-font-family);
+}
+.mapboxgl-popup-content {
+  background: var(--background-color-contrast);
+  box-shadow: $panel-box-shadow;
+  color: var(--text-medium-dark-color);
+}
+.mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+  border-top-color: var(--background-color-contrast);
+}
+.mapboxgl-popup-anchor-top .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip {
+  border-bottom-color: var(--background-color-contrast);
+}
+.mapboxgl-popup-anchor-left .mapboxgl-popup-tip {
+  border-right-color: var(--background-color-contrast);
+}
+.mapboxgl-popup-anchor-right .mapboxgl-popup-tip {
+  border-left-color: var(--background-color-contrast);
+}

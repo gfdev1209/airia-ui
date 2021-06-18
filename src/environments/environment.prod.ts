@@ -1,6 +1,9 @@
 export const environment = {
   production: true,
   apiUrl: '',
+  // MapBox
+  mapboxAccessToken:
+    'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',
   // Azure B2C Configuration
   b2cClientId: '0d65b9b8-d654-481f-95d1-244fa3e6275b',
   b2cNameSignUpSignIn: 'B2C_1_airiasignupin',

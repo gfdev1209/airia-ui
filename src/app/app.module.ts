@@ -11,7 +11,6 @@ import {
   MSAL_INSTANCE,
   MSAL_INTERCEPTOR_CONFIG,
   MsalGuardConfiguration,
-  MsalRedirectComponent,
 } from '@azure/msal-angular';
 import {
   IPublicClientApplication,
@@ -39,6 +38,7 @@ import { AlertEffects } from './store/alert/alert.effects';
 import { BuildingEffects } from './store/building/building.effects';
 
 import { b2cPolicies, apiConfig } from './b2c-config';
+import { AccessPointEffects } from '@store/access-point/access-point.effects';
 
 const isIE =
   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
@@ -101,19 +101,15 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
       AlertEffects,
       BuildingEffects,
       LocationEffects,
+      AccessPointEffects,
       FloorEffects,
     ]),
     StoreDevtoolsModule.instrument({
       maxAge: 20,
       logOnly: environment.production,
     }),
-    // HttpClientInMemoryWebApiModule.forRoot(InMemApiService, {
-    //   delay: 500,
-    //   passThruUnknownUrl: true,
-    // }),
     NgxMapboxGLModule.withConfig({
-      accessToken:
-        'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',
+      accessToken: environment.mapboxAccessToken,
     }),
   ],
   exports: [NgxMapboxGLModule],

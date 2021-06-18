@@ -7,9 +7,10 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import * as mapboxgl from 'mapbox-gl';
 import { Map, MapboxGeoJSONFeature, Point, SymbolLayer } from 'mapbox-gl';
 import { of } from 'rxjs';
-import { Building, Location } from '../../models';
+import { AccessPoint, Building, Location } from '../../models';
 
 @Component({
   selector: 'app-map-view',
@@ -21,6 +22,8 @@ export class MapViewComponent implements OnChanges {
   @Input() selectedLocation: Location | null = null;
   @Input() buildings: Building[] | null = [];
   @Input() selectedBuilding?: Building | null;
+  @Input() accessPoints: AccessPoint[] | null = [];
+
   @Input() showBuildingOverview: boolean | null = false;
 
   @Output() flyToBuildingComplete = new EventEmitter();
@@ -38,7 +41,6 @@ export class MapViewComponent implements OnChanges {
         changes.selectedBuilding.currentValue.coordLongitude
       );
     }
-    console.log(changes);
     if (changes.zoomIn?.firstChange === false) {
       this.onZoomIn();
     }
@@ -120,6 +122,59 @@ export class MapViewComponent implements OnChanges {
         'fill-opacity': 1.0,
       },
     });
+    console.log(this.accessPoints);
+    // Add an image to use as a custom marker
+    const pointArr: any[] = [];
+    if (this.accessPoints) {
+      this.accessPoints.forEach((accessPoint) => {
+        pointArr.push({
+          type: 'Feature',
+          id: accessPoint.id,
+          geometry: {
+            type: 'Point',
+            coordinates: [
+              accessPoint.coordLongitude,
+              accessPoint.coordLatitude,
+            ],
+          },
+          properties: {
+            id: accessPoint.id,
+            name: accessPoint.name,
+          },
+        });
+      });
+    }
+    // Add a GeoJSON source with all access points
+    map.addSource('access-point-source', {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: pointArr,
+      },
+      cluster: true,
+      clusterMaxZoom: 14, // Max zoom to cluster points on
+      clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
+    });
+
+    // Add a symbol layer
+    map.addLayer({
+      id: 'access-points',
+      type: 'circle',
+      source: 'access-point-source',
+      paint: {
+        'circle-color': '#3a3355',
+        'circle-radius': {
+          base: 1.75,
+          stops: [
+            [12, 1],
+            [22, 10],
+          ],
+        },
+        'circle-stroke-width': 2,
+        'circle-stroke-color': '#ffffff',
+      },
+    });
+
     // if (this.buildings) {
     //   for (const building of this.buildings) {
     //     if (building) {
@@ -144,6 +199,9 @@ export class MapViewComponent implements OnChanges {
   }
   isFeatureBuilding(feature: MapboxGeoJSONFeature): boolean {
     return feature.layer.id.toString() === '3d-buildings';
+  }
+  isFeatureAccessPoint(feature: MapboxGeoJSONFeature): boolean {
+    return feature.layer.id.toString() === 'access-points';
   }
   mapMouseMove(event: any): void {
     if (this.map) {
@@ -192,14 +250,34 @@ export class MapViewComponent implements OnChanges {
     const features = this.map.queryRenderedFeatures(
       new Point(event.point.x, event.point.y)
     );
-    features.forEach((feature) => {
-      if (this.isFeatureBuilding(feature) && feature.id) {
-        console.log(feature);
+    features.some((feature) => {
+      if (this.isFeatureAccessPoint(feature)) {
+        console.log('access point', feature);
+        console.log(feature.geometry);
+        console.log(feature.geometry.type);
+        if (feature.geometry.type === 'Point') {
+          const coordinates =
+            feature.geometry.coordinates.slice() as mapboxgl.LngLatLike;
+          new mapboxgl.Popup()
+            .setLngLat(coordinates)
+            .setHTML(feature.properties?.name)
+            .addTo(this.map);
+        }
+        // const coordinates = feature.geometry['coordinates'].slice();
+        // new mapboxgl.Popup()
+        //   .setLngLat(coordinates)
+        //   .setHTML('this is the desc')
+        //   .addTo(this.map);
+        return true;
+      } else if (this.isFeatureBuilding(feature) && feature.id) {
+        console.log('building', feature);
         console.log(feature.id);
         console.log(feature.geometry); // feature.geometry getter returns building shape points (basement)
         console.log('height', feature?.properties?.height); // this is the building height
         this.clickedBuildingId.emit(+feature.id);
+        return true;
       }
+      return false;
     });
   }
 }

@@ -17,6 +17,9 @@ $brand-primary-color-dark: var(--primary-color);
 $background-color: $white;
 $background-color-dark: $black;
 
+$background-color-contrast: $black;
+$background-color-contrast-dark: $white;
+
 $background-color-shade-1: #ebeef0;
 $background-color-shade-1-dark: $darker-grey;
 
@@ -57,6 +60,10 @@ $colors: (
   --background-color: (
     $background-color,
     $background-color-dark,
+  ),
+  --background-color-contrast: (
+    $background-color-contrast,
+    $background-color-contrast-dark,
   ),
   --background-color-shade-1: (
     $background-color-shade-1,
