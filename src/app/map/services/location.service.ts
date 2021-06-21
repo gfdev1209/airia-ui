@@ -12,6 +12,9 @@ export class LocationService extends BaseService {
   }
 
   mapResponseToObject<T>(response: any): T {
+    return new Location(response) as any;
+  }
+  mapArrayResponseToObject<T>(response: any): T {
     return response.map((responseJson: any) => new Location(responseJson));
   }
 

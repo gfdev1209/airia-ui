@@ -42,6 +42,9 @@ export class MapComponent implements OnInit, OnDestroy {
     BuildingSelectors.selectShowOverview
   );
   accessPoints$ = this.store.select(AccessPointSelectors.selectAll);
+  selectedAccessPoint$ = this.store.select(
+    AccessPointSelectors.selectSelectedAccessPoint
+  );
 
   zoomIn$: Subscription = new Subscription();
   zoomOut$: Subscription = new Subscription();
@@ -77,6 +80,9 @@ export class MapComponent implements OnInit, OnDestroy {
   }
   clickedBuildingId(mapboxId: number): void {
     this.store.dispatch(BuildingActions.selectByMapboxId({ mapboxId }));
+  }
+  clickedAccessPoint(id: number): void {
+    this.store.dispatch(AccessPointActions.select({ id }));
   }
   ngOnDestroy(): void {
     this.zoomIn$?.unsubscribe();

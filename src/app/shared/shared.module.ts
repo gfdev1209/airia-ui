@@ -25,6 +25,7 @@ import { CalendarModule as PrimeCalendarModule } from 'primeng/calendar';
 import { TagModule as PrimeTagModule } from 'primeng/tag';
 import { MultiSelectModule as PrimeMultiSelectModule } from 'primeng/multiselect';
 import { ContextMenuModule as PrimeContextMenuModule } from 'primeng/contextmenu';
+import { ProgressSpinnerModule as PrimeProgressSpinnerModule } from 'primeng/progressspinner';
 
 // Components
 import { LeftNavComponent } from './components/left-nav/left-nav.component';
@@ -73,6 +74,7 @@ import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
     PrimeMultiSelectModule,
     PrimeTagModule,
     PrimeContextMenuModule,
+    PrimeProgressSpinnerModule,
   ],
   exports: [
     // Components
@@ -97,6 +99,7 @@ import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
     PrimeAutoCompleteModule,
     PrimeCalendarModule,
     PrimeMultiSelectModule,
+    PrimeProgressSpinnerModule,
     PrimeTagModule,
     PrimeContextMenuModule,
     // Pipes

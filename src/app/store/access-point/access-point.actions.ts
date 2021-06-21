@@ -10,6 +10,18 @@ export const getAllFailed = createAction(
   '[Map Effect] Get All Access Points Failed'
 );
 
+export const get = createAction(
+  '[Access Point Panel] Get Access Point',
+  props<{ id: number }>()
+);
+export const getSuccess = createAction(
+  '[Access Point Effect] Get Access Point Success',
+  props<{ accessPoint: AccessPoint }>()
+);
+export const getFailed = createAction(
+  '[Access Point Effect] Get Access Point Failed'
+);
+
 export const select = createAction(
   '[Access Point Panel] Select Access Point',
   props<{ id: number }>()

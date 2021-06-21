@@ -12,6 +12,9 @@ export class DeviceService extends BaseService {
   }
 
   mapResponseToObject<T>(response: any): T {
+    return new Device(response) as any;
+  }
+  mapArrayResponseToObject<T>(response: any): T {
     return response.map((responseJson: any) => new Device(responseJson));
   }
 }

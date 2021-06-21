@@ -1,6 +1,6 @@
 .search-bar {
   ::ng-deep .p-autocomplete.p-inputtext-sm .p-autocomplete-input {
     width: 300px;
-    background: var(--background-color);
+    background-color: rgba(var(--background-color-RGB), 0.65);
   }
 }

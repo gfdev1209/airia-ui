@@ -21,24 +21,40 @@ export const accessPointReducer = createReducer(
       loading: false,
     };
   }),
-  on(Actions.select, (state) => {
+  on(Actions.get, (state) => {
     return {
       ...state,
       loading: true,
     };
   }),
-  on(Actions.selectSuccess, (state, { accessPoint }) => ({
+  on(Actions.getSuccess, (state, { accessPoint }) => ({
     ...state,
-    selected: accessPoint,
     loading: false,
     loaded: true,
   })),
-  on(Actions.selectFailed, (state) => {
+  on(Actions.getFailed, (state) => {
     return {
       ...state,
       loading: false,
     };
   }),
+  on(Actions.select, (state, { id }) => ({
+    ...state,
+    selected: state.entities[id],
+    loading: false,
+  })),
+  // on(Actions.selectSuccess, (state, { accessPoint }) => ({
+  //   ...state,
+  //   selected: accessPoint,
+  //   loading: false,
+  //   loaded: true,
+  // })),
+  // on(Actions.selectFailed, (state) => {
+  //   return {
+  //     ...state,
+  //     loading: false,
+  //   };
+  // }),
   on(Actions.deselect, (state) => {
     return {
       ...state,

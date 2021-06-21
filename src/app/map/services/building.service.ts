@@ -12,8 +12,10 @@ export class BuildingService extends BaseService {
   constructor(private httpClient: HttpClient) {
     super('Buildings', httpClient);
   }
-
   mapResponseToObject<T>(response: any): T {
+    return new Building(response) as any;
+  }
+  mapArrayResponseToObject<T>(response: any): T {
     return response.map((responseJson: any) => new Building(responseJson));
   }
 

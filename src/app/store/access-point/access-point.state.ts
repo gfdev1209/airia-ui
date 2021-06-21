@@ -2,7 +2,7 @@ import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { AccessPoint } from '@map/models';
 
 export interface AccessPointState extends EntityState<AccessPoint> {
-  selected: AccessPoint | null;
+  selected: AccessPoint | null | undefined;
   loaded: boolean;
   loading: boolean;
 }
