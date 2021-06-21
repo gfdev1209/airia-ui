@@ -4,17 +4,12 @@
   }
   .mapboxgl-popup-content {
     padding: 0;
-    background: none;
-  }
-  .p-panel .p-panel-content,
-  .p-panel .p-panel-header {
-    background: var(--background-color);
   }
   .p-panel .p-panel-content {
-    border: none;
+    // border: none;
   }
   .p-panel .p-panel-header {
-    border: none;
+    // border: none;
     border-bottom: 1px solid var(--background-color-shade-2);
   }
 }

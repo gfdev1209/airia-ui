@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, delay, map, mergeMap, tap } from 'rxjs/operators';
 import { AccessPoint } from '@map/models';
 import { of } from 'rxjs';
 import * as AccessPointActions from './access-point.actions';
@@ -35,15 +35,15 @@ export class AccessPointEffects {
     )
   );
 
-  select$ = createEffect(() =>
+  get$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AccessPointActions.select),
+      ofType(AccessPointActions.get),
       mergeMap(({ id }) =>
         this.accessPointService.get<AccessPoint>(id).pipe(
           map((accessPoint: AccessPoint) =>
-            AccessPointActions.selectSuccess({ accessPoint })
+            AccessPointActions.getSuccess({ accessPoint })
           ),
-          catchError(() => of(AccessPointActions.selectFailed()))
+          catchError(() => of(AccessPointActions.getFailed()))
         )
       )
     )

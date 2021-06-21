@@ -1,6 +1,8 @@
 <mgl-map
   *ngIf="selectedLocation"
   [style]="'mapbox://styles/mikeairia/ckothwa8k17hn18lngdslao64'"
+  localIdeographFontFamily="'Roboto', 'Helvetica Neue', 'sans-serif'"
+  [fadeDuration]="0"
   [zoom]="[17]"
   [pitch]="[0]"
   [bearing]="[0]"
@@ -28,5 +30,20 @@
     className="building-overview-popup"
   >
     <app-building-overview></app-building-overview>
+  </mgl-popup>
+  <mgl-popup
+    *ngIf="selectedAccessPoint"
+    [lngLat]="[
+      selectedAccessPoint.coordLongitude,
+      selectedAccessPoint.coordLatitude
+    ]"
+    [closeOnClick]="false"
+    maxWidth="400px"
+    [offset]="[0, -30]"
+    className="building-overview-popup"
+  >
+    <app-access-point-overview
+      [id]="selectedAccessPoint.id"
+    ></app-access-point-overview>
   </mgl-popup>
 </mgl-map>

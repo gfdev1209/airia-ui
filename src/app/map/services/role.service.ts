@@ -10,8 +10,10 @@ export class AlertService extends BaseService {
   constructor(private httpClient: HttpClient) {
     super('Roles', httpClient);
   }
-
   mapResponseToObject<T>(response: any): T {
+    return new Role(response) as any;
+  }
+  mapArrayResponseToObject<T>(response: any): T {
     return response.map((responseJson: any) => new Role(responseJson));
   }
 }

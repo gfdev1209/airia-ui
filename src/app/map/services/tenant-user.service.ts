@@ -10,8 +10,10 @@ export class TenantUserService extends BaseService {
   constructor(private httpClient: HttpClient) {
     super('TenantUsers', httpClient);
   }
-
   mapResponseToObject<T>(response: any): T {
+    return new TenantUser(response) as any;
+  }
+  mapArrayResponseToObject<T>(response: any): T {
     return response.map((responseJson: any) => new TenantUser(responseJson));
   }
 }

@@ -23,11 +23,13 @@ export class MapViewComponent implements OnChanges {
   @Input() buildings: Building[] | null = [];
   @Input() selectedBuilding?: Building | null;
   @Input() accessPoints: AccessPoint[] | null = [];
+  @Input() selectedAccessPoint?: AccessPoint | null;
 
   @Input() showBuildingOverview: boolean | null = false;
 
   @Output() flyToBuildingComplete = new EventEmitter();
   @Output() clickedBuildingId = new EventEmitter<number>();
+  @Output() clickedAccessPoint = new EventEmitter<number>();
 
   map!: Map;
   highlightedBuildings: MapboxGeoJSONFeature[] = [];
@@ -40,6 +42,9 @@ export class MapViewComponent implements OnChanges {
         changes.selectedBuilding.currentValue.coordLatitude,
         changes.selectedBuilding.currentValue.coordLongitude
       );
+    }
+    if (changes.accessPoints?.firstChange === false) {
+      this.addAccessPoints();
     }
     if (changes.zoomIn?.firstChange === false) {
       this.onZoomIn();
@@ -68,132 +73,118 @@ export class MapViewComponent implements OnChanges {
 
   mapLoad(map: Map): void {
     this.map = map;
-    // map.addLayer(
-    //   {
-    //     id: '3d-buildings',
-    //     source: 'composite',
-    //     'source-layer': 'building',
-    //     type: 'fill-extrusion',
-    //     minzoom: 14,
-    //     paint: {
-    //       'fill-extrusion-color': [
-    //         'case',
-    //         ['boolean', ['feature-state', 'hover'], false],
-    //         '#9389bf',
-    //         '#3a325c',
-    //       ],
-    //       'fill-extrusion-height': ['number', ['get', 'height'], 5],
-    //       'fill-extrusion-base': ['number', ['get', 'min_height'], 30],
-    //       'fill-extrusion-opacity': 0.5,
-    //     },
-    //   },
-    //   'building (1) copy'
-    // );
-
-    map.addLayer({
-      id: 'building-outline',
-      type: 'line',
-      source: 'composite',
-      'source-layer': 'building',
-      paint: {
-        'line-width': 4,
-        'line-color': [
-          'case',
-          ['boolean', ['feature-state', 'hover'], false],
-          'rgba(159,100,209,1.0)',
-          'rgba(255,255,255,0.0)',
-        ],
-      },
-    });
-    map.addLayer({
-      id: '3d-buildings',
-      type: 'fill',
-      source: 'composite',
-      'source-layer': 'building',
-      paint: {
-        'fill-outline-color': 'rgba(0,0,0,0)',
-        // 'fill-color': 'rgba(0,0,0,0)',
-        'fill-color': [
-          'case',
-          ['boolean', ['feature-state', 'hover'], false],
-          'rgba(159,100,209,0.3)',
-          'rgba(255,255,255,0.0)',
-        ],
-        'fill-opacity': 1.0,
-      },
-    });
-    console.log(this.accessPoints);
-    // Add an image to use as a custom marker
-    const pointArr: any[] = [];
-    if (this.accessPoints) {
-      this.accessPoints.forEach((accessPoint) => {
-        pointArr.push({
-          type: 'Feature',
-          id: accessPoint.id,
-          geometry: {
-            type: 'Point',
-            coordinates: [
-              accessPoint.coordLongitude,
-              accessPoint.coordLatitude,
-            ],
-          },
-          properties: {
-            id: accessPoint.id,
-            name: accessPoint.name,
-          },
-        });
-      });
-    }
-    // Add a GeoJSON source with all access points
-    map.addSource('access-point-source', {
-      type: 'geojson',
-      data: {
-        type: 'FeatureCollection',
-        features: pointArr,
-      },
-      cluster: true,
-      clusterMaxZoom: 14, // Max zoom to cluster points on
-      clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
-    });
-
-    // Add a symbol layer
-    map.addLayer({
-      id: 'access-points',
-      type: 'circle',
-      source: 'access-point-source',
-      paint: {
-        'circle-color': '#3a3355',
-        'circle-radius': {
-          base: 1.75,
-          stops: [
-            [12, 1],
-            [22, 10],
+    this.addBuildingLayers();
+    this.addAccessPoints();
+  }
+  addBuildingLayers(): void {
+    if (this.map) {
+      this.map.addLayer({
+        id: 'building-outline',
+        type: 'line',
+        source: 'composite',
+        'source-layer': 'building',
+        paint: {
+          'line-width': 4,
+          'line-color': [
+            'case',
+            ['boolean', ['feature-state', 'hover'], false],
+            'rgba(159,100,209,1.0)',
+            'rgba(255,255,255,0.0)',
           ],
         },
-        'circle-stroke-width': 2,
-        'circle-stroke-color': '#ffffff',
-      },
-    });
-
-    // if (this.buildings) {
-    //   for (const building of this.buildings) {
-    //     if (building) {
-    //       let source = this.map.queryRenderedFeatures([
-    //         building.coordLongitude,
-    //         building.coordLatitude,
-    //       ]);
-    //       console.log(source);
-    //       //   this.map.setFeatureState(building, {
-    //       //     source: building.source,
-    //       //     sourceLayer: building.sourceLayer,
-    //       //     id: building.mapboxId,
-    //       //     hover: true,
-    //       //   });
-    //       // }
-    //     }
-    //   }
-    // }
+      });
+      this.map.addLayer({
+        id: '3d-buildings',
+        type: 'fill',
+        source: 'composite',
+        'source-layer': 'building',
+        paint: {
+          'fill-outline-color': 'rgba(0,0,0,0)',
+          // 'fill-color': 'rgba(0,0,0,0)',
+          'fill-color': [
+            'case',
+            ['boolean', ['feature-state', 'hover'], false],
+            'rgba(159,100,209,0.3)',
+            'rgba(255,255,255,0.0)',
+          ],
+          'fill-opacity': 1.0,
+        },
+      });
+    }
   }
+  addAccessPoints(): void {
+    if (this.map && this.accessPoints && this.accessPoints.length > 0) {
+      // Add an image to use as a custom marker
+      const pointArr: any[] = [];
+      if (this.accessPoints) {
+        this.accessPoints.forEach((accessPoint) => {
+          pointArr.push({
+            type: 'Feature',
+            id: accessPoint.id,
+            geometry: {
+              type: 'Point',
+              coordinates: [
+                accessPoint.coordLongitude,
+                accessPoint.coordLatitude,
+              ],
+            },
+            properties: {
+              id: accessPoint.id,
+              name: accessPoint.name,
+            },
+          });
+        });
+      }
+      // Add a GeoJSON source with all access points
+      this.map.addSource('access-point-source', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: pointArr,
+        },
+        cluster: true,
+        clusterMaxZoom: 15, // Max zoom to cluster points on
+        clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
+      });
+
+      // Add access point layer
+      this.map.addLayer({
+        id: 'access-points',
+        type: 'circle',
+        source: 'access-point-source',
+        paint: {
+          'circle-color': '#3a3355',
+          'circle-radius': {
+            base: 1.75,
+            stops: [
+              [16, 8],
+              [16, 1],
+              [22, 14],
+            ],
+          },
+          'circle-stroke-width': 2,
+          'circle-stroke-color': '#ffffff',
+        },
+      });
+
+      // Add a cluster layer to display number of access points when zoomed out
+      this.map.addLayer({
+        id: 'cluster-count',
+        type: 'symbol',
+        source: 'access-point-source',
+        filter: ['has', 'point_count'],
+        paint: {
+          'text-color': '#ffffff',
+        },
+        layout: {
+          'text-field': '{point_count_abbreviated}',
+          'text-font': ['Arial Unicode MS Bold'],
+          'text-size': 12,
+        },
+      });
+    }
+  }
+
   isTenantBuilding(mapboxId: number): boolean {
     return this.buildings?.find((e) => e.mapboxId === mapboxId) !== undefined;
   }
@@ -226,7 +217,9 @@ export class MapViewComponent implements OnChanges {
       }
       if (features) {
         features.forEach((feature) => {
-          if (this.isFeatureBuilding(feature) && feature.id) {
+          if (this.isFeatureAccessPoint(feature)) {
+            this.map.getCanvasContainer().style.cursor = 'pointer';
+          } else if (this.isFeatureBuilding(feature) && feature.id) {
             if (this.isTenantBuilding(+feature.id)) {
               this.map.getCanvasContainer().style.cursor = 'pointer';
               if (
@@ -255,13 +248,42 @@ export class MapViewComponent implements OnChanges {
         console.log('access point', feature);
         console.log(feature.geometry);
         console.log(feature.geometry.type);
-        if (feature.geometry.type === 'Point') {
-          const coordinates =
-            feature.geometry.coordinates.slice() as mapboxgl.LngLatLike;
-          new mapboxgl.Popup()
-            .setLngLat(coordinates)
-            .setHTML(feature.properties?.name)
-            .addTo(this.map);
+        if (feature.properties?.cluster) {
+          console.log('cluster id', feature.properties.cluster_id);
+          const clusterSource = this.map.getSource(
+            'access-point-source'
+          ) as mapboxgl.GeoJSONSource;
+          clusterSource.getClusterLeaves(
+            feature.properties.cluster_id,
+            feature.properties.point_count,
+            0,
+            (err, aFeatures) => {
+              console.log('children', err, aFeatures);
+              // build the bounding box with the selected points coordinates
+              const bounds = new mapboxgl.LngLatBounds();
+              aFeatures.forEach((feature2) => {
+                console.log(feature2);
+                if (feature2.geometry.type === 'Point') {
+                  const coordinates =
+                    feature2.geometry.coordinates.slice() as mapboxgl.LngLatLike;
+                  bounds.extend(coordinates);
+                }
+              });
+              // Move the map to fit the Bounding Box (BBox)
+              return this.map.fitBounds(bounds, {
+                padding: 45, //orig 45
+                maxZoom: 20,
+              });
+            }
+          );
+        } else if (feature.geometry.type === 'Point') {
+          // const coordinates =
+          //   feature.geometry.coordinates.slice() as mapboxgl.LngLatLike;
+          // new mapboxgl.Popup()
+          //   .setLngLat(coordinates)
+          //   .setHTML(feature.properties?.name)
+          //   .addTo(this.map);
+          this.clickedAccessPoint.emit(+feature.properties?.id);
         }
         // const coordinates = feature.geometry['coordinates'].slice();
         // new mapboxgl.Popup()

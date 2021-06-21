@@ -10,8 +10,10 @@ export class AlertService extends BaseService {
   constructor(private httpClient: HttpClient) {
     super('Alerts', httpClient);
   }
-
   mapResponseToObject<T>(response: any): T {
+    return new Alert(response) as any;
+  }
+  mapArrayResponseToObject<T>(response: any): T {
     return response.map((responseJson: any) => new Alert(responseJson));
   }
 }

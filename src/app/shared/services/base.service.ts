@@ -21,7 +21,7 @@ export class BaseService {
   getAll<T>(): Observable<T> {
     return this.http.get(`${this.apiUrl}/`).pipe(
       retry(2),
-      map((response: any) => this.mapResponseToObject<T>(response)),
+      map((response: any) => this.mapArrayResponseToObject<T>(response)),
       catchError((error) => {
         return this.handleError(error);
       }),
@@ -35,14 +35,28 @@ export class BaseService {
     // );
     // return mapped;
   }
+  mapArrayResponseToObject<T>(response: any): T {
+    throw new Error(
+      'mapArrayResponseToObject must be set in specified service'
+    );
+    // const mapped = response.map((responseJson: any) =>
+    //   this.factory<T>(responseJson)
+    // );
+    // return mapped;
+  }
   // factory<T>(C: new (args: any) => T, args?: any): Location {
   //   return new Location(args);
   // }
 
   get<T>(id: number): Observable<T> {
-    return this.http
-      .get<T>(`${this.apiUrl}/${id}`)
-      .pipe(map((response: any) => response as T));
+    return this.http.get<T>(`${this.apiUrl}/${id}`).pipe(
+      retry(2),
+      map((response: any) => this.mapResponseToObject<T>(response)),
+      catchError((error) => {
+        return this.handleError(error);
+      }),
+      share()
+    );
   }
 
   getByQuery<T>(id: number, queryParams: any): Observable<T> {
