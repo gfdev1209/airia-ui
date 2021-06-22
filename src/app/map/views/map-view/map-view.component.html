@@ -32,11 +32,8 @@
     <app-building-overview></app-building-overview>
   </mgl-popup>
   <mgl-popup
-    *ngIf="selectedAccessPoint"
-    [lngLat]="[
-      selectedAccessPoint.coordLongitude,
-      selectedAccessPoint.coordLatitude
-    ]"
+    *ngIf="selectedAccessPoint && selectedPosition"
+    [lngLat]="[selectedPosition[0], selectedPosition[1]]"
     [closeOnClick]="false"
     maxWidth="400px"
     [offset]="[0, -30]"

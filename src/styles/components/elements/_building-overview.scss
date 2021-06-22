@@ -1,4 +1,6 @@
 .building-overview-popup {
+  top: 20px;
+
   .mapboxgl-popup-close-button {
     display: none;
   }
@@ -6,10 +8,18 @@
     padding: 0;
   }
   .p-panel .p-panel-content {
-    // border: none;
+    border: none;
+  }
+  .p-panel .p-panel-header,
+  .p-panel .p-panel-content {
+    padding: 0.75rem;
   }
   .p-panel .p-panel-header {
-    // border: none;
-    border-bottom: 1px solid var(--background-color-shade-2);
+    border: none;
+    padding-bottom: 0;
+    // border-bottom: 1px solid var(--background-color-shade-2);
+  }
+  .p-panel .p-panel-content {
+    padding-top: 0.25rem;
   }
 }
