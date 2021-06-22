@@ -5,6 +5,7 @@ import {
   Output,
 } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { AccessPointStatus } from '@map/enums';
 import { AccessPoint } from '@map/models';
 
 @Component({
@@ -18,6 +19,8 @@ export class AccessPointOverviewViewComponent implements OnInit {
   @Input() loading: boolean | null = false;
 
   @Output() closePanel = new EventEmitter();
+
+  AccessPointStatusEnum = AccessPointStatus;
 
   constructor() {}
 

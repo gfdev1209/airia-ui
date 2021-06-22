@@ -33,6 +33,8 @@ export class MapViewComponent implements OnChanges {
 
   map!: Map;
   highlightedBuildings: MapboxGeoJSONFeature[] = [];
+  // Position of the selected feature (coordinates set in object do not match for some reason)
+  selectedPosition?: number[];
 
   constructor() {}
 
@@ -245,11 +247,8 @@ export class MapViewComponent implements OnChanges {
     );
     features.some((feature) => {
       if (this.isFeatureAccessPoint(feature)) {
-        console.log('access point', feature);
-        console.log(feature.geometry);
-        console.log(feature.geometry.type);
+        // Check if this is a cluster of access points
         if (feature.properties?.cluster) {
-          console.log('cluster id', feature.properties.cluster_id);
           const clusterSource = this.map.getSource(
             'access-point-source'
           ) as mapboxgl.GeoJSONSource;
@@ -258,11 +257,9 @@ export class MapViewComponent implements OnChanges {
             feature.properties.point_count,
             0,
             (err, aFeatures) => {
-              console.log('children', err, aFeatures);
               // build the bounding box with the selected points coordinates
               const bounds = new mapboxgl.LngLatBounds();
               aFeatures.forEach((feature2) => {
-                console.log(feature2);
                 if (feature2.geometry.type === 'Point') {
                   const coordinates =
                     feature2.geometry.coordinates.slice() as mapboxgl.LngLatLike;
@@ -271,25 +268,16 @@ export class MapViewComponent implements OnChanges {
               });
               // Move the map to fit the Bounding Box (BBox)
               return this.map.fitBounds(bounds, {
-                padding: 45, //orig 45
+                padding: 45, // orig 45
                 maxZoom: 20,
               });
             }
           );
         } else if (feature.geometry.type === 'Point') {
-          // const coordinates =
-          //   feature.geometry.coordinates.slice() as mapboxgl.LngLatLike;
-          // new mapboxgl.Popup()
-          //   .setLngLat(coordinates)
-          //   .setHTML(feature.properties?.name)
-          //   .addTo(this.map);
+          console.log(feature.geometry.coordinates);
+          this.selectedPosition = feature.geometry.coordinates;
           this.clickedAccessPoint.emit(+feature.properties?.id);
         }
-        // const coordinates = feature.geometry['coordinates'].slice();
-        // new mapboxgl.Popup()
-        //   .setLngLat(coordinates)
-        //   .setHTML('this is the desc')
-        //   .addTo(this.map);
         return true;
       } else if (this.isFeatureBuilding(feature) && feature.id) {
         console.log('building', feature);
