@@ -36,6 +36,17 @@ export class OverviewPanelComponent implements OnInit {
     this.mapService.updateMapDateTime(mapTime);
   }
 
+  onToggledAccessPoints(checked: boolean): void {
+    this.mapService.setShowAccessPoints(checked);
+  }
+  onToggledDevices(checked: boolean): void {
+    this.mapService.setShowDevices(checked);
+  }
+
+  onToggledPlayback(isLive: boolean): void {
+    this.mapService.togglePlayback();
+  }
+
   onZoomIn(): void {
     this.mapService.mapZoomIn();
   }

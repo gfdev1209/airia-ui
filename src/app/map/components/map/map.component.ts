@@ -7,12 +7,14 @@ import * as LocationActions from '@store/location/location.actions';
 import * as LocationSelectors from '@store/location/location.selectors';
 import * as AccessPointActions from '@store/access-point/access-point.actions';
 import * as AccessPointSelectors from '@store/access-point/access-point.selectors';
-import { tap } from 'rxjs/operators';
+import * as DeviceActions from '@store/device/device.actions';
+import * as DeviceSelectors from '@store/device/device.selectors';
+import { startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { MsalService } from '@azure/msal-angular';
 import { AccountInfo } from '@azure/msal-browser';
 import { MapService } from '@map/services/map.service';
 import { MapViewComponent } from '@map/views/map-view/map-view.component';
-import { Subscription } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-map',
@@ -28,6 +30,8 @@ export class MapComponent implements OnInit, OnDestroy {
         );
         this.store.dispatch(BuildingActions.getAll());
         this.store.dispatch(AccessPointActions.getAll());
+        this.store.dispatch(DeviceActions.getAll());
+        this.pollForDevices();
       }
     })
   );
@@ -45,9 +49,16 @@ export class MapComponent implements OnInit, OnDestroy {
   selectedAccessPoint$ = this.store.select(
     AccessPointSelectors.selectSelectedAccessPoint
   );
+  devices$ = this.store.select(DeviceSelectors.selectAll);
+  selectedDevice$ = this.store.select(DeviceSelectors.selectSelectedDevice);
+
+  showDevices$ = this.mapService.showDevices$;
+  showAccessPoints$ = this.mapService.showAccessPoints$;
 
   zoomIn$: Subscription = new Subscription();
   zoomOut$: Subscription = new Subscription();
+  devicePollingInterval$: Subscription = new Subscription();
+  isPlaybackLive$: Subscription = new Subscription();
 
   accountInfo?: AccountInfo;
 
@@ -63,16 +74,35 @@ export class MapComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const accounts = this.authService?.instance?.getAllAccounts();
-    if (accounts?.length > 0) {
-      this.accountInfo = accounts[0];
-      console.log(this.accountInfo);
-    }
+    // if (this.authService.instance.getActiveAccount() === null) {
+    //   this.authService.logout();
+    //   return;
+    // }
     this.zoomIn$ = this.mapService.zoomIn$.subscribe(() =>
       this.mapView?.onZoomIn()
     );
     this.zoomOut$ = this.mapService.zoomOut$.subscribe(() =>
       this.mapView?.onZoomOut()
     );
+    this.isPlaybackLive$ = this.mapService.isPlaybackLive$
+      .pipe(
+        tap((state) => {
+          if (state === true) {
+            this.pollForDevices();
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  pollForDevices(): void {
+    this.devicePollingInterval$ = interval(10000)
+      .pipe(
+        startWith(0),
+        takeUntil(this.mapService.stopPlay$),
+        tap(() => this.store.dispatch(DeviceActions.getAll()))
+      )
+      .subscribe();
   }
 
   flyToBuildingComplete(): void {
@@ -87,5 +117,7 @@ export class MapComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.zoomIn$?.unsubscribe();
     this.zoomOut$?.unsubscribe();
+    this.isPlaybackLive$.unsubscribe();
+    this.devicePollingInterval$?.unsubscribe();
   }
 }
