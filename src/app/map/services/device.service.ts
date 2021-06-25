@@ -8,7 +8,7 @@ import { Device } from '@map/models';
 })
 export class DeviceService extends BaseService {
   constructor(private httpClient: HttpClient) {
-    super('Devices', httpClient);
+    super('Devices/Mobile/Apple', httpClient);
   }
 
   mapResponseToObject<T>(response: any): T {

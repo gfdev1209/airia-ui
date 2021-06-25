@@ -169,7 +169,7 @@
                   <i class="icon fas fa-eye fa-fw p-mr-2"></i> Map View
                 </ng-template>
                 <ng-template pTemplate="content">
-                  <div class="p-d-flex p-align-center">
+                  <!-- <div class="p-d-flex p-align-center">
                     <div class="p-flex-column flex-grow-1">
                       <label for="footTraffic">
                         <i class="fas fa-check p-mr-2"></i>
@@ -184,12 +184,13 @@
                         ></p-inputSwitch
                       ></small>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="p-d-flex p-align-center p-mt-2">
                     <div class="p-flex-column flex-grow-1">
                       <label for="staticDevices">
-                        <i class="fas fa-check p-mr-2 color-primary"></i>
-                        <small class="color-text-medium">Static Devices</small>
+                        <!-- <i class="fas fa-check p-mr-2 color-primary"></i> -->
+                        <div class="icoDevice"></div>
+                        <small class="color-text-medium">Devices</small>
                       </label>
                     </div>
                     <div class="p-flex-column">
@@ -197,6 +198,7 @@
                         <p-inputSwitch
                           inputId="staticDevices"
                           [(ngModel)]="staticDevices"
+                          (onChange)="onToggleDevices($event)"
                         ></p-inputSwitch
                       ></small>
                     </div>
@@ -204,7 +206,11 @@
                   <div class="p-d-flex p-align-center p-mt-2">
                     <div class="p-flex-column flex-grow-1">
                       <label for="accessPoints">
-                        <i class="fas fa-check p-mr-2"></i>
+                        <!-- <i class="fas fa-check p-mr-2"></i> -->
+                        <img
+                          src="./assets/img/access-point.png"
+                          class="icoAccessPoint"
+                        />
                         <small class="color-text-medium">Access Points</small>
                       </label>
                     </div>
@@ -213,11 +219,12 @@
                         <p-inputSwitch
                           inputId="accessPoints"
                           [(ngModel)]="accessPoints"
+                          (onChange)="onToggleAccessPoints($event)"
                         ></p-inputSwitch
                       ></small>
                     </div>
                   </div>
-                  <h5 class="p-mb-2">Data Density</h5>
+                  <!-- <h5 class="p-mb-2">Data Density</h5>
                   <div class="p-d-flex p-jc-between">
                     <div>
                       <small class="color-text-medium display-block p-mb-2">
@@ -249,7 +256,7 @@
                         <small class="color-text-medium">5+</small>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                 </ng-template>
               </p-accordionTab>
               <p-accordionTab transitionOptions="0ms">

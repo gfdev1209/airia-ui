@@ -9,12 +9,15 @@ import { floorReducer } from './floor/floor.reducer';
 import { FloorState } from './floor/floor.state';
 import { AccessPointState } from './access-point/access-point.state';
 import { accessPointReducer } from './access-point/access-point.reducer';
+import { DeviceState } from './device/device.state';
+import { deviceReducer } from './device/device.reducer';
 
 export interface RootState {
   alerts: AlertState;
   locations: LocationState;
   buildings: BuildingState;
   floors: FloorState;
+  devices: DeviceState;
   accessPoints: AccessPointState;
 }
 export const reducers: ActionReducerMap<RootState> = {
@@ -22,5 +25,6 @@ export const reducers: ActionReducerMap<RootState> = {
   locations: locationReducer,
   buildings: buildingReducer,
   floors: floorReducer,
+  devices: deviceReducer,
   accessPoints: accessPointReducer,
 };

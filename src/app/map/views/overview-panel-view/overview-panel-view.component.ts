@@ -32,6 +32,10 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   @Output() zoomIn = new EventEmitter();
   @Output() zoomOut = new EventEmitter();
   @Output() mapTimeChanged = new EventEmitter<Date>();
+  @Output() toggledPlayback = new EventEmitter<boolean>();
+
+  @Output() toggledAccessPoints = new EventEmitter<boolean>();
+  @Output() toggledDevices = new EventEmitter<boolean>();
 
   @ViewChild('topPanel') topPanel!: ElementRef;
   @ViewChild('alertPanel') private alertPanel!: AlertPanelComponent;
@@ -94,6 +98,12 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   stopPropagation($event: MouseEvent): void {
     $event.stopPropagation();
   }
+  onToggleAccessPoints(event: any): void {
+    this.toggledAccessPoints.emit(event.checked);
+  }
+  onToggleDevices(event: any): void {
+    this.toggledDevices.emit(event.checked);
+  }
   onSortChange(event: any): void {
     this.alertSortTypeChanged.emit(event?.value);
   }
@@ -119,6 +129,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     if (this.isPlaybackLive === true) {
       this.changeDate(new Date());
     }
+    this.toggledPlayback.emit(this.isPlaybackLive);
   }
   onPlaybackCalendarSelect(newDate: any): void {
     this.changeDate(newDate);

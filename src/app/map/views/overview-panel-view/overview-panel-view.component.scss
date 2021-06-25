@@ -2,3 +2,20 @@
   width: 55px;
   height: 55px;
 }
+.icoAccessPoint {
+  max-width: 12px;
+  margin-left: 2px;
+  margin-right: 12px;
+}
+.icoDevice {
+  display: inline-block;
+  background: #c702fb;
+  width: 4px;
+  height: 4px;
+  border-radius: 100px;
+  box-shadow: 0 0 6px 5px #c702fb63;
+  margin-left: 6px;
+  margin-right: 16px;
+  position: relative;
+  top: -2px;
+}

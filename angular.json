@@ -88,6 +88,9 @@
           "configurations": {
             "production": {
               "browserTarget": "airia:build:production"
+            },
+            "stuartshome": {
+              "browserTarget": "airia:build:stuartshome"
             }
           }
         },

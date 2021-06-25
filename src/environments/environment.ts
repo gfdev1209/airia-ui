@@ -1,18 +1,18 @@
 export const environment = {
-  production: true,
-  apiUrl: 'https://api.stuartshome.airia20.com/api/',
+  production: false,
+  apiUrl: 'https://api.dev.airia20.com/api/',
   // MapBox
   mapboxAccessToken:
     'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',
   // Azure B2C Configuration
-  b2cClientId: '0d65b9b8-d654-481f-95d1-244fa3e6275b',
+  b2cClientId: 'c5f385f7-8c81-4623-8c7c-a9bdb5929559',
   b2cNameSignUpSignIn: 'B2C_1_airiasignupin',
   b2cNameEditProfile: 'B2C_1_airiaprofile',
-  b2cAuthorityDomain: 'airiastuartshome.b2clogin.com',
+  b2cAuthorityDomain: 'airia20develop.b2clogin.com',
   b2cAuthoritySignUpSignIn:
-    'https://airiastuartshome.b2clogin.com/stuartshome.airia20.com/B2C_1_airiasignupin',
+    'https://airia20develop.b2clogin.com/airia20develop.onmicrosoft.com/B2C_1_airiasignupin',
   b2cAuthorityEditProfile:
-    'https://airiastuartshome.b2clogin.com/stuartshome.airia20.com/B2C_1_airiaprofile',
-  b2cScopes: ['https://stuartshome.airia20.com/api/demo.read'],
-  b2cApiUrl: 'https://api.stuartshome.airia20.com',
+    'https://airia20develop.b2clogin.com/airia20develop.onmicrosoft.com/B2C_1_airiaprofile',
+  b2cScopes: ['https://airia20develop.onmicrosoft.com/api/demo.read'],
+  b2cApiUrl: 'https://api.dev.airia20.com',
 };

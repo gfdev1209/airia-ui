@@ -2,7 +2,7 @@
   <p-panel styleClass="rounded-corners has-shadow">
     <ng-template pTemplate="header">
       <div class="p-d-flex p-align-center p-jc-between width-100">
-        <h3 class="display-inline-block p-m-0">
+        <h3 class="display-inline-block p-mt-0 p-mb-0 p-mr-3">
           {{ building.name }}
         </h3>
         <small>
@@ -11,7 +11,7 @@
             pRipple
             type="button"
             icon="far fa-times"
-            class="p-button-rounded p-button-outlined color-grey"
+            class="p-button-rounded p-button-text color-grey"
             (click)="onClose()"
           ></button
         ></small>
@@ -45,7 +45,7 @@
         pRipple
         type="button"
         label="View Details"
-        class="p-button-rounded p-button-sm p-d-block p-mt-3"
+        class="p-button-rounded p-button-sm p-d-block p-mt-4"
       ></button>
     </div>
   </p-panel>
