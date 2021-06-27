@@ -9,12 +9,12 @@ import * as AccessPointActions from '@store/access-point/access-point.actions';
 import * as AccessPointSelectors from '@store/access-point/access-point.selectors';
 import * as DeviceActions from '@store/device/device.actions';
 import * as DeviceSelectors from '@store/device/device.selectors';
-import { startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import { MsalService } from '@azure/msal-angular';
+import { startWith, takeUntil, tap } from 'rxjs/operators';
 import { AccountInfo } from '@azure/msal-browser';
 import { MapService } from '@map/services/map.service';
 import { MapViewComponent } from '@map/views/map-view/map-view.component';
 import { interval, Subscription } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-map',
@@ -30,8 +30,6 @@ export class MapComponent implements OnInit, OnDestroy {
         );
         this.store.dispatch(BuildingActions.getAll());
         this.store.dispatch(AccessPointActions.getAll());
-        this.store.dispatch(DeviceActions.getAll());
-        this.pollForDevices();
       }
     })
   );
@@ -54,6 +52,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
   showDevices$ = this.mapService.showDevices$;
   showAccessPoints$ = this.mapService.showAccessPoints$;
+  mapDateTime$ = this.mapService.mapDateTime$;
 
   zoomIn$: Subscription = new Subscription();
   zoomOut$: Subscription = new Subscription();
@@ -62,22 +61,16 @@ export class MapComponent implements OnInit, OnDestroy {
 
   accountInfo?: AccountInfo;
 
+  // How often to poll for new devices when playback is live (in milliseconds)
+  pollingTimeMS = 60000;
+
   @ViewChild('mapView') mapView!: MapViewComponent;
 
-  constructor(
-    private store: Store<RootState>,
-    private authService: MsalService,
-    private mapService: MapService
-  ) {
+  constructor(private store: Store<RootState>, private mapService: MapService) {
     this.store.dispatch(LocationActions.getAll());
   }
 
   ngOnInit(): void {
-    const accounts = this.authService?.instance?.getAllAccounts();
-    // if (this.authService.instance.getActiveAccount() === null) {
-    //   this.authService.logout();
-    //   return;
-    // }
     this.zoomIn$ = this.mapService.zoomIn$.subscribe(() =>
       this.mapView?.onZoomIn()
     );
@@ -93,14 +86,38 @@ export class MapComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
+
+    this.mapService.mapDateTime$
+      .pipe(
+        tap((mapTime) => {
+          if (mapTime !== null) {
+            const mapTimeWithoutSeconds = moment(mapTime)
+              .seconds(0)
+              .milliseconds(0)
+              .toDate();
+            this.store.dispatch(
+              DeviceActions.getSeenFromDateToDate({
+                from: moment(mapTimeWithoutSeconds)
+                  .subtract(1, 'minute')
+                  .toDate(),
+                to: mapTimeWithoutSeconds,
+              })
+            );
+          }
+        })
+      )
+      .subscribe();
   }
 
   pollForDevices(): void {
-    this.devicePollingInterval$ = interval(10000)
+    this.devicePollingInterval$?.unsubscribe();
+    this.devicePollingInterval$ = interval(this.pollingTimeMS)
       .pipe(
         startWith(0),
         takeUntil(this.mapService.stopPlay$),
-        tap(() => this.store.dispatch(DeviceActions.getAll()))
+        tap(() =>
+          this.store.dispatch(DeviceActions.getSeenFromMinutes({ fromMin: 1 }))
+        )
       )
       .subscribe();
   }

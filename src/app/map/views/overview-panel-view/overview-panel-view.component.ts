@@ -127,9 +127,13 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     this.isPlaybackLive = !this.isPlaybackLive;
     // If we are live now, change the date to current time
     if (this.isPlaybackLive === true) {
-      this.changeDate(new Date());
+      this.setPlaybackLive();
     }
     this.toggledPlayback.emit(this.isPlaybackLive);
+  }
+  setPlaybackLive(): void {
+    this.isPlaybackLive = true;
+    this.changeDate(new Date());
   }
   onPlaybackCalendarSelect(newDate: any): void {
     this.changeDate(newDate);
@@ -140,8 +144,24 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     unit: moment.unitOfTime.DurationConstructor
   ): void {
     const newDate = moment(this.mapDateTime).add(amount, unit).toDate();
-    this.changeDate(newDate);
-    this.isPlaybackLive = false;
+    if (
+      moment(newDate).seconds(0).milliseconds(0) >=
+      moment(new Date()).seconds(0).milliseconds(0)
+    ) {
+      this.setPlaybackLive();
+      this.toggledPlayback.emit(true);
+    } else {
+      this.changeDate(newDate);
+      this.isPlaybackLive = false;
+    }
+  }
+  isDateInFuture(
+    amount: number,
+    unit: moment.unitOfTime.DurationConstructor
+  ): boolean {
+    return moment(this.mapDateTime).add(amount, unit).toDate() >= new Date()
+      ? true
+      : false;
   }
   changeDate(newDate: Date): void {
     this.mapTimeChanged.emit(newDate);

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, interval, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,11 @@ export class MapService {
     new BehaviorSubject<boolean>(true);
   showAccessPoints$ = this.showAccessPoints.asObservable();
 
-  constructor() {}
+  constructor() {
+    interval(60000)
+      .pipe(tap(() => this.mapDateTime.next(new Date())))
+      .subscribe();
+  }
 
   updateOverviewPanelHeight(newHeight: number): void {
     this.overviewPanelHeight.next(newHeight);
@@ -63,6 +68,7 @@ export class MapService {
   }
 
   updateMapDateTime(newDate: Date): void {
+    this.stopPlayback();
     this.mapDateTime.next(newDate);
   }
 }
