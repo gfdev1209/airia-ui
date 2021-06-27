@@ -37,6 +37,48 @@ export class DeviceEffects {
     )
   );
 
+  getSeenFromMinutes$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(DeviceActions.getSeenFromMinutes),
+      mergeMap(({ fromMin }) =>
+        this.deviceService.getSeenFromMinutes(fromMin).pipe(
+          map((devices: Device[]) =>
+            DeviceActions.getSeenFromMinutesSuccess({ devices })
+          ),
+          catchError(() => of(DeviceActions.getSeenFromMinutesFailed()))
+        )
+      )
+    )
+  );
+
+  getSeenFromDate$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(DeviceActions.getSeenFromDate),
+      mergeMap(({ date }) =>
+        this.deviceService.getSeenFromDate(date).pipe(
+          map((devices: Device[]) =>
+            DeviceActions.getSeenFromDateSuccess({ devices })
+          ),
+          catchError(() => of(DeviceActions.getSeenFromDateFailed()))
+        )
+      )
+    )
+  );
+
+  getSeenFromTo$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(DeviceActions.getSeenFromDateToDate),
+      mergeMap(({ from, to }) =>
+        this.deviceService.getSeenFromDateToDate(from, to).pipe(
+          map((devices: Device[]) =>
+            DeviceActions.getSeenFromDateToDateSuccess({ devices })
+          ),
+          catchError(() => of(DeviceActions.getSeenFromDateToDateFailed()))
+        )
+      )
+    )
+  );
+
   getByBuildingId$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DeviceActions.getByBuildingId),

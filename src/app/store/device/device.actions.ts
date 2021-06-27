@@ -10,6 +10,42 @@ export const getAllFailed = createAction(
   '[Device Effect] Get All Devices Failed'
 );
 
+export const getSeenFromMinutes = createAction(
+  '[Map] Get Devices Seen From Minutes',
+  props<{ fromMin: number }>()
+);
+export const getSeenFromMinutesSuccess = createAction(
+  '[Device Effect] Get Devices Seen From Minutes Success',
+  props<{ devices: Device[] }>()
+);
+export const getSeenFromMinutesFailed = createAction(
+  '[Device Effect] Get Devices Seen From Minutes Failed'
+);
+
+export const getSeenFromDate = createAction(
+  '[Map] Get Devices Seen From Date',
+  props<{ date: Date }>()
+);
+export const getSeenFromDateSuccess = createAction(
+  '[Device Effect] Get Devices Seen From Date Success',
+  props<{ devices: Device[] }>()
+);
+export const getSeenFromDateFailed = createAction(
+  '[Device Effect] Get Devices Seen From Date Failed'
+);
+
+export const getSeenFromDateToDate = createAction(
+  '[Map] Get Devices Seen From Date To Date',
+  props<{ from: Date; to: Date }>()
+);
+export const getSeenFromDateToDateSuccess = createAction(
+  '[Device Effect] Get Devices Seen From Date To Date Success',
+  props<{ devices: Device[] }>()
+);
+export const getSeenFromDateToDateFailed = createAction(
+  '[Device Effect] Get Devices Seen From Date To Date Failed'
+);
+
 export const getByBuildingId = createAction(
   '[Map] Get Devices by Building Id',
   props<{ buildingId: number }>()

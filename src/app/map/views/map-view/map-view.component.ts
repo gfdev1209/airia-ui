@@ -278,7 +278,7 @@ export class MapViewComponent implements OnChanges {
 
   /** Add all devices to map */
   addDevices(): void {
-    if (this.map && this.devices && this.devices.length > 0) {
+    if (this.map && this.devices) {
       // Add an image to use as a custom marker
       const pointArr: any[] = [];
       if (this.devices) {

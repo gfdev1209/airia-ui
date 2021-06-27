@@ -23,6 +23,9 @@
                 <div class="p-flex-column">
                   <small>{{ mapDateTime | date: "longDate" }}</small>
                   &nbsp;<small>{{ mapDateTime | date: "shortTime" }}</small>
+                  <small *ngIf="isPlaybackLive" class="color-red">
+                    &nbsp; <strong>LIVE</strong></small
+                  >
                 </div>
               </div>
             </div>
@@ -130,6 +133,7 @@
                           p-mr-1
                         "
                         (click)="onPlaybackIntervalChange(1, 'day')"
+                        [disabled]="isPlaybackLive || isDateInFuture(1, 'day')"
                       ></button>
                       <button
                         pButton
@@ -145,6 +149,7 @@
                           p-mr-1
                         "
                         (click)="onPlaybackIntervalChange(1, 'hour')"
+                        [disabled]="isPlaybackLive || isDateInFuture(1, 'hour')"
                       ></button>
                       <button
                         pButton
@@ -159,6 +164,9 @@
                           p-button-outlined
                         "
                         (click)="onPlaybackIntervalChange(1, 'minute')"
+                        [disabled]="
+                          isPlaybackLive || isDateInFuture(1, 'minute')
+                        "
                       ></button>
                     </div>
                   </div>
