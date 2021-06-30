@@ -63,6 +63,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
   // How often to poll for new devices when playback is live (in milliseconds)
   pollingTimeMS = 60000;
+  isPollingForDevices = true;
 
   @ViewChild('mapView') mapView!: MapViewComponent;
 
@@ -81,7 +82,10 @@ export class MapComponent implements OnInit, OnDestroy {
       .pipe(
         tap((state) => {
           if (state === true) {
+            this.isPollingForDevices = true;
             this.pollForDevices();
+          } else {
+            this.isPollingForDevices = false;
           }
         })
       )
@@ -90,7 +94,7 @@ export class MapComponent implements OnInit, OnDestroy {
     this.mapService.mapDateTime$
       .pipe(
         tap((mapTime) => {
-          if (mapTime !== null) {
+          if (mapTime !== null && !this.isPollingForDevices) {
             const mapTimeWithoutSeconds = moment(mapTime)
               .seconds(0)
               .milliseconds(0)
@@ -111,7 +115,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
   pollForDevices(): void {
     this.devicePollingInterval$?.unsubscribe();
-    this.devicePollingInterval$ = timer(0, this.pollingTimeMS)
+    this.devicePollingInterval$ = interval(this.pollingTimeMS)
       .pipe(
         startWith(0),
         takeUntil(this.mapService.stopPlay$),
