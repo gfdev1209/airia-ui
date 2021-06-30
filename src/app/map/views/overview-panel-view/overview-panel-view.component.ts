@@ -133,7 +133,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   }
   setPlaybackLive(): void {
     this.isPlaybackLive = true;
-    this.changeDate(new Date());
+    // this.changeDate(new Date());
   }
   onPlaybackCalendarSelect(newDate: any): void {
     this.changeDate(newDate);
