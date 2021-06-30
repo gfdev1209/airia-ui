@@ -13,7 +13,7 @@ import { startWith, takeUntil, tap } from 'rxjs/operators';
 import { AccountInfo } from '@azure/msal-browser';
 import { MapService } from '@map/services/map.service';
 import { MapViewComponent } from '@map/views/map-view/map-view.component';
-import { interval, Subscription } from 'rxjs';
+import { interval, Subscription, timer } from 'rxjs';
 import * as moment from 'moment';
 
 @Component({
@@ -111,10 +111,11 @@ export class MapComponent implements OnInit, OnDestroy {
 
   pollForDevices(): void {
     this.devicePollingInterval$?.unsubscribe();
-    this.devicePollingInterval$ = interval(this.pollingTimeMS)
+    this.devicePollingInterval$ = timer(0, this.pollingTimeMS)
       .pipe(
         startWith(0),
         takeUntil(this.mapService.stopPlay$),
+        tap(() => this.mapService.updateMapDateTime(new Date())),
         tap(() =>
           this.store.dispatch(DeviceActions.getSeenFromMinutes({ fromMin: 1 }))
         )
