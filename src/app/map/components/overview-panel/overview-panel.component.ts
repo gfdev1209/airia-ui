@@ -33,6 +33,7 @@ export class OverviewPanelComponent implements OnInit {
   }
 
   onMapTimeChanged(mapTime: Date): void {
+    this.mapService.stopPlayback();
     this.mapService.updateMapDateTime(mapTime);
   }
 
