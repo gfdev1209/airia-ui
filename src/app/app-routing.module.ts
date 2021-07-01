@@ -4,6 +4,7 @@ import { MsalGuard } from '@azure/msal-angular';
 import { LoginComponent } from './login/components/login/login.component';
 import { MapLayoutComponent } from './map/layouts/map-layout/map-layout.component';
 import { ReportLayoutComponent } from './report/layouts/report-layout/report-layout.component';
+import { SettingsLayoutComponent } from './settings/layouts/settings-layout/settings-layout.component';
 import { InteriorLayoutComponent } from './shared/layouts/interior-layout/interior-layout.component';
 import { StyleGuideComponent } from './style-guide/style-guide.component';
 
@@ -40,6 +41,19 @@ const routes: Routes = [
         component: ReportLayoutComponent,
         loadChildren: () =>
           import('./report/report.module').then((m) => m.ReportModule),
+      },
+    ],
+    canActivate: [MsalGuard],
+  },
+  {
+    path: 'settings',
+    component: InteriorLayoutComponent,
+    children: [
+      {
+        path: '',
+        component: SettingsLayoutComponent,
+        loadChildren: () =>
+          import('./settings/settings.module').then((m) => m.SettingsModule),
       },
     ],
     canActivate: [MsalGuard],
