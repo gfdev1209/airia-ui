@@ -1,0 +1,13 @@
+<span class="p-input-icon-left">
+  <i class="far fa-search"></i>
+  <p-autoComplete
+    [(ngModel)]="searchTerm"
+    [suggestions]="searchResults!"
+    styleClass="p-inputtext-sm"
+    field="name"
+    [minLength]="3"
+    placeholder="Search for user"
+    (completeMethod)="onSearch()"
+    (onSelect)="onSelect($event)"
+  ></p-autoComplete>
+</span>
