@@ -10,12 +10,17 @@ import { UsersTableComponent } from './components/users-table/users-table.compon
 import { UsersTableViewComponent } from './views/users-table-view/users-table-view.component';
 import { UserSearchInputComponent } from './components/user-search-input/user-search-input.component';
 import { UserSearchInputViewComponent } from './views/user-search-input-view/user-search-input-view.component';
+import { UserFormComponent } from './components/user-form/user-form.component';
+import { UserFormViewComponent } from './views/user-form-view/user-form-view.component';
 
 export const routes: Routes = [
   {
     path: 'settings',
     component: SettingsLayoutComponent,
-    children: [{ path: 'users', component: UsersPageComponent }],
+    children: [
+      { path: 'users', component: UsersPageComponent },
+      { path: 'users/:id', component: UserFormComponent },
+    ],
   },
 ];
 
@@ -28,6 +33,8 @@ export const routes: Routes = [
     UsersTableViewComponent,
     UserSearchInputComponent,
     UserSearchInputViewComponent,
+    UserFormComponent,
+    UserFormViewComponent,
   ],
   imports: [
     CommonModule,

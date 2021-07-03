@@ -25,7 +25,6 @@ export const userReducer = createReducer(
     return {
       ...state,
       loading: true,
-      showOverview: false,
     };
   }),
   on(Actions.selectSuccess, (state, { user }) => ({
@@ -38,6 +37,12 @@ export const userReducer = createReducer(
     return {
       ...state,
       loading: false,
+    };
+  }),
+  on(Actions.deselect, (state) => {
+    return {
+      ...state,
+      selected: null,
     };
   }),
   on(Actions.search, (state) => {

@@ -42,10 +42,8 @@ export class UserEffects {
       ofType(UserActions.search),
       withLatestFrom(this.store.select(UserSelectors.selectAll)),
       switchMap(([{ term }, users]) => {
-        const searchResults = users.filter(
-          (entity) =>
-            entity.firstName.toLowerCase().includes(term.toLowerCase()) ||
-            entity.lastName.toLowerCase().includes(term.toLowerCase())
+        const searchResults = users.filter((entity) =>
+          entity.fullName.toLowerCase().includes(term.toLowerCase())
         );
         return of(
           UserActions.searchSuccess({
@@ -60,19 +58,11 @@ export class UserEffects {
   select$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.select),
-      withLatestFrom(this.store.select(UserSelectors.selectEntities)),
-      switchMap(([{ id }, users]) => {
-        const user = users[id];
-        if (user) {
-          return of(
-            UserActions.selectSuccess({
-              user,
-            })
-          );
-        } else {
-          return of(UserActions.selectNotFound());
-        }
-      }),
+      mergeMap(({ id }) =>
+        this.userService
+          .get<User>(id)
+          .pipe(map((user) => UserActions.selectSuccess({ user })))
+      ),
       catchError(() => of(UserActions.selectFailed()))
     )
   );
