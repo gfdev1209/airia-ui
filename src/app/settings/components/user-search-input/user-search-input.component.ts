@@ -4,23 +4,25 @@ import { Store } from '@ngrx/store';
 import { RootState } from '@store/index';
 import { of } from 'rxjs';
 
+import * as UserActions from '@store/user/user.actions';
+import * as UserSelectors from '@store/user/user.selectors';
+
 @Component({
   selector: 'app-user-search-input',
   templateUrl: './user-search-input.component.html',
   styleUrls: ['./user-search-input.component.scss'],
 })
 export class UserSearchInputComponent implements OnInit {
-  searchResults$ = of([]);
+  searchResults$ = this.store.select(UserSelectors.selectSearchResults);
 
   constructor(private store: Store<RootState>) {}
 
   ngOnInit(): void {}
 
   search(term: string): void {
-    console.log('search', term);
-    // this.store.dispatch(UserActions.search({ term }));
+    this.store.dispatch(UserActions.search({ term }));
   }
   selectUser(user: User): void {
-    // this.store.dispatch(UserActions.select({ id: user.id }));
+    this.store.dispatch(UserActions.select({ id: user.id }));
   }
 }

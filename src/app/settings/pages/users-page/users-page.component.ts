@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { RootState } from '@store/index';
+
+import * as UserActions from '@store/user/user.actions';
 
 @Component({
   selector: 'app-users-page',
@@ -6,7 +10,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./users-page.component.scss'],
 })
 export class UsersPageComponent implements OnInit {
-  constructor() {}
+  constructor(private store: Store<RootState>) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    this.store.dispatch(UserActions.getAll());
+  }
 }

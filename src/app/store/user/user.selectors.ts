@@ -12,6 +12,11 @@ export const selectLoading = createSelector(
   (state: UserState) => state.loading
 );
 
+export const selectSearchResults = createSelector(
+  selectFeature,
+  (state: UserState) => state.searchResults
+);
+
 export const selectSelectedUser = createSelector(
   selectFeature,
   (state: UserState) => state.selected
