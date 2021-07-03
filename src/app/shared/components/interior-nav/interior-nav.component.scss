@@ -1,0 +1,52 @@
+.interior-nav {
+  width: 360px;
+  height: 100vh;
+  border-right: 1px solid var(--background-color-shade-2);
+
+  section {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .menu-link {
+    text-decoration: none;
+    padding: 1.5rem 1.5rem;
+    border-bottom: 1px solid var(--background-color-shade-2);
+
+    h3,
+    p,
+    .chevron {
+      color: var(--background-color-shade-3);
+      transition: color 0.5s;
+    }
+    .icon {
+      background-color: var(--background-color-shade-2);
+      color: var(--background-color-shade-3);
+      font-size: 1rem;
+      border-radius: 8px;
+      height: 32px;
+      width: 100%;
+      max-width: 32px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color, color 0.5s;
+    }
+
+    &.active,
+    &:hover {
+      h3,
+      .chevron {
+        color: white;
+      }
+      p {
+        color: var(--background-color-shade-4);
+      }
+      .icon {
+        color: white;
+        background-color: var(--primary-color);
+      }
+    }
+  }
+}
