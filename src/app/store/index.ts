@@ -11,6 +11,8 @@ import { AccessPointState } from './access-point/access-point.state';
 import { accessPointReducer } from './access-point/access-point.reducer';
 import { DeviceState } from './device/device.state';
 import { deviceReducer } from './device/device.reducer';
+import { UserState } from './user/user.state';
+import { userReducer } from './user/user.reducer';
 
 export interface RootState {
   alerts: AlertState;
@@ -19,6 +21,7 @@ export interface RootState {
   floors: FloorState;
   devices: DeviceState;
   accessPoints: AccessPointState;
+  users: UserState;
 }
 export const reducers: ActionReducerMap<RootState> = {
   alerts: alertReducer,
@@ -27,4 +30,5 @@ export const reducers: ActionReducerMap<RootState> = {
   floors: floorReducer,
   devices: deviceReducer,
   accessPoints: accessPointReducer,
+  users: userReducer,
 };
