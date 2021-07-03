@@ -40,6 +40,7 @@ import { BuildingEffects } from './store/building/building.effects';
 import { b2cPolicies, apiConfig } from './b2c-config';
 import { AccessPointEffects } from '@store/access-point/access-point.effects';
 import { DeviceEffects } from '@store/device/device.effects';
+import { UserEffects } from '@store/user/user.effects';
 
 const isIE =
   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
@@ -105,6 +106,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
       AccessPointEffects,
       DeviceEffects,
       FloorEffects,
+      UserEffects,
     ]),
     StoreDevtoolsModule.instrument({
       maxAge: 20,
