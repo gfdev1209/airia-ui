@@ -46,16 +46,11 @@ const routes: Routes = [
     canActivate: [MsalGuard],
   },
   {
-    path: 'settings',
+    path: '',
     component: InteriorLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: SettingsLayoutComponent,
-        loadChildren: () =>
-          import('./settings/settings.module').then((m) => m.SettingsModule),
-      },
-    ],
+    loadChildren: () =>
+      import('./settings/settings.module').then((m) => m.SettingsModule),
+
     canActivate: [MsalGuard],
   },
   {
