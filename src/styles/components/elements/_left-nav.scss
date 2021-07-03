@@ -7,7 +7,7 @@
     width: $left-nav-width;
     transition: width 0.5s;
     transition-timing-function: ease-in-out;
-    background: var(--background-color-shade-1);
+    background: var(--background-color);
     &.expanded {
       width: $left-nav-width-expanded;
       .menu-link span {

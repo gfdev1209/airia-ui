@@ -35,12 +35,14 @@ import { ColorByAlertSeverityPipe } from './pipes/color-by-alert-severity.pipe';
 import { UnderscoreToSpacePipe } from './pipes/underscore-to-space.pipe';
 import { EnumToSelectItemsPipe } from './pipes/enum-to-select-items.pipe';
 import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
+import { InteriorNavComponent } from './components/interior-nav/interior-nav.component';
 // Components
 
 @NgModule({
   declarations: [
     InteriorLayoutComponent,
     LeftNavComponent,
+    InteriorNavComponent,
     AlertIconByTypePipe,
     ColorByAlertSeverityPipe,
     UnderscoreToSpacePipe,
@@ -79,6 +81,7 @@ import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
   exports: [
     // Components
     LeftNavComponent,
+    InteriorNavComponent,
     // Prime Modules
     PrimeRippleModule,
     PrimeButtonModule,
