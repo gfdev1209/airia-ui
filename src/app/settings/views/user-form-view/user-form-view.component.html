@@ -1,0 +1,73 @@
+<ng-template #loading>
+  <strong>Loading...</strong>
+</ng-template>
+<div *ngIf="user; else loading">
+  <div class="p-d-flex">
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="far fa-chevron-left"
+      class="p-button-rounded p-button-text color-light-grey p-mr-2 p-pl-0"
+      routerLink="../"
+    ></button>
+    <h2 class="p-p-0 p-m-0">Edit User</h2>
+  </div>
+  <hr class="p-mt-4 p-mb-4" />
+  <h3 class="p-m-0">Personal Information</h3>
+  <p class="p-m-0 p-pt-1">Lorem ipsum dolor sit amet, consectetur adipiscing</p>
+  <div class="p-fluid p-formgrid p-grid p-mt-5">
+    <div class="p-field p-col-12 p-md-6">
+      <label for="firstName">First Name</label>
+      <input id="firstName" type="text" pInputText />
+    </div>
+    <div class="p-field p-col-12 p-md-6">
+      <label for="lastName">Last Name</label>
+      <input id="lastName" type="text" pInputText />
+    </div>
+    <div class="p-field p-col-12 p-md-6">
+      <label for="email">Email</label>
+      <input id="email" type="text" pInputText />
+    </div>
+    <div class="p-field p-col-12 p-md-6">
+      <label for="phoneNumber">Phone Number</label>
+      <input id="phoneNumber" type="text" pInputText />
+    </div>
+    <div class="p-field p-col-12">
+      <label for="department">Department</label>
+      <input id="department" type="text" pInputText />
+    </div>
+  </div>
+  <hr class="p-mt-4 p-mb-4" />
+  <h3 class="p-m-0">Permissions</h3>
+  <p class="p-m-0 p-pt-1">
+    Set the permissions that you’d like this user to have.
+  </p>
+  <div class="p-fluid p-formgrid p-grid p-mt-5">
+    <div class="p-field p-col-12">
+      <label for="campus">Campus</label>
+      <input id="campus" type="text" pInputText />
+    </div>
+    <div class="p-field p-col-12">
+      <label for="roles">Roles</label>
+      <input id="roles" type="text" pInputText />
+    </div>
+  </div>
+  <hr class="p-mt-4 p-mb-4" />
+  <div class="p-mt-5 p-d-flex p-jc-between">
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Discard Changes"
+      class="p-button-rounded p-button-secondary"
+    ></button>
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Save Changes"
+      class="p-button-rounded"
+    ></button>
+  </div>
+</div>

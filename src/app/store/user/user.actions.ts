@@ -21,6 +21,8 @@ export const selectNotFound = createAction(
 );
 export const selectFailed = createAction('[User Effect] Select User Failed');
 
+export const deselect = createAction('[User List Page] Deselect User');
+
 export const search = createAction(
   '[User List Search Bar] Search Users',
   props<{ term: string }>()

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '@map/models';
 import { Store } from '@ngrx/store';
 import { RootState } from '@store/index';
-import { of } from 'rxjs';
 
 import * as UserActions from '@store/user/user.actions';
 import * as UserSelectors from '@store/user/user.selectors';
