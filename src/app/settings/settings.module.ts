@@ -6,6 +6,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '@shared/shared.module';
 import { SettingsMenuViewComponent } from './views/settings-menu-view/settings-menu-view.component';
 import { UsersPageComponent } from './pages/users-page/users-page.component';
+import { UsersTableComponent } from './components/users-table/users-table.component';
+import { UsersTableViewComponent } from './views/users-table-view/users-table-view.component';
+import { UserSearchInputComponent } from './components/user-search-input/user-search-input.component';
+import { UserSearchInputViewComponent } from './views/user-search-input-view/user-search-input-view.component';
 
 export const routes: Routes = [
   {
@@ -20,6 +24,10 @@ export const routes: Routes = [
     SettingsLayoutComponent,
     SettingsMenuViewComponent,
     UsersPageComponent,
+    UsersTableComponent,
+    UsersTableViewComponent,
+    UserSearchInputComponent,
+    UserSearchInputViewComponent,
   ],
   imports: [
     CommonModule,
@@ -28,7 +36,7 @@ export const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes),
   ],
-  exports: [],
+  exports: [UserSearchInputComponent],
   providers: [],
 })
 export class SettingsModule {}

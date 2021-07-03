@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertService } from '@map/services/alert.service';
 import { Store } from '@ngrx/store';
 import { RootState } from '@store/index';
 import * as AlertActions from '@store/alert/alert.actions';
