@@ -37,6 +37,26 @@ export class UserEffects {
     )
   );
 
+  search$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.search),
+      withLatestFrom(this.store.select(UserSelectors.selectAll)),
+      switchMap(([{ term }, users]) => {
+        const searchResults = users.filter(
+          (entity) =>
+            entity.firstName.toLowerCase().includes(term.toLowerCase()) ||
+            entity.lastName.toLowerCase().includes(term.toLowerCase())
+        );
+        return of(
+          UserActions.searchSuccess({
+            searchResults,
+          })
+        );
+      }),
+      catchError(() => of(UserActions.searchFailed()))
+    )
+  );
+
   select$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.select),
@@ -50,7 +70,7 @@ export class UserEffects {
             })
           );
         } else {
-          return of(UserActions.selectFailed());
+          return of(UserActions.selectNotFound());
         }
       }),
       catchError(() => of(UserActions.selectFailed()))

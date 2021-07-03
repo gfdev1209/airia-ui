@@ -15,6 +15,6 @@ export class UserService extends BaseService {
     return new User(response) as any;
   }
   mapArrayResponseToObject<T>(response: any): T {
-    return response.map((responseJson: any) => new User(responseJson));
+    return response?.$values.map((responseJson: any) => new User(responseJson));
   }
 }
