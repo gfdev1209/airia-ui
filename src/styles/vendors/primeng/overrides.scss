@@ -32,3 +32,23 @@ $fontSize: var(--font-size);
 .p-virtualscroller .p-virtualscroller-content {
   background: var(--background-color);
 }
+.p-multiselect .p-multiselect-label {
+  // padding-top: 5px;
+  // padding-bottom: 5px;
+}
+.p-multiselect-token {
+  background: var(--primary-color);
+  padding: 4px 16px;
+  border-radius: 999px;
+  font-size: small;
+  span.p-multiselect-token-label {
+    padding: 0 6px 0 0;
+  }
+  .p-multiselect-token-icon {
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 600;
+  }
+  .pi-times-circle:before {
+    content: "\f057";
+  }
+}

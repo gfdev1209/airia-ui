@@ -9,6 +9,8 @@ import * as DepartmentActions from '@store/department/department.actions';
 import * as DepartmentSelectors from '@store/department/department.selectors';
 import * as RoleActions from '@store/role/role.actions';
 import * as RoleSelectors from '@store/role/role.selectors';
+import * as LocationActions from '@store/location/location.actions';
+import * as LocationSelectors from '@store/location/location.selectors';
 import { tap } from 'rxjs/operators';
 
 @Component({
@@ -24,6 +26,7 @@ export class UserFormComponent implements OnInit {
       }
     })
   );
+  locations$ = this.store.select(LocationSelectors.selectAll);
   departments$ = this.store.select(DepartmentSelectors.selectAll);
   roles$ = this.store.select(RoleSelectors.selectAll);
 
@@ -33,6 +36,7 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('id');
+    this.store.dispatch(LocationActions.getAll());
     this.store.dispatch(DepartmentActions.getAll());
     this.store.dispatch(RoleActions.getAll());
   }

@@ -6,7 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Department, Role, User } from '@map/models';
+import { Department, Role, User, Location } from '@map/models';
 
 @Component({
   selector: 'app-user-form-view',
@@ -15,8 +15,9 @@ import { Department, Role, User } from '@map/models';
 })
 export class UserFormViewComponent implements OnInit, OnChanges {
   @Input() user?: User | null;
-  @Input() departments?: Department[] | null;
-  @Input() roles?: Role[] | null;
+  @Input() locations: Location[] = [];
+  @Input() departments: Department[] = [];
+  @Input() roles?: Role[] = [];
 
   userForm!: FormGroup;
 
@@ -25,6 +26,9 @@ export class UserFormViewComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.user && !changes.user.firstChange) {
       this.userForm.patchValue(changes.user.currentValue);
+      // this.userForm.controls.department.patchValue(
+      //   changes.user.currentValue.department.id
+      // );
     }
   }
 
@@ -37,6 +41,8 @@ export class UserFormViewComponent implements OnInit, OnChanges {
         this.user?.phone,
         [Validators.required, Validators.minLength(12)],
       ],
+      departmentId: [this.user?.departmentId, [Validators.required]],
+      locations: ['', [Validators.required]],
     });
   }
 }

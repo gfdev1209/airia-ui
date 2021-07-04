@@ -94,7 +94,14 @@
     </div>
     <div class="p-field p-col-12">
       <label for="department">Department</label>
-      <input id="department" type="text" pInputText />
+      <p-dropdown
+        [options]="departments"
+        formControlName="departmentId"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Select a department"
+        dataKey="id"
+      ></p-dropdown>
     </div>
   </div>
   <hr class="p-mt-4 p-mb-4" />
@@ -105,7 +112,17 @@
   <div class="p-fluid p-formgrid p-grid p-mt-5">
     <div class="p-field p-col-12">
       <label for="locations">Locations</label>
-      <input id="locations" type="text" pInputText />
+      <p-multiSelect
+        [options]="locations"
+        formControlName="locations"
+        [showHeader]="false"
+        defaultLabel="Select a Location"
+        optionLabel="name"
+        display="chip"
+        optionValue="id"
+        dataKey="id"
+      ></p-multiSelect>
+      <!-- <input id="locations" type="text" pInputText /> -->
     </div>
     <div class="p-field p-col-12">
       <label for="roles">Roles</label>
@@ -132,3 +149,4 @@
     ></button>
   </div>
 </div>
+{{ userForm.value | json }}
