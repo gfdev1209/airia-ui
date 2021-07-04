@@ -6,7 +6,7 @@ import { Role } from '@map/models';
 @Injectable({
   providedIn: 'root',
 })
-export class AlertService extends BaseService {
+export class RoleService extends BaseService {
   constructor(private httpClient: HttpClient) {
     super('Roles', httpClient);
   }

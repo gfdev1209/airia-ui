@@ -42,6 +42,7 @@ import { AccessPointEffects } from '@store/access-point/access-point.effects';
 import { DeviceEffects } from '@store/device/device.effects';
 import { UserEffects } from '@store/user/user.effects';
 import { DepartmentEffects } from '@store/department/department.effects';
+import { RoleEffects } from '@store/role/role.effects';
 
 const isIE =
   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
@@ -109,6 +110,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
       FloorEffects,
       DepartmentEffects,
       UserEffects,
+      RoleEffects,
     ]),
     StoreDevtoolsModule.instrument({
       maxAge: 20,

@@ -6,7 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Department, User } from '@map/models';
+import { Department, Role, User } from '@map/models';
 
 @Component({
   selector: 'app-user-form-view',
@@ -16,6 +16,7 @@ import { Department, User } from '@map/models';
 export class UserFormViewComponent implements OnInit, OnChanges {
   @Input() user?: User | null;
   @Input() departments?: Department[] | null;
+  @Input() roles?: Role[] | null;
 
   userForm!: FormGroup;
 
