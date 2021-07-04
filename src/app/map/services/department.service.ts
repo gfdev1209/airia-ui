@@ -6,7 +6,7 @@ import { Department } from '@map/models';
 @Injectable({
   providedIn: 'root',
 })
-export class AlertService extends BaseService {
+export class DepartmentService extends BaseService {
   constructor(private httpClient: HttpClient) {
     super('Departments', httpClient);
   }
