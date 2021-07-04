@@ -1,4 +1,5 @@
 import { IBase } from '@shared/interfaces';
+import { Department } from './department.model';
 import { Role } from './role.model';
 
 export class User implements IBase {
@@ -10,6 +11,7 @@ export class User implements IBase {
   phone?: string;
   password?: string;
   departmentId?: number;
+  department?: Department;
   roleId?: number;
   role?: Role;
   b2cGuid!: string;
@@ -27,6 +29,7 @@ export class User implements IBase {
     roleId?: number;
     b2cGuid: string;
     createdAt: Date;
+    department?: Department;
     role?: Role;
   }) {
     this.id = args.userId;
@@ -40,6 +43,9 @@ export class User implements IBase {
     this.roleId = args.roleId;
     if (args.role) {
       this.role = new Role(args.role as any);
+    }
+    if (args.department) {
+      this.department = new Department(args.department as any);
     }
     this.b2cGuid = args.b2cGuid;
     this.createdAt = args.createdAt;

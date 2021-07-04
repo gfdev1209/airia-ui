@@ -60,7 +60,7 @@ export class UserEffects {
       ofType(UserActions.select),
       mergeMap(({ id }) =>
         this.userService
-          .get<User>(id)
+          .get<User>(id, '+Department+Role')
           .pipe(map((user) => UserActions.selectSuccess({ user })))
       ),
       catchError(() => of(UserActions.selectFailed()))

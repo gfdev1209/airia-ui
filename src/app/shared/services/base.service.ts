@@ -48,8 +48,8 @@ export class BaseService {
   //   return new Location(args);
   // }
 
-  get<T>(id: number): Observable<T> {
-    return this.http.get<T>(`${this.apiUrl}/${id}`).pipe(
+  get<T>(id: number, appendToUrl: string = ''): Observable<T> {
+    return this.http.get<T>(`${this.apiUrl}/${id}/${appendToUrl}`).pipe(
       retry(2),
       map((response: any) => this.mapResponseToObject<T>(response)),
       catchError((error) => {

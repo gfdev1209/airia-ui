@@ -26,6 +26,7 @@ import { TagModule as PrimeTagModule } from 'primeng/tag';
 import { MultiSelectModule as PrimeMultiSelectModule } from 'primeng/multiselect';
 import { ContextMenuModule as PrimeContextMenuModule } from 'primeng/contextmenu';
 import { ProgressSpinnerModule as PrimeProgressSpinnerModule } from 'primeng/progressspinner';
+import { InputMaskModule as PrimeInputMaskModule } from 'primeng/inputmask';
 
 // Components
 import { LeftNavComponent } from './components/left-nav/left-nav.component';
@@ -77,6 +78,7 @@ import { InteriorNavComponent } from './components/interior-nav/interior-nav.com
     PrimeTagModule,
     PrimeContextMenuModule,
     PrimeProgressSpinnerModule,
+    PrimeInputMaskModule,
   ],
   exports: [
     // Components
@@ -105,6 +107,7 @@ import { InteriorNavComponent } from './components/interior-nav/interior-nav.com
     PrimeProgressSpinnerModule,
     PrimeTagModule,
     PrimeContextMenuModule,
+    PrimeInputMaskModule,
     // Pipes
     AlertIconByTypePipe,
     ColorByAlertSeverityPipe,
