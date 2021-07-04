@@ -1,8 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
-import { adapter, initialState } from './department.state';
-import * as Actions from './department.actions';
+import { adapter, initialState } from './role.state';
+import * as Actions from './role.actions';
 
-export const departmentReducer = createReducer(
+export const roleReducer = createReducer(
   initialState,
   on(Actions.getAll, (state) => {
     return {
@@ -10,8 +10,8 @@ export const departmentReducer = createReducer(
       loading: true,
     };
   }),
-  on(Actions.getAllSuccess, (state, { departments }) => ({
-    ...adapter.setAll(departments, state),
+  on(Actions.getAllSuccess, (state, { roles }) => ({
+    ...adapter.setAll(roles, state),
     loading: false,
     loaded: true,
   })),
@@ -28,9 +28,9 @@ export const departmentReducer = createReducer(
       showOverview: false,
     };
   }),
-  on(Actions.selectSuccess, (state, { department }) => ({
+  on(Actions.selectSuccess, (state, { role }) => ({
     ...state,
-    selected: { ...department },
+    selected: { ...role },
     loading: false,
     loaded: true,
   })),

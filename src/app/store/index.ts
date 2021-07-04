@@ -15,6 +15,8 @@ import { UserState } from './user/user.state';
 import { userReducer } from './user/user.reducer';
 import { DepartmentState } from './department/department.state';
 import { departmentReducer } from './department/department.reducers';
+import { RoleState } from './role/role.state';
+import { roleReducer } from './role/role.reducers';
 
 export interface RootState {
   alerts: AlertState;
@@ -25,6 +27,7 @@ export interface RootState {
   accessPoints: AccessPointState;
   users: UserState;
   departments: DepartmentState;
+  roles: RoleState;
 }
 export const reducers: ActionReducerMap<RootState> = {
   alerts: alertReducer,
@@ -35,4 +38,5 @@ export const reducers: ActionReducerMap<RootState> = {
   accessPoints: accessPointReducer,
   users: userReducer,
   departments: departmentReducer,
+  roles: roleReducer,
 };
