@@ -102,6 +102,18 @@
         placeholder="Select a department"
         dataKey="id"
       ></p-dropdown>
+      <small
+        class="p-error"
+        *ngIf="
+          !userForm.controls['departmentId'].valid &&
+          userForm.controls['departmentId'].dirty
+        "
+        [innerText]="
+          userForm.controls['departmentId'].errors?.required
+            ? 'A Department is required'
+            : ''
+        "
+      ></small>
     </div>
   </div>
   <hr class="p-mt-4 p-mb-4" />
@@ -120,13 +132,62 @@
         optionLabel="name"
         display="chip"
         optionValue="id"
-        dataKey="id"
       ></p-multiSelect>
-      <!-- <input id="locations" type="text" pInputText /> -->
+      <small
+        class="p-error"
+        *ngIf="
+          !userForm.controls['locations'].valid &&
+          userForm.controls['locations'].dirty
+        "
+        [innerText]="
+          userForm.controls['locations'].errors?.required
+            ? 'At least one Location is required'
+            : ''
+        "
+      ></small>
     </div>
     <div class="p-field p-col-12">
-      <label for="roles">Roles</label>
-      <input id="roles" type="text" pInputText />
+      <label for="roles">Role</label>
+      <p-dropdown
+        [options]="roles"
+        formControlName="roleId"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Select a role"
+        dataKey="id"
+      ></p-dropdown>
+      <small
+        class="p-error"
+        *ngIf="
+          !userForm.controls['roleId'].valid &&
+          userForm.controls['roleId'].dirty
+        "
+        [innerText]="
+          userForm.controls['roleId'].errors?.required
+            ? 'A Role is required'
+            : ''
+        "
+      ></small>
+      <!-- <p-multiSelect
+        [options]="roles"
+        formControlName="roles"
+        [showHeader]="false"
+        defaultLabel="Select a Role"
+        optionLabel="name"
+        display="chip"
+        optionValue="id"
+      ></p-multiSelect>
+      <small
+        class="p-error"
+        *ngIf="
+          !userForm.controls['roles'].valid && userForm.controls['roles'].dirty
+        "
+        [innerText]="
+          userForm.controls['roles'].errors?.required
+            ? 'At least one Role is required'
+            : ''
+        "
+      ></small> -->
     </div>
   </div>
   <hr class="p-mt-4 p-mb-4" />
@@ -149,4 +210,6 @@
     ></button>
   </div>
 </div>
-{{ userForm.value | json }}
+<pre
+  >{{ userForm.value | json }}
+</pre>

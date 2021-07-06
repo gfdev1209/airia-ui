@@ -23,6 +23,9 @@ $background-color-RGB-dark: 9, 3, 13;
 $background-color-contrast: $black;
 $background-color-contrast-dark: $white;
 
+$background-color-contrast-RGB: 0, 0, 0;
+$background-color-contrast-RGB-dark: 255, 255, 255;
+
 $background-color-shade-1: #ebeef0;
 $background-color-shade-1-dark: $darker-grey;
 
@@ -71,6 +74,10 @@ $colors: (
   --background-color-contrast: (
     $background-color-contrast,
     $background-color-contrast-dark,
+  ),
+  --background-color-contrast-RGB: (
+    $background-color-contrast-RGB,
+    $background-color-contrast-RGB-dark,
   ),
   --background-color-shade-1: (
     $background-color-shade-1,

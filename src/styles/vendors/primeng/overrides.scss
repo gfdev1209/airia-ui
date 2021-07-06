@@ -36,6 +36,11 @@ $fontSize: var(--font-size);
   // padding-top: 5px;
   // padding-bottom: 5px;
 }
+.p-paginator .p-dropdown .p-dropdown-label {
+  padding: 0.35rem 1rem;
+  padding-right: 0;
+  font-size: small;
+}
 .p-multiselect-token {
   background: var(--primary-color);
   padding: 4px 16px;

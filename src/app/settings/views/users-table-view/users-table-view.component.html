@@ -1,3 +1,61 @@
-<p>
-  users-table-view works!
-</p>
+<div *ngIf="users">
+  <p-table
+    [value]="users"
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [globalFilterFields]="['fullName']"
+    [responsive]="true"
+    selectionMode="single"
+    [(selection)]="selectedUser"
+    (onRowSelect)="onRowSelect($event)"
+    dataKey="id"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 33%" pSortableColumn="fullName">
+          Name <p-sortIcon field="fullName"></p-sortIcon>
+        </th>
+        <th pSortableColumn="role">
+          Role <p-sortIcon field="role"></p-sortIcon>
+        </th>
+        <th pSortableColumn="department">
+          Department <p-sortIcon field="department"></p-sortIcon>
+        </th>
+        <th style="width: 115px">Action</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr [pSelectableRow]="user">
+        <td class="line-height-1-25">
+          <strong>{{ user.fullName }}</strong
+          ><br />
+          <small class="color-text-medium">{{ user.email }}</small>
+        </td>
+        <td>
+          {{ user.role }}
+        </td>
+        <td>
+          {{ user.department }}
+        </td>
+        <td>
+          <button
+            pButton
+            pRipple
+            type="button"
+            label="Delete"
+            icon="fas fa-trash-alt"
+            class="p-button-text p-pl-0"
+            (click)="onDelete(user)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<p-confirmDialog
+  header="Confirmation"
+  rejectButtonStyleClass="p-button-text"
+></p-confirmDialog>

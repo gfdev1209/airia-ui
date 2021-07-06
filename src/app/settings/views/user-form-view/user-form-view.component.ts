@@ -17,7 +17,7 @@ export class UserFormViewComponent implements OnInit, OnChanges {
   @Input() user?: User | null;
   @Input() locations: Location[] = [];
   @Input() departments: Department[] = [];
-  @Input() roles?: Role[] = [];
+  @Input() roles: Role[] = [];
 
   userForm!: FormGroup;
 
@@ -26,8 +26,8 @@ export class UserFormViewComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.user && !changes.user.firstChange) {
       this.userForm.patchValue(changes.user.currentValue);
-      // this.userForm.controls.department.patchValue(
-      //   changes.user.currentValue.department.id
+      // this.userForm.controls.roles.patchValue(
+      //   changes.user.currentValue.roles.id
       // );
     }
   }
@@ -43,6 +43,7 @@ export class UserFormViewComponent implements OnInit, OnChanges {
       ],
       departmentId: [this.user?.departmentId, [Validators.required]],
       locations: ['', [Validators.required]],
+      roleId: [this.user?.roleId, [Validators.required]],
     });
   }
 }
