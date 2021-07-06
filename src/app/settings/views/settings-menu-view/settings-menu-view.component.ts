@@ -8,12 +8,12 @@ import { MenuLink } from '@shared/models';
 })
 export class SettingsMenuViewComponent implements OnInit {
   menuLinks: MenuLink[] = [
-    {
-      title: 'Personal Details',
-      route: '/settings/personal',
-      description: 'Personal Information, Notifications',
-      icon: 'fa-user',
-    },
+    // {
+    //   title: 'Personal Details',
+    //   route: '/settings/personal',
+    //   description: 'Personal Information, Notifications',
+    //   icon: 'fa-user',
+    // },
     {
       title: 'User Management',
       route: '/settings/users',
