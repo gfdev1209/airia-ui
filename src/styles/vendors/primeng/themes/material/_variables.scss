@@ -480,7 +480,7 @@ $tableSortableColumnBadgeSize: 1.143rem;
 $tableBodyRowBg: var(--background-color-shade-1);
 $tableBodyRowTextColor: $textColor;
 $tableBodyRowEvenBg: rgba(0, 0, 0, 0.02);
-$tableBodyRowHoverBg: rgba(0, 0, 0, 0.04);
+$tableBodyRowHoverBg: rgba(var(--background-color-contrast-RGB), 0.04);
 $tableBodyRowTextHoverColor: $textColor;
 $tableBodyCellBorder: 1px solid var(--text-input-background-color);
 $tableBodyCellBorderWidth: 0 0 1px 0;
@@ -584,7 +584,7 @@ $overlayContainerShadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
   0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
 
 //dialog
-$dialogHeaderBg: #ffffff;
+$dialogHeaderBg: var(--background-color-shade-1);
 $dialogHeaderBorder: 0 none;
 $dialogHeaderTextColor: $textColor;
 $dialogHeaderFontWeight: 500;
