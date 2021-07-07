@@ -1,5 +1,7 @@
 <app-user-search-input-view
   [searchResults]="searchResults$ | async"
+  [showIcon]="showIcon"
+  [placeholder]="placeholder"
   (search)="search($event)"
   (selectUser)="selectUser($event)"
 ></app-user-search-input-view>

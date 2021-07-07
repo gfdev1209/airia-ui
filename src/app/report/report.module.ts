@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '@shared/shared.module';
 import { ReportFormViewComponent } from './views/report-form-view/report-form-view.component';
@@ -10,7 +10,13 @@ import { AlertTableComponent } from './components/alert-table/alert-table.compon
 import { AlertTableViewComponent } from './views/alert-table-view/alert-table-view.component';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, RouterModule, SharedModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    SharedModule,
+  ],
   declarations: [
     ReportLayoutComponent,
     ReportFormComponent,

@@ -38,6 +38,8 @@ import { UnderscoreToSpacePipe } from './pipes/underscore-to-space.pipe';
 import { EnumToSelectItemsPipe } from './pipes/enum-to-select-items.pipe';
 import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
 import { InteriorNavComponent } from './components/interior-nav/interior-nav.component';
+import { UserSearchInputComponent } from './components/user-search-input/user-search-input.component';
+import { UserSearchInputViewComponent } from './views/user-search-input-view/user-search-input-view.component';
 // Components
 
 @NgModule({
@@ -45,6 +47,8 @@ import { InteriorNavComponent } from './components/interior-nav/interior-nav.com
     InteriorLayoutComponent,
     LeftNavComponent,
     InteriorNavComponent,
+    UserSearchInputComponent,
+    UserSearchInputViewComponent,
     AlertIconByTypePipe,
     ColorByAlertSeverityPipe,
     UnderscoreToSpacePipe,
@@ -86,6 +90,7 @@ import { InteriorNavComponent } from './components/interior-nav/interior-nav.com
     // Components
     LeftNavComponent,
     InteriorNavComponent,
+    UserSearchInputComponent,
     // Prime Modules
     PrimeRippleModule,
     PrimeButtonModule,
