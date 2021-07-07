@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { User } from '@map/models';
 import { Store } from '@ngrx/store';
 import { RootState } from '@store/index';
@@ -12,6 +12,11 @@ import * as UserSelectors from '@store/user/user.selectors';
   styleUrls: ['./user-search-input.component.scss'],
 })
 export class UserSearchInputComponent implements OnInit {
+  @Input() showIcon = true;
+  @Input() placeholder = 'Search for user';
+
+  @Output() userSelected = new EventEmitter<User>();
+
   searchResults$ = this.store.select(UserSelectors.selectSearchResults);
 
   constructor(private store: Store<RootState>) {}
@@ -23,5 +28,6 @@ export class UserSearchInputComponent implements OnInit {
   }
   selectUser(user: User): void {
     this.store.dispatch(UserActions.select({ id: user.id }));
+    this.userSelected.emit(user);
   }
 }

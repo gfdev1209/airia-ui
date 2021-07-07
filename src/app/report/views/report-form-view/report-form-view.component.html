@@ -1,18 +1,22 @@
-<div class="report-container">
+<div class="report-container" [formGroup]="reportForm">
   <h2 class="p-m-0 p-p-0">Generate Report</h2>
   <hr class="p-mt-4 p-mb-4" />
   <div class="p-fluid p-formgrid p-grid">
     <div class="p-field p-col-12 p-md-6">
       <label for="reportTitle">Report Title</label>
-      <input id="reportTitle" type="text" pInputText />
+      <input id="reportTitle" formControlName="title" type="text" pInputText />
     </div>
     <div class="p-field p-col-12 p-md-6">
       <label for="reportEmail">Email Report To</label>
-      <input id="reportEmail" type="text" pInputText />
+      <app-user-search-input
+        [showIcon]="false"
+        placeholder=""
+        (userSelected)="userSelected($event)"
+      ></app-user-search-input>
     </div>
     <div class="p-field p-col-12">
       <label for="reportMemo">Report Memo</label>
-      <input id="reportMemo" type="text" pInputText />
+      <input id="reportMemo" formControlName="memo" type="text" pInputText />
     </div>
   </div>
   <hr class="p-mt-4 p-mb-4" />
@@ -28,21 +32,23 @@
       type="button"
       label="Discard Changes"
       class="p-button-rounded p-button-secondary"
+      routerLink="../"
     ></button>
     <div>
-      <button
+      <!-- <button
         pButton
         pRipple
         type="button"
         label="Save Draft"
         class="p-button-rounded p-mr-3"
-      ></button>
+      ></button> -->
       <button
         pButton
         pRipple
         type="button"
         label="Generate Report"
         class="p-button-rounded"
+        [disabled]="!reportForm.valid"
       ></button>
     </div>
   </div>

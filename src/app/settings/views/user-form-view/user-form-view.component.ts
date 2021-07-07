@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
   OnChanges,
@@ -12,6 +13,7 @@ import { Department, Role, User, Location } from '@map/models';
   selector: 'app-user-form-view',
   templateUrl: './user-form-view.component.html',
   styleUrls: ['./user-form-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserFormViewComponent implements OnInit, OnChanges {
   @Input() user?: User | null;
