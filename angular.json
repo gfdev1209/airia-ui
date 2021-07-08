@@ -43,6 +43,14 @@
             ]
           },
           "configurations": {
+            "harringtondr": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.harringtondr.ts"
+                }
+              ]
+            },
             "stuartshome": {
               "fileReplacements": [
                 {
@@ -88,6 +96,9 @@
           "configurations": {
             "production": {
               "browserTarget": "airia:build:production"
+            },
+            "harringtondr": {
+              "browserTarget": "airia:build:harringtondr"
             },
             "stuartshome": {
               "browserTarget": "airia:build:stuartshome"
