@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.harringtondr.airia20.com/api/',
+  apiUrl: 'https://harringtondr-api.dev.airia20.com/api/',
   // MapBox
   mapboxAccessToken:
     'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',
@@ -14,5 +14,5 @@ export const environment = {
   b2cAuthorityEditProfile:
     'https://airiaharringtondr.b2clogin.com/harringtondr.airia20.com/B2C_1_airiaprofile',
   b2cScopes: ['https://harringtondr.airia20.com/api/demo.read'],
-  b2cApiUrl: 'https://api.harringtondr.airia20.com',
+  b2cApiUrl: 'https://harringtondr-api.dev.airia20.com',
 };
