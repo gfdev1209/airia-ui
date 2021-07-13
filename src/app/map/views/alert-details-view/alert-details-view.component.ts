@@ -17,29 +17,14 @@ import {
 import { Message } from 'primeng/api';
 import { Alert } from '../../models';
 import { AlertSeverity } from '@map/enums';
+import { slidePanelAnimation } from 'src/app/app.animations';
 
 @Component({
   selector: 'app-alert-details-view',
   templateUrl: './alert-details-view.component.html',
   styleUrls: ['./alert-details-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('slidePanel', [
-      state(
-        'true',
-        style({ transform: 'translateX(0)', opacity: 1, visibility: 'visible' })
-      ),
-      state(
-        'false',
-        style({
-          transform: 'translateX(-50%)',
-          opacity: 0,
-          visibility: 'hidden',
-        })
-      ),
-      transition('* => *', animate('350ms ease-out')),
-    ]),
-  ],
+  animations: [slidePanelAnimation],
 })
 export class AlertDetailsViewComponent implements OnInit {
   @Input() alert?: Alert | null;

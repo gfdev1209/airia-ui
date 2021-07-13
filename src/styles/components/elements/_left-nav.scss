@@ -49,7 +49,7 @@
       &.active,
       &:hover {
         border-left: $left-nav-active-border-width solid var(--primary-color);
-        background-color: var(--background-color-shade-1);
+        background-color: var(--text-input-background-color);
         img,
         [class*="fa-"] {
           left: -$left-nav-active-border-width;

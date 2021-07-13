@@ -24,6 +24,8 @@ import { ZoomControlsComponent } from './components/zoom-controls/zoom-controls.
 import { ZoomControlsViewComponent } from './views/zoom-controls-view/zoom-controls-view.component';
 import { AccessPointOverviewComponent } from './components/access-point-overview/access-point-overview.component';
 import { AccessPointOverviewViewComponent } from './views/access-point-overview-view/access-point-overview-view.component';
+import { BuildingDetailsComponent } from './components/building-details/building-details.component';
+import { BuildingDetailsViewComponent } from './views/building-details-view/building-details-view.component';
 
 @NgModule({
   imports: [
@@ -53,6 +55,8 @@ import { AccessPointOverviewViewComponent } from './views/access-point-overview-
     SearchBarViewComponent,
     BuildingOverviewComponent,
     BuildingOverviewViewComponent,
+    BuildingDetailsComponent,
+    BuildingDetailsViewComponent,
     AccessPointOverviewComponent,
     AccessPointOverviewViewComponent,
     ZoomControlsComponent,

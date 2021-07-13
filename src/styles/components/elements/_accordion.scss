@@ -2,13 +2,13 @@
   p-accordiontab {
     &:first-child {
       .p-accordion-tab {
-        border-top: 1px solid var(--background-color-shade-1);
+        border-top: 1px solid var(--background-color-shade-2);
       }
     }
   }
   .p-accordion-tab {
     box-shadow: none;
-    border-bottom: 1px solid var(--background-color-shade-1);
+    border-bottom: 1px solid var(--background-color-shade-2);
 
     &.p-accordion-tab-active {
       margin-bottom: 0;
