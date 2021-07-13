@@ -28,6 +28,7 @@ import { ContextMenuModule as PrimeContextMenuModule } from 'primeng/contextmenu
 import { ProgressSpinnerModule as PrimeProgressSpinnerModule } from 'primeng/progressspinner';
 import { InputMaskModule as PrimeInputMaskModule } from 'primeng/inputmask';
 import { ConfirmDialogModule as PrimeConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule as PrimeDialogModule } from 'primeng/dialog';
 
 // Components
 import { LeftNavComponent } from './components/left-nav/left-nav.component';
@@ -84,6 +85,7 @@ import { UserSearchInputViewComponent } from './views/user-search-input-view/use
     PrimeContextMenuModule,
     PrimeProgressSpinnerModule,
     PrimeInputMaskModule,
+    PrimeDialogModule,
     PrimeConfirmDialogModule,
   ],
   exports: [
@@ -115,6 +117,7 @@ import { UserSearchInputViewComponent } from './views/user-search-input-view/use
     PrimeTagModule,
     PrimeContextMenuModule,
     PrimeInputMaskModule,
+    PrimeDialogModule,
     PrimeConfirmDialogModule,
     // Pipes
     AlertIconByTypePipe,

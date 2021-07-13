@@ -8,7 +8,7 @@ import { BaseService } from '@shared/services/base.service';
 })
 export class FloorService extends BaseService {
   constructor(private httpClient: HttpClient) {
-    super('Floors', httpClient);
+    super('BuildingFloorInfos', httpClient);
   }
   mapResponseToObject<T>(response: any): T {
     return new Floor(response) as any;
