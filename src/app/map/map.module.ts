@@ -25,7 +25,13 @@ import { ZoomControlsViewComponent } from './views/zoom-controls-view/zoom-contr
 import { AccessPointOverviewComponent } from './components/access-point-overview/access-point-overview.component';
 import { AccessPointOverviewViewComponent } from './views/access-point-overview-view/access-point-overview-view.component';
 import { BuildingDetailsComponent } from './components/building-details/building-details.component';
-import { BuildingDetailsViewComponent } from './views/building-details-view/building-details-view.component';
+import { BuildingDetailsViewComponent } from './views/building-details/building-details-view/building-details-view.component';
+import { BuildingDetailsOccupancyViewComponent } from './views/building-details/building-details-occupancy-view/building-details-occupancy-view.component';
+import { BuildingDetailsAlertsViewComponent } from './views/building-details/building-details-alerts-view/building-details-alerts-view.component';
+import { BuildingDetailsAccessPointsViewComponent } from './views/building-details/building-details-access-points-view/building-details-access-points-view.component';
+import { BuildingDetailsOccupancyComponent } from './components/building-details/building-details-occupancy/building-details-occupancy.component';
+import { BuildingDetailsAlertsComponent } from './components/building-details/building-details-alerts/building-details-alerts.component';
+import { BuildingDetailsAccessPointsComponent } from './components/building-details/building-details-access-points/building-details-access-points.component';
 
 @NgModule({
   imports: [
@@ -57,6 +63,12 @@ import { BuildingDetailsViewComponent } from './views/building-details-view/buil
     BuildingOverviewViewComponent,
     BuildingDetailsComponent,
     BuildingDetailsViewComponent,
+    BuildingDetailsOccupancyComponent,
+    BuildingDetailsOccupancyViewComponent,
+    BuildingDetailsAlertsComponent,
+    BuildingDetailsAlertsViewComponent,
+    BuildingDetailsAccessPointsComponent,
+    BuildingDetailsAccessPointsViewComponent,
     AccessPointOverviewComponent,
     AccessPointOverviewViewComponent,
     ZoomControlsComponent,

@@ -29,6 +29,8 @@ import { ProgressSpinnerModule as PrimeProgressSpinnerModule } from 'primeng/pro
 import { InputMaskModule as PrimeInputMaskModule } from 'primeng/inputmask';
 import { ConfirmDialogModule as PrimeConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule as PrimeDialogModule } from 'primeng/dialog';
+import { TabViewModule as PrimeTabViewModule } from 'primeng/tabview';
+import { TooltipModule as PrimeTooltipModule } from 'primeng/tooltip';
 
 // Components
 import { LeftNavComponent } from './components/left-nav/left-nav.component';
@@ -41,6 +43,8 @@ import { EnumToArrayPipe } from './pipes/enum-to-array.pipe';
 import { InteriorNavComponent } from './components/interior-nav/interior-nav.component';
 import { UserSearchInputComponent } from './components/user-search-input/user-search-input.component';
 import { UserSearchInputViewComponent } from './views/user-search-input-view/user-search-input-view.component';
+import { BlockChartItemViewComponent } from './views/block-chart-item-view/block-chart-item-view.component';
+import { BlockChartViewComponent } from './views/block-chart-view/block-chart-view.component';
 // Components
 
 @NgModule({
@@ -50,6 +54,8 @@ import { UserSearchInputViewComponent } from './views/user-search-input-view/use
     InteriorNavComponent,
     UserSearchInputComponent,
     UserSearchInputViewComponent,
+    BlockChartViewComponent,
+    BlockChartItemViewComponent,
     AlertIconByTypePipe,
     ColorByAlertSeverityPipe,
     UnderscoreToSpacePipe,
@@ -87,12 +93,16 @@ import { UserSearchInputViewComponent } from './views/user-search-input-view/use
     PrimeInputMaskModule,
     PrimeDialogModule,
     PrimeConfirmDialogModule,
+    PrimeTabViewModule,
+    PrimeTooltipModule,
   ],
   exports: [
     // Components
     LeftNavComponent,
     InteriorNavComponent,
     UserSearchInputComponent,
+    BlockChartViewComponent,
+    BlockChartItemViewComponent,
     // Prime Modules
     PrimeRippleModule,
     PrimeButtonModule,
@@ -119,6 +129,8 @@ import { UserSearchInputViewComponent } from './views/user-search-input-view/use
     PrimeInputMaskModule,
     PrimeDialogModule,
     PrimeConfirmDialogModule,
+    PrimeTabViewModule,
+    PrimeTooltipModule,
     // Pipes
     AlertIconByTypePipe,
     ColorByAlertSeverityPipe,

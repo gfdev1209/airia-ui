@@ -379,30 +379,30 @@ $accordionContentTextColor: $textColor;
 $accordionContentPadding: 0 0 1rem 0;
 
 //tabview
-$tabviewNavBorder: solid rgba(0, 0, 0, 0.12);
+$tabviewNavBorder: solid var(--background-color-shade-2);
 $tabviewNavBorderWidth: 0 0 1px 0;
-$tabviewNavBg: #ffffff;
+$tabviewNavBg: var(--background-color);
 
 $tabviewHeaderSpacing: 0;
 $tabviewHeaderBorder: none;
 $tabviewHeaderBorderWidth: 0 0 0 0;
 $tabviewHeaderBorderColor: transparent transparent transparent transparent;
-$tabviewHeaderBg: #ffffff;
-$tabviewHeaderTextColor: $textSecondaryColor;
-$tabviewHeaderFontWeight: 500;
-$tabviewHeaderPadding: 1rem 1.5rem;
+$tabviewHeaderBg: var(--background-color);
+$tabviewHeaderTextColor: var(--text-medium-color);
+$tabviewHeaderFontWeight: var(--heading-font-weight);
+$tabviewHeaderPadding: 1rem 1rem;
 $tabviewHeaderMargin: 0 0 0 0;
 
 $tabviewHeaderHoverBg: rgba($primaryColorRGB, 0.04);
 $tabviewHeaderHoverBorderColor: transparent;
-$tabviewHeaderTextHoverColor: $textSecondaryColor;
+$tabviewHeaderTextHoverColor: var(--background-color-contrast-dark);
 
-$tabviewHeaderActiveBg: #ffffff;
+$tabviewHeaderActiveBg: var(--background-color);
 $tabviewHeaderActiveBorderColor: transparent;
-$tabviewHeaderTextActiveColor: $primaryColor;
+$tabviewHeaderTextActiveColor: var(--background-color-contrast-dark);
 
 $tabviewContentBorder: 0 none;
-$tabviewContentBg: #ffffff;
+$tabviewContentBg: var(--background-color);
 $tabviewContentTextColor: $textColor;
 $tabviewContentPadding: $panelContentPadding;
 
@@ -586,8 +586,8 @@ $overlayContainerShadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
 //dialog
 $dialogHeaderBg: var(--background-color-shade-1);
 $dialogHeaderBorder: 0 none;
-$dialogHeaderTextColor: $textColor;
-$dialogHeaderFontWeight: 500;
+$dialogHeaderTextColor: var(--heading-color);
+$dialogHeaderFontWeight: var(--heading-font-weight);
 $dialogHeaderFontSize: 1.25rem;
 $dialogHeaderPadding: 1.5rem;
 $dialogContentPadding: 0 1.5rem 1.5rem 1.5rem;
@@ -595,8 +595,8 @@ $dialogFooterBorder: 0 none;
 $dialogFooterPadding: 1rem 1.5rem;
 
 //tooltip
-$tooltipBg: rgba(97, 97, 97, 0.9);
-$tooltipTextColor: #ffffff;
+$tooltipBg: var(--background-color-shade-2);
+$tooltipTextColor: var(--heading-color);
 $tooltipPadding: 0.5rem;
 
 //steps

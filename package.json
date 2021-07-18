@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --configuration=stuartshome",
+    "start": "ng serve --configuration=harringtondr",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
