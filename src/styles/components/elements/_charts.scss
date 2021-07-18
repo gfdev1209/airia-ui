@@ -1,0 +1,20 @@
+.block-chart-item {
+  height: 42px;
+  width: 100%;
+  margin: 0 2px;
+  &:first-child {
+    margin-left: 0;
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+  div {
+    background-color: var(--primary-color);
+  }
+}
+.block-legend-item {
+  width: 100%;
+  height: 5px;
+  margin: 2px;
+  background: var(--primary-color);
+}

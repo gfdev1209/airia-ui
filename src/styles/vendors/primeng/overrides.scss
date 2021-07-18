@@ -57,3 +57,7 @@ $fontSize: var(--font-size);
     content: "\f057";
   }
 }
+.p-tabview .p-tabview-nav .p-tabview-ink-bar {
+  height: 4px;
+  bottom: -2px;
+}

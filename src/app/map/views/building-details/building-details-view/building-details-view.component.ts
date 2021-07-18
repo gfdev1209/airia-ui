@@ -10,8 +10,9 @@ import { slidePanelAnimation } from 'src/app/app.animations';
 })
 export class BuildingDetailsViewComponent implements OnInit {
   @Input() building?: Building;
+  displayModal = true;
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 }

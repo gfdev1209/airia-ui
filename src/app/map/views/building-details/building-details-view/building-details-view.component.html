@@ -1,0 +1,24 @@
+<p-dialog
+  [header]="building ? building.name : 'Building'"
+  [visible]="displayModal"
+  [maximizable]="true"
+  [closable]="true"
+  styleClass="building-details-container"
+  position="top-left"
+  [style]="{ width: '740px', top: '45px', left: '65px' }"
+  ><p-tabView>
+    <p-tabPanel header="Occupancy">
+      <app-building-details-occupancy></app-building-details-occupancy>
+    </p-tabPanel>
+    <p-tabPanel header="Alert History"> Content 2 </p-tabPanel>
+    <p-tabPanel header="Access Points"> Content 3 </p-tabPanel>
+  </p-tabView>
+  <!-- <ng-template pTemplate="footer">
+    <p-button
+      icon="pi pi-check"
+      (click)="displayModal = false"
+      label="Ok"
+      styleClass="p-button-text"
+    ></p-button>
+  </ng-template> -->
+</p-dialog>
