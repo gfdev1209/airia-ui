@@ -1,0 +1,133 @@
+<div *ngIf="accessPoints">
+  <p-table
+    class="report-table"
+    [value]="accessPoints"
+    [(selection)]="selectedAccessPoints"
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [globalFilterFields]="['createdAt']"
+    [responsive]="true"
+    dataKey="id"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngIf="showCheckboxColumn" style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="name">
+          Name <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="floor">
+          Floor <p-sortIcon field="floor"></p-sortIcon>
+        </th>
+        <th pSortableColumn="status">
+          Status <p-sortIcon field="status"></p-sortIcon>
+        </th>
+        <th pSortableColumn="wapmac">
+          Wapmac <p-sortIcon field="wapmac"></p-sortIcon>
+        </th>
+        <th *ngIf="selectedBuilding === null" pSortableColumn="buildingId">
+          Building <p-sortIcon field="buildingId"></p-sortIcon>
+        </th>
+        <th style="width: 5rem">Action</th>
+      </tr>
+      <tr>
+        <th *ngIf="showCheckboxColumn" style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th>
+          <p-columnFilter type="text" field="name"></p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter type="text" field="floor"></p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter field="status" matchMode="in" [showMenu]="false">
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <p-multiSelect
+                [ngModel]="value"
+                [options]="statuses"
+                placeholder="Any"
+                optionLabel="label"
+                optionValue="value"
+                (onChange)="filter($event.value)"
+                [showHeader]="false"
+              >
+                <ng-template let-option pTemplate="item">
+                  <div class="p-multiselect-representative-option">
+                    {{ option.value }}
+                  </div>
+                </ng-template>
+              </p-multiSelect>
+            </ng-template>
+          </p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter type="text" field="wapmac"></p-columnFilter>
+        </th>
+        <th *ngIf="selectedBuilding === null">
+          <p-columnFilter field="buildingId" matchMode="in" [showMenu]="false">
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <p-multiSelect
+                [ngModel]="value"
+                [options]="buildingList"
+                placeholder="Any"
+                optionLabel="label"
+                optionValue="value"
+                (onChange)="filter($event.value)"
+                [showHeader]="false"
+              >
+                <ng-template let-option pTemplate="item">
+                  <div class="p-multiselect-representative-option">
+                    {{ option.label }}
+                  </div>
+                </ng-template>
+              </p-multiSelect>
+            </ng-template>
+          </p-columnFilter>
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-accessPoint>
+      <tr>
+        <td *ngIf="showCheckboxColumn">
+          <p-tableCheckbox [value]="accessPoint"></p-tableCheckbox>
+        </td>
+        <td>{{ accessPoint.name }}</td>
+        <td>
+          {{ accessPoint.floor }}
+        </td>
+        <td>
+          {{ accessPoint.status }}
+        </td>
+        <td>
+          {{ accessPoint.wapmac }}
+        </td>
+        <td *ngIf="selectedBuilding === null">{{ accessPoint.buildingId }}</td>
+        <td>
+          <button
+            pButton
+            pRipple
+            type="button"
+            label="Edit"
+            icon="fas fa-pencil-alt"
+            class="p-button-text p-pl-0 p-pr-0"
+            (click)="onEdit(accessPoint)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

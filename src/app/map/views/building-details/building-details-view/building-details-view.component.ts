@@ -9,7 +9,7 @@ import { slidePanelAnimation } from 'src/app/app.animations';
   animations: [slidePanelAnimation],
 })
 export class BuildingDetailsViewComponent implements OnInit {
-  @Input() building?: Building;
+  @Input() building?: Building | null;
   displayModal = true;
 
   constructor() {}

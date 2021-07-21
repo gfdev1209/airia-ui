@@ -45,10 +45,15 @@ import { UserSearchInputComponent } from './components/user-search-input/user-se
 import { UserSearchInputViewComponent } from './views/user-search-input-view/user-search-input-view.component';
 import { BlockChartItemViewComponent } from './views/block-chart-item-view/block-chart-item-view.component';
 import { BlockChartViewComponent } from './views/block-chart-view/block-chart-view.component';
+import { AlertTableComponent } from './components/alert-table/alert-table.component';
+import { AlertTableViewComponent } from './views/alert-table-view/alert-table-view.component';
+import { AccessPointTableComponent } from './components/access-point-table/access-point-table.component';
+import { AccessPointTableViewComponent } from './views/access-point-table-view/access-point-table-view.component';
 // Components
 
 @NgModule({
   declarations: [
+    // Components
     InteriorLayoutComponent,
     LeftNavComponent,
     InteriorNavComponent,
@@ -56,6 +61,11 @@ import { BlockChartViewComponent } from './views/block-chart-view/block-chart-vi
     UserSearchInputViewComponent,
     BlockChartViewComponent,
     BlockChartItemViewComponent,
+    AlertTableComponent,
+    AlertTableViewComponent,
+    AccessPointTableComponent,
+    AccessPointTableViewComponent,
+    // Pipes
     AlertIconByTypePipe,
     ColorByAlertSeverityPipe,
     UnderscoreToSpacePipe,
@@ -103,6 +113,10 @@ import { BlockChartViewComponent } from './views/block-chart-view/block-chart-vi
     UserSearchInputComponent,
     BlockChartViewComponent,
     BlockChartItemViewComponent,
+    AlertTableComponent,
+    AlertTableViewComponent,
+    AccessPointTableComponent,
+    AccessPointTableViewComponent,
     // Prime Modules
     PrimeRippleModule,
     PrimeButtonModule,

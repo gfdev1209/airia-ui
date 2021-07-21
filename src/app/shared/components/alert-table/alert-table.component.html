@@ -1,4 +1,6 @@
 <app-alert-table-view
   [alerts]="alerts$ | async"
   [buildings]="buildings$ | async"
+  [selectedBuilding]="building"
+  [showCheckboxColumn]="showCheckboxColumn"
 ></app-alert-table-view>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Building } from '@map/models';
 
 @Component({
   selector: 'app-building-details-occupancy',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./building-details-occupancy.component.scss'],
 })
 export class BuildingDetailsOccupancyComponent {
+  @Input() building?: Building | null;
   constructor() {}
 
   onOccupancyDateChanged(date: Date): void {
