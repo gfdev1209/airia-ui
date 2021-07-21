@@ -1,3 +1,4 @@
-<p>
-  building-details-access-points works!
-</p>
+<app-building-details-access-points-view
+  [accessPoints]="accessPoints$ | async"
+  [building]="building$ | async"
+></app-building-details-access-points-view>

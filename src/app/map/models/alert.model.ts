@@ -3,6 +3,7 @@ import { IBase } from '@shared/interfaces';
 
 export class Alert implements IBase {
   id!: number;
+  buildingId!: number;
   accessPointId!: number;
   severity!: AlertSeverity;
   type!: AlertType;
@@ -12,6 +13,7 @@ export class Alert implements IBase {
 
   constructor(args: {
     alertId: number;
+    buildingId: number;
     accessPointId: number;
     alertSeverity: string;
     type: string;
@@ -19,6 +21,7 @@ export class Alert implements IBase {
     createdAt: Date;
   }) {
     this.id = args.alertId;
+    this.buildingId = args.buildingId;
     this.accessPointId = args.accessPointId;
     this.severity = args.alertSeverity as AlertSeverity;
     this.type = args.type as AlertType;

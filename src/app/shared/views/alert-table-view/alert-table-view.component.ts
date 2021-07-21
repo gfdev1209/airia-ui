@@ -19,7 +19,9 @@ import { EnumToSelectItemsPipe } from '@shared/pipes/enum-to-select-items.pipe';
 })
 export class AlertTableViewComponent implements OnChanges {
   @Input() alerts: Alert[] | null = [];
+  @Input() selectedBuilding?: Building | null;
   @Input() buildings: Building[] | null = [];
+  @Input() showCheckboxColumn!: boolean;
 
   AlertSeverityName = AlertSeverity;
   AlertTypeName = AlertType;
@@ -29,9 +31,7 @@ export class AlertTableViewComponent implements OnChanges {
   alertTypes = this.enumToSelectItemsPipe.transform(AlertType);
   buildingList: any[] = [];
 
-  constructor(private enumToSelectItemsPipe: EnumToSelectItemsPipe) {
-    console.log(this.alerts);
-  }
+  constructor(private enumToSelectItemsPipe: EnumToSelectItemsPipe) {}
   ngOnChanges(changes: SimpleChanges): void {
     // Convert buildings to a basic array for multi-select
     if (!changes.buildings?.firstChange && changes.buildings?.currentValue) {

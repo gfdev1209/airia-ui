@@ -8,10 +8,18 @@
   [style]="{ width: '740px', top: '45px', left: '65px' }"
   ><p-tabView>
     <p-tabPanel header="Occupancy">
-      <app-building-details-occupancy></app-building-details-occupancy>
+      <app-building-details-occupancy
+        [building]="building"
+      ></app-building-details-occupancy>
     </p-tabPanel>
-    <p-tabPanel header="Alert History"> Content 2 </p-tabPanel>
-    <p-tabPanel header="Access Points"> Content 3 </p-tabPanel>
+    <p-tabPanel header="Alert History">
+      <app-building-details-alerts
+        [building]="building"
+      ></app-building-details-alerts>
+    </p-tabPanel>
+    <p-tabPanel header="Access Points">
+      <app-building-details-access-points></app-building-details-access-points>
+    </p-tabPanel>
   </p-tabView>
   <!-- <ng-template pTemplate="footer">
     <p-button
