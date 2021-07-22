@@ -1,7 +1,10 @@
 p-table.report-table,
 .p-multiselect {
+  .p-column-filter-row p-columnfilterformelement {
+    margin-right: 0;
+  }
   .p-datatable-tbody > tr > td {
-    font-size: smaller;
+    font-size: small;
   }
   .p-multiselect .p-multiselect-label,
   .p-inputtext {

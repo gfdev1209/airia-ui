@@ -585,12 +585,12 @@ $overlayContainerShadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
 
 //dialog
 $dialogHeaderBg: var(--background-color-shade-1);
-$dialogHeaderBorder: 0 none;
+$dialogHeaderBorder: 1px solid var(--background-color-shade-2);
 $dialogHeaderTextColor: var(--heading-color);
 $dialogHeaderFontWeight: var(--heading-font-weight);
 $dialogHeaderFontSize: 1.25rem;
-$dialogHeaderPadding: 1.5rem;
-$dialogContentPadding: 0 1.5rem 1.5rem 1.5rem;
+$dialogHeaderPadding: 1rem 1.5rem;
+$dialogContentPadding: 1.5rem;
 $dialogFooterBorder: 0 none;
 $dialogFooterPadding: 1rem 1.5rem;
 

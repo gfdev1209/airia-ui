@@ -26,6 +26,14 @@
     position: relative;
     top: 1px;
   }
+  .p-button-icon + span.p-button-label {
+    color: var(--text-color);
+  }
+  &:hover {
+    .p-button-icon + span.p-button-label {
+      color: var(--background-color-contrast);
+    }
+  }
   &.with-outline {
     border: 1px solid var(--text-input-border-color);
   }

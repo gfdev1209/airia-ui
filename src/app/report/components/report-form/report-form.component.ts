@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { RootState } from '@store/index';
 
 import * as UserActions from '@store/user/user.actions';
+import * as BuildingActions from '@store/building/building.actions';
 import * as UserSelectors from '@store/user/user.selectors';
 
 @Component({
@@ -14,6 +15,7 @@ export class ReportFormComponent implements OnInit {
   constructor(private store: Store<RootState>) {}
 
   ngOnInit(): void {
+    this.store.dispatch(BuildingActions.deselect());
     this.store.dispatch(UserActions.deselect());
     this.store.dispatch(UserActions.getAll());
   }

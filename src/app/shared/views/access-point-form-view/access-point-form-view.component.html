@@ -1,0 +1,94 @@
+<ng-template #loading>
+  <strong>Loading...</strong>
+</ng-template>
+<div *ngIf="accessPoint; else loading" [formGroup]="accessPointForm">
+  <h3 class="p-m-0">Access Point Details</h3>
+  <p class="p-m-0 p-pt-1">Lorem ipsum dolor sit amet, consectetur adipiscing</p>
+  <div class="p-fluid p-formgrid p-grid p-mt-5">
+    <div class="p-field p-col-12">
+      <label for="name">Name</label>
+      <input id="name" formControlName="name" type="text" pInputText />
+      <small
+        class="p-error"
+        *ngIf="
+          !accessPointForm.controls['name'].valid &&
+          accessPointForm.controls['name'].dirty
+        "
+        [innerText]="
+          accessPointForm.controls['name'].errors?.required
+            ? 'Name is required'
+            : ''
+        "
+      ></small>
+    </div>
+    <!-- <div class="p-field p-col-12">
+      <label for="buildingId">Building</label>
+      <p-dropdown
+        [options]="buildingList"
+        formControlName="buildingId"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select a building"
+        dataKey="value"
+        (onChange)="onBuildingChange()"
+      ></p-dropdown>
+      <small
+        class="p-error"
+        *ngIf="
+          !accessPointForm.controls['buildingId'].valid &&
+          accessPointForm.controls['buildingId'].dirty
+        "
+        [innerText]="
+          accessPointForm.controls['buildingId'].errors?.required
+            ? 'Building is required'
+            : ''
+        "
+      ></small>
+    </div> -->
+    <div class="p-field p-col-12">
+      <label for="floorId">Floor</label>
+      <p-dropdown
+        [options]="floorList"
+        formControlName="floorId"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select a floor"
+        dataKey="value"
+        [disabled]="!floorList"
+      ></p-dropdown>
+      <small
+        class="p-error"
+        *ngIf="
+          !accessPointForm.controls['floorId'].valid &&
+          accessPointForm.controls['floorId'].dirty
+        "
+        [innerText]="
+          accessPointForm.controls['floorId'].errors?.required
+            ? 'Floor is required'
+            : ''
+        "
+      ></small>
+    </div>
+  </div>
+  <hr class="p-mt-4 p-mb-4" />
+  <div class="p-mt-5 p-d-flex p-jc-between">
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Discard Changes"
+      class="p-button-rounded p-button-secondary"
+      (click)="onCancel()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Save Changes"
+      class="p-button-rounded"
+      [disabled]="!accessPointForm.valid"
+      (click)="onSave()"
+    ></button>
+  </div>
+</div>
+<pre> {{ accessPointForm.value | json }} </pre>
