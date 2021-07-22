@@ -2,7 +2,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // Prime
 import { RippleModule as PrimeRippleModule } from 'primeng/ripple';
 import { ButtonModule as PrimeButtonModule } from 'primeng/button';
@@ -28,6 +28,7 @@ import { ContextMenuModule as PrimeContextMenuModule } from 'primeng/contextmenu
 import { ProgressSpinnerModule as PrimeProgressSpinnerModule } from 'primeng/progressspinner';
 import { InputMaskModule as PrimeInputMaskModule } from 'primeng/inputmask';
 import { ConfirmDialogModule as PrimeConfirmDialogModule } from 'primeng/confirmdialog';
+import { DynamicDialogModule as PrimeDynamicDialogModule } from 'primeng/dynamicdialog';
 import { DialogModule as PrimeDialogModule } from 'primeng/dialog';
 import { TabViewModule as PrimeTabViewModule } from 'primeng/tabview';
 import { TooltipModule as PrimeTooltipModule } from 'primeng/tooltip';
@@ -49,6 +50,8 @@ import { AlertTableComponent } from './components/alert-table/alert-table.compon
 import { AlertTableViewComponent } from './views/alert-table-view/alert-table-view.component';
 import { AccessPointTableComponent } from './components/access-point-table/access-point-table.component';
 import { AccessPointTableViewComponent } from './views/access-point-table-view/access-point-table-view.component';
+import { AccessPointFormComponent } from './components/access-point-form/access-point-form.component';
+import { AccessPointFormViewComponent } from './views/access-point-form-view/access-point-form-view.component';
 // Components
 
 @NgModule({
@@ -65,6 +68,8 @@ import { AccessPointTableViewComponent } from './views/access-point-table-view/a
     AlertTableViewComponent,
     AccessPointTableComponent,
     AccessPointTableViewComponent,
+    AccessPointFormComponent,
+    AccessPointFormViewComponent,
     // Pipes
     AlertIconByTypePipe,
     ColorByAlertSeverityPipe,
@@ -76,6 +81,7 @@ import { AccessPointTableViewComponent } from './views/access-point-table-view/a
     // Angular Modules
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule,
     // Prime Modules
     PrimeRippleModule,
@@ -103,6 +109,7 @@ import { AccessPointTableViewComponent } from './views/access-point-table-view/a
     PrimeInputMaskModule,
     PrimeDialogModule,
     PrimeConfirmDialogModule,
+    PrimeDynamicDialogModule,
     PrimeTabViewModule,
     PrimeTooltipModule,
   ],
@@ -117,6 +124,8 @@ import { AccessPointTableViewComponent } from './views/access-point-table-view/a
     AlertTableViewComponent,
     AccessPointTableComponent,
     AccessPointTableViewComponent,
+    AccessPointFormComponent,
+    AccessPointFormViewComponent,
     // Prime Modules
     PrimeRippleModule,
     PrimeButtonModule,
@@ -143,6 +152,7 @@ import { AccessPointTableViewComponent } from './views/access-point-table-view/a
     PrimeInputMaskModule,
     PrimeDialogModule,
     PrimeConfirmDialogModule,
+    PrimeDynamicDialogModule,
     PrimeTabViewModule,
     PrimeTooltipModule,
     // Pipes
@@ -153,5 +163,6 @@ import { AccessPointTableViewComponent } from './views/access-point-table-view/a
     EnumToArrayPipe,
   ],
   providers: [],
+  entryComponents: [AccessPointFormComponent],
 })
 export class SharedModule {}

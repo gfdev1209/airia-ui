@@ -2,4 +2,5 @@
   [accessPoints]="accessPoints$ | async"
   [selectedBuilding]="building"
   [showCheckboxColumn]="showCheckboxColumn"
+  (editAccessPoint)="onEditAccessPoint($event)"
 ></app-access-point-table-view>

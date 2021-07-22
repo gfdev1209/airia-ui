@@ -1,4 +1,4 @@
-import { OnChanges } from '@angular/core';
+import { EventEmitter, OnChanges, Output } from '@angular/core';
 import { SimpleChanges } from '@angular/core';
 import {
   ChangeDetectionStrategy,
@@ -23,6 +23,8 @@ export class AccessPointTableViewComponent implements OnChanges {
   @Input() buildings: Building[] | null = [];
   @Input() showCheckboxColumn!: boolean;
 
+  @Output() editAccessPoint = new EventEmitter<AccessPoint>();
+
   AccessPointStatusName = AccessPointStatus;
 
   statuses = this.enumToSelectItemsPipe.transform(AccessPointStatus);
@@ -45,5 +47,7 @@ export class AccessPointTableViewComponent implements OnChanges {
   selectedAccessPoints(accessPoint: AccessPoint): void {
     console.log('selected', accessPoint);
   }
-  onEdit(accessPoint: AccessPoint): void {}
+  onEdit(accessPoint: AccessPoint): void {
+    this.editAccessPoint.emit(accessPoint);
+  }
 }

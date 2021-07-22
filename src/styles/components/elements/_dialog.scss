@@ -1,3 +1,8 @@
 .p-dialog {
   box-shadow: $panel-box-shadow;
+  width: 70%;
+  max-width: 800px;
+  @media screen and (max-width: $breakPoint-sm) {
+    width: 100%;
+  }
 }

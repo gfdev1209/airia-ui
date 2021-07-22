@@ -8,7 +8,7 @@
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [rowsPerPageOptions]="[10, 25, 50]"
-    [globalFilterFields]="['createdAt']"
+    [globalFilterFields]="['name']"
     [responsive]="true"
     dataKey="id"
   >
@@ -17,7 +17,7 @@
         <th *ngIf="showCheckboxColumn" style="width: 3rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
-        <th pSortableColumn="name">
+        <th style="width: 33%" pSortableColumn="name">
           Name <p-sortIcon field="name"></p-sortIcon>
         </th>
         <th pSortableColumn="floor">
@@ -29,20 +29,28 @@
         <th pSortableColumn="wapmac">
           Wapmac <p-sortIcon field="wapmac"></p-sortIcon>
         </th>
-        <th *ngIf="selectedBuilding === null" pSortableColumn="buildingId">
+        <th *ngIf="!selectedBuilding" pSortableColumn="buildingId">
           Building <p-sortIcon field="buildingId"></p-sortIcon>
         </th>
         <th style="width: 5rem">Action</th>
       </tr>
       <tr>
-        <th *ngIf="showCheckboxColumn" style="width: 3rem">
+        <th *ngIf="showCheckboxColumn">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
         <th>
-          <p-columnFilter type="text" field="name"></p-columnFilter>
+          <p-columnFilter
+            type="text"
+            field="name"
+            [showMenu]="false"
+          ></p-columnFilter>
         </th>
         <th>
-          <p-columnFilter type="text" field="floor"></p-columnFilter>
+          <p-columnFilter
+            type="text"
+            field="floor"
+            [showMenu]="false"
+          ></p-columnFilter>
         </th>
         <th>
           <p-columnFilter field="status" matchMode="in" [showMenu]="false">
@@ -70,9 +78,13 @@
           </p-columnFilter>
         </th>
         <th>
-          <p-columnFilter type="text" field="wapmac"></p-columnFilter>
+          <p-columnFilter
+            type="text"
+            field="wapmac"
+            [showMenu]="false"
+          ></p-columnFilter>
         </th>
-        <th *ngIf="selectedBuilding === null">
+        <th *ngIf="!selectedBuilding">
           <p-columnFilter field="buildingId" matchMode="in" [showMenu]="false">
             <ng-template
               pTemplate="filter"
@@ -110,12 +122,27 @@
           {{ accessPoint.floor }}
         </td>
         <td>
-          {{ accessPoint.status }}
+          <i
+            class="fas fa-router"
+            [class.color-green]="
+              accessPoint.status === AccessPointStatusName.Online
+            "
+            [class.color-red]="
+              accessPoint.status === AccessPointStatusName.Offline
+            "
+          ></i>
+          &nbsp;
+          <span
+            [class.color-red]="
+              accessPoint.status === AccessPointStatusName.Offline
+            "
+            >{{ accessPoint.status }}</span
+          >
         </td>
         <td>
           {{ accessPoint.wapmac }}
         </td>
-        <td *ngIf="selectedBuilding === null">{{ accessPoint.buildingId }}</td>
+        <td *ngIf="!selectedBuilding">{{ accessPoint.buildingId }}</td>
         <td>
           <button
             pButton

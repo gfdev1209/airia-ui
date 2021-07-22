@@ -1,0 +1,7 @@
+<app-access-point-form-view
+  [accessPoint]="accessPoint$ | async"
+  [buildings]="buildings$ | async"
+  [floors]="floors$ | async"
+  (cancel)="cancel()"
+  (save)="save($event)"
+></app-access-point-form-view>

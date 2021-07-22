@@ -1,16 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Building, Alert } from '@map/models';
+import { Building, Alert, AccessPoint } from '@map/models';
 import { Store } from '@ngrx/store';
 import { RootState } from '@store/index';
 import { Observable } from 'rxjs';
 
 import * as AccessPointSelectors from '@store/access-point/access-point.selectors';
 import * as AccessPointActions from '@store/access-point/access-point.actions';
+import { DialogService } from 'primeng/dynamicdialog';
+import { AccessPointFormComponent } from '../access-point-form/access-point-form.component';
 
 @Component({
   selector: 'app-access-point-table',
   templateUrl: './access-point-table.component.html',
   styleUrls: ['./access-point-table.component.scss'],
+  providers: [DialogService],
 })
 export class AccessPointTableComponent implements OnInit {
   @Input() showCheckboxColumn = true;
@@ -18,7 +21,10 @@ export class AccessPointTableComponent implements OnInit {
 
   accessPoints$ = this.store.select(AccessPointSelectors.selectAll);
 
-  constructor(private store: Store<RootState>) {}
+  constructor(
+    private store: Store<RootState>,
+    private dialogService: DialogService
+  ) {}
 
   ngOnInit(): void {
     if (!this.building) {
@@ -31,6 +37,18 @@ export class AccessPointTableComponent implements OnInit {
           buildingId: this.building.id,
         }
       );
+    }
+  }
+
+  onEditAccessPoint(accessPoint: AccessPoint): void {
+    if (accessPoint) {
+      this.store.dispatch(AccessPointActions.select({ id: accessPoint.id }));
+      const ref = this.dialogService.open(AccessPointFormComponent, {
+        header: 'Edit Access Point',
+      });
+      ref.onClose.subscribe(() => {
+        this.store.dispatch(AccessPointActions.deselect());
+      });
     }
   }
 }
