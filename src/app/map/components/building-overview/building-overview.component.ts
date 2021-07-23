@@ -29,6 +29,12 @@ export class BuildingOverviewComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  showDetails(show: boolean): void {
+    if (show === true) {
+      this.store.dispatch(BuildingActions.showDetails());
+    }
+  }
+
   closePanel(): void {
     this.store.dispatch(BuildingActions.deselect());
     this.store.dispatch(BuildingActions.hideOverview());

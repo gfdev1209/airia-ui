@@ -58,6 +58,7 @@ export class MapComponent implements OnInit, OnDestroy {
   zoomOut$: Subscription = new Subscription();
   devicePollingInterval$: Subscription = new Subscription();
   isPlaybackLive$: Subscription = new Subscription();
+  mapDateTimeSubscription$: Subscription = new Subscription();
 
   accountInfo?: AccountInfo;
 
@@ -91,7 +92,7 @@ export class MapComponent implements OnInit, OnDestroy {
       )
       .subscribe();
 
-    this.mapService.mapDateTime$
+    this.mapDateTimeSubscription$ = this.mapService.mapDateTime$
       .pipe(
         tap((mapTime) => {
           if (mapTime !== null && !this.isPollingForDevices) {
@@ -141,5 +142,6 @@ export class MapComponent implements OnInit, OnDestroy {
     this.zoomOut$?.unsubscribe();
     this.isPlaybackLive$.unsubscribe();
     this.devicePollingInterval$?.unsubscribe();
+    this.mapDateTimeSubscription$?.unsubscribe();
   }
 }

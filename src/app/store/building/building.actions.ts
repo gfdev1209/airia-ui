@@ -55,4 +55,7 @@ export const selectByMapboxIdFailed = createAction(
 export const showOverview = createAction('[Map] Show Building Overview');
 export const hideOverview = createAction('[Map] Hide Building Overview');
 
+export const showDetails = createAction('[Map] Show Building Details');
+export const hideDetails = createAction('[Map] Hide Building Details');
+
 export const deselect = createAction('[Building Details] Deselect Building');

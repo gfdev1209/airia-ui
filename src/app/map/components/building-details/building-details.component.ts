@@ -12,8 +12,13 @@ import * as BuildingSelectors from '@store/building/building.selectors';
 })
 export class BuildingDetailsComponent implements OnInit {
   building$ = this.store.select(BuildingSelectors.selectSelectedBuilding);
+  showDetails$ = this.store.select(BuildingSelectors.selectShowDetails);
 
   constructor(private store: Store<RootState>) {}
 
   ngOnInit(): void {}
+
+  onClosed(): void {
+    this.store.dispatch(BuildingActions.hideDetails());
+  }
 }
