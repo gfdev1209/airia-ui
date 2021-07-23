@@ -11,6 +11,7 @@ export class BuildingOverviewViewComponent implements OnInit {
   @Input() show?: boolean | null = false;
 
   @Output() closePanel = new EventEmitter();
+  @Output() showDetails = new EventEmitter<boolean>();
 
   constructor() {}
 
@@ -18,5 +19,8 @@ export class BuildingOverviewViewComponent implements OnInit {
 
   onClose(): void {
     this.closePanel.emit();
+  }
+  onViewDetails(): void {
+    this.showDetails.emit(true);
   }
 }

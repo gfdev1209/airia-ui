@@ -1,3 +1,5 @@
 <app-building-details-view
   [building]="building$ | async"
+  [showDetails]="showDetails$ | async"
+  (closed)="onClosed()"
 ></app-building-details-view>

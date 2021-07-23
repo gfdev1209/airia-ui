@@ -88,5 +88,19 @@ export const buildingReducer = createReducer(
       ...state,
       showOverview: false,
     };
+  }),
+  on(Actions.showDetails, (state) => {
+    return {
+      ...state,
+      loading: true,
+      showOverview: false,
+      showDetails: true,
+    };
+  }),
+  on(Actions.hideDetails, (state) => {
+    return {
+      ...state,
+      showDetails: false,
+    };
   })
 );

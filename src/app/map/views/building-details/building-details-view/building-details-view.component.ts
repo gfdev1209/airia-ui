@@ -1,3 +1,4 @@
+import { EventEmitter, Output } from '@angular/core';
 import { Component, Input, OnInit } from '@angular/core';
 import { Building } from '@map/models';
 import { slidePanelAnimation } from 'src/app/app.animations';
@@ -10,9 +11,15 @@ import { slidePanelAnimation } from 'src/app/app.animations';
 })
 export class BuildingDetailsViewComponent implements OnInit {
   @Input() building?: Building | null;
-  displayModal = true;
+  @Input() showDetails?: boolean | null = false;
+
+  @Output() closed = new EventEmitter();
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  onHide(): void {
+    this.closed.emit();
+  }
 }

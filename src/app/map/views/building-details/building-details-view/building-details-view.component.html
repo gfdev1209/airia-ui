@@ -1,11 +1,14 @@
 <p-dialog
+  *ngIf="building"
   [header]="building ? building.name : 'Building'"
-  [visible]="displayModal"
+  [(visible)]="showDetails"
   [maximizable]="true"
+  [dismissableMask]="true"
   [closable]="true"
   styleClass="building-details-container"
   position="top-left"
   [style]="{ width: '740px', top: '45px', left: '65px' }"
+  (onHide)="onHide()"
   ><p-tabView>
     <p-tabPanel header="Occupancy">
       <app-building-details-occupancy
