@@ -19,6 +19,7 @@ export class BuildingDetailsComponent implements OnInit {
   ngOnInit(): void {}
 
   onClosed(): void {
+    this.store.dispatch(BuildingActions.deselect());
     this.store.dispatch(BuildingActions.hideDetails());
   }
 }

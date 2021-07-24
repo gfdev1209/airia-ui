@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
 })
 export class AlertTableComponent implements OnInit {
   @Input() showCheckboxColumn = true;
-  @Input() building?: Building;
+  @Input() building?: Building | null;
 
   alerts$?: Observable<Alert[]>;
   buildings$ = this.store.select(BuildingSelectors.selectAll);

@@ -68,6 +68,8 @@ export const buildingReducer = createReducer(
     return {
       ...state,
       selected: null,
+      showOverview: false,
+      showDetails: false,
     };
   }),
   on(Actions.selectByMapboxId, (state) => {
