@@ -51,7 +51,11 @@ export class MapViewComponent implements OnChanges {
         changes.selectedBuilding.currentValue.coordLongitude
       );
     }
-    if (changes.accessPoints?.firstChange === false) {
+    if (
+      changes.accessPoints?.firstChange === false &&
+      changes.accessPoints.currentValue.toString() !==
+        changes.accessPoints.previousValue.toString()
+    ) {
       this.addAccessPoints();
     }
     if (changes.devices?.firstChange === false) {
@@ -160,7 +164,7 @@ export class MapViewComponent implements OnChanges {
         }
         // Add the image to the map style.
         if (image) {
-          this.map.addImage('cat', image);
+          this.map.addImage('accessPointImage', image);
         }
         // Add an image to use as a custom marker
         const pointArr: any[] = [];
@@ -201,7 +205,7 @@ export class MapViewComponent implements OnChanges {
           type: 'symbol',
           source: 'access-point-source',
           layout: {
-            'icon-image': 'cat',
+            'icon-image': 'accessPointImage',
             'icon-size': {
               base: 0.025,
               stops: [
