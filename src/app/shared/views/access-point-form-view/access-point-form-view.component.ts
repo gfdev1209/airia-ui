@@ -38,7 +38,7 @@ export class AccessPointFormViewComponent implements OnInit, OnChanges {
       this.buildingList = [];
       changes.buildings.currentValue.forEach((building: Building) => {
         this.buildingList.push({
-          label: building.name,
+          label: building.buildingName,
           value: building.id,
         });
       });

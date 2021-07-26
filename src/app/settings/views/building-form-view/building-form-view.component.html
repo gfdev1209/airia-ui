@@ -1,0 +1,123 @@
+<ng-template #loading>
+  <strong>Loading...</strong>
+</ng-template>
+<div *ngIf="building; else loading" [formGroup]="buildingForm">
+  <div class="p-d-flex p-mt-2">
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="far fa-chevron-left"
+      class="p-button-rounded p-button-text color-light-grey p-mr-2 p-pl-0"
+      routerLink="../"
+    ></button>
+    <h2 class="p-p-0 p-m-0">Edit Building</h2>
+  </div>
+  <hr class="p-mt-4 p-mb-4" />
+  <h3 class="p-m-0">Building Details</h3>
+  <p class="p-m-0 p-pt-1">Lorem ipsum dolor sit amet, consectetur adipiscing</p>
+  <div class="p-fluid p-formgrid p-grid p-mt-5">
+    <div class="p-field p-col-12">
+      <label for="buildingName">Name</label>
+      <input
+        id="buildingName"
+        formControlName="buildingName"
+        type="text"
+        pInputText
+      />
+      <small
+        class="p-error"
+        *ngIf="
+          !buildingForm.controls['buildingName'].valid &&
+          buildingForm.controls['buildingName'].dirty
+        "
+        [innerText]="
+          buildingForm.controls['buildingName'].errors?.required
+            ? 'Name is required'
+            : ''
+        "
+      ></small>
+    </div>
+    <div class="p-field p-col-12">
+      <label for="buildingAddress">Address</label>
+      <input
+        id="buildingAddress"
+        formControlName="buildingAddress"
+        type="text"
+        pInputText
+      />
+      <small
+        class="p-error"
+        *ngIf="
+          !buildingForm.controls['buildingAddress'].valid &&
+          buildingForm.controls['buildingAddress'].dirty
+        "
+        [innerText]="
+          buildingForm.controls['buildingAddress'].errors?.required
+            ? 'Address is required'
+            : ''
+        "
+      ></small>
+    </div>
+    <div class="p-field p-col-12">
+      <label for="buildingDescription">Description</label>
+      <input
+        id="buildingDescription"
+        formControlName="buildingDescription"
+        type="text"
+        pInputText
+      />
+      <small
+        class="p-error"
+        *ngIf="
+          !buildingForm.controls['buildingDescription'].valid &&
+          buildingForm.controls['buildingDescription'].dirty
+        "
+        [innerText]="
+          buildingForm.controls['buildingDescription'].errors?.required
+            ? 'Description is required'
+            : ''
+        "
+      ></small>
+    </div>
+  </div>
+  <div class="p-mt-5 p-d-flex p-jc-between">
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Discard Changes"
+      class="p-button-rounded p-button-secondary"
+      routerLink="../"
+    ></button>
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Update Building"
+      class="p-button-rounded"
+      (click)="onUpdate()"
+      [disabled]="!buildingForm.valid"
+    ></button>
+  </div>
+  <hr class="p-mt-4 p-mb-4" />
+  <div class="p-d-flex p-jc-between p-ai-center">
+    <div>
+      <h3 class="p-m-0">Floors</h3>
+      <p class="p-m-0 p-pt-1">Define the floors that are in this building.</p>
+    </div>
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Add Floor"
+      class="p-button-rounded"
+    ></button>
+  </div>
+  <div class="p-mt-4">
+    <app-floor-table></app-floor-table>
+  </div>
+</div>
+<pre
+  >{{ buildingForm.value | json }}
+</pre>

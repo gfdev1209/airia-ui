@@ -1,5 +1,5 @@
 .p-datatable-wrapper {
-  border: 1px solid var(--text-input-border-color);
+  border: 1px solid var(--divider-color);
 }
 .p-datatable .p-datatable-thead > tr:nth-child(2) > th {
   background: var(--background-color-shade-1);
@@ -15,7 +15,7 @@
   margin-right: 0.5rem;
 }
 .p-column-filter-overlay {
-  background: var(--text-input-background-color);
+  background: var(--text-input-border-color);
   padding: 1rem;
   box-shadow: $panel-box-shadow;
 

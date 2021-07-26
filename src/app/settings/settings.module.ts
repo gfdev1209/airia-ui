@@ -10,6 +10,11 @@ import { UsersTableComponent } from './components/users-table/users-table.compon
 import { UsersTableViewComponent } from './views/users-table-view/users-table-view.component';
 import { UserFormComponent } from './components/user-form/user-form.component';
 import { UserFormViewComponent } from './views/user-form-view/user-form-view.component';
+import { BuildingPageComponent } from './pages/building-page/building-page.component';
+import { BuildingsTableComponent } from './components/buildings-table/buildings-table.component';
+import { BuildingsTableViewComponent } from './views/buildings-table-view/buildings-table-view.component';
+import { BuildingFormComponent } from './components/building-form/building-form.component';
+import { BuildingFormViewComponent } from './views/building-form-view/building-form-view.component';
 
 export const routes: Routes = [
   {
@@ -18,6 +23,8 @@ export const routes: Routes = [
     children: [
       { path: 'users', component: UsersPageComponent },
       { path: 'users/:id', component: UserFormComponent },
+      { path: 'buildings', component: BuildingPageComponent },
+      { path: 'buildings/:id', component: BuildingFormComponent },
     ],
   },
 ];
@@ -31,6 +38,11 @@ export const routes: Routes = [
     UsersTableViewComponent,
     UserFormComponent,
     UserFormViewComponent,
+    BuildingPageComponent,
+    BuildingsTableComponent,
+    BuildingsTableViewComponent,
+    BuildingFormComponent,
+    BuildingFormViewComponent,
   ],
   imports: [
     CommonModule,

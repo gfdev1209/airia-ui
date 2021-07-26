@@ -7,20 +7,7 @@ import { Building } from '../../models';
   styleUrls: ['./search-bar-view.component.scss'],
 })
 export class SearchBarViewComponent implements OnInit {
-  @Input() searchResults?: Building[] | null;
-  @Output() search = new EventEmitter<string>();
-  @Output() selectBuilding = new EventEmitter<Building>();
-
-  searchTerm = '';
-
   constructor() {}
 
   ngOnInit(): void {}
-
-  onSearch(): void {
-    this.search.emit(this.searchTerm);
-  }
-  onSelect(building: Building): void {
-    this.selectBuilding.emit(building);
-  }
 }

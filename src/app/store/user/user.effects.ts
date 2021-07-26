@@ -29,7 +29,7 @@ export class UserEffects {
     this.actions$.pipe(
       ofType(UserActions.getAll),
       mergeMap(() =>
-        this.userService.getAll<User[]>().pipe(
+        this.userService.getAll<User[]>('+Department+Role').pipe(
           map((users: User[]) => UserActions.getAllSuccess({ users })),
           catchError(() => of(UserActions.getAllFailed()))
         )

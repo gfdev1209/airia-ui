@@ -3,7 +3,7 @@ $white: #fff;
 $black: #1d1522;
 $light-grey: #a29aa9;
 $grey: #73697b;
-$dark-grey: #3a3241;
+$dark-grey: #29222e;
 $darker-grey: #1d1522;
 $red: #ee4057;
 $yellow: #faca00;
@@ -53,10 +53,14 @@ $heading-color-dark: #ffffff;
 
 // Inputs
 $text-input-background-color: #e2e2e2;
-$text-input-background-color-dark: #29222e;
+$text-input-background-color-dark: $dark-grey;
 
 $text-input-border-color: #d3d3d3;
-$text-input-border-color-dark: $dark-grey;
+$text-input-border-color-dark: lighten($dark-grey, 7%);
+
+// Dividers
+$divider-color: $text-input-border-color;
+$divider-color-dark: $text-input-border-color-dark;
 
 $colors: (
   --brand-primary-color: (
@@ -118,5 +122,9 @@ $colors: (
   --text-input-border-color: (
     $text-input-border-color,
     $text-input-border-color-dark,
+  ),
+  --divider-color: (
+    $divider-color,
+    $divider-color-dark,
   ),
 );

@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Building } from '@map/models';
+import { Update } from '@ngrx/entity';
 
 export const getAll = createAction('[Map] Get All Buildings');
 export const getAllSuccess = createAction(
@@ -8,6 +9,18 @@ export const getAllSuccess = createAction(
 );
 export const getAllFailed = createAction(
   '[Building Effect] Get All Buildings Failed'
+);
+
+export const update = createAction(
+  '[Building Form] Update Building',
+  props<{ building: Update<Building> }>()
+);
+export const updateSuccess = createAction(
+  '[Building Effect] Update Building Success',
+  props<{ building: Update<Building> }>()
+);
+export const updateFailed = createAction(
+  '[Building Effect] Update Building Failed'
 );
 
 export const search = createAction(

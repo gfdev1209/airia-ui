@@ -52,6 +52,12 @@ import { AccessPointTableComponent } from './components/access-point-table/acces
 import { AccessPointTableViewComponent } from './views/access-point-table-view/access-point-table-view.component';
 import { AccessPointFormComponent } from './components/access-point-form/access-point-form.component';
 import { AccessPointFormViewComponent } from './views/access-point-form-view/access-point-form-view.component';
+import { BuildingSearchInputComponent } from './components/building-search-input/building-search-input.component';
+import { BuildingSearchInputViewComponent } from './views/building-search-input-view/building-search-input-view.component';
+import { FloorTableComponent } from './components/floor-table/floor-table.component';
+import { FloorTableViewComponent } from './views/floor-table-view/floor-table-view.component';
+import { FloorFormComponent } from './components/floor-form/floor-form.component';
+import { FloorFormViewComponent } from './views/floor-form-view/floor-form-view.component';
 // Components
 
 @NgModule({
@@ -62,6 +68,8 @@ import { AccessPointFormViewComponent } from './views/access-point-form-view/acc
     InteriorNavComponent,
     UserSearchInputComponent,
     UserSearchInputViewComponent,
+    BuildingSearchInputComponent,
+    BuildingSearchInputViewComponent,
     BlockChartViewComponent,
     BlockChartItemViewComponent,
     AlertTableComponent,
@@ -70,6 +78,10 @@ import { AccessPointFormViewComponent } from './views/access-point-form-view/acc
     AccessPointTableViewComponent,
     AccessPointFormComponent,
     AccessPointFormViewComponent,
+    FloorTableComponent,
+    FloorTableViewComponent,
+    FloorFormComponent,
+    FloorFormViewComponent,
     // Pipes
     AlertIconByTypePipe,
     ColorByAlertSeverityPipe,
@@ -123,9 +135,10 @@ import { AccessPointFormViewComponent } from './views/access-point-form-view/acc
     AlertTableComponent,
     AlertTableViewComponent,
     AccessPointTableComponent,
-    AccessPointTableViewComponent,
     AccessPointFormComponent,
-    AccessPointFormViewComponent,
+    BuildingSearchInputComponent,
+    FloorTableComponent,
+    FloorFormComponent,
     // Prime Modules
     PrimeRippleModule,
     PrimeButtonModule,
@@ -163,6 +176,6 @@ import { AccessPointFormViewComponent } from './views/access-point-form-view/acc
     EnumToArrayPipe,
   ],
   providers: [],
-  entryComponents: [AccessPointFormComponent],
+  entryComponents: [AccessPointFormComponent, FloorFormComponent],
 })
 export class SharedModule {}

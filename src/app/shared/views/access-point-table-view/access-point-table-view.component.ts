@@ -38,7 +38,7 @@ export class AccessPointTableViewComponent implements OnChanges {
       this.buildingList = [];
       changes.buildings.currentValue.forEach((building: Building) => {
         this.buildingList.push({
-          label: building.name,
+          label: building.buildingName,
           value: building.id,
         });
       });

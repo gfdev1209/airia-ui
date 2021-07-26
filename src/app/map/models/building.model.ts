@@ -7,7 +7,10 @@ export class Building implements IBase, IHasCoordinates {
   floors!: number;
   locationId!: number;
   mapboxId!: number;
-  name!: string;
+  buildingName!: string;
+  buildingAddress!: string;
+  buildingClassification!: string;
+  buildingDescription!: string;
   coordLatitude!: number;
   coordLongitude!: number;
   maxOccupancy!: number;
@@ -23,6 +26,9 @@ export class Building implements IBase, IHasCoordinates {
     locationId: number;
     mapboxId: number;
     buildingName: string;
+    buildingAddress: string;
+    buildingClassification: string;
+    buildingDescription: string;
     coordLatitude: number;
     coordLongitude: number;
     maxOccupancy: number;
@@ -35,7 +41,10 @@ export class Building implements IBase, IHasCoordinates {
     this.floors = args.floors;
     this.locationId = args.locationId;
     this.mapboxId = args.mapboxId;
-    this.name = args.buildingName;
+    this.buildingName = args.buildingName;
+    this.buildingAddress = args.buildingAddress;
+    this.buildingClassification = args.buildingClassification;
+    this.buildingDescription = args.buildingDescription;
     this.coordLatitude = args.coordLatitude;
     this.coordLongitude = args.coordLongitude;
     this.maxOccupancy = args.maxOccupancy;
