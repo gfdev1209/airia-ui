@@ -45,7 +45,7 @@ export class BuildingEffects {
       withLatestFrom(this.store.select(BuildingSelectors.selectAll)),
       switchMap(([{ term }, buildings]) => {
         const searchResults = buildings.filter((entity) =>
-          entity.name.toLowerCase().includes(term.toLowerCase())
+          entity.buildingName.toLowerCase().includes(term.toLowerCase())
         );
         return of(
           BuildingActions.searchSuccess({
@@ -57,6 +57,17 @@ export class BuildingEffects {
     )
   );
 
+  // select2$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(BuildingActions.select),
+  //     mergeMap(({ id }) =>
+  //       this.buildingService
+  //         .get<Building>(id, '+Department+Role')
+  //         .pipe(map((building) => BuildingActions.selectSuccess({ building })))
+  //     ),
+  //     catchError(() => of(BuildingActions.selectFailed()))
+  //   )
+  // );
   select$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BuildingActions.select),
@@ -70,7 +81,13 @@ export class BuildingEffects {
             })
           );
         } else {
-          return of(BuildingActions.selectNotFound());
+          return this.buildingService
+            .get<Building>(id)
+            .pipe(
+              map((building2) =>
+                BuildingActions.selectSuccess({ building: building2 })
+              )
+            );
         }
       }),
       catchError(() => of(BuildingActions.selectFailed()))
@@ -96,6 +113,22 @@ export class BuildingEffects {
         }
       }),
       catchError(() => of(BuildingActions.selectByMapboxIdFailed()))
+    )
+  );
+
+  update$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BuildingActions.update),
+      mergeMap(({ building }) =>
+        this.buildingService
+          .update<Building>(building.id, building.changes)
+          .pipe(
+            map((updatedBuilding: Building) =>
+              BuildingActions.updateSuccess({ building })
+            ),
+            catchError((error) => of(BuildingActions.updateFailed()))
+          )
+      )
     )
   );
 }

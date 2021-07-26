@@ -1,0 +1,5 @@
+<app-building-form-view
+  [building]="building$ | async"
+  [floors]="(floors$ | async) || []"
+  (updateBuilding)="updateBuilding($event)"
+></app-building-form-view>

@@ -31,3 +31,5 @@ export const selectSuccess = createAction(
   props<{ floor: Floor }>()
 );
 export const selectFailed = createAction('[Floor Effect] Select Floor Failed');
+
+export const deselect = createAction('[Floor Table] Deselect Floor');

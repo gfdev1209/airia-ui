@@ -36,10 +36,17 @@ $fontSize: var(--font-size);
   // padding-top: 5px;
   // padding-bottom: 5px;
 }
-.p-paginator .p-dropdown .p-dropdown-label {
-  padding: 0.35rem 1rem;
-  padding-right: 0;
-  font-size: small;
+.p-paginator {
+  .p-dropdown .p-dropdown-label {
+    padding: 0.35rem 1rem;
+    padding-right: 0;
+    font-size: small;
+    line-height: 1;
+  }
+
+  .p-dropdown .p-dropdown-trigger .p-dropdown-trigger-icon {
+    top: 0;
+  }
 }
 .p-multiselect-token {
   background: var(--primary-color);

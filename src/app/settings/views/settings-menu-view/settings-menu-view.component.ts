@@ -21,6 +21,18 @@ export class SettingsMenuViewComponent implements OnInit {
       icon: 'fa-key',
     },
     {
+      title: 'Buildings',
+      route: '/settings/buildings',
+      description: 'Edit Details, Floors, Occupancy',
+      icon: 'fa-building',
+    },
+    {
+      title: 'Access Points',
+      route: '/settings/access-points',
+      description: 'Edit Access Point Details',
+      icon: 'fa-router',
+    },
+    {
       title: 'Appearance',
       route: '/settings/appearance',
       description: 'Dark and Light mode',

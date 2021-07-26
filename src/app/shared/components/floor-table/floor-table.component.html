@@ -1,0 +1,5 @@
+<app-floor-table-view
+  [floors]="floors$ | async"
+  (selectFloor)="selectFloor($event)"
+  (deleteFloor)="deleteFloor($event)"
+></app-floor-table-view>

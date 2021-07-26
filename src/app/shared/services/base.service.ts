@@ -18,8 +18,8 @@ export class BaseService {
     this.apiUrl += apiName;
   }
 
-  getAll<T>(): Observable<T> {
-    return this.http.get(`${this.apiUrl}/`).pipe(
+  getAll<T>(appendToUrl: string = ''): Observable<T> {
+    return this.http.get(`${this.apiUrl}/${appendToUrl}`).pipe(
       retry(2),
       map((response: any) => this.mapArrayResponseToObject<T>(response)),
       catchError((error) => {
@@ -80,8 +80,14 @@ export class BaseService {
     );
   }
 
-  update<T>(data: any): Observable<T> {
-    return this.http.put(`${this.apiUrl}/Update`, data).pipe(
+  update<T>(id: string | number, data: any): Observable<T> {
+    // const jsonData = JSON.parse(
+    //   JSON.stringify(data).replace(/[\/\(\)\']/g, '&apos;')
+    // );
+    // // prettier-ignore
+    // const jsonData2 = JSON.stringify(data).replace(/'/g, '\\"');
+    // throw new Error('test');
+    return this.http.put(`${this.apiUrl}/${id}`, data).pipe(
       catchError((error) => {
         return this.handleError(error);
       }),

@@ -63,7 +63,7 @@ $actionIconHoverColor: $textSecondaryColor;
 $actionIconBorderRadius: 50%;
 
 //input field (e.g. inputtext, spinner, inputmask)
-$inputPadding: 0.5rem 1rem;
+$inputPadding: 0.65rem 1rem;
 $inputTextFontSize: 1rem;
 $inputBg: var(--text-input-background-color);
 $inputTextColor: var(--text-color);
@@ -110,7 +110,7 @@ $inputOverlayShadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
   0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
 
 //button
-$buttonPadding: 0.85rem 1rem;
+$buttonPadding: 0.75rem 1rem;
 $buttonIconOnlyWidth: 1.75rem;
 $buttonIconOnlyPadding: 0.714rem;
 $buttonBg: $primaryColor;
@@ -379,7 +379,7 @@ $accordionContentTextColor: $textColor;
 $accordionContentPadding: 0 0 1rem 0;
 
 //tabview
-$tabviewNavBorder: solid var(--background-color-shade-2);
+$tabviewNavBorder: solid var(--divider-color);
 $tabviewNavBorderWidth: 0 0 1px 0;
 $tabviewNavBg: var(--background-color);
 
@@ -465,7 +465,7 @@ $tableHeaderCellPadding: 0.75rem 1rem;
 $tableHeaderCellBg: var(--text-input-background-color);
 $tableHeaderCellTextColor: $textColor;
 $tableHeaderCellFontWeight: 500;
-$tableHeaderCellBorder: 1px solid var(--text-input-background-color);
+$tableHeaderCellBorder: 1px solid var(--divider-color);
 $tableHeaderCellBorderWidth: 0 0 1px 0;
 $tableHeaderCellHoverBg: var(--background-color-shade-2);
 $tableHeaderCellTextHoverColor: $textColor;
@@ -482,7 +482,7 @@ $tableBodyRowTextColor: $textColor;
 $tableBodyRowEvenBg: rgba(0, 0, 0, 0.02);
 $tableBodyRowHoverBg: rgba(var(--background-color-contrast-RGB), 0.04);
 $tableBodyRowTextHoverColor: $textColor;
-$tableBodyCellBorder: 1px solid var(--text-input-background-color);
+$tableBodyCellBorder: 1px solid var(--divider-color);
 $tableBodyCellBorderWidth: 0 0 1px 0;
 $tableBodyCellPadding: 0.5rem 1rem;
 
@@ -585,7 +585,7 @@ $overlayContainerShadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
 
 //dialog
 $dialogHeaderBg: var(--background-color-shade-1);
-$dialogHeaderBorder: 1px solid var(--background-color-shade-2);
+$dialogHeaderBorder: 1px solid var(--divider-color);
 $dialogHeaderTextColor: var(--heading-color);
 $dialogHeaderFontWeight: var(--heading-font-weight);
 $dialogHeaderFontSize: 1.25rem;

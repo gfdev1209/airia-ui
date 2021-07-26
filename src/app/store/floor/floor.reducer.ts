@@ -56,5 +56,11 @@ export const floorReducer = createReducer(
       ...state,
       loading: false,
     };
+  }),
+  on(Actions.deselect, (state) => {
+    return {
+      ...state,
+      selected: null,
+    };
   })
 );

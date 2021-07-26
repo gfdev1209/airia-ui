@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { RootState } from 'src/app/store';
 import { Building } from '@map/models';
-import * as BuildingActions from '@store/building/building.actions';
+import { Store } from '@ngrx/store';
+import { RootState } from '@store/index';
+
 import * as BuildingSelectors from '@store/building/building.selectors';
+import * as BuildingActions from '@store/building/building.actions';
 
 @Component({
-  selector: 'app-search-bar',
-  templateUrl: './search-bar.component.html',
-  styleUrls: ['./search-bar.component.scss'],
+  selector: 'app-building-search-input',
+  templateUrl: './building-search-input.component.html',
+  styleUrls: ['./building-search-input.component.scss'],
 })
-export class SearchBarComponent implements OnInit {
+export class BuildingSearchInputComponent implements OnInit {
   searchResults$ = this.store.select(BuildingSelectors.selectSearchResults);
 
   constructor(private store: Store<RootState>) {}
