@@ -15,6 +15,7 @@ import { BuildingsTableComponent } from './components/buildings-table/buildings-
 import { BuildingsTableViewComponent } from './views/buildings-table-view/buildings-table-view.component';
 import { BuildingFormComponent } from './components/building-form/building-form.component';
 import { BuildingFormViewComponent } from './views/building-form-view/building-form-view.component';
+import { AccessPointPageComponent } from './pages/access-point-page/access-point-page.component';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,7 @@ export const routes: Routes = [
       { path: 'users/:id', component: UserFormComponent },
       { path: 'buildings', component: BuildingPageComponent },
       { path: 'buildings/:id', component: BuildingFormComponent },
+      { path: 'access-points', component: AccessPointPageComponent },
     ],
   },
 ];
@@ -43,6 +45,7 @@ export const routes: Routes = [
     BuildingsTableViewComponent,
     BuildingFormComponent,
     BuildingFormViewComponent,
+    AccessPointPageComponent,
   ],
   imports: [
     CommonModule,

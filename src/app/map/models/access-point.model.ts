@@ -1,5 +1,6 @@
 import { AccessPointStatus } from '../enums';
 import { IBase, IHasCoordinates } from '@shared/interfaces';
+import { Building, Floor } from '.';
 
 export class AccessPoint implements IBase, IHasCoordinates {
   id!: number;
@@ -11,6 +12,8 @@ export class AccessPoint implements IBase, IHasCoordinates {
   coordLongitude!: number;
   coordLatitude!: number;
   createdAt!: Date;
+  building?: Building;
+  floor?: Floor;
 
   constructor(args: {
     $id: string;
@@ -23,6 +26,8 @@ export class AccessPoint implements IBase, IHasCoordinates {
     coordLatitude: number;
     coordLongitude: number;
     createdAt: Date;
+    building: Building;
+    buildingFloorInfo: Floor;
   }) {
     this.id = args.accessPointId;
     this.buildingId = args.buildingId;
@@ -33,5 +38,7 @@ export class AccessPoint implements IBase, IHasCoordinates {
     this.coordLongitude = args.coordLongitude;
     this.coordLatitude = args.coordLatitude;
     this.createdAt = args.createdAt;
+    this.building = args.building;
+    this.floor = args.buildingFloorInfo;
   }
 }

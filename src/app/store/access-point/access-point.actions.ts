@@ -37,3 +37,15 @@ export const selectFailed = createAction(
 export const deselect = createAction(
   '[Access Point Details] Deselect Access Point'
 );
+
+export const search = createAction(
+  '[Access Point Settings Search Bar] Search Access Points',
+  props<{ term: string }>()
+);
+export const searchSuccess = createAction(
+  '[Access Point Effect] Search Access Points Success',
+  props<{ searchResults: AccessPoint[] }>()
+);
+export const searchFailed = createAction(
+  '[Access Point Effect] Search Access Points Failed'
+);
