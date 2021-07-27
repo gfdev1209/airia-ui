@@ -1,40 +1,24 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AccessPoint } from '@map/models';
 import { Store } from '@ngrx/store';
 import { RootState } from '@store/index';
-
-import * as AccessPointSelectors from '@store/access-point/access-point.selectors';
-import * as AccessPointActions from '@store/access-point/access-point.actions';
-import * as BuildingSelectors from '@store/building/building.selectors';
-import { Input } from '@angular/core';
-import { AccessPoint, Building } from '@map/models';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AccessPointFormComponent } from '@shared/components/access-point-form/access-point-form.component';
+
+import * as AccessPointActions from '@store/access-point/access-point.actions';
+import * as AccessPointSelectors from '@store/access-point/access-point.selectors';
 import { DialogService } from 'primeng/dynamicdialog';
+import { AccessPointFormComponent } from '@shared/components/access-point-form/access-point-form.component';
 
 @Component({
-  selector: 'app-building-details-access-points',
-  templateUrl: './building-details-access-points.component.html',
-  styleUrls: ['./building-details-access-points.component.scss'],
+  selector: 'app-access-point-page',
+  templateUrl: './access-point-page.component.html',
+  styleUrls: ['./access-point-page.component.scss'],
   providers: [DialogService],
 })
-export class BuildingDetailsAccessPointsComponent implements OnInit, OnDestroy {
-  accessPoints$?: Observable<AccessPoint[]>;
+export class AccessPointPageComponent implements OnInit, OnDestroy {
   accessPointSelected$?: Subscription;
-
-  building$ = this.store.select(BuildingSelectors.selectSelectedBuilding).pipe(
-    tap((building) => {
-      if (building) {
-        const buildingId = building.id;
-        this.accessPoints$ = this.store.select(
-          AccessPointSelectors.selectByBuildingId,
-          {
-            buildingId,
-          }
-        );
-      }
-    })
-  );
 
   constructor(
     private store: Store<RootState>,
@@ -42,12 +26,13 @@ export class BuildingDetailsAccessPointsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(AccessPointActions.getAll());
+    this.store.dispatch(AccessPointActions.deselect());
     this.accessPointSelected$ = this.store
       .select(AccessPointSelectors.selectSelectedAccessPoint)
       .pipe(tap((accessPoint) => this.accessPointSelected(accessPoint)))
       .subscribe();
   }
+
   accessPointSelected(accessPoint: AccessPoint | null | undefined): void {
     if (accessPoint) {
       this.store.dispatch(AccessPointActions.select({ id: accessPoint.id }));

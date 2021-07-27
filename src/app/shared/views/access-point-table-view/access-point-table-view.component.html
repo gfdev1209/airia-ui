@@ -2,7 +2,6 @@
   <p-table
     class="report-table"
     [value]="accessPoints"
-    [(selection)]="selectedAccessPoints"
     [paginator]="true"
     [rows]="10"
     [showCurrentPageReport]="true"
@@ -10,6 +9,8 @@
     [rowsPerPageOptions]="[10, 25, 50]"
     [globalFilterFields]="['name']"
     [responsive]="true"
+    selectionMode="single"
+    (onRowSelect)="onRowSelect($event)"
     dataKey="id"
   >
     <ng-template pTemplate="header">
@@ -17,11 +18,11 @@
         <th *ngIf="showCheckboxColumn" style="width: 3rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
-        <th style="width: 33%" pSortableColumn="name">
+        <th pSortableColumn="name">
           Name <p-sortIcon field="name"></p-sortIcon>
         </th>
-        <th pSortableColumn="floor">
-          Floor <p-sortIcon field="floor"></p-sortIcon>
+        <th pSortableColumn="floorId" style="width: 5rem">
+          Floor <p-sortIcon field="floorId"></p-sortIcon>
         </th>
         <th pSortableColumn="status">
           Status <p-sortIcon field="status"></p-sortIcon>
@@ -48,7 +49,7 @@
         <th>
           <p-columnFilter
             type="text"
-            field="floor"
+            field="floorId"
             [showMenu]="false"
           ></p-columnFilter>
         </th>
@@ -113,13 +114,13 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-accessPoint>
-      <tr>
+      <tr [pSelectableRow]="accessPoint">
         <td *ngIf="showCheckboxColumn">
           <p-tableCheckbox [value]="accessPoint"></p-tableCheckbox>
         </td>
         <td>{{ accessPoint.name }}</td>
         <td>
-          {{ accessPoint.floor }}
+          {{ accessPoint.floorId }}
         </td>
         <td>
           <i
@@ -142,7 +143,9 @@
         <td>
           {{ accessPoint.wapmac }}
         </td>
-        <td *ngIf="!selectedBuilding">{{ accessPoint.buildingId }}</td>
+        <td *ngIf="!selectedBuilding">
+          {{ accessPoint.building?.buildingName }}
+        </td>
         <td>
           <button
             pButton
@@ -150,7 +153,7 @@
             type="button"
             label="Edit"
             icon="fas fa-pencil-alt"
-            class="p-button-text p-pl-0 p-pr-0"
+            class="p-button-text p-button-sm p-pl-0"
             (click)="onEdit(accessPoint)"
           ></button>
         </td>

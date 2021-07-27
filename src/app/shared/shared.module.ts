@@ -58,6 +58,8 @@ import { FloorTableComponent } from './components/floor-table/floor-table.compon
 import { FloorTableViewComponent } from './views/floor-table-view/floor-table-view.component';
 import { FloorFormComponent } from './components/floor-form/floor-form.component';
 import { FloorFormViewComponent } from './views/floor-form-view/floor-form-view.component';
+import { AccessPointSearchInputComponent } from './components/access-point-search-input/access-point-search-input.component';
+import { AccessPointSearchInputViewComponent } from './views/access-point-search-input-view/access-point-search-input-view.component';
 // Components
 
 @NgModule({
@@ -78,6 +80,8 @@ import { FloorFormViewComponent } from './views/floor-form-view/floor-form-view.
     AccessPointTableViewComponent,
     AccessPointFormComponent,
     AccessPointFormViewComponent,
+    AccessPointSearchInputComponent,
+    AccessPointSearchInputViewComponent,
     FloorTableComponent,
     FloorTableViewComponent,
     FloorFormComponent,
@@ -136,6 +140,7 @@ import { FloorFormViewComponent } from './views/floor-form-view/floor-form-view.
     AlertTableViewComponent,
     AccessPointTableComponent,
     AccessPointFormComponent,
+    AccessPointSearchInputComponent,
     BuildingSearchInputComponent,
     FloorTableComponent,
     FloorFormComponent,

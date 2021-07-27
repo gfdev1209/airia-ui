@@ -24,3 +24,8 @@ export const selectByBuildingId = createSelector(
     return state.filter((x: AccessPoint) => x.buildingId === props.buildingId);
   }
 );
+
+export const selectSearchResults = createSelector(
+  selectFeature,
+  (state: AccessPointState) => state.searchResults
+);

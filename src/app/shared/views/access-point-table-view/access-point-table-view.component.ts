@@ -44,10 +44,10 @@ export class AccessPointTableViewComponent implements OnChanges {
       });
     }
   }
-  selectedAccessPoints(accessPoint: AccessPoint): void {
-    console.log('selected', accessPoint);
-  }
   onEdit(accessPoint: AccessPoint): void {
     this.editAccessPoint.emit(accessPoint);
+  }
+  onRowSelect(event: any): void {
+    this.onEdit(event.data);
   }
 }

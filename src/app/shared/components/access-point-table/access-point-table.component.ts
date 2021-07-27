@@ -43,12 +43,6 @@ export class AccessPointTableComponent implements OnInit {
   onEditAccessPoint(accessPoint: AccessPoint): void {
     if (accessPoint) {
       this.store.dispatch(AccessPointActions.select({ id: accessPoint.id }));
-      const ref = this.dialogService.open(AccessPointFormComponent, {
-        header: 'Edit Access Point',
-      });
-      ref.onClose.subscribe(() => {
-        this.store.dispatch(AccessPointActions.deselect());
-      });
     }
   }
 }
