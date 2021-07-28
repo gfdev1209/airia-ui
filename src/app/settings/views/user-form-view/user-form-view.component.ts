@@ -45,6 +45,7 @@ export class UserFormViewComponent implements OnInit, OnChanges {
       ],
       departmentId: [this.user?.departmentId, [Validators.required]],
       locations: ['', [Validators.required]],
+      defaultLocation: ['', Validators.required],
       roleId: [this.user?.roleId, [Validators.required]],
     });
   }
