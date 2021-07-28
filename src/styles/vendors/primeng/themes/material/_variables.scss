@@ -591,7 +591,7 @@ $dialogHeaderFontWeight: var(--heading-font-weight);
 $dialogHeaderFontSize: 1.25rem;
 $dialogHeaderPadding: 1rem 1.5rem;
 $dialogContentPadding: 1.5rem;
-$dialogFooterBorder: 0 none;
+$dialogFooterBorder: 1px solid var(--divider-color);
 $dialogFooterPadding: 1rem 1.5rem;
 
 //tooltip
