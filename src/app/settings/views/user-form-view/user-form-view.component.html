@@ -147,6 +147,28 @@
       ></small>
     </div>
     <div class="p-field p-col-12">
+      <label for="defaultLocation">Default Location</label>
+      <p-dropdown
+        [options]="locations"
+        formControlName="defaultLocation"
+        defaultLabel="Select a default Location"
+        optionLabel="name"
+        optionValue="id"
+      ></p-dropdown>
+      <small
+        class="p-error"
+        *ngIf="
+          !userForm.controls['defaultLocation'].valid &&
+          userForm.controls['defaultLocation'].dirty
+        "
+        [innerText]="
+          userForm.controls['defaultLocation'].errors?.required
+            ? 'A default Location is required'
+            : ''
+        "
+      ></small>
+    </div>
+    <div class="p-field p-col-12">
       <label for="roles">Role</label>
       <p-dropdown
         [options]="roles"
