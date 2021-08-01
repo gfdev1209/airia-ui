@@ -38,6 +38,26 @@ export const floorReducer = createReducer(
       loading: false,
     };
   }),
+  on(Actions.add, (state) => {
+    return {
+      ...state,
+      loading: true,
+      showOverview: false,
+    };
+  }),
+  on(Actions.addSuccess, (state, { floor }) => {
+    return adapter.addOne(floor, {
+      ...state,
+      loading: false,
+      loaded: true,
+    });
+  }),
+  on(Actions.addFailed, (state) => {
+    return {
+      ...state,
+      loading: false,
+    };
+  }),
   on(Actions.update, (state) => {
     return {
       ...state,

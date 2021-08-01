@@ -54,6 +54,7 @@
         optionValue="value"
         placeholder="Select a floor"
         dataKey="value"
+        appendTo="body"
         [disabled]="!floorList"
       ></p-dropdown>
       <small
@@ -87,8 +88,12 @@
       label="Save Changes"
       class="p-button-rounded"
       [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
-      [disabled]="!accessPointForm.valid"
+      [disabled]="!accessPointForm.valid || loading === true"
       (click)="onSave()"
     ></button>
   </div>
 </div>
+<!--
+<pre
+  >{{ accessPointForm.value | json }}
+</pre> -->

@@ -1,7 +1,8 @@
 <app-floor-form-view
+  [building]="building$ | async"
   [floor]="floor$ | async"
   [floors]="floors$ | async"
   [loading]="loading$ | async"
   (cancel)="cancel()"
-  (save)="save($event)"
+  (save)="saveFloor($event)"
 ></app-floor-form-view>

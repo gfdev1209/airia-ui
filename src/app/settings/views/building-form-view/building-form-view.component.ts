@@ -14,6 +14,7 @@ export class BuildingFormViewComponent implements OnInit, OnChanges {
   @Input() loading?: boolean | null;
 
   @Output() updateBuilding = new EventEmitter<Building>();
+  @Output() addFloor = new EventEmitter<Building>();
 
   buildingForm!: FormGroup;
 
@@ -47,6 +48,12 @@ export class BuildingFormViewComponent implements OnInit, OnChanges {
   onUpdate(): void {
     if (this.buildingForm.valid) {
       this.updateBuilding.emit(this.buildingForm.value);
+    }
+  }
+
+  onAddFloor(): void {
+    if (this.building) {
+      this.addFloor.emit(this.building);
     }
   }
 }

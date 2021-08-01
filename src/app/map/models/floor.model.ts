@@ -1,9 +1,9 @@
 import { IBase } from '@shared/interfaces';
 
 export class Floor implements IBase {
-  id!: number;
+  id: number;
   buildingId!: number;
-  floorId?: number;
+  floorId!: number;
   floorMaxOccupancy!: number;
   createdAt!: Date;
 

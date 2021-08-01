@@ -9,11 +9,14 @@ import { Store } from '@ngrx/store';
 import { RootState } from '@store/index';
 import { Building } from '@map/models';
 import { Update } from '@ngrx/entity';
+import { DialogService } from 'primeng/dynamicdialog';
+import { FloorFormComponent } from '@shared/components/floor-form/floor-form.component';
 
 @Component({
   selector: 'app-building-form',
   templateUrl: './building-form.component.html',
   styleUrls: ['./building-form.component.scss'],
+  providers: [DialogService],
 })
 export class BuildingFormComponent implements OnInit {
   building$ = this.store.select(BuildingSelectors.selectSelectedBuilding).pipe(
@@ -28,7 +31,11 @@ export class BuildingFormComponent implements OnInit {
 
   buildingId?: string | null;
 
-  constructor(private store: Store<RootState>, private route: ActivatedRoute) {}
+  constructor(
+    private store: Store<RootState>,
+    private route: ActivatedRoute,
+    private dialogService: DialogService
+  ) {}
 
   ngOnInit(): void {
     this.buildingId = this.route.snapshot.paramMap.get('id');
@@ -49,5 +56,16 @@ export class BuildingFormComponent implements OnInit {
       },
     };
     this.store.dispatch(BuildingActions.update({ building: buildingUpdate }));
+  }
+  addFloor(building: Building): void {
+    if (building) {
+      this.store.dispatch(FloorActions.deselect());
+      const ref = this.dialogService.open(FloorFormComponent, {
+        header: 'Add Floor',
+      });
+      ref.onClose.subscribe(() => {
+        this.store.dispatch(FloorActions.deselect());
+      });
+    }
   }
 }

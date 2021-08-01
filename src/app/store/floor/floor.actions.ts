@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Floor } from '@map/models';
+import { AddFloorInput, Floor } from '@map/models';
 import { Update } from '@ngrx/entity';
 
 export const getAll = createAction('[Map] Get All Floors');
@@ -22,6 +22,16 @@ export const getByBuildingIdSuccess = createAction(
 export const getByBuildingIdFailed = createAction(
   '[Floor Effect] Get Floors by Building Id Failed'
 );
+
+export const add = createAction(
+  '[Floor Form] Add Floor Request',
+  props<{ addFloorInput: AddFloorInput }>()
+);
+export const addSuccess = createAction(
+  '[Floor Effect] Add Floor Success',
+  props<{ floor: Floor }>()
+);
+export const addFailed = createAction('[Floor Effect] Add Floor Failed');
 
 export const update = createAction(
   '[Floor Form] Update Floor',
