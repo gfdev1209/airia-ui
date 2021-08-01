@@ -4,7 +4,7 @@ export class Floor implements IBase {
   id!: number;
   buildingId!: number;
   floorId?: number;
-  maxOccupancy!: number;
+  floorMaxOccupancy!: number;
   createdAt!: Date;
 
   constructor(args: {
@@ -17,7 +17,7 @@ export class Floor implements IBase {
     this.id = args.buildingFloorId;
     this.buildingId = args.buildingId;
     this.floorId = args.floorId;
-    this.maxOccupancy = args.floorMaxOccupancy;
+    this.floorMaxOccupancy = args.floorMaxOccupancy;
     this.createdAt = args.createdAt;
   }
 }

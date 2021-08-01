@@ -38,6 +38,26 @@ export const floorReducer = createReducer(
       loading: false,
     };
   }),
+  on(Actions.update, (state) => {
+    return {
+      ...state,
+      loading: true,
+      showOverview: false,
+    };
+  }),
+  on(Actions.updateSuccess, (state, { floor }) => {
+    return adapter.updateOne(floor, {
+      ...state,
+      loading: false,
+      loaded: true,
+    });
+  }),
+  on(Actions.updateFailed, (state) => {
+    return {
+      ...state,
+      loading: false,
+    };
+  }),
   on(Actions.select, (state) => {
     return {
       ...state,
@@ -61,6 +81,12 @@ export const floorReducer = createReducer(
     return {
       ...state,
       selected: null,
+    };
+  }),
+  on(Actions.closeFormModal, (state) => {
+    return {
+      ...state,
+      closeFormModal: true,
     };
   })
 );

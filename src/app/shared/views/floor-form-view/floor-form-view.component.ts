@@ -18,6 +18,7 @@ import { Floor, Building } from '@map/models';
 export class FloorFormViewComponent implements OnInit, OnChanges {
   @Input() floor?: Floor | null;
   @Input() floors?: Floor[] | null;
+  @Input() loading?: boolean | null;
   @Output() cancel = new EventEmitter();
   @Output() save = new EventEmitter<Floor>();
 
@@ -43,8 +44,9 @@ export class FloorFormViewComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.floorForm = this.fb.group({
+      id: [this.floor?.id, Validators.required],
       floorId: [this.floor?.floorId, Validators.required],
-      maxOccupancy: [this.floor?.maxOccupancy, Validators.required],
+      floorMaxOccupancy: [this.floor?.floorMaxOccupancy, Validators.required],
     });
   }
 

@@ -1,7 +1,4 @@
-<ng-template #loading>
-  <strong>Loading...</strong>
-</ng-template>
-<div *ngIf="floor; else loading" [formGroup]="floorForm">
+<div *ngIf="floor" [formGroup]="floorForm">
   <h3 class="p-m-0">Access Point Details</h3>
   <p class="p-m-0 p-pt-1">Lorem ipsum dolor sit amet, consectetur adipiscing</p>
   <div class="p-fluid p-formgrid p-grid p-mt-5">
@@ -22,21 +19,21 @@
       ></small>
     </div>
     <div class="p-field p-col-12">
-      <label for="maxOccupancy">Max Occupancy</label>
+      <label for="floorMaxOccupancy">Max Occupancy</label>
       <input
-        id="maxOccupancy"
-        formControlName="maxOccupancy"
+        id="floorMaxOccupancy"
+        formControlName="floorMaxOccupancy"
         type="text"
         pInputText
       />
       <small
         class="p-error"
         *ngIf="
-          !floorForm.controls['maxOccupancy'].valid &&
-          floorForm.controls['maxOccupancy'].dirty
+          !floorForm.controls['floorMaxOccupancy'].valid &&
+          floorForm.controls['floorMaxOccupancy'].dirty
         "
         [innerText]="
-          floorForm.controls['maxOccupancy'].errors?.required
+          floorForm.controls['floorMaxOccupancy'].errors?.required
             ? 'Max Occupancy is required'
             : ''
         "
@@ -59,7 +56,7 @@
       type="button"
       label="Save Changes"
       class="p-button-rounded"
-      [disabled]="!floorForm.valid"
+      [disabled]="!floorForm.valid || loading === true"
       (click)="onSave()"
     ></button>
   </div>
