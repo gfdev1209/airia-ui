@@ -16,6 +16,7 @@ import { Floor, Building } from '@map/models';
   styleUrls: ['./floor-form-view.component.scss'],
 })
 export class FloorFormViewComponent implements OnInit, OnChanges {
+  @Input() building?: Building | null;
   @Input() floor?: Floor | null;
   @Input() floors?: Floor[] | null;
   @Input() loading?: boolean | null;
@@ -44,7 +45,11 @@ export class FloorFormViewComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.floorForm = this.fb.group({
-      id: [this.floor?.id, Validators.required],
+      id: [this.floor?.id],
+      buildingId: [
+        this.floor?.buildingId ? this.floor?.buildingId : this.building?.id,
+        Validators.required,
+      ],
       floorId: [this.floor?.floorId, Validators.required],
       floorMaxOccupancy: [this.floor?.floorMaxOccupancy, Validators.required],
     });

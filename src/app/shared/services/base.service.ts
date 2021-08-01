@@ -71,10 +71,10 @@ export class BaseService {
   }
 
   create<T>(data: any): Observable<T> {
-    return this.http.post(`${this.apiUrl}/Create`, data).pipe(
-      // catchError((error) => {
-      //   return this.handleError(error);
-      // }),
+    return this.http.post(`${this.apiUrl}`, data).pipe(
+      catchError((error) => {
+        return this.handleError(error);
+      }),
       map((response: any) => response as T),
       share()
     );

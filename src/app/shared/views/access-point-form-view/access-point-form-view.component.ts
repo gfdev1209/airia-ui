@@ -52,6 +52,7 @@ export class AccessPointFormViewComponent implements OnInit, OnChanges {
           value: floor.id,
         });
       });
+      this.floorList = this.floorList.sort((a, b) => a.label - b.label);
     }
   }
 

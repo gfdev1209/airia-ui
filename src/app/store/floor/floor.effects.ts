@@ -72,6 +72,21 @@ export class FloorEffects {
     )
   );
 
+  add$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FloorActions.add),
+      mergeMap(({ addFloorInput }) =>
+        this.floorService.create<Floor>(addFloorInput).pipe(
+          map((floor: Floor) => FloorActions.addSuccess({ floor })),
+          tap(() => FloorActions.closeFormModal()),
+          catchError(() =>
+            of(FloorActions.addFailed(), FloorActions.closeFormModal())
+          )
+        )
+      )
+    )
+  );
+
   update$ = createEffect(() =>
     this.actions$.pipe(
       ofType(FloorActions.update),

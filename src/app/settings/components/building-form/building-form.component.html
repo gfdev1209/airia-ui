@@ -3,4 +3,5 @@
   [floors]="(floors$ | async) || []"
   [loading]="loading$ | async"
   (updateBuilding)="updateBuilding($event)"
+  (addFloor)="addFloor($event)"
 ></app-building-form-view>
