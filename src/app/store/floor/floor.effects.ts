@@ -5,6 +5,7 @@ import {
   map,
   mergeMap,
   switchMap,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { Floor } from '@map/models';
@@ -68,6 +69,21 @@ export class FloorEffects {
         }
       }),
       catchError(() => of(FloorActions.selectFailed()))
+    )
+  );
+
+  update$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FloorActions.update),
+      mergeMap(({ floor }) =>
+        this.floorService.update<Floor>(floor.id, floor.changes).pipe(
+          map(() => FloorActions.updateSuccess({ floor })),
+          tap(() => FloorActions.closeFormModal()),
+          catchError(() =>
+            of(FloorActions.updateFailed(), FloorActions.closeFormModal())
+          )
+        )
+      )
     )
   );
 }

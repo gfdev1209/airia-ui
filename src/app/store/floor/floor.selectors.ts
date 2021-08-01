@@ -16,3 +16,7 @@ export const selectSelectedFloor = createSelector(
   selectFeature,
   (state: FloorState) => state.selected
 );
+export const selectCloseFormModal = createSelector(
+  selectFeature,
+  (state: FloorState) => state.closeFormModal
+);

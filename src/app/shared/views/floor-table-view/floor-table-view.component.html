@@ -6,7 +6,8 @@
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [rowsPerPageOptions]="[10, 25, 50]"
-    [globalFilterFields]="['fullName']"
+    [globalFilterFields]="['floorId']"
+    sortField="floorId"
     [responsive]="true"
     selectionMode="single"
     [(selection)]="selectedFloor"
@@ -30,7 +31,7 @@
           {{ floor.floorId }}
         </td>
         <td>
-          {{ floor.maxOccupancy }}
+          {{ floor.floorMaxOccupancy }}
         </td>
         <td>
           <button
