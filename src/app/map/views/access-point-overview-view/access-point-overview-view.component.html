@@ -40,7 +40,7 @@
               accessPoint.status === AccessPointStatusEnum.Offline
             "
           ></i>
-          {{ accessPoint.status }}
+          {{ AccessPointStatusEnum[accessPoint.status] }}
         </small>
       </div>
       <div class="p-d-flex p-jc-between p-align-center">
@@ -49,6 +49,14 @@
           {{ accessPoint.wapmac }}
         </small>
       </div>
+      <button
+        pButton
+        pRipple
+        type="button"
+        label="Edit Access Point"
+        (click)="onEdit()"
+        class="p-button-rounded p-button-sm p-d-block p-mt-4"
+      ></button>
     </div>
   </p-panel>
 </div>

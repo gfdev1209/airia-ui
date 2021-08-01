@@ -11,6 +11,7 @@ import { Building, Floor } from '@map/models';
 export class BuildingFormViewComponent implements OnInit, OnChanges {
   @Input() building?: Building | null;
   @Input() floors: Floor[] = [];
+  @Input() loading?: boolean | null;
 
   @Output() updateBuilding = new EventEmitter<Building>();
 

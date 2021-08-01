@@ -56,6 +56,7 @@
       type="button"
       label="Save Changes"
       class="p-button-rounded"
+      [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
       [disabled]="!floorForm.valid || loading === true"
       (click)="onSave()"
     ></button>
