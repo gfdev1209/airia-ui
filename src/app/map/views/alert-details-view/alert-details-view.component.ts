@@ -24,7 +24,6 @@ import { slidePanelAnimation } from 'src/app/app.animations';
   templateUrl: './alert-details-view.component.html',
   styleUrls: ['./alert-details-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [slidePanelAnimation],
 })
 export class AlertDetailsViewComponent implements OnInit {
   @Input() alert?: Alert | null;
@@ -37,12 +36,12 @@ export class AlertDetailsViewComponent implements OnInit {
     {
       severity: 'custom',
       detail:
-        'University Club has been low capacity for the past 8 weeks between the hours of 10 PM and 6 AM.',
+        'PLACEHOLDER - University Club has been low capacity for the past 8 weeks between the hours of 10 PM and 6 AM.',
     },
     {
       severity: 'custom',
       detail:
-        'University Club is low capacity compared to the buildings within immediate vicinty',
+        'PLACEHOLDER - University Club is low capacity compared to the buildings within immediate vicinty',
     },
   ];
 

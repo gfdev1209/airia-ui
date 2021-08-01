@@ -5,4 +5,18 @@
   @media screen and (max-width: $breakPoint-sm) {
     width: 100%;
   }
+  .p-dialog-header .p-dialog-header-icon {
+    width: inherit;
+    margin-right: 1rem;
+  }
+  .p-tabview .p-tabview-nav li {
+    margin-right: 1.5rem;
+    .p-tabview-nav-link {
+      padding: 1rem 0;
+      padding-top: 0;
+    }
+  }
+  .p-tabview-panels {
+    padding: 1rem 0 0 0;
+  }
 }
