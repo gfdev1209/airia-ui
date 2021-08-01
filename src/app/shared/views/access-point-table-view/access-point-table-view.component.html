@@ -137,8 +137,9 @@
             [class.color-red]="
               accessPoint.status === AccessPointStatusName.Offline
             "
-            >{{ accessPoint.status }}</span
           >
+            {{ AccessPointStatusName[accessPoint.status] }}
+          </span>
         </td>
         <td>
           {{ accessPoint.wapmac }}

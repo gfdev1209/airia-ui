@@ -1,5 +1,6 @@
 export enum AlertSeverity {
-  Low = 'low',
-  Medium = 'medium',
-  High = 'high',
+  Low = 0,
+  Medium = 1,
+  High = 2,
+  Severe = 3,
 }

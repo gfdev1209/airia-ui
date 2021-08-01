@@ -43,6 +43,9 @@ import { DeviceEffects } from '@store/device/device.effects';
 import { UserEffects } from '@store/user/user.effects';
 import { DepartmentEffects } from '@store/department/department.effects';
 import { RoleEffects } from '@store/role/role.effects';
+import { ErrorInterceptor } from '@core/interceptors/error.interceptor';
+import { SharedModule } from '@shared/shared.module';
+import { ToastModule } from 'primeng/toast';
 
 const isIE =
   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
@@ -98,6 +101,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   declarations: [AppComponent],
   imports: [
     CoreModule,
+    ToastModule,
     AppRoutingModule,
     MsalModule,
     StoreModule.forRoot(reducers),
@@ -122,6 +126,11 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   ],
   exports: [NgxMapboxGLModule],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: MsalInterceptor,
