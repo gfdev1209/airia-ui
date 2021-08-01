@@ -1,5 +1,6 @@
 <app-access-point-overview-view
   [accessPoint]="accessPoint$ | async"
   [loading]="loading$ | async"
+  (edit)="edit($event)"
   (closePanel)="closePanel()"
 ></app-access-point-overview-view>

@@ -18,6 +18,7 @@ export class AccessPointFormViewComponent implements OnInit, OnChanges {
   @Input() accessPoint?: AccessPoint | null;
   @Input() buildings?: Building[] | null;
   @Input() floors?: Floor[] | null;
+  @Input() loading?: boolean | null;
   @Output() cancel = new EventEmitter();
   @Output() save = new EventEmitter<AccessPoint>();
 

@@ -18,6 +18,7 @@ export class AccessPointFormComponent implements OnInit {
   accessPoint$ = this.store.select(
     AccessPointSelectors.selectSelectedAccessPoint
   );
+  loading$ = this.store.select(AccessPointSelectors.selectLoading);
   buildings$ = this.store.select(BuildingSelectors.selectAll);
   floors$ = this.store.select(FloorSelectors.selectAll);
 

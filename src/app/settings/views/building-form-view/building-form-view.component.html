@@ -1,7 +1,7 @@
-<ng-template #loading>
+<ng-template #loadingDiv>
   <strong>Loading...</strong>
 </ng-template>
-<div *ngIf="building; else loading" [formGroup]="buildingForm">
+<div *ngIf="building; else loadingDiv" [formGroup]="buildingForm">
   <div class="p-d-flex p-mt-2">
     <button
       pButton
@@ -97,7 +97,8 @@
       label="Update Building"
       class="p-button-rounded"
       (click)="onUpdate()"
-      [disabled]="!buildingForm.valid"
+      [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
+      [disabled]="!buildingForm.valid || loading === true"
     ></button>
   </div>
   <hr class="p-mt-4 p-mb-4" />
@@ -118,6 +119,6 @@
     <app-floor-table></app-floor-table>
   </div>
 </div>
-<pre
+<!-- <pre
   >{{ buildingForm.value | json }}
-</pre>
+</pre> -->

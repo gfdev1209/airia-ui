@@ -24,6 +24,7 @@ export class BuildingFormComponent implements OnInit {
     })
   );
   floors$ = this.store.select(FloorSelectors.selectAll);
+  loading$ = this.store.select(BuildingSelectors.selectLoading);
 
   buildingId?: string | null;
 

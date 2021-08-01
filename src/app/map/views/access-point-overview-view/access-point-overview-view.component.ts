@@ -19,6 +19,7 @@ export class AccessPointOverviewViewComponent implements OnInit {
   @Input() loading: boolean | null = false;
 
   @Output() closePanel = new EventEmitter();
+  @Output() edit = new EventEmitter<AccessPoint>();
 
   AccessPointStatusEnum = AccessPointStatus;
 
@@ -28,5 +29,10 @@ export class AccessPointOverviewViewComponent implements OnInit {
 
   onClose(): void {
     this.closePanel.emit();
+  }
+  onEdit(): void {
+    if (this.accessPoint) {
+      this.edit.emit(this.accessPoint);
+    }
   }
 }
