@@ -15,7 +15,7 @@ export class Alert implements IBase {
     alertId: number;
     buildingId: number;
     accessPointId: number;
-    alertSeverity: string;
+    alertSeverity: number;
     type: string;
     message: string;
     createdAt: Date;

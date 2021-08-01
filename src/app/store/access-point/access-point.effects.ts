@@ -31,18 +31,20 @@ export class AccessPointEffects {
     this.actions$.pipe(
       ofType(AccessPointActions.getAll),
       mergeMap(() =>
-        this.accessPointService.getAll<AccessPoint[]>('+Building').pipe(
-          map((accessPoints: AccessPoint[]) => {
-            accessPoints.forEach((accessPoint) => {
-              accessPoint.createdAt = new Date(accessPoint.createdAt);
-            });
-            return accessPoints;
-          }),
-          map((accessPoints: AccessPoint[]) =>
-            AccessPointActions.getAllSuccess({ accessPoints })
-          ),
-          catchError(() => of(AccessPointActions.getAllFailed()))
-        )
+        this.accessPointService
+          .getAll<AccessPoint[]>('+Building+BuildingFloor')
+          .pipe(
+            map((accessPoints: AccessPoint[]) => {
+              accessPoints.forEach((accessPoint) => {
+                accessPoint.createdAt = new Date(accessPoint.createdAt);
+              });
+              return accessPoints;
+            }),
+            map((accessPoints: AccessPoint[]) =>
+              AccessPointActions.getAllSuccess({ accessPoints })
+            ),
+            catchError(() => of(AccessPointActions.getAllFailed()))
+          )
       )
     )
   );

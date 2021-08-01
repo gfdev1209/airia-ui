@@ -65,7 +65,9 @@
                 <ng-template let-option pTemplate="item">
                   <div class="p-multiselect-representative-option">
                     <p-tag
-                      [value]="option.value | underscoreToSpace"
+                      [value]="
+                        AlertSeverityName[option.value] | underscoreToSpace
+                      "
                       [rounded]="true"
                       severity="info"
                       styleClass="severity-{{ option.value }}"
@@ -139,7 +141,7 @@
         </td>
         <td class="{{ alert.severity | colorByAlertSeverity }}">
           <p-tag
-            [value]="alert.severity | underscoreToSpace"
+            [value]="AlertSeverityName[alert.severity] | underscoreToSpace"
             [rounded]="true"
             severity="info"
             styleClass="severity-{{ alert.severity }}"
