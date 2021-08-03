@@ -46,6 +46,11 @@ const routes: Routes = [
     canActivate: [MsalGuard],
   },
   {
+    path: 'settings',
+    pathMatch: 'full',
+    redirectTo: 'settings/users',
+  },
+  {
     path: '',
     component: InteriorLayoutComponent,
     loadChildren: () =>

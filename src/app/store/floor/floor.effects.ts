@@ -93,7 +93,7 @@ export class FloorEffects {
       mergeMap(({ floor }) =>
         this.floorService.update<Floor>(floor.id, floor.changes).pipe(
           map(() => FloorActions.updateSuccess({ floor })),
-          tap(() => FloorActions.closeFormModal()),
+          map(() => FloorActions.closeFormModal()),
           catchError(() =>
             of(FloorActions.updateFailed(), FloorActions.closeFormModal())
           )

@@ -80,4 +80,24 @@ export class AccessPointEffects {
       catchError(() => of(AccessPointActions.searchFailed()))
     )
   );
+
+  update$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AccessPointActions.update),
+      mergeMap(({ accessPoint }) =>
+        this.accessPointService
+          .update<AccessPoint>(accessPoint.id, accessPoint.changes)
+          .pipe(
+            map(() => AccessPointActions.updateSuccess({ accessPoint })),
+            map(() => AccessPointActions.closeFormModal()),
+            catchError(() =>
+              of(
+                AccessPointActions.updateFailed(),
+                AccessPointActions.closeFormModal()
+              )
+            )
+          )
+      )
+    )
+  );
 }

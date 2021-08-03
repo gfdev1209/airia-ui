@@ -32,12 +32,12 @@ export class SettingsMenuViewComponent implements OnInit {
       description: 'Edit Access Point Details',
       icon: 'fa-router',
     },
-    {
-      title: 'Appearance',
-      route: '/settings/appearance',
-      description: 'Dark and Light mode',
-      icon: 'fa-adjust',
-    },
+    // {
+    //   title: 'Appearance',
+    //   route: '/settings/appearance',
+    //   description: 'Dark and Light mode',
+    //   icon: 'fa-adjust',
+    // },
   ];
 
   constructor() {}
