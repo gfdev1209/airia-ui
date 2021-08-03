@@ -1,6 +1,11 @@
 .alert-details-container {
-  &:not(.p-dialog-maximized) {
-    max-width: $alert-details-panel-width;
+  @media (min-width: $breakPoint-sm) {
+    top: 45px;
+    left: 65px;
+    max-width: 100%;
+    &:not(.p-dialog-maximized) {
+      max-width: $alert-details-panel-width;
+    }
   }
   .alert-details {
     z-index: 2;

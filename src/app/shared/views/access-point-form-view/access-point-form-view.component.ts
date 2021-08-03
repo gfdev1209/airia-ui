@@ -60,7 +60,7 @@ export class AccessPointFormViewComponent implements OnInit, OnChanges {
     this.accessPointForm = this.fb.group({
       name: [this.accessPoint?.name, Validators.required],
       buildingId: [this.accessPoint?.buildingId, Validators.required],
-      floorId: [this.accessPoint?.floorId, [Validators.required]],
+      floorId: [this.accessPoint?.floor?.floorId, [Validators.required]],
     });
   }
 
