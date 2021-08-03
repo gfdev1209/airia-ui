@@ -23,3 +23,12 @@
     // padding-top: 0.5rem;
   }
 }
+.building-details-container {
+  @media (min-width: $breakPoint-sm) {
+    top: 45px;
+    left: 65px;
+  }
+  &.p-dialog-maximized {
+    max-width: 100%;
+  }
+}
