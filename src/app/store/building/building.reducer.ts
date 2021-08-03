@@ -21,6 +21,23 @@ export const buildingReducer = createReducer(
       loading: false,
     };
   }),
+  on(Actions.get, (state) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+  on(Actions.getSuccess, (state, { building }) => ({
+    ...state,
+    loading: false,
+    loaded: true,
+  })),
+  on(Actions.getFailed, (state) => {
+    return {
+      ...state,
+      loading: false,
+    };
+  }),
   on(Actions.search, (state) => {
     return {
       ...state,

@@ -21,7 +21,7 @@ export class AlertEffects {
             alerts.forEach((alert) => {
               alert.createdAt = new Date(alert.createdAt);
             });
-            // alerts = alerts.slice(0, 50);
+            alerts = alerts.slice(0, 50);
             return alerts;
           }),
           map((alerts: Alert[]) => AlertActions.getAllSuccess({ alerts })),

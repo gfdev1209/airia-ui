@@ -39,6 +39,22 @@ export class BuildingEffects {
     )
   );
 
+  get$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BuildingActions.get),
+      mergeMap(({ id }) =>
+        this.buildingService
+          .get<Building>(id, '+AccessPoints+BuildingFloorInfos')
+          .pipe(
+            map((building: Building) =>
+              BuildingActions.getSuccess({ building })
+            ),
+            catchError(() => of(BuildingActions.getFailed()))
+          )
+      )
+    )
+  );
+
   search$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BuildingActions.search),

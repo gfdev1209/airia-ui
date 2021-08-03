@@ -16,8 +16,8 @@ export class Building implements IBase, IHasCoordinates {
   maxOccupancy!: number;
   createdAt!: Date;
   location?: Location;
-  accessPoints?: ResponseList<AccessPoint>;
-  buildingFloorInfos?: ResponseList<Floor>;
+  accessPoints?: AccessPoint[];
+  buildingFloors?: Floor[];
 
   constructor(args: {
     $id: string;
@@ -34,8 +34,8 @@ export class Building implements IBase, IHasCoordinates {
     maxOccupancy: number;
     createdAt: Date;
     // location: Location;
-    // accessPoints: ResponseList<AccessPoint>;
-    // buildingFloorInfos: ResponseList<Floor>;
+    accessPoints: AccessPoint[];
+    buildingFloorInfos: Floor[];
   }) {
     this.id = args.buildingId;
     this.floors = args.floors;
@@ -50,7 +50,7 @@ export class Building implements IBase, IHasCoordinates {
     this.maxOccupancy = args.maxOccupancy;
     this.createdAt = args.createdAt;
     // this.location = args.location;
-    // this.accessPoints = args.accessPoints;
-    // this.buildingFloorInfos = args.buildingFloorInfos;
+    this.accessPoints = args.accessPoints;
+    this.buildingFloors = args.buildingFloorInfos;
   }
 }
