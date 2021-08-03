@@ -16,9 +16,12 @@ export class BuildingOverviewComponent implements OnInit {
   building$ = this.store.select(BuildingSelectors.selectSelectedBuilding).pipe(
     tap((building) => {
       if (building) {
-        this.store.dispatch(
-          FloorActions.getByBuildingId({ buildingId: building.id })
-        );
+        if (building) {
+          this.store.dispatch(BuildingActions.get({ id: building.id }));
+        }
+        // this.store.dispatch(
+        //   FloorActions.getByBuildingId({ buildingId: building.id })
+        // );
       }
     })
   );

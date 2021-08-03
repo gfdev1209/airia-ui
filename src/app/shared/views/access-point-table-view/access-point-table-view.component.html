@@ -124,11 +124,17 @@
         </td>
         <td>
           <i
-            class="fas fa-router"
+            class="fas"
+            [class.fa-router]="
+              accessPoint.status === AccessPointStatusName.Online
+            "
             [class.color-green]="
               accessPoint.status === AccessPointStatusName.Online
             "
             [class.color-red]="
+              accessPoint.status === AccessPointStatusName.Offline
+            "
+            [class.fa-sensor-alert]="
               accessPoint.status === AccessPointStatusName.Offline
             "
           ></i>

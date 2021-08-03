@@ -21,21 +21,39 @@
       <div class="p-d-flex p-jc-between p-align-center">
         <small>
           <i class="far fa-users fa-fw color-text-medium-dark p-mr-2"></i>
-          Occupancy: 25%
+          PLACEHOLDER % Occupancy
         </small>
       </div>
       <div class="p-d-flex p-jc-between p-align-center p-mt-1">
         <small class="p-mr-4">
-          <i class="far fa-router fa-fw color-green p-mr-2"></i> 12 Access
-          Points Online
+          <i class="far fa-building fa-fw color-text-medium-dark p-mr-2"></i>
+          {{ building.buildingFloors?.length }} Floors
         </small>
       </div>
-      <div class="p-d-flex p-jc-between p-align-center p-mt-1">
+      <div
+        *ngIf="accessPointsOnline > 0"
+        class="p-d-flex p-jc-between p-align-center p-mt-1"
+      >
+        <small class="p-mr-4">
+          <i class="far fa-router fa-fw color-green p-mr-2"></i>
+          {{ accessPointsOnline }} Access Points Online
+        </small>
+      </div>
+      <div
+        *ngIf="accessPointsOffline > 0"
+        class="p-d-flex p-jc-between p-align-center p-mt-1"
+      >
+        <small class="p-mr-4">
+          <i class="far fa-sensor-alert fa-fw color-red p-mr-2"></i>
+          {{ accessPointsOffline }} Access Points Offline
+        </small>
+      </div>
+      <!-- <div class="p-d-flex p-jc-between p-align-center p-mt-1">
         <small class="p-mr-4">
           <i class="far fa-signal-stream fa-fw color-green p-mr-2"></i> High
           Transmission
         </small>
-      </div>
+      </div> -->
       <button
         pButton
         pRipple

@@ -11,6 +11,16 @@ export const getAllFailed = createAction(
   '[Building Effect] Get All Buildings Failed'
 );
 
+export const get = createAction(
+  '[Building Overview] Get Building',
+  props<{ id: number }>()
+);
+export const getSuccess = createAction(
+  '[Building Effect] Get Building Success',
+  props<{ building: Building }>()
+);
+export const getFailed = createAction('[Building Effect] Get Building Failed');
+
 export const update = createAction(
   '[Building Form] Update Building',
   props<{ building: Update<Building> }>()
