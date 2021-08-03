@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { AccessPoint } from '@map/models';
+import { Update } from '@ngrx/entity';
 
 export const getAll = createAction('[Map] Get All Access Points');
 export const getAllSuccess = createAction(
@@ -20,6 +21,18 @@ export const getSuccess = createAction(
 );
 export const getFailed = createAction(
   '[Access Point Effect] Get Access Point Failed'
+);
+
+export const update = createAction(
+  '[Access Point Form] Update Access Point',
+  props<{ accessPoint: Update<AccessPoint> }>()
+);
+export const updateSuccess = createAction(
+  '[Access Point Effect] Update Access Point Success',
+  props<{ accessPoint: Update<AccessPoint> }>()
+);
+export const updateFailed = createAction(
+  '[Access Point Effect] Update Access Point Failed'
 );
 
 export const select = createAction(
@@ -48,4 +61,8 @@ export const searchSuccess = createAction(
 );
 export const searchFailed = createAction(
   '[Access Point Effect] Search Access Points Failed'
+);
+
+export const closeFormModal = createAction(
+  '[Access Point Effect] Close Access Point Form Modal'
 );

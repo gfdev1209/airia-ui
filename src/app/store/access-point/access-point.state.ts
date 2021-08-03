@@ -6,6 +6,7 @@ export interface AccessPointState extends EntityState<AccessPoint> {
   searchResults: AccessPoint[] | null;
   loaded: boolean;
   loading: boolean;
+  closeFormModal: boolean | null;
 }
 export const adapter = createEntityAdapter<AccessPoint>();
 export const initialState: AccessPointState = adapter.getInitialState({
@@ -13,4 +14,5 @@ export const initialState: AccessPointState = adapter.getInitialState({
   searchResults: [],
   loaded: false,
   loading: false,
+  closeFormModal: null,
 });

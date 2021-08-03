@@ -38,6 +38,26 @@ export const accessPointReducer = createReducer(
       loading: false,
     };
   }),
+  on(Actions.update, (state) => {
+    return {
+      ...state,
+      loading: true,
+      showOverview: false,
+    };
+  }),
+  on(Actions.updateSuccess, (state, { accessPoint }) => {
+    return adapter.updateOne(accessPoint, {
+      ...state,
+      loading: false,
+      loaded: true,
+    });
+  }),
+  on(Actions.updateFailed, (state) => {
+    return {
+      ...state,
+      loading: false,
+    };
+  }),
   on(Actions.select, (state, { id }) => ({
     ...state,
     selected: state.entities[id],
@@ -79,6 +99,12 @@ export const accessPointReducer = createReducer(
     return {
       ...state,
       loading: false,
+    };
+  }),
+  on(Actions.closeFormModal, (state) => {
+    return {
+      ...state,
+      closeFormModal: true,
     };
   })
 );

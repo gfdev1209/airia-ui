@@ -19,7 +19,7 @@ export class AccessPoint implements IBase, IHasCoordinates {
     $id: string;
     accessPointId: number;
     buildingId: number;
-    floorId: number;
+    buildingFloorId: number;
     accessPointName: string;
     wapmac: string;
     status: number;
@@ -31,7 +31,7 @@ export class AccessPoint implements IBase, IHasCoordinates {
   }) {
     this.id = args.accessPointId;
     this.buildingId = args.buildingId;
-    this.floorId = args.floorId;
+    this.floorId = args.buildingFloorId;
     this.name = args.accessPointName;
     this.wapmac = args.wapmac;
     this.status = args.status as AccessPointStatus;
