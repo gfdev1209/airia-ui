@@ -31,9 +31,12 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
   // Amount of alerts displayed in panel at one time
   alertsDisplayedNum = 9;
 
+  visible = false;
+
   constructor() {}
   ngOnInit(): void {
     this.virtualAlerts = Array.from({ length: this.alertsDisplayedNum });
+    setTimeout(() => (this.visible = true), 500);
   }
   ngOnChanges(changes: SimpleChanges): void {
     const currentAlerts: SimpleChange = changes.alerts;
