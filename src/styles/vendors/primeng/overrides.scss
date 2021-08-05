@@ -13,6 +13,9 @@ $fontSize: var(--font-size);
 }
 .p-button,
 .p-button.p-button-secondary {
+  span.p-button-icon {
+    font-size: 1rem;
+  }
   &.p-button-outlined {
     color: var(--background-color-shade-3);
     &:enabled:hover {

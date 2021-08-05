@@ -22,7 +22,7 @@
         <th pSortableColumn="maxOccupancy">
           Max Occupancy <p-sortIcon field="maxOccupancy"></p-sortIcon>
         </th>
-        <th style="width: 185px">Actions</th>
+        <th style="width: 100px">Actions</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-floor>
@@ -42,16 +42,6 @@
             icon="fas fa-pencil-alt"
             class="p-button-text p-button-sm p-pl-0"
             (click)="onEdit(floor)"
-          ></button>
-          &nbsp;
-          <button
-            pButton
-            pRipple
-            type="button"
-            label="Remove"
-            icon="fas fa-times"
-            class="p-button-text p-button-sm p-pl-0"
-            (click)="onDelete(floor)"
           ></button>
         </td>
       </tr>
