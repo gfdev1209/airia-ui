@@ -21,8 +21,11 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
   @Input() alerts: Alert[] | null = [];
   @Input() selectedAlert: Alert | null = null;
   @Input() sortType: AlertSortType | null = AlertSortType.Date;
+  @Input() showSevereUrgency!: boolean;
   @Input() showHighUrgency!: boolean;
   @Input() showMediumUrgency!: boolean;
+  @Input() showLowUrgency!: boolean;
+  @Input() showAcknowledged!: boolean;
   @Input() showNetworkHealth!: boolean;
   @Input() showAPStatus!: boolean;
   @Input() showCapacity!: boolean;
@@ -56,8 +59,11 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
       this.sort(sortType.currentValue);
     }
     if (
+      changes.showSevereUrgency ||
       changes.showHighUrgency ||
       changes.showMediumUrgency ||
+      changes.showLowUrgency ||
+      changes.showAcknowledged ||
       changes.showNetworkHealth ||
       changes.showAPStatus ||
       changes.showCapacity
@@ -100,8 +106,11 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
     if (this.alerts) {
       alerts = this.alerts.filter(
         this.combineFilters(
+          this.filterSeveritySevere,
           this.filterSeverityHigh,
           this.filterSeverityMedium,
+          this.filterSeverityLow,
+          this.filterAcknowledged,
           this.filterNetworkHealth,
           this.filterAPStatus,
           this.filterCapacity
@@ -110,31 +119,46 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
     }
     return alerts;
   }
+  filterSeveritySevere = (alert: Alert) => {
+    return this.showSevereUrgency
+      ? true
+      : alert?.alertSeverity !== AlertSeverity.Severe;
+  };
   filterSeverityHigh = (alert: Alert) => {
-    return this.showHighUrgency ? true : alert?.severity !== AlertSeverity.High;
+    return this.showHighUrgency
+      ? true
+      : alert?.alertSeverity !== AlertSeverity.High;
   };
   filterSeverityMedium = (alert: Alert) => {
     return this.showMediumUrgency
       ? true
-      : alert?.severity !== AlertSeverity.Medium;
+      : alert?.alertSeverity !== AlertSeverity.Medium;
+  };
+  filterSeverityLow = (alert: Alert) => {
+    return this.showLowUrgency
+      ? true
+      : alert?.alertSeverity !== AlertSeverity.Low;
+  };
+  filterAcknowledged = (alert: Alert) => {
+    return this.showAcknowledged ? true : alert?.acknowledgedAt === null;
   };
   filterCapacity = (alert: Alert) => {
     return this.showCapacity
       ? true
-      : alert?.type !== AlertType.Covid_Capacity &&
-          alert?.type !== AlertType.High_Capacity &&
-          alert?.type !== AlertType.Low_Capacity;
+      : alert?.alertType !== AlertType.Covid_Capacity &&
+          alert?.alertType !== AlertType.High_Capacity &&
+          alert?.alertType !== AlertType.Low_Capacity;
   };
   filterNetworkHealth = (alert: Alert) => {
     return this.showNetworkHealth
       ? true
-      : alert?.type !== AlertType.Network_Health;
+      : alert?.alertType !== AlertType.Network_Health;
   };
   filterAPStatus = (alert: Alert) => {
     return this.showAPStatus
       ? true
-      : alert?.type !== AlertType.Access_Point_Offline &&
-          alert?.type !== AlertType.Access_Point_Online;
+      : alert?.alertType !== AlertType.Access_Point_Offline &&
+          alert?.alertType !== AlertType.Access_Point_Online;
   };
 
   sort(order: number): void {
@@ -145,16 +169,16 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
         let value2: any;
         let result: any;
         if (order === AlertSortType.Date) {
-          value1 = data2.createdAt;
-          value2 = data1.createdAt;
+          value1 = data2.featureEventtime;
+          value2 = data1.featureEventtime;
           result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
         } else if (order === AlertSortType.Type) {
-          value1 = data1.type;
-          value2 = data2.type;
+          value1 = data1.alertType;
+          value2 = data2.alertType;
           result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
-        } else if (order === AlertSortType.Urgency) {
-          value1 = data1.severity;
-          value2 = data2.severity;
+        } else if (order === AlertSortType.Severity) {
+          value1 = data1.alertSeverity;
+          value2 = data2.alertSeverity;
           result = value2 < value1 ? -1 : value2 > value1 ? 1 : 0;
         }
 

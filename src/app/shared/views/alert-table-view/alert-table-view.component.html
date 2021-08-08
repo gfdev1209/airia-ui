@@ -8,8 +8,10 @@
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [rowsPerPageOptions]="[10, 25, 50]"
-    [globalFilterFields]="['createdAt']"
+    [globalFilterFields]="['featureEventtime']"
     [responsive]="true"
+    sortField="featureEventtime"
+    [sortOrder]="-1"
     dataKey="id"
   >
     <ng-template pTemplate="header">
@@ -17,37 +19,41 @@
         <th *ngIf="showCheckboxColumn" style="width: 3rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
-        <th style="width: 175px" pSortableColumn="createdAt">
-          Date <p-sortIcon field="createdAt"></p-sortIcon>
+        <th style="width: 185px" pSortableColumn="featureEventtime">
+          Date <p-sortIcon field="featureEventtime"></p-sortIcon>
         </th>
-        <th style="width: 33%" pSortableColumn="message">
-          Alert <p-sortIcon field="message"></p-sortIcon>
+        <th style="width: 33%" pSortableColumn="alertMessage">
+          Message <p-sortIcon field="alertMessage"></p-sortIcon>
         </th>
-        <th pSortableColumn="severity">
-          Severity <p-sortIcon field="severity"></p-sortIcon>
+        <th pSortableColumn="alertSeverity">
+          Severity <p-sortIcon field="alertSeverity"></p-sortIcon>
         </th>
-        <th pSortableColumn="type">
-          Type <p-sortIcon field="type"></p-sortIcon>
+        <th pSortableColumn="alertType">
+          Type <p-sortIcon field="alertType"></p-sortIcon>
         </th>
         <!-- <th pSortableColumn="buildingId">
           Tag <p-sortIcon field="buildingId"></p-sortIcon>
         </th> -->
-        <th *ngIf="!selectedBuilding" pSortableColumn="buildingId">
+        <!-- <th *ngIf="!selectedBuilding" pSortableColumn="buildingId">
           Building <p-sortIcon field="buildingId"></p-sortIcon>
-        </th>
+        </th> -->
       </tr>
       <tr>
         <th *ngIf="showCheckboxColumn" style="width: 3rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
         <th>
-          <p-columnFilter type="date" field="createdAt"></p-columnFilter>
+          <p-columnFilter type="date" field="featureEventtime"></p-columnFilter>
         </th>
         <th>
           <p-columnFilter type="text" field="message"></p-columnFilter>
         </th>
         <th>
-          <p-columnFilter field="severity" matchMode="in" [showMenu]="false">
+          <p-columnFilter
+            field="alertSeverity"
+            matchMode="in"
+            [showMenu]="false"
+          >
             <ng-template
               pTemplate="filter"
               let-value
@@ -65,9 +71,7 @@
                 <ng-template let-option pTemplate="item">
                   <div class="p-multiselect-representative-option">
                     <p-tag
-                      [value]="
-                        AlertSeverityName[option.value] | underscoreToSpace
-                      "
+                      [value]="option.value"
                       [rounded]="true"
                       severity="info"
                       styleClass="severity-{{ option.value }}"
@@ -103,7 +107,7 @@
             </ng-template>
           </p-columnFilter>
         </th>
-        <th *ngIf="!selectedBuilding">
+        <!-- <th *ngIf="!selectedBuilding">
           <p-columnFilter field="buildingId" matchMode="in" [showMenu]="false">
             <ng-template
               pTemplate="filter"
@@ -127,7 +131,14 @@
               </p-multiSelect>
             </ng-template>
           </p-columnFilter>
-        </th>
+        </th> -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="loadingbody" let-columns="alerts">
+      <tr style="height: 34px">
+        <td>
+          <div class="loading-text">Loading</div>
+        </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-alert>
@@ -135,22 +146,22 @@
         <td *ngIf="showCheckboxColumn">
           <p-tableCheckbox [value]="alert"></p-tableCheckbox>
         </td>
-        <td>{{ alert.createdAt | date: "medium" }}</td>
+        <td>{{ alert.featureEventtime | date: "medium" }}</td>
         <td>
-          {{ alert.message }}
+          {{ alert.alertMessage }}
         </td>
-        <td class="{{ alert.severity | colorByAlertSeverity }}">
+        <td class="{{ alert.alertSeverity | colorByAlertSeverity }}">
           <p-tag
-            [value]="AlertSeverityName[alert.severity] | underscoreToSpace"
+            [value]="alert.alertSeverity"
             [rounded]="true"
             severity="info"
-            styleClass="severity-{{ alert.severity }}"
+            styleClass="severity-{{ alert.alertSeverity }}"
           ></p-tag>
         </td>
         <td>
-          {{ alert.type | underscoreToSpace }}
+          {{ alert.alertType | underscoreToSpace }}
         </td>
-        <td *ngIf="!selectedBuilding">{{ alert.buildingId }}</td>
+        <!-- <td *ngIf="!selectedBuilding">{{ alert.buildingId }}</td> -->
       </tr>
     </ng-template>
   </p-table>

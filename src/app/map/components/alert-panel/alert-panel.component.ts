@@ -4,6 +4,7 @@ import { RootState } from 'src/app/store';
 import { MapService } from '@map/services/map.service';
 import * as AlertSelectors from '@store/alert/alert.selectors';
 import * as AlertActions from '@store/alert/alert.actions';
+import { AlertSeverity } from '@map/enums';
 
 @Component({
   selector: 'app-alert-panel',
@@ -16,8 +17,11 @@ export class AlertPanelComponent implements OnInit {
   selectedAlert$ = this.store.select(AlertSelectors.selectSelectedAlert);
   alertSortType$ = this.store.select(AlertSelectors.selectSortType);
 
+  showSevereUrgency = true;
   showHighUrgency = true;
   showMediumUrgency = true;
+  showLowUrgency = true;
+  showAcknowledged = true;
   showNetworkHealth = true;
   showAPStatus = true;
   showCapacity = true;
@@ -28,14 +32,23 @@ export class AlertPanelComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(AlertActions.getAll());
+    this.store.dispatch(AlertActions.getFromMinutes({ fromMin: 1440 }));
   }
 
+  onToggleSevereUrgency($event: any): void {
+    this.showSevereUrgency = $event.checked;
+  }
   onToggleHighUrgency($event: any): void {
     this.showHighUrgency = $event.checked;
   }
   onToggleMediumUrgency($event: any): void {
     this.showMediumUrgency = $event.checked;
+  }
+  onToggleLowUrgency($event: any): void {
+    this.showLowUrgency = $event.checked;
+  }
+  onToggleAcknowledged($event: any): void {
+    this.showAcknowledged = $event.checked;
   }
   onToggleNetworkHealth($event: any): void {
     this.showNetworkHealth = $event.checked;

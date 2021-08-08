@@ -1,12 +1,15 @@
 .p-tag {
   padding: 0.25rem 1rem;
-  &.severity-0 {
+  &.severity-Low {
     background-color: var(--background-color-shade-4);
   }
-  &.severity-1 {
+  &.severity-Orange {
+    background-color: $orange;
+  }
+  &.severity-Yellow {
     background-color: $yellow;
   }
-  &.severity-2 {
+  &.severity-Red {
     background-color: $red;
   }
   &.p-tag-info {

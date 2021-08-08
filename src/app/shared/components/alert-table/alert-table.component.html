@@ -1,5 +1,6 @@
 <app-alert-table-view
   [alerts]="alerts$ | async"
+  [loading]="loading$ | async"
   [buildings]="buildings$ | async"
   [selectedBuilding]="building"
   [showCheckboxColumn]="showCheckboxColumn"

@@ -6,21 +6,26 @@
 >
   <div class="p-flex-column p-mr-3">
     <i
-      class="{{ alert.type | alertIconByType }} {{
-        alert.severity | colorByAlertSeverity
+      class="{{ alert.alertType | alertIconByType }} {{
+        alert.alertSeverity | colorByAlertSeverity
       }}"
     ></i>
   </div>
   <div class="p-flex-column flex-grow-1">
     <span
       class="display-block line-height-1-5 font-size-90-percent {{
-        alert.severity | colorByAlertSeverity
+        alert.alertSeverity | colorByAlertSeverity
       }}"
-      [ngClass]="{ 'color-heading': alert.severity === AlertSeverityEnum.Low }"
-      >{{ alert.message }}</span
+      [ngClass]="{
+        'color-heading': alert.alertSeverity === AlertSeverityEnum.Low
+      }"
+      >{{ alert.alertType }}</span
     >
     <small class="color-text-medium">{{
-      alert.createdAt | date: "dd MMM h:mm a"
+      alert.featureEventtime | date: "dd MMM h:mm a"
     }}</small>
+  </div>
+  <div *ngIf="alert.acknowledgedAt" class="p-flex-column p-ml-3">
+    <i class="far fa-check-circle color-green"></i>
   </div>
 </div>

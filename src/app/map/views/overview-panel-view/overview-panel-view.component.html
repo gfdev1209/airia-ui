@@ -299,36 +299,36 @@
                       <div>
                         <small>
                           <p-checkbox
+                            name="severeUrgency"
+                            [(ngModel)]="severeUrgency"
+                            (onChange)="onToggleSevereUrgency($event)"
+                            [binary]="true"
+                            checkboxIcon="fas fa-check"
+                            label="Severe severity"
+                          ></p-checkbox>
+                        </small>
+                      </div>
+                      <div class="p-mt-2">
+                        <small>
+                          <p-checkbox
                             name="highUrgency"
                             [(ngModel)]="highUrgency"
                             (onChange)="onToggleHighUrgency($event)"
                             [binary]="true"
                             checkboxIcon="fas fa-check"
-                            label="High urgency"
+                            label="High severity"
                           ></p-checkbox>
                         </small>
                       </div>
                       <div class="p-mt-2">
                         <small>
                           <p-checkbox
-                            name="medUrgency"
-                            [(ngModel)]="medUrgency"
-                            (onChange)="onToggleMediumUrgency($event)"
+                            name="acknowledged"
+                            [(ngModel)]="acknowledged"
+                            (onChange)="onToggleAcknowledged($event)"
                             [binary]="true"
                             checkboxIcon="fas fa-check"
-                            label="Med. urgency"
-                          ></p-checkbox>
-                        </small>
-                      </div>
-                      <div class="p-mt-2">
-                        <small>
-                          <p-checkbox
-                            name="capacity"
-                            [(ngModel)]="capacity"
-                            (onChange)="onToggleCapacity($event)"
-                            [binary]="true"
-                            checkboxIcon="fas fa-check"
-                            label="Capacity"
+                            label="Acknowledged"
                           ></p-checkbox>
                         </small>
                       </div>
@@ -337,24 +337,24 @@
                       <div>
                         <small>
                           <p-checkbox
-                            name="apStatus"
-                            [(ngModel)]="apStatus"
+                            name="medUrgency"
+                            [(ngModel)]="medUrgency"
+                            (onChange)="onToggleMediumUrgency($event)"
                             [binary]="true"
-                            (onChange)="onToggleShowNetworkHealth($event)"
                             checkboxIcon="fas fa-check"
-                            label="AP status"
+                            label="Med. severity"
                           ></p-checkbox>
                         </small>
                       </div>
                       <div class="p-mt-2">
                         <small>
                           <p-checkbox
-                            name="networkHealth"
-                            [(ngModel)]="networkHealth"
-                            (onChange)="onToggleNetworkHealth($event)"
+                            name="lowUrgency"
+                            [(ngModel)]="lowUrgency"
+                            (onChange)="onToggleLowUrgency($event)"
                             [binary]="true"
                             checkboxIcon="fas fa-check"
-                            label="Network Health"
+                            label="Low severity"
                           ></p-checkbox>
                         </small>
                       </div>

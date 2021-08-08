@@ -29,7 +29,7 @@ export class BuildingOverviewViewComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.building?.currentValue) {
-      if (changes.building.currentValue.accessPoints) {
+      if (changes.building.currentValue.accessPoints?.length > 0) {
         this.accessPointsOffline = 0;
         this.accessPointsOnline = 0;
         changes.building.currentValue.accessPoints.forEach(

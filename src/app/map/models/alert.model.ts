@@ -1,31 +1,52 @@
 import { AlertSeverity, AlertType } from '../enums';
 import { IBase } from '@shared/interfaces';
+import { AccessPoint } from '.';
 
 export class Alert implements IBase {
   id!: number;
-  buildingId!: number;
-  accessPointId!: number;
-  severity!: AlertSeverity;
-  type!: AlertType;
-  message!: string;
-  floor?: number; // Need this?
+  accessPointId?: number;
+  featureEventtime!: Date;
+  featureCreatedAt!: Date;
+  intensityPercentile?: number;
+  regionId!: number;
+  alertMessage!: string;
   createdAt!: Date;
+  acknowledgedBy?: number;
+  acknowledgedAt?: Date;
+  accessPoint?: AccessPoint;
+  alertSeverity!: AlertSeverity;
+  alertType!: AlertType;
+  region?: string;
 
   constructor(args: {
     alertId: number;
-    buildingId: number;
     accessPointId: number;
-    alertSeverity: number;
-    alertType: string;
+    featureEventtime: Date;
+    featureCreatedAt: Date;
+    intensityPercentile: number;
+    regionId: number;
     alertMessage: string;
     createdAt: Date;
+    acknowledgedBy: number;
+    acknowledgedAt: Date;
+    accessPoint: AccessPoint;
+    region: string;
+    alertSeverity: string;
+    alertType: string;
   }) {
     this.id = args.alertId;
-    this.buildingId = args.buildingId;
     this.accessPointId = args.accessPointId;
-    this.severity = args.alertSeverity as AlertSeverity;
-    this.type = args.alertType as AlertType;
-    this.message = args.alertMessage;
+    this.featureEventtime = args.featureEventtime;
+    this.featureCreatedAt = args.featureCreatedAt;
+    this.intensityPercentile = args.intensityPercentile;
+    this.regionId = args.regionId;
+    this.alertMessage = args.alertMessage;
     this.createdAt = args.createdAt;
+    this.acknowledgedBy = args.acknowledgedBy;
+    this.acknowledgedAt = args.acknowledgedAt;
+    this.accessPoint = args.accessPoint;
+    this.region = args.region;
+    this.alertSeverity = args.alertSeverity as AlertSeverity;
+    this.alertType = args.alertType as AlertType;
   }
 }

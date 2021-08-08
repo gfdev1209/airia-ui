@@ -8,8 +8,11 @@ export class ColorByAlertSeverityPipe implements PipeTransform {
   transform(alertSeverity: AlertSeverity): string {
     let color = '';
     switch (alertSeverity) {
-      case AlertSeverity.High:
+      case AlertSeverity.Severe:
         color = 'color-red';
+        break;
+      case AlertSeverity.High:
+        color = 'color-orange';
         break;
       case AlertSeverity.Medium:
         color = 'color-yellow';
