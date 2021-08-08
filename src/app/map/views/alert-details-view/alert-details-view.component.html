@@ -12,23 +12,25 @@
   <ng-template pTemplate="header">
     <div>
       <i
-        class="font-size-1-rem fa-fw {{ alert.type | alertIconByType }} p-mr-2"
+        class="font-size-1-rem fa-fw {{ alert.alertType | alertIconByType }} {{
+          alert.alertSeverity | colorByAlertSeverity
+        }} p-mr-2"
       ></i>
       <h2
         class="display-inline-block p-m-0 {{
-          alert.severity | colorByAlertSeverity
+          alert.alertSeverity | colorByAlertSeverity
         }}"
         [ngClass]="{
-          'color-heading': alert.severity === AlertSeverityEnum.Low
+          'color-heading': alert.alertSeverity === AlertSeverityEnum.Low
         }"
       >
-        Placeholder Title
+        {{ alert.alertType }}
       </h2>
     </div>
   </ng-template>
   <div class="alert-details">
-    <h3 class="font-weight-medium">
-      PLACEHOLDER - University Center is continuously below typical capacity
+    <h3 class="font-weight-medium p-mt-0">
+      {{ alert.alertMessage }}
     </h3>
     <!-- <button
       pButton
@@ -63,9 +65,12 @@
       pButton
       pRipple
       type="button"
-      label="Acknowledge Alert"
+      [label]="!alert.acknowledgedAt ? 'Acknowledge Alert' : 'Acknowledged'"
       icon="fas fa-check-circle"
-      class="p-button-rounded width-100 p-d-block"
+      (click)="onAcknowledge()"
+      [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
+      [disabled]="loading === true || alert.acknowledgedAt"
+      class="p-button-rounded width-100 p-d-block p-mt-2 p-mb-2"
     ></button>
   </p-footer>
 </p-dialog>

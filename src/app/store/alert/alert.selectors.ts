@@ -23,8 +23,8 @@ export const selectSortType = createSelector(
   (state: AlertState) => state.sortType
 );
 
-export const selectByBuildingId = createSelector(
-  selectAll,
-  (state: any, props: any) =>
-    state.filter((x: Alert) => x.buildingId === props.buildingId)
-);
+// export const selectByBuildingId = createSelector(
+//   selectAll,
+//   (state: any, props: any) =>
+//     state.filter((x: Alert) => x.buildingId === props.buildingId)
+// );

@@ -1,4 +1,6 @@
 <app-alert-details-view
   [alert]="selectedAlert$ | async"
+  [loading]="loading$ | async"
+  (acknowledgeAlert)="onAcknowledgeAlert($event)"
   (closeAlert)="closeAlert()"
 ></app-alert-details-view>

@@ -20,19 +20,20 @@ export class AlertTableComponent implements OnInit {
   @Input() building?: Building | null;
 
   alerts$?: Observable<Alert[]>;
+  loading$ = this.store.select(AlertSelectors.selectLoading);
   buildings$ = this.store.select(BuildingSelectors.selectAll);
 
   constructor(private store: Store<RootState>) {}
 
   ngOnInit(): void {
-    if (!this.building) {
-      this.store.dispatch(AlertActions.getAll());
-      this.store.dispatch(BuildingActions.getAll());
-      this.alerts$ = this.store.select(AlertSelectors.selectAll);
-    } else {
-      this.alerts$ = this.store.select(AlertSelectors.selectByBuildingId, {
-        buildingId: this.building.id,
-      });
-    }
+    // if (!this.building) {
+    this.store.dispatch(AlertActions.getAll());
+    this.store.dispatch(BuildingActions.getAll());
+    this.alerts$ = this.store.select(AlertSelectors.selectAll);
+    // } else {
+    //   this.alerts$ = this.store.select(AlertSelectors.selectByBuildingId, {
+    //     buildingId: this.building.id,
+    //   });
+    // }
   }
 }

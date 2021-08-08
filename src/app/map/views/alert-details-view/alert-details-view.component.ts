@@ -27,8 +27,10 @@ import { slidePanelAnimation } from 'src/app/app.animations';
 })
 export class AlertDetailsViewComponent implements OnInit {
   @Input() alert?: Alert | null;
+  @Input() loading: boolean | null = false;
 
   @Output() closeAlert = new EventEmitter();
+  @Output() acknowledgeAlert = new EventEmitter<Alert>();
 
   AlertSeverityEnum = AlertSeverity;
 
@@ -36,12 +38,7 @@ export class AlertDetailsViewComponent implements OnInit {
     {
       severity: 'custom',
       detail:
-        'PLACEHOLDER - University Club has been low capacity for the past 8 weeks between the hours of 10 PM and 6 AM.',
-    },
-    {
-      severity: 'custom',
-      detail:
-        'PLACEHOLDER - University Club is low capacity compared to the buildings within immediate vicinty',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi rutrum auctor mollis.',
     },
   ];
 
@@ -113,6 +110,12 @@ export class AlertDetailsViewComponent implements OnInit {
         ],
       },
     };
+  }
+
+  onAcknowledge(): void {
+    if (this.alert) {
+      this.acknowledgeAlert.emit(this.alert);
+    }
   }
 
   onClose($event: any): void {

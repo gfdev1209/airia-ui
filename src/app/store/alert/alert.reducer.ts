@@ -21,6 +21,57 @@ export const alertReducer = createReducer(
       loading: false,
     };
   }),
+  on(Actions.getFromMinutes, (state) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+  on(Actions.getFromMinutesSuccess, (state, { alerts }) => ({
+    ...adapter.setAll(alerts, state),
+    loading: false,
+    loaded: true,
+  })),
+  on(Actions.getFromMinutesFailed, (state) => {
+    return {
+      ...state,
+      loading: false,
+    };
+  }),
+  on(Actions.getFromDate, (state) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+  on(Actions.getFromDateSuccess, (state, { alerts }) => ({
+    ...adapter.setAll(alerts, state),
+    loading: false,
+    loaded: true,
+  })),
+  on(Actions.getFromDateFailed, (state) => {
+    return {
+      ...state,
+      loading: false,
+    };
+  }),
+  on(Actions.getFromDateToDate, (state) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+  on(Actions.getFromDateToDateSuccess, (state, { alerts }) => ({
+    ...adapter.setAll(alerts, state),
+    loading: false,
+    loaded: true,
+  })),
+  on(Actions.getFromDateToDateFailed, (state) => {
+    return {
+      ...state,
+      loading: false,
+    };
+  }),
   on(Actions.select, (state) => {
     return {
       ...state,
@@ -48,5 +99,23 @@ export const alertReducer = createReducer(
   on(Actions.setSortType, (state, { sortType }) => ({
     ...state,
     sortType,
-  }))
+  })),
+  on(Actions.acknowledgeAlert, (state, { alert }) => ({
+    ...state,
+    loading: true,
+  })),
+  on(Actions.acknowledgeAlertSuccess, (state, { alert }) => {
+    return adapter.upsertOne(alert, {
+      ...state,
+      selected: state.selected?.id === alert.id ? alert : state.selected,
+      loading: false,
+      loaded: true,
+    });
+  }),
+  on(Actions.acknowledgeAlertFailed, (state) => {
+    return {
+      ...state,
+      loading: false,
+    };
+  })
 );

@@ -8,6 +8,7 @@ export class AlertIconByTypePipe implements PipeTransform {
   transform(alertType: AlertType): string {
     let alertIcon = '';
     switch (alertType) {
+      case AlertType.Unusual_Pattern:
       case AlertType.Covid_Capacity:
       case AlertType.High_Capacity:
       case AlertType.Low_Capacity:

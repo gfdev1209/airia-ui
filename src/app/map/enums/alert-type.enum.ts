@@ -1,4 +1,5 @@
 export enum AlertType {
+  Unusual_Pattern = 'Unusual Pattern',
   Low_Capacity = 'low capacity',
   High_Capacity = 'high capacity',
   Covid_Capacity = 'covid capacity',

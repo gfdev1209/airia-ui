@@ -19,6 +19,7 @@ import { EnumToSelectItemsPipe } from '@shared/pipes/enum-to-select-items.pipe';
 })
 export class AlertTableViewComponent implements OnChanges {
   @Input() alerts: Alert[] | null = [];
+  @Input() loading?: boolean | null = false;
   @Input() selectedBuilding?: Building | null;
   @Input() buildings: Building[] | null = [];
   @Input() showCheckboxColumn!: boolean;
