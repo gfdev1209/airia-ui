@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { AlertSortType } from '@map/enums';
 import { Alert } from '@map/models';
+import { SkipTakeInput } from '@shared/models/skip-take-input.model';
 
 export const getAll = createAction('[Map] Get All Alerts');
 export const getAllSuccess = createAction(
@@ -8,6 +9,18 @@ export const getAllSuccess = createAction(
   props<{ alerts: Alert[] }>()
 );
 export const getAllFailed = createAction('[Map Effect] Get All Alerts Failed');
+
+export const skipAndTake = createAction(
+  '[Report Table] Skip and Take Alerts',
+  props<{ skipTakeInput: SkipTakeInput }>()
+);
+export const skipAndTakeSuccess = createAction(
+  '[Map Effect] Skip and Take Alerts Success',
+  props<{ alerts: Alert[] }>()
+);
+export const skipAndTakeFailed = createAction(
+  '[Map Effect] Skip and Take Alerts Failed'
+);
 
 export const getFromMinutes = createAction(
   '[Map] Get Alerts From Minutes',

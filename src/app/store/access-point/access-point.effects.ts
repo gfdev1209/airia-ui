@@ -10,7 +10,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { AccessPoint } from '@map/models';
-import { of } from 'rxjs';
+import { concat, of } from 'rxjs';
 import * as AccessPointActions from './access-point.actions';
 import * as AccessPointSelectors from './access-point.selectors';
 import { AccessPointService } from '@map/services/access-point.service';
@@ -88,8 +88,12 @@ export class AccessPointEffects {
         this.accessPointService
           .update<AccessPoint>(accessPoint.id, accessPoint.changes)
           .pipe(
-            map(() => AccessPointActions.updateSuccess({ accessPoint })),
-            map(() => AccessPointActions.closeFormModal()),
+            mergeMap(() =>
+              concat(
+                of(AccessPointActions.updateSuccess({ accessPoint })),
+                of(AccessPointActions.closeFormModal())
+              )
+            ),
             catchError(() =>
               of(
                 AccessPointActions.updateFailed(),

@@ -1,18 +1,14 @@
-<div *ngIf="alerts">
+<div>
   <p-table
     class="report-table"
     [value]="alerts"
-    [(selection)]="selectedAlerts"
+    [lazy]="true"
+    (onLazyLoad)="loadAlerts($event)"
     [paginator]="true"
     [rows]="10"
-    [showCurrentPageReport]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [rowsPerPageOptions]="[10, 25, 50]"
+    [totalRecords]="totalRecords"
+    [loading]="loading"
     [globalFilterFields]="['featureEventtime']"
-    [responsive]="true"
-    sortField="featureEventtime"
-    [sortOrder]="-1"
-    dataKey="id"
   >
     <ng-template pTemplate="header">
       <tr>
@@ -43,10 +39,18 @@
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
         <th>
-          <p-columnFilter type="date" field="featureEventtime"></p-columnFilter>
+          <p-columnFilter
+            type="date"
+            field="featureEventtime"
+            [showMenu]="true"
+          ></p-columnFilter>
         </th>
         <th>
-          <p-columnFilter type="text" field="message"></p-columnFilter>
+          <p-columnFilter
+            type="text"
+            field="alertMessage"
+            [showMenu]="false"
+          ></p-columnFilter>
         </th>
         <th>
           <p-columnFilter
@@ -83,7 +87,7 @@
           </p-columnFilter>
         </th>
         <th>
-          <p-columnFilter field="type" matchMode="in" [showMenu]="false">
+          <p-columnFilter field="alertType" matchMode="in" [showMenu]="false">
             <ng-template
               pTemplate="filter"
               let-value

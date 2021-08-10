@@ -1,14 +1,19 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import { AlertSeverity, AlertType } from '@map/enums';
 import { Alert, Building } from '@map/models';
+import { SkipTakeInput } from '@shared/models/skip-take-input.model';
 import { EnumToSelectItemsPipe } from '@shared/pipes/enum-to-select-items.pipe';
+import { LazyLoadEvent } from 'primeng/api';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-alert-table-view',
@@ -17,12 +22,16 @@ import { EnumToSelectItemsPipe } from '@shared/pipes/enum-to-select-items.pipe';
   providers: [EnumToSelectItemsPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AlertTableViewComponent implements OnChanges {
-  @Input() alerts: Alert[] | null = [];
-  @Input() loading?: boolean | null = false;
+export class AlertTableViewComponent implements OnChanges, OnInit {
+  @Input() alerts: Alert[] = [];
+  @Input() loading = true;
   @Input() selectedBuilding?: Building | null;
   @Input() buildings: Building[] | null = [];
   @Input() showCheckboxColumn!: boolean;
+
+  @Output() skipAndTake = new EventEmitter<SkipTakeInput>();
+
+  totalRecords = 0;
 
   AlertSeverityName = AlertSeverity;
   AlertTypeName = AlertType;
@@ -33,7 +42,29 @@ export class AlertTableViewComponent implements OnChanges {
   buildingList: any[] = [];
 
   constructor(private enumToSelectItemsPipe: EnumToSelectItemsPipe) {}
+
+  ngOnInit(): void {
+    this.loading = true;
+  }
+  loadAlerts(event: LazyLoadEvent): void {
+    this.loading = true;
+    if (event.first !== undefined && event.rows !== undefined) {
+      this.skipAndTake.emit({ skip: event.first, take: event.rows });
+    }
+    // setTimeout(() => {
+    //   this.customerService
+    //     .getCustomers({ lazyEvent: JSON.stringify(event) })
+    //     .then((res) => {
+    //       this.customers = res.customers;
+    //       this.totalRecords = res.totalRecords;
+    //       this.loading = false;
+    //     });
+    // }, 1000);
+  }
   ngOnChanges(changes: SimpleChanges): void {
+    // if (changes.alerts && !changes.alerts.firstChange) {
+    //   // this.alerts = changes.alerts.currentValue;
+    // }
     // Convert buildings to a basic array for multi-select
     if (!changes.buildings?.firstChange && changes.buildings?.currentValue) {
       this.buildingList = [];

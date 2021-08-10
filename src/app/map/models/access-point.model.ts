@@ -22,7 +22,7 @@ export class AccessPoint implements IBase, IHasCoordinates {
     buildingFloorId: number;
     accessPointName: string;
     wapmac: string;
-    status: number;
+    status: string;
     coordLatitude: number;
     coordLongitude: number;
     createdAt: Date;

@@ -9,6 +9,7 @@ import * as BuildingSelectors from '@store/building/building.selectors';
 import { Input } from '@angular/core';
 import { Alert, Building } from '@map/models';
 import { Observable } from 'rxjs';
+import { SkipTakeInput } from '@shared/models/skip-take-input.model';
 
 @Component({
   selector: 'app-alert-table',
@@ -27,13 +28,17 @@ export class AlertTableComponent implements OnInit {
 
   ngOnInit(): void {
     // if (!this.building) {
-    this.store.dispatch(AlertActions.getAll());
-    this.store.dispatch(BuildingActions.getAll());
+    // this.store.dispatch(AlertActions.getAll());
+    // this.store.dispatch(BuildingActions.getAll());
     this.alerts$ = this.store.select(AlertSelectors.selectAll);
     // } else {
     //   this.alerts$ = this.store.select(AlertSelectors.selectByBuildingId, {
     //     buildingId: this.building.id,
     //   });
     // }
+  }
+
+  onSkipAndTake(skipTakeInput: SkipTakeInput): void {
+    this.store.dispatch(AlertActions.skipAndTake({ skipTakeInput }));
   }
 }
