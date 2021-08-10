@@ -21,6 +21,23 @@ export const alertReducer = createReducer(
       loading: false,
     };
   }),
+  on(Actions.skipAndTake, (state) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+  on(Actions.skipAndTakeSuccess, (state, { alerts }) => ({
+    ...adapter.setAll(alerts, state),
+    loading: false,
+    loaded: true,
+  })),
+  on(Actions.skipAndTakeFailed, (state) => {
+    return {
+      ...state,
+      loading: false,
+    };
+  }),
   on(Actions.getFromMinutes, (state) => {
     return {
       ...state,

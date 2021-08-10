@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { retry, catchError, tap, map, share } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Location } from '@map/models';
+import { Alert, Location } from '@map/models';
 
 @Injectable({
   providedIn: 'root',
@@ -66,6 +66,17 @@ export class BaseService {
         return this.handleError(error);
       }),
       map((response: any) => response as T),
+      share()
+    );
+  }
+
+  skipAndTake<T>(skip: number, take: number): Observable<T> {
+    return this.http.get(`${this.apiUrl}/Skip/${skip}/Take/${take}`).pipe(
+      retry(2),
+      map((response: any) => this.mapArrayResponseToObject<T>(response)),
+      catchError((error) => {
+        return this.handleError(error);
+      }),
       share()
     );
   }

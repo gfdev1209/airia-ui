@@ -13,29 +13,10 @@ export class BuildingService extends BaseService {
     super('Buildings', httpClient);
   }
   mapResponseToObject<T>(response: any): T {
-    return new Building(response) as any;
+    const building = new Building(response) as any;
+    return building;
   }
   mapArrayResponseToObject<T>(response: any): T {
     return response.map((responseJson: any) => new Building(responseJson));
   }
-
-  // getAll(): Observable<Building[]> {
-  //   return of(this.sampleBuildings).pipe(delay(100));
-  // }
-  // get(id: number): Observable<Building> {
-  //   const alert = this.sampleBuildings.find(
-  //     (alertInArray) => alertInArray.id === id
-  //   );
-  //   if (alert === undefined) {
-  //     return throwError(`Alert with id = ${id} does not exist`);
-  //   }
-  //   return of(alert);
-  // }
-  // search(term: string): Observable<Building[]> {
-  //   return of(
-  //     this.sampleBuildings.filter((building) =>
-  //       building.name.toLowerCase().includes(term.toLowerCase())
-  //     )
-  //   ).pipe(delay(250));
-  // }
 }

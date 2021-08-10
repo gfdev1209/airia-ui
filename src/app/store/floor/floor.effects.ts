@@ -9,7 +9,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { Floor } from '@map/models';
-import { of } from 'rxjs';
+import { concat, of } from 'rxjs';
 import * as FloorActions from './floor.actions';
 import * as FloorSelectors from './floor.selectors';
 import { FloorService } from '@map/services/floor.service';
@@ -77,8 +77,12 @@ export class FloorEffects {
       ofType(FloorActions.add),
       mergeMap(({ addFloorInput }) =>
         this.floorService.create<Floor>(addFloorInput).pipe(
-          map((floor: Floor) => FloorActions.addSuccess({ floor })),
-          tap(() => FloorActions.closeFormModal()),
+          mergeMap((floor: Floor) =>
+            concat(
+              of(FloorActions.addSuccess({ floor })),
+              of(FloorActions.closeFormModal())
+            )
+          ),
           catchError(() =>
             of(FloorActions.addFailed(), FloorActions.closeFormModal())
           )
@@ -92,8 +96,12 @@ export class FloorEffects {
       ofType(FloorActions.update),
       mergeMap(({ floor }) =>
         this.floorService.update<Floor>(floor.id, floor.changes).pipe(
-          map(() => FloorActions.updateSuccess({ floor })),
-          map(() => FloorActions.closeFormModal()),
+          mergeMap(() =>
+            concat(
+              of(FloorActions.updateSuccess({ floor })),
+              of(FloorActions.closeFormModal())
+            )
+          ),
           catchError(() =>
             of(FloorActions.updateFailed(), FloorActions.closeFormModal())
           )

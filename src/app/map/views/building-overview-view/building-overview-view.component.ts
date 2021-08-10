@@ -8,7 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { AccessPointStatus } from '@map/enums';
-import { AccessPoint, Building } from '@map/models';
+import { AccessPoint, Building, Floor } from '@map/models';
 
 @Component({
   selector: 'app-building-overview-view',
@@ -29,18 +29,22 @@ export class BuildingOverviewViewComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.building?.currentValue) {
-      if (changes.building.currentValue.accessPoints?.length > 0) {
+      if (changes.building.currentValue.buildingFloors?.length > 0) {
         this.accessPointsOffline = 0;
         this.accessPointsOnline = 0;
-        changes.building.currentValue.accessPoints.forEach(
-          (accessPoint: AccessPoint) => {
-            if (accessPoint.status === AccessPointStatus.Online) {
-              ++this.accessPointsOnline;
-            } else if (accessPoint.status === AccessPointStatus.Offline) {
-              ++this.accessPointsOffline;
-            }
+        changes.building.currentValue.buildingFloors.forEach((floor: Floor) => {
+          if (floor?.accessPoints) {
+            floor.accessPoints.forEach((accessPoint: AccessPoint) => {
+              if (accessPoint) {
+                if (accessPoint.status === AccessPointStatus.Online) {
+                  ++this.accessPointsOnline;
+                } else if (accessPoint.status === AccessPointStatus.Offline) {
+                  ++this.accessPointsOffline;
+                }
+              }
+            });
           }
-        );
+        });
       }
     }
   }

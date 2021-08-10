@@ -1,7 +1,8 @@
 <app-alert-table-view
-  [alerts]="alerts$ | async"
-  [loading]="loading$ | async"
+  [alerts]="(alerts$ | async)!"
+  [loading]="(loading$ | async)!"
   [buildings]="buildings$ | async"
   [selectedBuilding]="building"
   [showCheckboxColumn]="showCheckboxColumn"
+  (skipAndTake)="onSkipAndTake($event)"
 ></app-alert-table-view>

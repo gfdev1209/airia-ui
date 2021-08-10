@@ -29,12 +29,14 @@ export class BuildingEffects {
     this.actions$.pipe(
       ofType(BuildingActions.getAll),
       mergeMap(() =>
-        this.buildingService.getAll<Building[]>().pipe(
-          map((buildings: Building[]) =>
-            BuildingActions.getAllSuccess({ buildings })
-          ),
-          catchError(() => of(BuildingActions.getAllFailed()))
-        )
+        this.buildingService
+          .getAll<Building[]>('+AccessPoints+BuildingFloorInfos')
+          .pipe(
+            map((buildings: Building[]) =>
+              BuildingActions.getAllSuccess({ buildings })
+            ),
+            catchError(() => of(BuildingActions.getAllFailed()))
+          )
       )
     )
   );

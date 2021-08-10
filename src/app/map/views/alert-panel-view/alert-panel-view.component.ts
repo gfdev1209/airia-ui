@@ -110,10 +110,10 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
           this.filterSeverityHigh,
           this.filterSeverityMedium,
           this.filterSeverityLow,
-          this.filterAcknowledged,
-          this.filterNetworkHealth,
-          this.filterAPStatus,
-          this.filterCapacity
+          this.filterAcknowledged
+          // this.filterNetworkHealth,
+          // this.filterAPStatus,
+          // this.filterCapacity
         )
       );
     }
@@ -142,24 +142,24 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
   filterAcknowledged = (alert: Alert) => {
     return this.showAcknowledged ? true : alert?.acknowledgedAt === null;
   };
-  filterCapacity = (alert: Alert) => {
-    return this.showCapacity
-      ? true
-      : alert?.alertType !== AlertType.Covid_Capacity &&
-          alert?.alertType !== AlertType.High_Capacity &&
-          alert?.alertType !== AlertType.Low_Capacity;
-  };
-  filterNetworkHealth = (alert: Alert) => {
-    return this.showNetworkHealth
-      ? true
-      : alert?.alertType !== AlertType.Network_Health;
-  };
-  filterAPStatus = (alert: Alert) => {
-    return this.showAPStatus
-      ? true
-      : alert?.alertType !== AlertType.Access_Point_Offline &&
-          alert?.alertType !== AlertType.Access_Point_Online;
-  };
+  // filterCapacity = (alert: Alert) => {
+  //   return this.showCapacity
+  //     ? true
+  //     : alert?.alertType !== AlertType.Covid_Capacity &&
+  //         alert?.alertType !== AlertType.High_Capacity &&
+  //         alert?.alertType !== AlertType.Low_Capacity;
+  // };
+  // filterNetworkHealth = (alert: Alert) => {
+  //   return this.showNetworkHealth
+  //     ? true
+  //     : alert?.alertType !== AlertType.Network_Health;
+  // };
+  // filterAPStatus = (alert: Alert) => {
+  //   return this.showAPStatus
+  //     ? true
+  //     : alert?.alertType !== AlertType.Access_Point_Offline &&
+  //         alert?.alertType !== AlertType.Access_Point_Online;
+  // };
 
   sort(order: number): void {
     if (this.alerts && this.alerts.length > 0) {

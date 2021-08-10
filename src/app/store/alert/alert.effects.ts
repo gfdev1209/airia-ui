@@ -31,6 +31,22 @@ export class AlertEffects {
     )
   );
 
+  skipAndTake$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AlertActions.skipAndTake),
+      mergeMap(({ skipTakeInput }) =>
+        this.alertService
+          .skipAndTake<Alert[]>(skipTakeInput.skip, skipTakeInput.take)
+          .pipe(
+            map((alerts: Alert[]) =>
+              AlertActions.skipAndTakeSuccess({ alerts })
+            ),
+            catchError(() => of(AlertActions.skipAndTakeFailed()))
+          )
+      )
+    )
+  );
+
   getFromMinutes$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AlertActions.getFromMinutes),
@@ -75,7 +91,7 @@ export class AlertEffects {
     this.actions$.pipe(
       ofType(AlertActions.select),
       mergeMap(({ id }) =>
-        this.alertService.get<Alert>(id).pipe(
+        this.alertService.get<Alert>(id, '+AccessPoint').pipe(
           map((alert: Alert) => AlertActions.selectSuccess({ alert })),
           catchError(() => of(AlertActions.selectFailed()))
         )

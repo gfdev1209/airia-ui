@@ -27,11 +27,13 @@ export const buildingReducer = createReducer(
       loading: true,
     };
   }),
-  on(Actions.getSuccess, (state, { building }) => ({
-    ...state,
-    loading: false,
-    loaded: true,
-  })),
+  on(Actions.getSuccess, (state, { building }) => {
+    return adapter.upsertOne(building, {
+      ...state,
+      loading: false,
+      loaded: true,
+    });
+  }),
   on(Actions.getFailed, (state) => {
     return {
       ...state,
