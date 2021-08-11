@@ -17,12 +17,15 @@ import { DepartmentState } from './department/department.state';
 import { departmentReducer } from './department/department.reducers';
 import { RoleState } from './role/role.state';
 import { roleReducer } from './role/role.reducers';
+import { ReportState } from './report/report.state';
+import { reportReducer } from './report/report.reducer';
 
 export interface RootState {
   alerts: AlertState;
   locations: LocationState;
   buildings: BuildingState;
   floors: FloorState;
+  reports: ReportState;
   devices: DeviceState;
   accessPoints: AccessPointState;
   users: UserState;
@@ -34,6 +37,7 @@ export const reducers: ActionReducerMap<RootState> = {
   locations: locationReducer,
   buildings: buildingReducer,
   floors: floorReducer,
+  reports: reportReducer,
   devices: deviceReducer,
   accessPoints: accessPointReducer,
   users: userReducer,

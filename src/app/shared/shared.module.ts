@@ -34,6 +34,7 @@ import { TabViewModule as PrimeTabViewModule } from 'primeng/tabview';
 import { TooltipModule as PrimeTooltipModule } from 'primeng/tooltip';
 import { ToastModule as PrimeToastModule } from 'primeng/toast';
 import { InputNumberModule as PrimeInputNumberModule } from 'primeng/inputnumber';
+import { ChipsModule as PrimeChipsModule } from 'primeng/chips';
 
 // Components
 import { LeftNavComponent } from './components/left-nav/left-nav.component';
@@ -132,6 +133,7 @@ import { AccessPointSearchInputViewComponent } from './views/access-point-search
     PrimeTooltipModule,
     PrimeToastModule,
     PrimeInputNumberModule,
+    PrimeChipsModule,
   ],
   exports: [
     // Components
@@ -179,6 +181,7 @@ import { AccessPointSearchInputViewComponent } from './views/access-point-search
     PrimeTooltipModule,
     PrimeToastModule,
     PrimeInputNumberModule,
+    PrimeChipsModule,
     // Pipes
     AlertIconByTypePipe,
     ColorByAlertSeverityPipe,
