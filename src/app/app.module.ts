@@ -46,6 +46,7 @@ import { RoleEffects } from '@store/role/role.effects';
 import { ErrorInterceptor } from '@core/interceptors/error.interceptor';
 import { SharedModule } from '@shared/shared.module';
 import { ToastModule } from 'primeng/toast';
+import { ReportEffects } from '@store/report/report.effects';
 
 const isIE =
   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
@@ -112,6 +113,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
       AccessPointEffects,
       DeviceEffects,
       FloorEffects,
+      ReportEffects,
       DepartmentEffects,
       UserEffects,
       RoleEffects,

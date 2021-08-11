@@ -7,12 +7,34 @@
       <input id="reportTitle" formControlName="title" type="text" pInputText />
     </div>
     <div class="p-field p-col-12 p-md-6">
-      <label for="reportEmail">Email Report To</label>
-      <app-user-search-input
-        [showIcon]="false"
-        placeholder=""
-        (userSelected)="userSelected($event)"
-      ></app-user-search-input>
+      <label for="reportEmail"> Email Report To </label>
+      <p-chips
+        formControlName="recipientEmailAddresses"
+        (onAdd)="onAddEmail($event)"
+        [addOnBlur]="true"
+        [addOnTab]="true"
+      ></p-chips>
+      <small
+        class="p-error"
+        *ngIf="
+          reportForm.controls['recipientEmailAddresses'].dirty &&
+          emailErrorMessage
+        "
+        [innerText]="emailErrorMessage"
+      ></small>
+      <small
+        class="p-error"
+        *ngIf="
+          !reportForm.controls['recipientEmailAddresses'].valid &&
+          reportForm.controls['recipientEmailAddresses'].dirty &&
+          !emailErrorMessage
+        "
+        [innerText]="
+          reportForm.controls['recipientEmailAddresses'].errors?.required
+            ? 'At least one email is required'
+            : ''
+        "
+      ></small>
     </div>
     <div class="p-field p-col-12">
       <label for="reportMemo">Report Memo</label>
@@ -48,8 +70,11 @@
         type="button"
         label="Generate Report"
         class="p-button-rounded"
-        [disabled]="!reportForm.valid"
+        (click)="onGenerateReport()"
+        [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
+        [disabled]="!reportForm.valid || loading === true"
       ></button>
     </div>
   </div>
 </div>
+{{ reportForm.value | json }}

@@ -1,1 +1,4 @@
-<app-report-form-view></app-report-form-view>
+<app-report-form-view
+  [loading]="loading$ | async"
+  (generateReport)="onGenerateReport($event)"
+></app-report-form-view>
