@@ -46,7 +46,10 @@
   <p class="p-mt-1 p-mb-4">
     Select the alerts from the list below to add them to your custom report.
   </p>
-  <app-alert-table></app-alert-table>
+  <app-alert-table
+    (alertSelected)="onAlertSelected($event)"
+    (alertDeselected)="onAlertDeselected($event)"
+  ></app-alert-table>
   <div class="p-mt-5 p-d-flex p-jc-between">
     <button
       pButton

@@ -30,6 +30,8 @@ export class AlertTableViewComponent implements OnChanges, OnInit {
   @Input() showCheckboxColumn!: boolean;
 
   @Output() skipAndTake = new EventEmitter<SkipTakeInput>();
+  @Output() alertSelected = new EventEmitter<Alert>();
+  @Output() alertDeselected = new EventEmitter<Alert>();
 
   totalRecords = 0;
 
@@ -77,7 +79,14 @@ export class AlertTableViewComponent implements OnChanges, OnInit {
     }
   }
 
-  selectAlert(alert: Alert): void {
-    console.log('selected', alert);
+  selectAlert(event: any): void {
+    if (event?.data) {
+      this.alertSelected.emit(event.data);
+    }
+  }
+  deselectAlert(event: any): void {
+    if (event?.data) {
+      this.alertDeselected.emit(event.data);
+    }
   }
 }

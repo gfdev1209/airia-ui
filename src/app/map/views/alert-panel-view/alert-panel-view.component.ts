@@ -18,7 +18,7 @@ import { Alert } from '../../models';
 })
 export class AlertPanelViewComponent implements OnInit, OnChanges {
   @Input() height?: number | null;
-  @Input() alerts: Alert[] | null = [];
+  @Input() alerts: Alert[] | null = null;
   @Input() selectedAlert: Alert | null = null;
   @Input() sortType: AlertSortType | null = AlertSortType.Date;
   @Input() showSevereUrgency!: boolean;
@@ -76,9 +76,8 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
   loadAlertsLazy(event: LazyLoadEvent): void {
     if (
       this.alerts !== null &&
-      this.alerts.length > 0 &&
-      event.first != null &&
-      event.rows != null
+      event.first !== undefined &&
+      event.rows !== undefined
     ) {
       const filteredAlerts = this.filterAlerts();
       this.virtualAlerts = Array.from({ length: filteredAlerts.length });

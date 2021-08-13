@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { RootState } from '@store/index';
 import * as AlertActions from '@store/alert/alert.actions';
@@ -20,6 +20,9 @@ export class AlertTableComponent implements OnInit {
   @Input() showCheckboxColumn = true;
   @Input() building?: Building | null;
 
+  @Output() alertSelected = new EventEmitter<Alert>();
+  @Output() alertDeselected = new EventEmitter<Alert>();
+
   alerts$?: Observable<Alert[]>;
   loading$ = this.store.select(AlertSelectors.selectLoading);
   buildings$ = this.store.select(BuildingSelectors.selectAll);
@@ -40,5 +43,15 @@ export class AlertTableComponent implements OnInit {
 
   onSkipAndTake(skipTakeInput: SkipTakeInput): void {
     this.store.dispatch(AlertActions.skipAndTake({ skipTakeInput }));
+  }
+  onAlertSelected(alert: Alert): void {
+    if (alert) {
+      this.alertSelected.emit(alert);
+    }
+  }
+  onAlertDeselected(alert: Alert): void {
+    if (alert) {
+      this.alertDeselected.emit(alert);
+    }
   }
 }
