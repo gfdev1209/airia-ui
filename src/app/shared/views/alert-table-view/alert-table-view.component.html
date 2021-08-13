@@ -2,6 +2,7 @@
   <p-table
     class="report-table"
     [value]="alerts"
+    [(selection)]="selectedAlerts"
     [lazy]="true"
     (onLazyLoad)="loadAlerts($event)"
     [paginator]="true"
@@ -9,6 +10,9 @@
     [totalRecords]="totalRecords"
     [loading]="loading"
     [globalFilterFields]="['featureEventtime']"
+    dataKey="id"
+    (onRowSelect)="selectAlert($event)"
+    (onRowUnselect)="deselectAlert($event)"
   >
     <ng-template pTemplate="header">
       <tr>

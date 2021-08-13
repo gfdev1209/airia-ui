@@ -1,7 +1,7 @@
 import { EventEmitter, Input, Output } from '@angular/core';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User } from '@map/models';
+import { Alert, User } from '@map/models';
 
 @Component({
   selector: 'app-report-form-view',
@@ -25,7 +25,7 @@ export class ReportFormViewComponent implements OnInit {
       title: ['', Validators.required],
       memo: [''],
       recipientEmailAddresses: [[], Validators.required],
-      alertIds: [[]],
+      alertIds: [[], Validators.required],
     });
   }
 
@@ -54,5 +54,25 @@ export class ReportFormViewComponent implements OnInit {
 
   onGenerateReport(): void {
     this.generateReport.emit(this.reportForm.value);
+  }
+
+  onAlertSelected(alert: Alert): void {
+    if (alert) {
+      const alertIds: number[] = this.reportForm.controls.alertIds.value;
+      if (!alertIds.find((id) => id === alert.id)) {
+        alertIds.push(alert.id);
+        this.reportForm.controls.alertIds.updateValueAndValidity();
+      }
+    }
+  }
+  onAlertDeselected(alert: Alert): void {
+    if (alert) {
+      const alertIds: number[] = this.reportForm.controls.alertIds.value;
+      const index = alertIds.findIndex((id) => id === alert.id);
+      if (index !== -1) {
+        alertIds.splice(index, 1);
+        this.reportForm.controls.alertIds.updateValueAndValidity();
+      }
+    }
   }
 }
