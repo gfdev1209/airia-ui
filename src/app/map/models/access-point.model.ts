@@ -1,6 +1,7 @@
 import { AccessPointStatus } from '../enums';
 import { IBase, IHasCoordinates } from '@shared/interfaces';
 import { Building, Floor } from '.';
+import { ResponseList } from '@shared/models';
 
 export class AccessPoint implements IBase, IHasCoordinates {
   id!: number;
@@ -12,6 +13,7 @@ export class AccessPoint implements IBase, IHasCoordinates {
   coordLongitude!: number;
   coordLatitude!: number;
   createdAt!: Date;
+  // buildingFloor?: ResponseList<Floor>;
   building?: Building;
   floor?: Floor;
 

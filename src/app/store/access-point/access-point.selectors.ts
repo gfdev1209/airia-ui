@@ -1,4 +1,4 @@
-import { AccessPoint } from '@map/models';
+import { AccessPoint, Floor } from '@map/models';
 import { createSelector } from '@ngrx/store';
 import { RootState } from '..';
 import { adapter, AccessPointState } from './access-point.state';
@@ -21,7 +21,9 @@ export const selectSelectedAccessPoint = createSelector(
 export const selectByBuildingId = createSelector(
   selectAll,
   (state: any, props: any) => {
-    return state.filter((x: AccessPoint) => x.buildingId === props.buildingId);
+    return state.filter(
+      (x: AccessPoint) => x.floor?.buildingId === props.buildingId
+    );
   }
 );
 

@@ -49,7 +49,7 @@
         <th>
           <p-columnFilter
             type="text"
-            field="floorId"
+            field="floor?.floorId"
             [showMenu]="false"
           ></p-columnFilter>
         </th>
@@ -120,7 +120,7 @@
         </td>
         <td>{{ accessPoint.name }}</td>
         <td>
-          {{ accessPoint.floorId }}
+          {{ accessPoint.floor?.floorId }}
         </td>
         <td>
           <i
