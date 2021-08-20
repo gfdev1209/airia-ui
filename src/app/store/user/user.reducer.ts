@@ -21,6 +21,24 @@ export const userReducer = createReducer(
       loading: false,
     };
   }),
+  on(Actions.getSelf, (state) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+  on(Actions.getSelfSuccess, (state, { user }) => ({
+    ...state,
+    self: { ...user },
+    loading: false,
+    loaded: true,
+  })),
+  on(Actions.getSelfFailed, (state) => {
+    return {
+      ...state,
+      loading: false,
+    };
+  }),
   on(Actions.select, (state) => {
     return {
       ...state,

@@ -62,15 +62,24 @@
   </div>
   <p-footer>
     <button
+      *ngIf="!alert.acknowledgedBy"
       pButton
       pRipple
       type="button"
-      [label]="!alert.acknowledgedAt ? 'Acknowledge Alert' : 'Acknowledged'"
+      label="Acknowledge Alert"
       icon="fas fa-check-circle"
       (click)="onAcknowledge()"
       [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
       [disabled]="loading === true || alert.acknowledgedAt"
       class="p-button-rounded width-100 p-d-block p-mt-2 p-mb-2"
     ></button>
+    <div class="p-text-center" *ngIf="alert.acknowledgedBy">
+      <i class="far fa-check-circle icon color-green p-mr-2"></i>
+      <small
+        >Acknowledged by
+        {{ alert.acknowledgedBy.firstName }}
+        {{ alert.acknowledgedBy.lastName }}
+      </small>
+    </div>
   </p-footer>
 </p-dialog>

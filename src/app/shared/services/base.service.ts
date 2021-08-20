@@ -70,15 +70,21 @@ export class BaseService {
     );
   }
 
-  skipAndTake<T>(skip: number, take: number): Observable<T> {
-    return this.http.get(`${this.apiUrl}/Skip/${skip}/Take/${take}`).pipe(
-      retry(2),
-      map((response: any) => this.mapArrayResponseToObject<T>(response)),
-      catchError((error) => {
-        return this.handleError(error);
-      }),
-      share()
-    );
+  skipAndTake<T>(
+    skip: number,
+    take: number,
+    appendToUrl: string = ''
+  ): Observable<T> {
+    return this.http
+      .get(`${this.apiUrl}/Skip/${skip}/Take/${take}${appendToUrl}`)
+      .pipe(
+        retry(2),
+        map((response: any) => this.mapArrayResponseToObject<T>(response)),
+        catchError((error) => {
+          return this.handleError(error);
+        }),
+        share()
+      );
   }
 
   create<T>(data: any): Observable<T> {

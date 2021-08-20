@@ -1,6 +1,13 @@
 import { createAction, props } from '@ngrx/store';
 import { User } from '@map/models';
 
+export const getSelf = createAction('[User List Page] Get Self');
+export const getSelfSuccess = createAction(
+  '[User Effect] Get Self Success',
+  props<{ user: User }>()
+);
+export const getSelfFailed = createAction('[User Effect] Get Self Failed');
+
 export const getAll = createAction('[User List Page] Get All Users');
 export const getAllSuccess = createAction(
   '[User Effect] Get All Users Success',

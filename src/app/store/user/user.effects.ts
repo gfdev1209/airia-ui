@@ -37,6 +37,18 @@ export class UserEffects {
     )
   );
 
+  getSelf$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.getSelf),
+      mergeMap(() =>
+        this.userService.getSelf('+Department+Role').pipe(
+          map((user: User) => UserActions.getSelfSuccess({ user })),
+          catchError(() => of(UserActions.getSelfFailed()))
+        )
+      )
+    )
+  );
+
   search$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.search),
