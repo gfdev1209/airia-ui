@@ -43,6 +43,14 @@
             ]
           },
           "configurations": {
+            "lakewaydev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.lakewaydev.ts"
+                }
+              ]
+            },
             "harringtondr": {
               "fileReplacements": [
                 {
@@ -96,6 +104,9 @@
           "configurations": {
             "production": {
               "browserTarget": "airia:build:production"
+            },
+            "lakewaydev": {
+              "browserTarget": "airia:build:lakewaydev"
             },
             "harringtondr": {
               "browserTarget": "airia:build:harringtondr"
