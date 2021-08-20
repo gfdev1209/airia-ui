@@ -21,11 +21,13 @@
       }"
       >{{ alert.alertType }}</span
     >
+    <small>#{{ alert.id }}</small
+    ><br />
     <small class="color-text-medium">{{
       alert.featureEventtime | date: "dd MMM h:mm a"
     }}</small>
   </div>
-  <div *ngIf="alert.acknowledgedAt" class="p-flex-column p-ml-3">
-    <i class="far fa-check-circle color-green"></i>
+  <div *ngIf="alert.acknowledgedAt" class="p-flex-column p-ml-3 acknowledged">
+    <i class="far fa-check-circle icon color-green"></i>
   </div>
 </div>

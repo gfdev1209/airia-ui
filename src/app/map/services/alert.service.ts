@@ -23,31 +23,44 @@ export class AlertService extends BaseService {
     );
   }
 
-  getFromMinutes(fromMin: number): Observable<Alert[]> {
-    return this.http.get(`${this.apiUrl}/From/${fromMin}/to/0`).pipe(
-      retry(2),
-      map((response: any) => this.mapArrayResponseToObject(response)),
-      catchError((error) => {
-        return this.handleError(error);
-      }),
-      share()
-    );
-  }
-
-  getFromDate(from: Date): Observable<Alert[]> {
-    return this.http.get(`${this.apiUrl}//From/${from.toJSON()}`).pipe(
-      retry(2),
-      map((response: any) => this.mapArrayResponseToObject(response)),
-      catchError((error) => {
-        return this.handleError(error);
-      }),
-      share()
-    );
-  }
-
-  getFromDateToDate(from: Date, to: Date): Observable<Alert[]> {
+  getFromMinutes(
+    fromMin: number,
+    appendToUrl: string = ''
+  ): Observable<Alert[]> {
     return this.http
-      .get(`${this.apiUrl}//From/${from.toJSON()}/To/${to.toJSON()}`)
+      .get(`${this.apiUrl}/From/${fromMin}/to/0${appendToUrl}`)
+      .pipe(
+        retry(2),
+        map((response: any) => this.mapArrayResponseToObject(response)),
+        catchError((error) => {
+          return this.handleError(error);
+        }),
+        share()
+      );
+  }
+
+  getFromDate(from: Date, appendToUrl: string = ''): Observable<Alert[]> {
+    return this.http
+      .get(`${this.apiUrl}/From/${from.toJSON()}${appendToUrl}`)
+      .pipe(
+        retry(2),
+        map((response: any) => this.mapArrayResponseToObject(response)),
+        catchError((error) => {
+          return this.handleError(error);
+        }),
+        share()
+      );
+  }
+
+  getFromDateToDate(
+    from: Date,
+    to: Date,
+    appendToUrl: string = ''
+  ): Observable<Alert[]> {
+    return this.http
+      .get(
+        `${this.apiUrl}/From/${from.toJSON()}/To/${to.toJSON()}${appendToUrl}`
+      )
       .pipe(
         retry(2),
         map((response: any) => this.mapArrayResponseToObject(response)),

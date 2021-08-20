@@ -15,9 +15,15 @@ import {
   PopupRequest,
   RedirectRequest,
 } from '@azure/msal-browser';
+import { Store } from '@ngrx/store';
+import { RootState } from '@store/index';
 import { Subject } from 'rxjs';
 import { filter, takeUntil, tap } from 'rxjs/operators';
 import { b2cPolicies } from './../../../b2c-config';
+
+import * as UserActions from '@store/user/user.actions';
+import * as UserSelectors from '@store/user/user.selectors';
+import { User } from '@map/models';
 
 interface Payload extends AuthenticationResult {
   idTokenClaims: {
@@ -34,26 +40,40 @@ export class LoginComponent implements OnInit, OnDestroy {
   title = 'airia';
   loginDisplay = false;
 
+  self$ = this.store
+    .select(UserSelectors.selectSelf)
+    .pipe(
+      tap((user: any) => {
+        if (user !== null) {
+          this.router.navigate(['/map']);
+        }
+      })
+    )
+    .subscribe();
+
   private readonly destroying$ = new Subject<void>();
   constructor(
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
     private authService: MsalService,
     private msalBroadcastService: MsalBroadcastService,
-    private router: Router
+    private router: Router,
+    private store: Store<RootState>
   ) {
     this.authService
       .handleRedirectObservable()
-      .pipe(tap(() => this.checkLoggedIn()))
+      .pipe(
+        tap(() => {
+          return this.checkLoggedIn();
+        })
+      )
       .subscribe();
   }
   checkLoggedIn(): void {
-    if (this.authService.instance.getAllAccounts().length > 0) {
-      this.router.navigate(['/map']);
-    }
+    this.store.dispatch(UserActions.getSelf());
   }
 
   ngOnInit(): void {
-    this.authService.logout();
+    // this.authService.logout();
     this.msalBroadcastService.inProgress$
       .pipe(
         filter(
@@ -167,5 +187,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroying$.next(undefined);
     this.destroying$.complete();
+    this.self$?.unsubscribe();
   }
 }

@@ -1,6 +1,7 @@
 import { AlertSeverity, AlertType } from '../enums';
 import { IBase } from '@shared/interfaces';
 import { AccessPoint } from '.';
+import { User } from './user.model';
 
 export class Alert implements IBase {
   id!: number;
@@ -11,7 +12,7 @@ export class Alert implements IBase {
   regionId!: number;
   alertMessage!: string;
   createdAt!: Date;
-  acknowledgedBy?: number;
+  acknowledgedBy?: User;
   acknowledgedAt?: Date;
   accessPoint?: AccessPoint;
   alertSeverity!: AlertSeverity;
@@ -27,7 +28,7 @@ export class Alert implements IBase {
     regionId: number;
     alertMessage: string;
     createdAt: Date;
-    acknowledgedBy: number;
+    acknowledgedBy: User;
     acknowledgedAt: Date;
     accessPoint: AccessPoint;
     region: string;

@@ -36,7 +36,11 @@ export class AlertEffects {
       ofType(AlertActions.skipAndTake),
       mergeMap(({ skipTakeInput }) =>
         this.alertService
-          .skipAndTake<Alert[]>(skipTakeInput.skip, skipTakeInput.take)
+          .skipAndTake<Alert[]>(
+            skipTakeInput.skip,
+            skipTakeInput.take,
+            '/+AcknowledgedBy'
+          )
           .pipe(
             map((alerts: Alert[]) =>
               AlertActions.skipAndTakeSuccess({ alerts })
@@ -51,7 +55,7 @@ export class AlertEffects {
     this.actions$.pipe(
       ofType(AlertActions.getFromMinutes),
       mergeMap(({ fromMin }) =>
-        this.alertService.getFromMinutes(fromMin).pipe(
+        this.alertService.getFromMinutes(fromMin, '/+AcknowledgedBy').pipe(
           map((alerts: Alert[]) =>
             AlertActions.getFromMinutesSuccess({ alerts })
           ),
@@ -65,7 +69,7 @@ export class AlertEffects {
     this.actions$.pipe(
       ofType(AlertActions.getFromDate),
       mergeMap(({ date }) =>
-        this.alertService.getFromDate(date).pipe(
+        this.alertService.getFromDate(date, '/+AcknowledgedBy').pipe(
           map((alerts: Alert[]) => AlertActions.getFromDateSuccess({ alerts })),
           catchError(() => of(AlertActions.getFromDateFailed()))
         )
@@ -77,7 +81,7 @@ export class AlertEffects {
     this.actions$.pipe(
       ofType(AlertActions.getFromDateToDate),
       mergeMap(({ from, to }) =>
-        this.alertService.getFromDateToDate(from, to).pipe(
+        this.alertService.getFromDateToDate(from, to, '/+AcknowledgedBy').pipe(
           map((alerts: Alert[]) =>
             AlertActions.getFromDateToDateSuccess({ alerts })
           ),
@@ -91,7 +95,7 @@ export class AlertEffects {
     this.actions$.pipe(
       ofType(AlertActions.select),
       mergeMap(({ id }) =>
-        this.alertService.get<Alert>(id, '+AccessPoint').pipe(
+        this.alertService.get<Alert>(id, '+AccessPoint+AcknowledgedBy').pipe(
           map((alert: Alert) => AlertActions.selectSuccess({ alert })),
           catchError(() => of(AlertActions.selectFailed()))
         )
@@ -106,7 +110,7 @@ export class AlertEffects {
         this.alertService.acknowledgeAlert(alert).pipe(
           mergeMap(() =>
             this.alertService
-              .get<Alert>(alert.id)
+              .get<Alert>(alert.id, '+AcknowledgedBy')
               .pipe(
                 map((updatedAlert: Alert) =>
                   AlertActions.acknowledgeAlertSuccess({ alert: updatedAlert })
