@@ -1,8 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NotificationService } from '@shared/services/notification.service';
 import { MessageService } from 'primeng/api';
 import { tap } from 'rxjs/operators';
+import * as UserActions from '@store/user/user.actions';
+import * as UserSelectors from '@store/user/user.selectors';
+import { RootState } from './store';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +14,11 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./app.component.scss'],
   providers: [MessageService],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'airia';
   isIframe = false;
+
+  self$ = this.store.select(UserSelectors.selectSelf).subscribe();
 
   error$ = this.notificationService.error$
     .pipe(
@@ -25,11 +31,13 @@ export class AppComponent implements OnInit {
     .subscribe();
 
   constructor(
+    private store: Store<RootState>,
     private notificationService: NotificationService,
     private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
+    this.store.dispatch(UserActions.getSelf());
     this.isIframe = window !== window.parent && !window.opener;
   }
 
@@ -39,5 +47,9 @@ export class AppComponent implements OnInit {
       summary: 'Error',
       detail: error.message,
     });
+  }
+
+  ngOnDestroy(): void {
+    this.self$?.unsubscribe();
   }
 }
