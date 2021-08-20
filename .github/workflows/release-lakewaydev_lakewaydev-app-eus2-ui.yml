@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - dev-app-stuartshome-eus2-ui
+name: Build and deploy Node.js app to Azure Web App - lakewaydev-app-eus2-ui
 
 on:
   push:
@@ -15,11 +15,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Node.js version
-      uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-
     - name: Set up Node.js version
       uses: actions/setup-node@v1
       with:
@@ -55,5 +50,5 @@ jobs:
       with:
         app-name: 'lakewaydev-app-eus2-ui'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_be509dd0b4994578ba4b4cc82fa0a922 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_d5a7cc67bc22443aa82fbaf7c6ccd848 }}
         package: .
