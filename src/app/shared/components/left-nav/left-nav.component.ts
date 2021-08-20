@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
-import { ConfirmationService, ConfirmEventType } from 'primeng/api';
+import { Store } from '@ngrx/store';
+import { RootState } from '@store/index';
+import { ConfirmationService } from 'primeng/api';
+
+import * as UserSelectors from '@store/user/user.selectors';
 
 @Component({
   selector: 'app-left-nav',
@@ -9,18 +13,15 @@ import { ConfirmationService, ConfirmEventType } from 'primeng/api';
   providers: [ConfirmationService],
 })
 export class LeftNavComponent implements OnInit {
-  expanded = false;
+  self$ = this.store.select(UserSelectors.selectSelf);
 
   constructor(
     private authService: MsalService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private store: Store<RootState>
   ) {}
 
   ngOnInit(): void {}
-
-  toggleSize(): void {
-    this.expanded = !this.expanded;
-  }
 
   logout(): void {
     this.confirmationService.confirm({
