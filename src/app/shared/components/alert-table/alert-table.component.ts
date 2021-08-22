@@ -42,7 +42,7 @@ export class AlertTableComponent implements OnInit {
   }
 
   onSkipAndTake(skipTakeInput: SkipTakeInput): void {
-    this.store.dispatch(AlertActions.skipAndTake({ skipTakeInput }));
+    this.store.dispatch(AlertActions.skipAndTakeAlertTable({ skipTakeInput }));
   }
   onAlertSelected(alert: Alert): void {
     if (alert) {

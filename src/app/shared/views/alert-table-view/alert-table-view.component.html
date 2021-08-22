@@ -1,15 +1,17 @@
-<div>
+<div *ngIf="alerts">
   <p-table
     class="report-table"
     [value]="alerts"
     [(selection)]="selectedAlerts"
-    [lazy]="true"
-    (onLazyLoad)="loadAlerts($event)"
     [paginator]="true"
     [rows]="10"
-    [totalRecords]="totalRecords"
-    [loading]="loading"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[10, 25, 50]"
     [globalFilterFields]="['featureEventtime']"
+    [responsive]="true"
+    sortField="featureEventtime"
+    [sortOrder]="-1"
     dataKey="id"
     (onRowSelect)="selectAlert($event)"
     (onRowUnselect)="deselectAlert($event)"
@@ -43,18 +45,10 @@
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
         <th>
-          <p-columnFilter
-            type="date"
-            field="featureEventtime"
-            [showMenu]="true"
-          ></p-columnFilter>
+          <p-columnFilter type="date" field="featureEventtime"></p-columnFilter>
         </th>
         <th>
-          <p-columnFilter
-            type="text"
-            field="alertMessage"
-            [showMenu]="false"
-          ></p-columnFilter>
+          <p-columnFilter type="text" field="alertMessage"></p-columnFilter>
         </th>
         <th>
           <p-columnFilter
@@ -72,17 +66,18 @@
                 [options]="severities"
                 placeholder="Any"
                 optionLabel="label"
-                optionValue="value"
+                optionValue="label"
                 (onChange)="filter($event.value)"
                 [showHeader]="false"
+                appendTo="body"
               >
                 <ng-template let-option pTemplate="item">
                   <div class="p-multiselect-representative-option">
                     <p-tag
-                      [value]="option.value"
+                      [value]="option.label"
                       [rounded]="true"
                       severity="info"
-                      styleClass="severity-{{ option.value }}"
+                      styleClass="severity-{{ option.label }}"
                     ></p-tag>
                   </div>
                 </ng-template>
@@ -102,9 +97,10 @@
                 [options]="alertTypes"
                 placeholder="Any"
                 optionLabel="label"
-                optionValue="value"
+                optionValue="label"
                 (onChange)="filter($event.value)"
                 [showHeader]="false"
+                appendTo="body"
               >
                 <ng-template let-option pTemplate="item">
                   <div class="p-multiselect-representative-option">

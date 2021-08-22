@@ -6,6 +6,7 @@ import * as UserActions from '@store/user/user.actions';
 import * as BuildingActions from '@store/building/building.actions';
 import * as ReportSelectors from '@store/report/report.selectors';
 import * as ReportActions from '@store/report/report.actions';
+import * as AlertActions from '@store/alert/alert.actions';
 import { CreateReportInput } from '../../models';
 
 @Component({
@@ -22,6 +23,11 @@ export class ReportFormComponent implements OnInit {
     this.store.dispatch(BuildingActions.deselect());
     this.store.dispatch(UserActions.deselect());
     this.store.dispatch(UserActions.getAll());
+    this.store.dispatch(
+      AlertActions.skipAndTakeAlertTable({
+        skipTakeInput: { skip: 0, take: 100 },
+      })
+    );
   }
 
   onGenerateReport(createReportInput: CreateReportInput): void {
