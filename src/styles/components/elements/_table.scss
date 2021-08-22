@@ -82,3 +82,17 @@ p-table,
     }
   }
 }
+@media screen and (max-width: $breakPoint-sm) {
+  .p-datatable .p-datatable-tbody > tr {
+    border-bottom: 1px solid var(--divider-color);
+  }
+  .p-datatable .p-datatable-tbody > tr > td {
+    padding: 0.25rem 1rem;
+  }
+  .p-datatable .p-datatable-tbody > tr > td:first-of-type {
+    padding-top: 1rem;
+  }
+  .p-datatable .p-datatable-tbody > tr > td:last-of-type {
+    padding-bottom: 1rem;
+  }
+}

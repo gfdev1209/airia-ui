@@ -3,11 +3,24 @@
   float: left;
   left: 0;
   z-index: 3;
+
+  @media screen and (max-width: $breakPoint-sm) {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+  }
   nav {
     width: $left-nav-width;
     transition: width 0.5s;
     transition-timing-function: ease-in-out;
     background: var(--background-color);
+
+    @media screen and (max-width: $breakPoint-sm) {
+      width: 100%;
+      height: $left-nav-item-height;
+      border-top: 1px solid var(--divider-color);
+    }
+
     &.expanded {
       width: $left-nav-width-expanded;
       .menu-link span {
@@ -41,7 +54,7 @@
       cursor: pointer;
       display: flex;
       align-items: center;
-      padding: 0 0 0 20px;
+      padding: 0;
       text-decoration: none;
       color: var(--primary-color);
       transition: background-color 0.5s, border-color 0.5s;
@@ -53,10 +66,19 @@
         img,
         [class*="fa-"] {
           left: -$left-nav-active-border-width;
+
+          @media screen and (max-width: $breakPoint-sm) {
+            left: 0;
+          }
         }
         span {
           margin-left: 12px;
           color: var(--text-color);
+        }
+
+        @media screen and (max-width: $breakPoint-sm) {
+          border-top: $left-nav-active-border-width solid var(--primary-color);
+          border-left: none;
         }
       }
       .icon {
