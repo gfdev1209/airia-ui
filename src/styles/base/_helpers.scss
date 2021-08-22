@@ -11,6 +11,11 @@
 .display-inline-block {
   display: inline-block;
 }
+.p-jc-sm-between {
+  @media screen and (max-width: $breakPoint-sm) {
+    justify-content: space-between;
+  }
+}
 // Positioning
 .position-fixed {
   position: fixed;
