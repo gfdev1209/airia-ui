@@ -10,8 +10,16 @@ export const getAllSuccess = createAction(
 );
 export const getAllFailed = createAction('[Map Effect] Get All Alerts Failed');
 
-export const skipAndTake = createAction(
+export const skipAndTakeAlertPanel = createAction(
+  '[Alert Panel] Skip and Take Alerts',
+  props<{ skipTakeInput: SkipTakeInput }>()
+);
+export const skipAndTakeReportTable = createAction(
   '[Report Table] Skip and Take Alerts',
+  props<{ skipTakeInput: SkipTakeInput }>()
+);
+export const skipAndTakeAlertTable = createAction(
+  '[Alert Table] Skip and Take Alerts',
   props<{ skipTakeInput: SkipTakeInput }>()
 );
 export const skipAndTakeSuccess = createAction(

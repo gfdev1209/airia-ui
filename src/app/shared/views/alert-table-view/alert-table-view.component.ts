@@ -48,25 +48,7 @@ export class AlertTableViewComponent implements OnChanges, OnInit {
   ngOnInit(): void {
     this.loading = true;
   }
-  loadAlerts(event: LazyLoadEvent): void {
-    this.loading = true;
-    if (event.first !== undefined && event.rows !== undefined) {
-      this.skipAndTake.emit({ skip: event.first, take: event.rows });
-    }
-    // setTimeout(() => {
-    //   this.customerService
-    //     .getCustomers({ lazyEvent: JSON.stringify(event) })
-    //     .then((res) => {
-    //       this.customers = res.customers;
-    //       this.totalRecords = res.totalRecords;
-    //       this.loading = false;
-    //     });
-    // }, 1000);
-  }
   ngOnChanges(changes: SimpleChanges): void {
-    // if (changes.alerts && !changes.alerts.firstChange) {
-    //   // this.alerts = changes.alerts.currentValue;
-    // }
     // Convert buildings to a basic array for multi-select
     if (!changes.buildings?.firstChange && changes.buildings?.currentValue) {
       this.buildingList = [];

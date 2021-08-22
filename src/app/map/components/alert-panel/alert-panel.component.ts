@@ -32,7 +32,11 @@ export class AlertPanelComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(AlertActions.getFromMinutes({ fromMin: 1440 * 7 }));
+    this.store.dispatch(
+      AlertActions.skipAndTakeAlertTable({
+        skipTakeInput: { skip: 0, take: 100 },
+      })
+    );
   }
 
   onToggleSevereUrgency($event: any): void {

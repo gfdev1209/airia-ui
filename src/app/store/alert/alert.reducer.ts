@@ -21,12 +21,17 @@ export const alertReducer = createReducer(
       loading: false,
     };
   }),
-  on(Actions.skipAndTake, (state) => {
-    return {
-      ...state,
-      loading: true,
-    };
-  }),
+  on(
+    Actions.skipAndTakeAlertTable,
+    Actions.skipAndTakeReportTable,
+    Actions.skipAndTakeAlertPanel,
+    (state) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+  ),
   on(Actions.skipAndTakeSuccess, (state, { alerts }) => ({
     ...adapter.setAll(alerts, state),
     loading: false,

@@ -33,7 +33,11 @@ export class AlertEffects {
 
   skipAndTake$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AlertActions.skipAndTake),
+      ofType(
+        AlertActions.skipAndTakeAlertTable,
+        AlertActions.skipAndTakeReportTable,
+        AlertActions.skipAndTakeAlertPanel
+      ),
       mergeMap(({ skipTakeInput }) =>
         this.alertService
           .skipAndTake<Alert[]>(
