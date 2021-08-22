@@ -292,7 +292,7 @@ export class MapViewComponent implements OnChanges {
             id: device.id,
             geometry: {
               type: 'Point',
-              coordinates: [device.coordLongitude, device.coordLatitude],
+              coordinates: [device.longitude, device.latitude],
             },
             properties: {
               id: device.id,
