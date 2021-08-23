@@ -8,4 +8,7 @@
   // display: flex;
   // flex-direction: row;
   // padding: 0 0 0 $left-nav-width;
+  @media screen and (max-width: $breakPoint-sm) {
+    padding-bottom: $left-nav-item-height-mobile;
+  }
 }

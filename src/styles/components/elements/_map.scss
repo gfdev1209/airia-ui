@@ -1,0 +1,5 @@
+mgl-map {
+  @media screen and (max-width: $breakPoint-sm) {
+    padding-bottom: $left-nav-item-height-mobile;
+  }
+}

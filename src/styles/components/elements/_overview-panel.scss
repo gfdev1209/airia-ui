@@ -18,6 +18,9 @@ $overview-panel-item-height: 44px;
     .menu-link span {
       opacity: 1;
     }
+    @media screen and (max-width: $breakPoint-sm) {
+      padding-bottom: $left-nav-item-height-mobile;
+    }
   }
 
   .zoom-controls {

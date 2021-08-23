@@ -17,7 +17,7 @@
 
     @media screen and (max-width: $breakPoint-sm) {
       width: 100%;
-      height: $left-nav-item-height;
+      height: $left-nav-item-height-mobile;
       border-top: 1px solid var(--divider-color);
     }
 
@@ -59,6 +59,12 @@
       color: var(--primary-color);
       transition: background-color 0.5s, border-color 0.5s;
       border-color: transparent;
+      @media screen and (max-width: $breakPoint-sm) {
+        height: $left-nav-item-height-mobile;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
       &.active,
       &:hover {
         border-left: $left-nav-active-border-width solid var(--primary-color);
@@ -74,16 +80,27 @@
         span {
           margin-left: 12px;
           color: var(--text-color);
+          @media screen and (max-width: $breakPoint-sm) {
+            margin-left: 0;
+            color: var(--primary-color);
+          }
+        }
+        .icon {
+          color: var(--primary-color);
         }
 
         @media screen and (max-width: $breakPoint-sm) {
-          border-top: $left-nav-active-border-width solid var(--primary-color);
+          border-top: 2px solid var(--primary-color);
           border-left: none;
         }
       }
       .icon {
         width: 16px;
         height: 16px;
+        @media screen and (max-width: $breakPoint-sm) {
+          color: var(--text-medium-color);
+          margin-bottom: 4px;
+        }
       }
       span {
         transition: opacity 0.5s, color 0.5s;
@@ -91,6 +108,12 @@
         margin: 0 0 0 1rem;
         color: var(--text-medium-dark-color);
         @include font-weight(medium);
+        @media screen and (max-width: $breakPoint-sm) {
+          opacity: 1;
+          margin: 0;
+          font-size: 10px;
+          color: var(--text-medium-color);
+        }
       }
       img,
       [class*="fa-"] {
