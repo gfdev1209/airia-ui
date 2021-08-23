@@ -26,6 +26,7 @@ import * as moment from 'moment';
 export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   @Input() selectedLocation!: Location | null;
   @Input() mapDateTime?: Date | null;
+  @Input() isExpanded?: boolean | null;
 
   @Output() topPanelHeightChanged = new EventEmitter<number>();
   @Output() alertSortTypeChanged = new EventEmitter<AlertSortType>();
@@ -33,6 +34,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   @Output() zoomOut = new EventEmitter();
   @Output() mapTimeChanged = new EventEmitter<Date>();
   @Output() toggledPlayback = new EventEmitter<boolean>();
+  @Output() toggledExpanded = new EventEmitter<boolean>();
 
   @Output() toggledAccessPoints = new EventEmitter<boolean>();
   @Output() toggledDevices = new EventEmitter<boolean>();
@@ -40,7 +42,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   @ViewChild('topPanel') topPanel!: ElementRef;
   @ViewChild('alertPanel') private alertPanel!: AlertPanelComponent;
 
-  expanded = false;
+  // expanded = false;
 
   playbackDate: Date = new Date();
   isPlaybackLive = true;
@@ -69,7 +71,12 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.selectedLocation?.currentValue) {
-      this.expandPanel();
+      if (window.screen.width > 400) {
+        this.expandPanel();
+      }
+      setTimeout(() => this.getTopPanelHeight(), 600);
+    }
+    if (changes.isExpanded?.currentValue) {
       setTimeout(() => this.getTopPanelHeight(), 600);
     }
   }
@@ -77,10 +84,10 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   ngAfterViewInit(): void {}
 
   expandPanel(): void {
-    this.expanded = true;
+    this.toggledExpanded.emit(true);
   }
   toggleSize(): void {
-    this.expanded = !this.expanded;
+    this.toggledExpanded.emit();
   }
   onZoomIn(): void {
     this.zoomIn.emit();

@@ -1,6 +1,7 @@
 <app-overview-panel-view
   [selectedLocation]="selectedLocation$ | async"
   [mapDateTime]="mapDateTime$ | async"
+  [isExpanded]="isExpanded$ | async"
   (topPanelHeightChanged)="onTopPanelHeightChanged($event)"
   (alertSortTypeChanged)="onAlertSortTypeChanged($event)"
   (toggledAccessPoints)="onToggledAccessPoints($event)"
@@ -9,4 +10,5 @@
   (mapTimeChanged)="onMapTimeChanged($event)"
   (zoomIn)="onZoomIn()"
   (zoomOut)="onZoomOut()"
+  (toggledExpanded)="onToggledExpanded($event)"
 ></app-overview-panel-view>

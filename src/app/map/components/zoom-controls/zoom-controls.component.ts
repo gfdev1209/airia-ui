@@ -15,4 +15,7 @@ export class ZoomControlsComponent {
   onZoomOut(): void {
     this.mapService.mapZoomOut();
   }
+  onToggleOverview(): void {
+    this.mapService.toggleOverview();
+  }
 }

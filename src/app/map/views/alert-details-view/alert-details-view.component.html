@@ -77,8 +77,12 @@
       <i class="far fa-check-circle icon color-green p-mr-2"></i>
       <small
         >Acknowledged by
-        {{ alert.acknowledgedBy.firstName }}
-        {{ alert.acknowledgedBy.lastName }}
+        <strong>
+          {{ alert.acknowledgedBy.firstName }}
+          {{ alert.acknowledgedBy.lastName }}
+        </strong>
+        at
+        {{ alert.acknowledgedAt | date: "MMM dd h:mm a" }}
       </small>
     </div>
   </p-footer>

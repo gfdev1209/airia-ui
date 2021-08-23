@@ -16,6 +16,7 @@ export class OverviewPanelComponent implements OnInit {
     LocationSelectors.selectSelectedLocation
   );
   mapDateTime$ = this.mapService.mapDateTime$;
+  isExpanded$ = this.mapService.isOverviewExpanded$;
 
   constructor(
     private mapService: MapService,
@@ -42,6 +43,10 @@ export class OverviewPanelComponent implements OnInit {
   }
   onToggledDevices(checked: boolean): void {
     this.mapService.setShowDevices(checked);
+  }
+
+  onToggledExpanded(isExpanded?: boolean): void {
+    this.mapService.toggleOverview(isExpanded);
   }
 
   onToggledPlayback(isLive: boolean): void {
