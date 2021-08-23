@@ -1,3 +1,4 @@
+@import "../../../../styles/abstracts/variables";
 .application-view {
   // background-color: var(--background-color-shade-1);
   // flex: 1;
@@ -7,4 +8,7 @@
   justify-content: center;
   padding: 2rem;
   // float: left;
+  @media screen and (max-width: $breakPoint-sm) {
+    padding-bottom: $left-nav-item-height-mobile;
+  }
 }

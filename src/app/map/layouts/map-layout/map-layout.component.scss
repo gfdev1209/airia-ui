@@ -1,6 +1,10 @@
+@import "../../../../styles/abstracts/variables";
 .application-view {
   flex: 1;
   height: 100%;
+  @media screen and (max-width: $breakPoint-sm) {
+    padding-bottom: $left-nav-item-height-mobile;
+  }
 }
 :host(app-map-layout) {
   display: flex;
