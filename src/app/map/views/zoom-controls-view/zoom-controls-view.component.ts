@@ -8,6 +8,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 export class ZoomControlsViewComponent {
   @Output() zoomIn = new EventEmitter();
   @Output() zoomOut = new EventEmitter();
+  @Output() toggleOverview = new EventEmitter();
 
   constructor() {}
 
@@ -16,5 +17,8 @@ export class ZoomControlsViewComponent {
   }
   onZoomOut(): void {
     this.zoomOut.emit();
+  }
+  onToggleOverview(): void {
+    this.toggleOverview.emit();
   }
 }

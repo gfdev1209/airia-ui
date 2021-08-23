@@ -1,5 +1,9 @@
 mgl-map {
+  padding-left: $left-nav-width;
+  padding-right: $overview-panel-width;
   @media screen and (max-width: $breakPoint-sm) {
     padding-bottom: $left-nav-item-height-mobile;
+    padding-left: 0;
+    padding-right: 0;
   }
 }

@@ -12,6 +12,10 @@ export class MapService {
   private mapDateTime: BehaviorSubject<Date> = new BehaviorSubject(new Date());
   mapDateTime$ = this.mapDateTime.asObservable();
 
+  private isOverviewExpanded: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+  isOverviewExpanded$ = this.isOverviewExpanded.asObservable();
+
   private isPlaybackLive: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
   isPlaybackLive$ = this.isPlaybackLive.asObservable();
@@ -42,6 +46,13 @@ export class MapService {
   }
   mapZoomOut(): void {
     this.zoomOut.next();
+  }
+  toggleOverview(isExpanded?: boolean): void {
+    if (isExpanded) {
+      this.isOverviewExpanded.next(isExpanded);
+    } else {
+      this.isOverviewExpanded.next(!this.isOverviewExpanded.value);
+    }
   }
 
   startPlayback(): void {

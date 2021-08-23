@@ -1,5 +1,5 @@
-<div class="overview-panel has-shadow" [class.expanded]="expanded === true">
-  <div class="zoom-controls">
+<div class="overview-panel has-shadow" [class.expanded]="isExpanded === true">
+  <div class="zoom-controls p-d-none p-d-sm-block">
     <app-zoom-controls></app-zoom-controls>
   </div>
   <div class="p-d-flex p-flex-column overflow-hidden">
@@ -7,11 +7,11 @@
       <a class="menu-toggle p-d-flex p-align-center" (click)="toggleSize()">
         <i
           class="fas fa-border"
-          [class.fa-arrow-to-left]="expanded === false"
-          [class.fa-arrow-to-right]="expanded === true"
+          [class.fa-arrow-to-left]="isExpanded === false"
+          [class.fa-arrow-to-right]="isExpanded === true"
         ></i>
       </a>
-      <ng-container *ngIf="expanded">
+      <ng-container *ngIf="isExpanded">
         <div #topPanel>
           <div class="p-d-flex p-align-top p-mt-4">
             <div class="p-flex-column p-mr-2">
@@ -60,114 +60,128 @@
                 </ng-template>
                 <ng-template pTemplate="content">
                   <div class="p-d-flex p-ai-center">
-                    <div class="p-flex-column flex-grow-1 p-as-stretch">
+                    <div class="p-flex-column p-as-stretch">
                       <button
                         pButton
                         pRipple
                         type="button"
                         [icon]="isPlaybackLive ? 'fas fa-pause' : 'fas fa-play'"
-                        class="btn-playback p-button-outlined height-100"
+                        class="btn-playback p-button-outlined height-100 p-mr-2"
                         [ngClass]="{ 'is-active': isPlaybackLive === true }"
                         (click)="onTogglePlayback()"
                       ></button>
                     </div>
-                    <div class="p-flex-column p-text-right">
-                      <button
-                        pButton
-                        pRipple
-                        type="button"
-                        label="1d"
-                        icon="fas fa-chevron-double-left"
-                        class="
-                          p-button-secondary
-                          p-button-sm
-                          p-button-xs
-                          p-button-outlined
-                          p-mr-1
-                          p-mb-1
-                        "
-                        (click)="onPlaybackIntervalChange(-1, 'day')"
-                      ></button>
-                      <button
-                        pButton
-                        pRipple
-                        type="button"
-                        label="1hr"
-                        icon="fas fa-chevron-left"
-                        class="
-                          p-button-secondary
-                          p-button-sm
-                          p-button-xs
-                          p-button-outlined
-                          p-mr-1
-                          p-mb-1
-                        "
-                        (click)="onPlaybackIntervalChange(-1, 'hour')"
-                      ></button>
-                      <button
-                        pButton
-                        pRipple
-                        type="button"
-                        label="1m"
-                        icon="fas fa-chevron-left"
-                        class="
-                          p-button-secondary
-                          p-button-sm
-                          p-button-xs
-                          p-button-outlined
-                          p-mb-1
-                        "
-                        (click)="onPlaybackIntervalChange(-1, 'minute')"
-                      ></button>
-                      <button
-                        pButton
-                        pRipple
-                        type="button"
-                        label="1d"
-                        icon="fas fa-chevron-double-right"
-                        class="
-                          p-button-secondary
-                          p-button-sm
-                          p-button-xs
-                          p-button-outlined
-                          p-mr-1
-                        "
-                        (click)="onPlaybackIntervalChange(1, 'day')"
-                        [disabled]="isPlaybackLive || isDateInFuture(1, 'day')"
-                      ></button>
-                      <button
-                        pButton
-                        pRipple
-                        type="button"
-                        label="1hr"
-                        icon="fas fa-chevron-right"
-                        class="
-                          p-button-secondary
-                          p-button-sm
-                          p-button-xs
-                          p-button-outlined
-                          p-mr-1
-                        "
-                        (click)="onPlaybackIntervalChange(1, 'hour')"
-                        [disabled]="isPlaybackLive || isDateInFuture(1, 'hour')"
-                      ></button>
-                      <button
-                        pButton
-                        pRipple
-                        type="button"
-                        label="1m"
-                        icon="fas fa-chevron-right"
-                        class="
-                          p-button-secondary
-                          p-button-sm
-                          p-button-xs
-                          p-button-outlined
-                        "
-                        (click)="onPlaybackIntervalChange(1, 'minute')"
-                        [disabled]="
-                          isPlaybackLive || isDateInFuture(1, 'minute')
-                        "
-                      ></button>
+                    <div class="p-flex-column flex-grow-1 p-text-right">
+                      <div class="p-d-flex p-jc-evenly p-ai-center">
+                        <button
+                          pButton
+                          pRipple
+                          type="button"
+                          label="1d"
+                          icon="fas fa-chevron-double-left"
+                          class="
+                            width-100
+                            p-button-secondary
+                            p-button-sm
+                            p-button-xs
+                            p-button-outlined
+                            p-mr-1
+                            p-mb-1
+                          "
+                          (click)="onPlaybackIntervalChange(-1, 'day')"
+                        ></button>
+                        <button
+                          pButton
+                          pRipple
+                          type="button"
+                          label="1hr"
+                          icon="fas fa-chevron-left"
+                          class="
+                            width-100
+                            p-button-secondary
+                            p-button-sm
+                            p-button-xs
+                            p-button-outlined
+                            p-mr-1
+                            p-mb-1
+                          "
+                          (click)="onPlaybackIntervalChange(-1, 'hour')"
+                        ></button>
+                        <button
+                          pButton
+                          pRipple
+                          type="button"
+                          label="1m"
+                          icon="fas fa-chevron-left"
+                          class="
+                            width-100
+                            p-button-secondary
+                            p-button-sm
+                            p-button-xs
+                            p-button-outlined
+                            p-mb-1
+                          "
+                          (click)="onPlaybackIntervalChange(-1, 'minute')"
+                        ></button>
+                      </div>
+                      <div class="p-d-flex p-jc-evenly p-ai-center">
+                        <button
+                          pButton
+                          pRipple
+                          type="button"
+                          label="1d"
+                          icon="fas fa-chevron-double-right"
+                          class="
+                            width-100
+                            p-button-secondary
+                            p-button-sm
+                            p-button-xs
+                            p-button-outlined
+                            p-mr-1
+                          "
+                          (click)="onPlaybackIntervalChange(1, 'day')"
+                          [disabled]="
+                            isPlaybackLive || isDateInFuture(1, 'day')
+                          "
+                        ></button>
+                        <button
+                          pButton
+                          pRipple
+                          type="button"
+                          label="1hr"
+                          icon="fas fa-chevron-right"
+                          class="
+                            width-100
+                            p-button-secondary
+                            p-button-sm
+                            p-button-xs
+                            p-button-outlined
+                            p-mr-1
+                          "
+                          (click)="onPlaybackIntervalChange(1, 'hour')"
+                          [disabled]="
+                            isPlaybackLive || isDateInFuture(1, 'hour')
+                          "
+                        ></button>
+                        <button
+                          pButton
+                          pRipple
+                          type="button"
+                          label="1m"
+                          icon="fas fa-chevron-right"
+                          class="
+                            width-100
+                            p-button-secondary
+                            p-button-sm
+                            p-button-xs
+                            p-button-outlined
+                          "
+                          (click)="onPlaybackIntervalChange(1, 'minute')"
+                          [disabled]="
+                            isPlaybackLive || isDateInFuture(1, 'minute')
+                          "
+                        ></button>
+                      </div>
                     </div>
                   </div>
                 </ng-template>

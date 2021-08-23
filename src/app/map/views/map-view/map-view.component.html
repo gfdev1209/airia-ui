@@ -1,3 +1,6 @@
+<div class="zoom-controls">
+  <app-zoom-controls></app-zoom-controls>
+</div>
 <mgl-map
   *ngIf="selectedLocation"
   [style]="'mapbox://styles/mikeairia/ckothwa8k17hn18lngdslao64'"
@@ -12,16 +15,6 @@
   (mapMouseMove)="mapMouseMove($event)"
   (mapLoad)="mapLoad($event)"
 >
-  <mgl-control
-    mglNavigation
-    [showCompass]="false"
-    position="top-right"
-  ></mgl-control>
-  <mgl-control
-    mglGeolocate
-    position="top-left"
-    [showUserLocation]="true"
-  ></mgl-control>
   <mgl-popup
     *ngIf="selectedBuilding && showBuildingOverview"
     [lngLat]="[selectedBuilding.coordLongitude, selectedBuilding.coordLatitude]"
