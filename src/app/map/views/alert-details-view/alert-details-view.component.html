@@ -62,7 +62,11 @@
   </div>
   <p-footer>
     <button
-      *ngIf="!alert.acknowledgedBy"
+      *ngIf="
+        !alert.acknowledgedBy &&
+        (user?.role?.name?.toLowerCase() === 'admin' ||
+          user?.role?.name?.toLowerCase() === 'owner')
+      "
       pButton
       pRipple
       type="button"
