@@ -4,6 +4,7 @@ import { RootState } from 'src/app/store';
 import * as AlertSelectors from '@store/alert/alert.selectors';
 import * as AlertActions from '@store/alert/alert.actions';
 import { Alert } from '@map/models';
+import * as UserSelectors from '@store/user/user.selectors';
 
 @Component({
   selector: 'app-alert-details',
@@ -12,6 +13,7 @@ import { Alert } from '@map/models';
 })
 export class AlertDetailsComponent implements OnInit {
   selectedAlert$ = this.store.select(AlertSelectors.selectSelectedAlert);
+  user$ = this.store.select(UserSelectors.selectSelf);
   loading$ = this.store.select(AlertSelectors.selectLoading);
 
   constructor(private store: Store<RootState>) {}

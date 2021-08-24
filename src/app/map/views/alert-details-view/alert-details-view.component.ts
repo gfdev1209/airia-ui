@@ -15,7 +15,7 @@ import {
 } from '@angular/animations';
 
 import { Message } from 'primeng/api';
-import { Alert } from '../../models';
+import { Alert, User } from '../../models';
 import { AlertSeverity } from '@map/enums';
 import { slidePanelAnimation } from 'src/app/app.animations';
 
@@ -27,6 +27,7 @@ import { slidePanelAnimation } from 'src/app/app.animations';
 })
 export class AlertDetailsViewComponent implements OnInit {
   @Input() alert?: Alert | null;
+  @Input() user?: User | null;
   @Input() loading: boolean | null = false;
 
   @Output() closeAlert = new EventEmitter();
