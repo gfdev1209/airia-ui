@@ -1,24 +1,27 @@
-<div class="interior-nav has-shadow p-pt-4">
-  <section class="p-mt-0 p-mb-1 p-d-none p-d-md-block">
+<div class="interior-nav-mobile p-d-block p-d-sm-none p-mb-2">
+  <p-tabMenu [model]="links"></p-tabMenu>
+</div>
+<div class="interior-nav has-shadow p-d-none p-d-sm-block p-pt-4">
+  <section class="p-mt-0 p-mb-1 p-d-none p-d-sm-block">
     <h2 class="p-m-0">{{ title }}</h2>
   </section>
   <hr class="p-mt-4 p-mb-0" />
   <ng-container *ngFor="let link of links">
     <a
-      [routerLink]="link.route"
+      [routerLink]="link.routerLink"
       routerLinkActive="active"
       class="menu-link p-d-flex p-align-center"
     >
-      <div class="icon p-mr-0 p-mr-md-4">
+      <div *ngIf="link.icon" class="icon p-mr-0 p-mr-sm-4">
         <i class="fas fa-fw" [ngClass]="link.icon"></i>
       </div>
-      <div class="link-details flex-grow-1 p-d-none p-d-md-block">
-        <h3 class="p-m-0 p-p-0">{{ link.title }}</h3>
-        <p class="p-m-0 p-p-0" *ngIf="link.description">
-          {{ link.description }}
+      <div class="link-details flex-grow-1 p-d-none p-d-sm-block">
+        <h3 class="p-m-0 p-p-0">{{ link.label }}</h3>
+        <p class="p-m-0 p-p-0" *ngIf="link.title">
+          {{ link.title }}
         </p>
       </div>
-      <div class="chevron p-d-none p-d-md-block">
+      <div class="chevron p-d-none p-d-sm-block">
         <i class="fas fa-fw fa-chevron-right"></i>
       </div>
     </a>

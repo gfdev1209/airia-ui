@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuLink } from '@shared/models';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-settings-menu-view',
@@ -7,7 +8,7 @@ import { MenuLink } from '@shared/models';
   styleUrls: ['./settings-menu-view.component.scss'],
 })
 export class SettingsMenuViewComponent implements OnInit {
-  menuLinks: MenuLink[] = [
+  menuLinks: MenuItem[] = [
     // {
     //   title: 'Personal Details',
     //   route: '/settings/personal',
@@ -15,21 +16,21 @@ export class SettingsMenuViewComponent implements OnInit {
     //   icon: 'fa-user',
     // },
     {
-      title: 'User Management',
-      route: '/settings/users',
-      description: 'Roles, Access Levels',
+      label: 'User Management',
+      routerLink: '/settings/users',
+      title: 'Roles, Access Levels',
       icon: 'fa-key',
     },
     {
-      title: 'Buildings',
-      route: '/settings/buildings',
-      description: 'Edit Details, Floors, Occupancy',
+      label: 'Buildings',
+      routerLink: '/settings/buildings',
+      title: 'Edit Details, Floors, Occupancy',
       icon: 'fa-building',
     },
     {
-      title: 'Access Points',
-      route: '/settings/access-points',
-      description: 'Edit Access Point Details',
+      label: 'Access Points',
+      routerLink: '/settings/access-points',
+      title: 'Edit Access Point Details',
       icon: 'fa-router',
     },
     // {
