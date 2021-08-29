@@ -35,6 +35,7 @@ import { TooltipModule as PrimeTooltipModule } from 'primeng/tooltip';
 import { ToastModule as PrimeToastModule } from 'primeng/toast';
 import { InputNumberModule as PrimeInputNumberModule } from 'primeng/inputnumber';
 import { ChipsModule as PrimeChipsModule } from 'primeng/chips';
+import { TabMenuModule as PrimeTabMenuModule } from 'primeng/tabmenu';
 
 // Components
 import { LeftNavComponent } from './components/left-nav/left-nav.component';
@@ -136,6 +137,7 @@ import { LeftNavViewComponent } from './views/left-nav-view/left-nav-view.compon
     PrimeToastModule,
     PrimeInputNumberModule,
     PrimeChipsModule,
+    PrimeTabMenuModule,
   ],
   exports: [
     // Components
@@ -185,6 +187,7 @@ import { LeftNavViewComponent } from './views/left-nav-view/left-nav-view.compon
     PrimeToastModule,
     PrimeInputNumberModule,
     PrimeChipsModule,
+    PrimeTabMenuModule,
     // Pipes
     AlertIconByTypePipe,
     ColorByAlertSeverityPipe,

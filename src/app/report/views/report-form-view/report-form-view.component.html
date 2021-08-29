@@ -50,7 +50,7 @@
     (alertSelected)="onAlertSelected($event)"
     (alertDeselected)="onAlertDeselected($event)"
   ></app-alert-table>
-  <div class="p-mt-5 p-d-flex p-jc-between">
+  <div class="p-mt-5 p-d-flex p-jc-between p-flex-column-reverse p-flex-sm-row">
     <button
       pButton
       pRipple
@@ -59,25 +59,22 @@
       class="p-button-rounded p-button-secondary"
       routerLink="../"
     ></button>
-    <div>
-      <!-- <button
+    <!-- <button
         pButton
         pRipple
         type="button"
         label="Save Draft"
         class="p-button-rounded p-mr-3"
       ></button> -->
-      <button
-        pButton
-        pRipple
-        type="button"
-        label="Generate Report"
-        class="p-button-rounded"
-        (click)="onGenerateReport()"
-        [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
-        [disabled]="!reportForm.valid || loading === true"
-      ></button>
-    </div>
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Generate Report"
+      class="p-button-rounded p-mb-3 p-mb-sm-0"
+      (click)="onGenerateReport()"
+      [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
+      [disabled]="!reportForm.valid || loading === true"
+    ></button>
   </div>
 </div>
-{{ reportForm.value | json }}
