@@ -78,7 +78,7 @@ export const floorReducer = createReducer(
       loading: false,
     };
   }),
-  on(Actions.select, (state) => {
+  on(Actions.select, Actions.selectFromTable, (state) => {
     return {
       ...state,
       loading: true,
@@ -97,7 +97,7 @@ export const floorReducer = createReducer(
       loading: false,
     };
   }),
-  on(Actions.deselect, (state) => {
+  on(Actions.deselect, Actions.deselectFromTable, (state) => {
     return {
       ...state,
       selected: null,

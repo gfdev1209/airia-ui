@@ -54,7 +54,7 @@ export class FloorEffects {
 
   select$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(FloorActions.select),
+      ofType(FloorActions.select, FloorActions.selectFromTable),
       withLatestFrom(this.store.select(FloorSelectors.selectEntities)),
       switchMap(([{ id }, floors]) => {
         const floor = floors[id];

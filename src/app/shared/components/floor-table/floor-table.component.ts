@@ -28,12 +28,12 @@ export class FloorTableComponent implements OnInit {
 
   selectFloor(floor: Floor): void {
     if (floor) {
-      this.store.dispatch(FloorActions.select({ id: floor.id }));
+      this.store.dispatch(FloorActions.selectFromTable({ id: floor.id }));
       const ref = this.dialogService.open(FloorFormComponent, {
         header: 'Edit Floor',
       });
       ref.onClose.subscribe(() => {
-        this.store.dispatch(FloorActions.deselect());
+        this.store.dispatch(FloorActions.deselectFromTable());
       });
     }
   }

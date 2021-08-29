@@ -31,6 +31,8 @@ import { BuildingDetailsAccessPointsViewComponent } from './views/building-detai
 import { BuildingDetailsOccupancyComponent } from './components/building-details/building-details-occupancy/building-details-occupancy.component';
 import { BuildingDetailsAlertsComponent } from './components/building-details/building-details-alerts/building-details-alerts.component';
 import { BuildingDetailsAccessPointsComponent } from './components/building-details/building-details-access-points/building-details-access-points.component';
+import { FloorControlsComponent } from './components/floor-controls/floor-controls.component';
+import { FloorControlsViewComponent } from './views/floor-controls-view/floor-controls-view.component';
 
 @NgModule({
   imports: [
@@ -71,6 +73,8 @@ import { BuildingDetailsAccessPointsComponent } from './components/building-deta
     AccessPointOverviewViewComponent,
     ZoomControlsComponent,
     ZoomControlsViewComponent,
+    FloorControlsComponent,
+    FloorControlsViewComponent,
   ],
 })
 export class MapModule {}
