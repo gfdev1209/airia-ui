@@ -65,6 +65,7 @@ import { FloorFormViewComponent } from './views/floor-form-view/floor-form-view.
 import { AccessPointSearchInputComponent } from './components/access-point-search-input/access-point-search-input.component';
 import { AccessPointSearchInputViewComponent } from './views/access-point-search-input-view/access-point-search-input-view.component';
 import { LeftNavViewComponent } from './views/left-nav-view/left-nav-view.component';
+import { SortByPipe } from './pipes/sort-by.pipe';
 // Components
 
 @NgModule({
@@ -98,6 +99,7 @@ import { LeftNavViewComponent } from './views/left-nav-view/left-nav-view.compon
     UnderscoreToSpacePipe,
     EnumToSelectItemsPipe,
     EnumToArrayPipe,
+    SortByPipe,
   ],
   imports: [
     // Angular Modules
@@ -194,6 +196,7 @@ import { LeftNavViewComponent } from './views/left-nav-view/left-nav-view.compon
     UnderscoreToSpacePipe,
     EnumToSelectItemsPipe,
     EnumToArrayPipe,
+    SortByPipe,
   ],
   providers: [],
   entryComponents: [AccessPointFormComponent, FloorFormComponent],

@@ -1,0 +1,6 @@
+<app-floor-controls-view
+  [floors]="floors$ | async"
+  [selectedFloor]="selectedFloor$ | async"
+  (selectFloor)="onSelectFloor($event)"
+  (deselectFloor)="onDeselectFloor($event)"
+></app-floor-controls-view>

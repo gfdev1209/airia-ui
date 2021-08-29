@@ -9,12 +9,15 @@ import * as AccessPointActions from '@store/access-point/access-point.actions';
 import * as AccessPointSelectors from '@store/access-point/access-point.selectors';
 import * as DeviceActions from '@store/device/device.actions';
 import * as DeviceSelectors from '@store/device/device.selectors';
+import * as FloorActions from '@store/floor/floor.actions';
+import * as FloorSelectors from '@store/floor/floor.selectors';
 import { startWith, takeUntil, tap } from 'rxjs/operators';
 import { AccountInfo } from '@azure/msal-browser';
 import { MapService } from '@map/services/map.service';
 import { MapViewComponent } from '@map/views/map-view/map-view.component';
 import { interval, Subscription, timer } from 'rxjs';
 import * as moment from 'moment';
+import { Device, Floor } from '@map/models';
 
 @Component({
   selector: 'app-map',
@@ -30,6 +33,7 @@ export class MapComponent implements OnInit, OnDestroy {
         );
         this.store.dispatch(BuildingActions.getAll());
         this.store.dispatch(AccessPointActions.getAll());
+        this.store.dispatch(FloorActions.getAll());
       }
     })
   );
@@ -40,6 +44,17 @@ export class MapComponent implements OnInit, OnDestroy {
   selectedBuilding$ = this.store.select(
     BuildingSelectors.selectSelectedBuilding
   );
+  floors$ = this.store.select(FloorSelectors.selectAll);
+  selectedFloor$ = this.store
+    .select(FloorSelectors.selectSelectedFloor)
+    .pipe(
+      tap((floor) => {
+        this.selectedFloor = floor;
+        this.filterDevices(this.devices);
+      })
+    )
+    .subscribe();
+  selectedFloor?: Floor | null;
   showBuildingOverview$ = this.store.select(
     BuildingSelectors.selectShowOverview
   );
@@ -47,7 +62,18 @@ export class MapComponent implements OnInit, OnDestroy {
   selectedAccessPoint$ = this.store.select(
     AccessPointSelectors.selectSelectedAccessPoint
   );
-  devices$ = this.store.select(DeviceSelectors.selectAll);
+  devices$ = this.store
+    .select(DeviceSelectors.selectAll)
+    .pipe(
+      tap((devices) => {
+        this.devices = devices;
+        this.filterDevices(devices);
+      })
+    )
+    .subscribe();
+
+  devices: Device[] = [];
+  devicesFiltered: Device[] = [];
   selectedDevice$ = this.store.select(DeviceSelectors.selectSelectedDevice);
 
   showDevices$ = this.mapService.showDevices$;
@@ -114,6 +140,18 @@ export class MapComponent implements OnInit, OnDestroy {
       .subscribe();
   }
 
+  filterDevices(devices: Device[]): void {
+    if (this.selectedFloor) {
+      this.devicesFiltered = devices.filter(
+        (f) => f.buildingFloorId === this.selectedFloor?.id
+      );
+      console.log('filter by', this.selectedFloor);
+    } else {
+      this.devicesFiltered = devices;
+    }
+    this.mapView?.addDevices();
+  }
+
   pollForDevices(): void {
     this.devicePollingInterval$?.unsubscribe();
     this.devicePollingInterval$ = interval(this.pollingTimeMS)
@@ -138,6 +176,8 @@ export class MapComponent implements OnInit, OnDestroy {
     this.store.dispatch(AccessPointActions.select({ id }));
   }
   ngOnDestroy(): void {
+    this.selectedFloor$?.unsubscribe();
+    this.devices$?.unsubscribe();
     this.zoomIn$?.unsubscribe();
     this.zoomOut$?.unsubscribe();
     this.isPlaybackLive$.unsubscribe();

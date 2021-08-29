@@ -10,7 +10,7 @@ import {
 import * as mapboxgl from 'mapbox-gl';
 import { Map, MapboxGeoJSONFeature, Point, SymbolLayer } from 'mapbox-gl';
 import { of } from 'rxjs';
-import { AccessPoint, Building, Device, Location } from '../../models';
+import { AccessPoint, Building, Device, Floor, Location } from '../../models';
 
 @Component({
   selector: 'app-map-view',
@@ -22,6 +22,8 @@ export class MapViewComponent implements OnChanges {
   @Input() selectedLocation: Location | null = null;
   @Input() buildings: Building[] | null = [];
   @Input() selectedBuilding?: Building | null;
+  @Input() floors: Floor[] | null = [];
+  @Input() selectedFloor?: Floor | null;
   @Input() accessPoints: AccessPoint[] | null = [];
   @Input() devices: Device[] | null = [];
   @Input() selectedAccessPoint?: AccessPoint | null;

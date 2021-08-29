@@ -44,7 +44,11 @@ export const updateSuccess = createAction(
 export const updateFailed = createAction('[Floor Effect] Update Floor Failed');
 
 export const select = createAction(
-  '[Map Search Bar] Select Floor',
+  '[Map View] Select Floor',
+  props<{ id: number }>()
+);
+export const selectFromTable = createAction(
+  '[Floor Table] Select Floor',
   props<{ id: number }>()
 );
 export const selectSuccess = createAction(
@@ -53,7 +57,8 @@ export const selectSuccess = createAction(
 );
 export const selectFailed = createAction('[Floor Effect] Select Floor Failed');
 
-export const deselect = createAction('[Floor Table] Deselect Floor');
+export const deselect = createAction('[Map View] Deselect Floor');
+export const deselectFromTable = createAction('[Floor Table] Deselect Floor');
 
 export const closeFormModal = createAction(
   '[Floor Effect] Close Floor Form Modal'
