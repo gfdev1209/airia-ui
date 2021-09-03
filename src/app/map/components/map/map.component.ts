@@ -44,17 +44,21 @@ export class MapComponent implements OnInit, OnDestroy {
   selectedBuilding$ = this.store.select(
     BuildingSelectors.selectSelectedBuilding
   );
-  floors$ = this.store.select(FloorSelectors.selectAll);
-  selectedFloor$ = this.store
-    .select(FloorSelectors.selectSelectedFloor)
+  floors: Floor[] = [];
+  floors$ = this.store
+    .select(FloorSelectors.selectAll)
+    .pipe(tap((floors) => (this.floors = floors)))
+    .subscribe();
+  selectedFloorNumber$ = this.store
+    .select(FloorSelectors.selectSelectedFloorNumber)
     .pipe(
-      tap((floor) => {
-        this.selectedFloor = floor;
+      tap((floorNumber) => {
+        this.selectedFloorNumber = floorNumber;
         this.filterDevices(this.devices);
       })
     )
     .subscribe();
-  selectedFloor?: Floor | null;
+  selectedFloorNumber?: number | null;
   showBuildingOverview$ = this.store.select(
     BuildingSelectors.selectShowOverview
   );
@@ -141,11 +145,15 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   filterDevices(devices: Device[]): void {
-    if (this.selectedFloor) {
-      this.devicesFiltered = devices.filter(
-        (f) => f.buildingFloorId === this.selectedFloor?.id
+    if (this.selectedFloorNumber) {
+      const buildingFloorsWithFloorNumber = this.floors.filter(
+        (floor) => floor.floorId === this.selectedFloorNumber
       );
-      console.log('filter by', this.selectedFloor);
+      this.devicesFiltered = devices.filter((device) =>
+        buildingFloorsWithFloorNumber.find(
+          (f) => f.id === device.buildingFloorId
+        )
+      );
     } else {
       this.devicesFiltered = devices;
     }
@@ -176,8 +184,9 @@ export class MapComponent implements OnInit, OnDestroy {
     this.store.dispatch(AccessPointActions.select({ id }));
   }
   ngOnDestroy(): void {
-    this.selectedFloor$?.unsubscribe();
+    this.selectedFloorNumber$?.unsubscribe();
     this.devices$?.unsubscribe();
+    this.floors$?.unsubscribe();
     this.zoomIn$?.unsubscribe();
     this.zoomOut$?.unsubscribe();
     this.isPlaybackLive$.unsubscribe();

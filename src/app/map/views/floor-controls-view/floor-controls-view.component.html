@@ -1,12 +1,12 @@
 <ng-container *ngIf="floors">
   <button
-    *ngFor="let floor of floors | sortBy: 'desc':'floorId'"
+    *ngFor="let floorNumber of floors | sortBy: 'asc'"
     pButton
     pRipple
     type="button"
-    [label]="floor.floorId.toString()"
+    [label]="floorNumber.toString()"
     class="p-button-sm p-d-block p-button-square with-outline has-shadow p-mb-1"
-    [class.p-button-secondary]="floor.id !== selectedFloor?.id"
-    (click)="onSelectFloor(floor)"
+    [class.p-button-secondary]="floorNumber !== selectedFloorNumber"
+    (click)="onSelectFloor(floorNumber)"
   ></button>
 </ng-container>

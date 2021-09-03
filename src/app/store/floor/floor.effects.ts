@@ -72,6 +72,20 @@ export class FloorEffects {
     )
   );
 
+  selectFloorNumber$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FloorActions.selectFloorNumber),
+      switchMap(({ floorNumber }) => {
+        return of(
+          FloorActions.selectFloorNumberSuccess({
+            floorNumber,
+          })
+        );
+      }),
+      catchError(() => of(FloorActions.selectFloorNumberFailed()))
+    )
+  );
+
   add$ = createEffect(() =>
     this.actions$.pipe(
       ofType(FloorActions.add),

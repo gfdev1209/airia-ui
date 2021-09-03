@@ -15,21 +15,21 @@ import { Floor } from '@map/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FloorControlsViewComponent implements OnInit {
-  @Input() floors: Floor[] | null = [];
-  @Input() selectedFloor?: Floor | null;
-  @Output() selectFloor = new EventEmitter<Floor>();
+  @Input() floors: number[] | null = [];
+  @Input() selectedFloorNumber?: number | null;
+  @Output() selectFloor = new EventEmitter<number>();
   @Output() deselectFloor = new EventEmitter();
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  onSelectFloor(floor: Floor): void {
-    if (floor) {
-      if (floor.id === this.selectedFloor?.id) {
+  onSelectFloor(floorNumber: number): void {
+    if (floorNumber) {
+      if (floorNumber === this.selectedFloorNumber) {
         this.deselectFloor.emit();
       } else {
-        this.selectFloor.emit(floor);
+        this.selectFloor.emit(floorNumber);
       }
     }
   }

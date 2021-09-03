@@ -63,3 +63,18 @@ export const deselectFromTable = createAction('[Floor Table] Deselect Floor');
 export const closeFormModal = createAction(
   '[Floor Effect] Close Floor Form Modal'
 );
+
+export const selectFloorNumber = createAction(
+  '[Map View] Select Number Floor',
+  props<{ floorNumber: number }>()
+);
+export const selectFloorNumberSuccess = createAction(
+  '[Floor Effect] Select Floor Number Success',
+  props<{ floorNumber: number }>()
+);
+export const selectFloorNumberFailed = createAction(
+  '[Floor Effect] Select Floor Number Failed'
+);
+export const deselectFloorNumber = createAction(
+  '[Map View] Deselect Floor Number'
+);
