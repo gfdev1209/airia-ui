@@ -103,6 +103,31 @@ export const floorReducer = createReducer(
       selected: null,
     };
   }),
+
+  on(Actions.selectFloorNumber, (state) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+  on(Actions.selectFloorNumberSuccess, (state, { floorNumber }) => ({
+    ...state,
+    selectedFloorNumber: floorNumber,
+    loading: false,
+    loaded: true,
+  })),
+  on(Actions.selectFloorNumberFailed, (state) => {
+    return {
+      ...state,
+      loading: false,
+    };
+  }),
+  on(Actions.deselectFloorNumber, (state) => {
+    return {
+      ...state,
+      selectedFloorNumber: null,
+    };
+  }),
   on(Actions.closeFormModal, (state) => {
     return {
       ...state,

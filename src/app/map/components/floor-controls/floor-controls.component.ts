@@ -11,16 +11,18 @@ import * as FloorSelectors from '@store/floor/floor.selectors';
   styleUrls: ['./floor-controls.component.scss'],
 })
 export class FloorControlsComponent implements OnInit {
-  floors$ = this.store.select(FloorSelectors.selectAll);
-  selectedFloor$ = this.store.select(FloorSelectors.selectSelectedFloor);
+  floors$ = this.store.select(FloorSelectors.selectAllUnique);
+  selectedFloorNumber$ = this.store.select(
+    FloorSelectors.selectSelectedFloorNumber
+  );
   constructor(private store: Store<RootState>) {}
 
   ngOnInit(): void {}
 
-  onSelectFloor(floor: Floor): void {
-    this.store.dispatch(FloorActions.select({ id: floor?.id }));
+  onSelectFloor(floorNumber: number): void {
+    this.store.dispatch(FloorActions.selectFloorNumber({ floorNumber }));
   }
-  onDeselectFloor(floor: Floor): void {
-    this.store.dispatch(FloorActions.deselect());
+  onDeselectFloor(floorNumber: number): void {
+    this.store.dispatch(FloorActions.deselectFloorNumber());
   }
 }

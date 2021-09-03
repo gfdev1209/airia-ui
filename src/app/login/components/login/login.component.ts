@@ -73,7 +73,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this.authService.logout();
+    // this.authService.logoutRedirect().subscribe();
     this.msalBroadcastService.inProgress$
       .pipe(
         filter(

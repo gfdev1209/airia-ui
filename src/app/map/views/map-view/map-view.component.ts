@@ -11,6 +11,7 @@ import * as mapboxgl from 'mapbox-gl';
 import { Map, MapboxGeoJSONFeature, Point, SymbolLayer } from 'mapbox-gl';
 import { of } from 'rxjs';
 import { AccessPoint, Building, Device, Floor, Location } from '../../models';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-map-view',
@@ -22,7 +23,6 @@ export class MapViewComponent implements OnChanges {
   @Input() selectedLocation: Location | null = null;
   @Input() buildings: Building[] | null = [];
   @Input() selectedBuilding?: Building | null;
-  @Input() floors: Floor[] | null = [];
   @Input() selectedFloor?: Floor | null;
   @Input() accessPoints: AccessPoint[] | null = [];
   @Input() devices: Device[] | null = [];
@@ -43,6 +43,8 @@ export class MapViewComponent implements OnChanges {
 
   hoveredAccessPointId?: any;
   hoveredBuildingId?: any;
+
+  initialZoomLevel: number = environment.zoomLevel ? environment.zoomLevel : 20;
 
   constructor() {}
 
