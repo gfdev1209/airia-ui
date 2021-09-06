@@ -31,8 +31,12 @@
         <th pSortableColumn="wapmac">
           Wapmac <p-sortIcon field="wapmac"></p-sortIcon>
         </th>
-        <th *ngIf="!selectedBuilding" pSortableColumn="buildingId">
-          Building <p-sortIcon field="buildingId"></p-sortIcon>
+        <th
+          *ngIf="!selectedBuilding"
+          pSortableColumn="floor.building.buildingName"
+        >
+          Building
+          <p-sortIcon field="floor.building.buildingName"></p-sortIcon>
         </th>
         <th style="width: 5rem">Action</th>
       </tr>
@@ -87,7 +91,11 @@
           ></p-columnFilter>
         </th>
         <th *ngIf="!selectedBuilding">
-          <p-columnFilter field="buildingId" matchMode="in" [showMenu]="false">
+          <p-columnFilter
+            field="floor.buildingId"
+            matchMode="in"
+            [showMenu]="false"
+          >
             <ng-template
               pTemplate="filter"
               let-value
@@ -152,7 +160,7 @@
           {{ accessPoint.wapmac }}
         </td>
         <td *ngIf="!selectedBuilding">
-          {{ accessPoint.building?.buildingName }}
+          {{ accessPoint.floor?.building?.buildingName }}
         </td>
         <td>
           <button

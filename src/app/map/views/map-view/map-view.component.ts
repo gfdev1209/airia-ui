@@ -77,16 +77,18 @@ export class MapViewComponent implements OnChanges {
   }
 
   flyToLocation(latitude: number, longitude: number): void {
-    this.map.once('moveend', () => {
-      this.flyToBuildingComplete.emit();
-    });
-    this.map.flyTo({
-      center: [longitude, latitude],
-      essential: true,
-      speed: 0.375,
-      curve: 2.0,
-      zoom: 19,
-    });
+    if (latitude && longitude) {
+      this.map.once('moveend', () => {
+        this.flyToBuildingComplete.emit();
+      });
+      this.map.flyTo({
+        center: [longitude, latitude],
+        essential: true,
+        speed: 0.375,
+        curve: 2.0,
+        zoom: 19,
+      });
+    }
   }
 
   onZoomIn(): void {
@@ -158,7 +160,7 @@ export class MapViewComponent implements OnChanges {
       });
     }
   }
-
+  imageInit = false;
   /** Add all access points to map */
   addAccessPoints(): void {
     if (this.map && this.accessPoints && this.accessPoints.length > 0) {
@@ -167,7 +169,8 @@ export class MapViewComponent implements OnChanges {
           throw error;
         }
         // Add the image to the map style.
-        if (image) {
+        if (image && !this.imageInit) {
+          this.imageInit = true;
           this.map.addImage('accessPointImage', image);
         }
         // Add an image to use as a custom marker
@@ -191,94 +194,106 @@ export class MapViewComponent implements OnChanges {
             });
           });
         }
-        // Add a GeoJSON source with all access points
-        this.map.addSource('access-point-source', {
-          type: 'geojson',
-          data: {
+        // Add a GeoJSON source with all devices
+        const accessPointSource = this.map.getSource(
+          'access-point-source'
+        ) as mapboxgl.GeoJSONSource;
+        // If the source already exists, update the data in it
+        if (accessPointSource) {
+          accessPointSource.setData({
             type: 'FeatureCollection',
             features: pointArr,
-          },
-          cluster: true,
-          clusterMaxZoom: 17, // Max zoom to cluster points on
-          clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
-        });
-
-        // Add access point layer
-        this.map.addLayer({
-          id: 'access-points',
-          type: 'symbol',
-          source: 'access-point-source',
-          layout: {
-            'icon-image': 'accessPointImage',
-            'icon-size': {
-              base: 0.025,
-              stops: [
-                [18, 0.01],
-                [20, 0.02],
-                [22, 0.03],
-              ],
+          });
+        } else {
+          // Add a GeoJSON source with all access points
+          this.map.addSource('access-point-source', {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: pointArr,
             },
-          },
-          paint: {
-            'icon-color': '#ffffff',
-          },
-        });
+            cluster: true,
+            clusterMaxZoom: 17, // Max zoom to cluster points on
+            clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
+          });
 
-        // Add access point layer
-        this.map.addLayer({
-          id: 'access-points-circles',
-          type: 'circle',
-          source: 'access-point-source',
-          paint: {
-            'circle-color': 'transparent',
-            'circle-radius': {
-              base: 1.75,
-              stops: [
-                [18, 8],
-                [18, 2],
-                [20, 4],
-                [22, 10],
-              ],
+          // Add access point layer
+          this.map.addLayer({
+            id: 'access-points',
+            type: 'symbol',
+            source: 'access-point-source',
+            layout: {
+              'icon-image': 'accessPointImage',
+              'icon-size': {
+                base: 0.025,
+                stops: [
+                  [18, 0.01],
+                  [20, 0.02],
+                  [22, 0.03],
+                ],
+              },
             },
-            'circle-stroke-width': [
-              'case',
-              ['boolean', ['feature-state', 'hover'], false],
-              4,
-              2,
-            ],
-            'circle-stroke-color': '#F7FFD7',
-
-            'circle-stroke-opacity': {
-              default: 0.25,
-              stops: [
-                [18, 1],
-                [18, 0],
-              ],
+            paint: {
+              'icon-color': '#ffffff',
             },
-          },
-        });
+          });
 
-        // Add a cluster layer to display number of access points when zoomed out
-        this.map.addLayer({
-          id: 'access-point-clusters',
-          type: 'symbol',
-          source: 'access-point-source',
-          filter: ['has', 'point_count'],
-          paint: {
-            'text-color': '#F7FFD7',
-          },
-          layout: {
-            'text-field': '{point_count_abbreviated}',
-            'text-font': ['Arial Unicode MS Bold'],
-            'text-size': 12,
-          },
-        });
+          // Add access point layer
+          this.map.addLayer({
+            id: 'access-points-circles',
+            type: 'circle',
+            source: 'access-point-source',
+            paint: {
+              'circle-color': 'transparent',
+              'circle-radius': {
+                base: 1.75,
+                stops: [
+                  [18, 8],
+                  [18, 2],
+                  [20, 4],
+                  [22, 10],
+                ],
+              },
+              'circle-stroke-width': [
+                'case',
+                ['boolean', ['feature-state', 'hover'], false],
+                4,
+                2,
+              ],
+              'circle-stroke-color': '#F7FFD7',
 
-        if (this.map.getLayer('devices-heat')) {
-          this.map.moveLayer('devices-heat', 'access-points');
-        }
-        if (this.map.getLayer('devices')) {
-          this.map.moveLayer('devices', 'access-points');
+              'circle-stroke-opacity': {
+                default: 0.25,
+                stops: [
+                  [18, 1],
+                  [18, 0],
+                ],
+              },
+            },
+          });
+
+          // Add a cluster layer to display number of access points when zoomed out
+          this.map.addLayer({
+            id: 'access-point-clusters',
+            type: 'symbol',
+            source: 'access-point-source',
+            filter: ['has', 'point_count'],
+            paint: {
+              'text-color': '#F7FFD7',
+            },
+            layout: {
+              'text-field': '{point_count_abbreviated}',
+              'text-font': ['Arial Unicode MS Bold'],
+              'text-size': 12,
+            },
+          });
+
+          if (this.map.getLayer('devices-heat')) {
+            this.map.moveLayer('devices-heat', 'access-points');
+          }
+          if (this.map.getLayer('devices')) {
+            this.map.moveLayer('devices', 'access-points');
+          }
         }
       });
     }
@@ -289,21 +304,19 @@ export class MapViewComponent implements OnChanges {
     if (this.map && this.devices) {
       // Add an image to use as a custom marker
       const pointArr: any[] = [];
-      if (this.devices) {
-        this.devices.forEach((device) => {
-          pointArr.push({
-            type: 'Feature',
+      this.devices.forEach((device) => {
+        pointArr.push({
+          type: 'Feature',
+          id: device.id,
+          geometry: {
+            type: 'Point',
+            coordinates: [device.longitude, device.latitude],
+          },
+          properties: {
             id: device.id,
-            geometry: {
-              type: 'Point',
-              coordinates: [device.longitude, device.latitude],
-            },
-            properties: {
-              id: device.id,
-            },
-          });
+          },
         });
-      }
+      });
       // Add a GeoJSON source with all devices
       const deviceSource = this.map.getSource(
         'device-source'

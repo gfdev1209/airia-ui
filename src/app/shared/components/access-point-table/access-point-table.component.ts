@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 
 import * as AccessPointSelectors from '@store/access-point/access-point.selectors';
 import * as AccessPointActions from '@store/access-point/access-point.actions';
+import * as BuildingSelectors from '@store/building/building.selectors';
+import * as BuildingActions from '@store/building/building.actions';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AccessPointFormComponent } from '../access-point-form/access-point-form.component';
 
@@ -19,6 +21,7 @@ export class AccessPointTableComponent implements OnInit {
   @Input() showCheckboxColumn = true;
   @Input() building?: Building | null;
 
+  buildings$ = this.store.select(BuildingSelectors.selectAll);
   accessPoints$ = this.store.select(AccessPointSelectors.selectAll);
 
   constructor(
@@ -29,6 +32,7 @@ export class AccessPointTableComponent implements OnInit {
   ngOnInit(): void {
     if (!this.building) {
       this.store.dispatch(AccessPointActions.getAll());
+      this.store.dispatch(BuildingActions.getAll());
       this.accessPoints$ = this.store.select(AccessPointSelectors.selectAll);
     } else {
       this.accessPoints$ = this.store.select(

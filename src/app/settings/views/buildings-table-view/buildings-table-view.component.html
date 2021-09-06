@@ -18,10 +18,13 @@
         <th pSortableColumn="buildingName">
           Name <p-sortIcon field="buildingName"></p-sortIcon>
         </th>
-        <th style="width: 45%" pSortableColumn="buildingAddress">
+        <th pSortableColumn="buildingDescription">
+          Description <p-sortIcon field="buildingDescription"></p-sortIcon>
+        </th>
+        <th pSortableColumn="buildingAddress">
           Address <p-sortIcon field="buildingAddress"></p-sortIcon>
         </th>
-        <th pSortableColumn="floors">
+        <th style="width: 105px" pSortableColumn="floors">
           Floors <p-sortIcon field="floors"></p-sortIcon>
         </th>
         <th style="width: 100px">Action</th>
@@ -31,6 +34,9 @@
       <tr [pSelectableRow]="building">
         <td class="line-height-1-25">
           {{ building.buildingName }}
+        </td>
+        <td>
+          {{ building.buildingDescription }}
         </td>
         <td>
           {{ building.buildingAddress }}
