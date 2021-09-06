@@ -17,7 +17,7 @@ import { MapService } from '@map/services/map.service';
 import { MapViewComponent } from '@map/views/map-view/map-view.component';
 import { interval, Subscription, timer } from 'rxjs';
 import * as moment from 'moment';
-import { Device, Floor } from '@map/models';
+import { AccessPoint, Device, Floor } from '@map/models';
 
 @Component({
   selector: 'app-map',
@@ -55,6 +55,7 @@ export class MapComponent implements OnInit, OnDestroy {
       tap((floorNumber) => {
         this.selectedFloorNumber = floorNumber;
         this.filterDevices(this.devices);
+        this.filterAccessPoints(this.accessPoints);
       })
     )
     .subscribe();
@@ -62,7 +63,18 @@ export class MapComponent implements OnInit, OnDestroy {
   showBuildingOverview$ = this.store.select(
     BuildingSelectors.selectShowOverview
   );
-  accessPoints$ = this.store.select(AccessPointSelectors.selectAll);
+
+  accessPoints$ = this.store
+    .select(AccessPointSelectors.selectAll)
+    .pipe(
+      tap((accessPoints) => {
+        this.accessPoints = accessPoints;
+        this.filterAccessPoints(accessPoints);
+      })
+    )
+    .subscribe();
+  accessPoints: AccessPoint[] = [];
+  accessPointsFiltered: AccessPoint[] = [];
   selectedAccessPoint$ = this.store.select(
     AccessPointSelectors.selectSelectedAccessPoint
   );
@@ -75,7 +87,6 @@ export class MapComponent implements OnInit, OnDestroy {
       })
     )
     .subscribe();
-
   devices: Device[] = [];
   devicesFiltered: Device[] = [];
   selectedDevice$ = this.store.select(DeviceSelectors.selectSelectedDevice);
@@ -145,7 +156,7 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   filterDevices(devices: Device[]): void {
-    if (this.selectedFloorNumber) {
+    if (this.selectedFloorNumber && devices?.length > 0) {
       const buildingFloorsWithFloorNumber = this.floors.filter(
         (floor) => floor.floorId === this.selectedFloorNumber
       );
@@ -158,6 +169,20 @@ export class MapComponent implements OnInit, OnDestroy {
       this.devicesFiltered = devices;
     }
     this.mapView?.addDevices();
+  }
+
+  filterAccessPoints(accessPoints: AccessPoint[]): void {
+    if (this.selectedFloorNumber && accessPoints?.length > 0) {
+      // const buildingFloorsWithFloorNumber = this.floors.filter(
+      //   (floor) => floor.floorId === this.selectedFloorNumber
+      // );
+      this.accessPointsFiltered = accessPoints.filter(
+        (accessPoint) => accessPoint.floor?.floorId === this.selectedFloorNumber
+      );
+    } else {
+      this.accessPointsFiltered = accessPoints;
+    }
+    this.mapView?.addAccessPoints();
   }
 
   pollForDevices(): void {
@@ -186,6 +211,7 @@ export class MapComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.selectedFloorNumber$?.unsubscribe();
     this.devices$?.unsubscribe();
+    this.accessPoints$?.unsubscribe();
     this.floors$?.unsubscribe();
     this.zoomIn$?.unsubscribe();
     this.zoomOut$?.unsubscribe();

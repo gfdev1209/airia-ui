@@ -8,10 +8,11 @@ import * as BuildingSelectors from '@store/building/building.selectors';
 import * as FloorSelectors from '@store/floor/floor.selectors';
 import * as FloorActions from '@store/floor/floor.actions';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
-import { AccessPoint } from '@map/models';
+import { AccessPoint, Floor } from '@map/models';
 import { Update } from '@ngrx/entity';
 import { ofType } from '@ngrx/effects';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-access-point-form',
@@ -19,12 +20,24 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./access-point-form.component.scss'],
 })
 export class AccessPointFormComponent implements OnInit, OnDestroy {
-  accessPoint$ = this.store.select(
-    AccessPointSelectors.selectSelectedAccessPoint
-  );
   loading$ = this.store.select(AccessPointSelectors.selectLoading);
   buildings$ = this.store.select(BuildingSelectors.selectAll);
-  floors$ = this.store.select(FloorSelectors.selectAll);
+
+  floors$?: Observable<Floor[]>;
+  accessPoint$ = this.store
+    .select(AccessPointSelectors.selectSelectedAccessPoint)
+    .pipe(
+      tap((accessPoint) => {
+        if (accessPoint) {
+          this.accessPoint = accessPoint;
+          this.floors$ = this.store.select(FloorSelectors.selectByBuildingId, {
+            buildingId: accessPoint.floor?.buildingId,
+          });
+        }
+      })
+    )
+    .subscribe();
+  accessPoint?: AccessPoint;
 
   closeModal$ = new Subscription();
 
@@ -67,6 +80,7 @@ export class AccessPointFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.accessPoint$?.unsubscribe();
     this.closeModal$?.unsubscribe();
   }
 }

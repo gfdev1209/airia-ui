@@ -32,3 +32,10 @@ export const selectAllUnique = createSelector(selectAll, (state: Floor[]) => {
     .map((item) => item.floorId)
     .filter((v: any, i: any, a: any) => a.indexOf(v) === i);
 });
+
+export const selectByBuildingId = createSelector(
+  selectAll,
+  (state: any, props: any) => {
+    return state.filter((x: Floor) => x.buildingId === props.buildingId);
+  }
+);
