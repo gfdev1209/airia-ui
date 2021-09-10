@@ -43,6 +43,8 @@ export class MapViewComponent implements OnChanges {
 
   hoveredAccessPointId?: any;
   hoveredBuildingId?: any;
+  // Whether the access point image has been initialized. Prevents initializing multiple times.
+  apIconImageInitialized = false;
 
   initialZoomLevel: number = environment.zoomLevel ? environment.zoomLevel : 20;
 
@@ -120,47 +122,71 @@ export class MapViewComponent implements OnChanges {
 
   mapLoad(map: Map): void {
     this.map = map;
+    if (environment.hidePOIs === true) {
+      map.setLayoutProperty('poi-label', 'visibility', 'none');
+    }
     this.addBuildingLayers();
     this.addAccessPoints();
     this.addDevices();
   }
   addBuildingLayers(): void {
     if (this.map) {
-      this.map.addLayer({
-        id: 'building-outline',
-        type: 'line',
-        source: 'composite',
-        'source-layer': 'building',
-        paint: {
-          'line-width': 2,
-          'line-color': [
-            'case',
-            ['boolean', ['feature-state', 'hover'], false],
-            'rgba(159,100,209,1.0)',
-            'rgba(255,255,255,0.0)',
-          ],
-        },
+      // this.map.addLayer({
+      //   id: 'building-outline',
+      //   type: 'line',
+      //   source: 'composite',
+      //   'source-layer': 'building',
+      //   paint: {
+      //     'line-width': 2,
+      //     'line-color': [
+      //       'case',
+      //       ['boolean', ['feature-state', 'hover'], false],
+      //       'rgba(159,100,209,1.0)',
+      //       'rgba(255,255,255,0.0)',
+      //     ],
+      //   },
+      // });
+      // this.map.addLayer({
+      //   id: '3d-buildings',
+      //   type: 'fill',
+      //   source: 'composite',
+      //   'source-layer': 'building',
+      //   paint: {
+      //     'fill-outline-color': 'rgba(0,0,0,0)',
+      //     // 'fill-color': 'rgba(0,0,0,0)',
+      //     'fill-color': [
+      //       'case',
+      //       ['boolean', ['feature-state', 'hover'], false],
+      //       'rgba(159,100,209,0.3)',
+      //       'rgba(255,255,255,0.0)',
+      //     ],
+      //     'fill-opacity': 1.0,
+      //   },
+      // });
+
+      this.map.addSource('lakeway-source', {
+        type: 'vector',
+        // Use any Mapbox-hosted tileset using its tileset id.
+        // Learn more about where to find a tileset id:
+        // https://docs.mapbox.com/help/glossary/tileset-id/
+        url: 'mapbox://mikeairia.ckt7rxi4p0ypm27ryrt2admx3-5i7zf',
       });
       this.map.addLayer({
-        id: '3d-buildings',
-        type: 'fill',
-        source: 'composite',
-        'source-layer': 'building',
+        id: 'lakeway-layer',
+        type: 'line',
+        source: 'lakeway-source',
+        'source-layer': 'Lakeway_Christian_Academy',
+        layout: {
+          'line-join': 'round',
+          'line-cap': 'round',
+        },
         paint: {
-          'fill-outline-color': 'rgba(0,0,0,0)',
-          // 'fill-color': 'rgba(0,0,0,0)',
-          'fill-color': [
-            'case',
-            ['boolean', ['feature-state', 'hover'], false],
-            'rgba(159,100,209,0.3)',
-            'rgba(255,255,255,0.0)',
-          ],
-          'fill-opacity': 1.0,
+          'line-color': '#ff69b4',
+          'line-width': 1,
         },
       });
     }
   }
-  imageInit = false;
   /** Add all access points to map */
   addAccessPoints(): void {
     if (this.map && this.accessPoints && this.accessPoints.length > 0) {
@@ -169,8 +195,8 @@ export class MapViewComponent implements OnChanges {
           throw error;
         }
         // Add the image to the map style.
-        if (image && !this.imageInit) {
-          this.imageInit = true;
+        if (image && !this.apIconImageInitialized) {
+          this.apIconImageInitialized = true;
           this.map.addImage('accessPointImage', image);
         }
         // Add an image to use as a custom marker
@@ -522,6 +548,7 @@ export class MapViewComponent implements OnChanges {
       new Point(event.point.x, event.point.y)
     );
     features.some((feature) => {
+      console.log(feature);
       if (this.isFeatureAccessPoint(feature)) {
         // Check if this is a cluster of access points
         if (feature.properties?.cluster) {

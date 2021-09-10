@@ -5,6 +5,7 @@ export const environment = {
   mapboxAccessToken:
     'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',
   zoomLevel: 19,
+  hidePOIs: false,
   // Azure B2C Configuration
   b2cClientId: 'c5f385f7-8c81-4623-8c7c-a9bdb5929559',
   b2cNameSignUpSignIn: 'B2C_1_airiasignupin',
