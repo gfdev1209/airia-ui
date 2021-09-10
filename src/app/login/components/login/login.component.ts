@@ -24,6 +24,7 @@ import { b2cPolicies } from './../../../b2c-config';
 import * as UserActions from '@store/user/user.actions';
 import * as UserSelectors from '@store/user/user.selectors';
 import { User } from '@map/models';
+import { environment } from 'src/environments/environment';
 
 interface Payload extends AuthenticationResult {
   idTokenClaims: {
@@ -62,7 +63,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authService
       .handleRedirectObservable()
       .pipe(
-        tap(() => {
+        tap((result) => {
           return this.checkLoggedIn();
         })
       )
@@ -132,6 +133,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     ) {
       const accounts = this.authService.instance.getAllAccounts();
       this.authService.instance.setActiveAccount(accounts[0]);
+    } else if (
+      activeAccount &&
+      activeAccount.environment !== environment.b2cAuthorityDomain
+    ) {
+      console.log('logged in with another environemnt');
+      this.authService.logoutRedirect();
     }
   }
 
