@@ -43,6 +43,14 @@
             ]
           },
           "configurations": {
+            "schooldemo": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.schooldemo.ts"
+                }
+              ]
+            },
             "lakewaydev": {
               "fileReplacements": [
                 {
@@ -104,6 +112,9 @@
           "configurations": {
             "production": {
               "browserTarget": "airia:build:production"
+            },
+            "schooldemo": {
+              "browserTarget": "airia:build:schooldemo"
             },
             "lakewaydev": {
               "browserTarget": "airia:build:lakewaydev"
