@@ -166,28 +166,27 @@ export class MapViewComponent implements OnChanges {
       //     'fill-opacity': 1.0,
       //   },
       // });
-
-      this.map.addSource('lakeway-source', {
-        type: 'vector',
-        // Use any Mapbox-hosted tileset using its tileset id.
-        // Learn more about where to find a tileset id:
-        // https://docs.mapbox.com/help/glossary/tileset-id/
-        url: 'mapbox://mikeairia.ckt7rxi4p0ypm27ryrt2admx3-5i7zf',
-      });
-      this.map.addLayer({
-        id: 'lakeway-layer',
-        type: 'line',
-        source: 'lakeway-source',
-        'source-layer': 'Lakeway_Christian_Academy',
-        layout: {
-          'line-join': 'round',
-          'line-cap': 'round',
-        },
-        paint: {
-          'line-color': '#ff69b4',
-          'line-width': 1,
-        },
-      });
+      // this.map.addSource('lakeway-source', {
+      //   type: 'vector',
+      //   // Use any Mapbox-hosted tileset using its tileset id.
+      //   // Learn more about where to find a tileset id:
+      //   // https://docs.mapbox.com/help/glossary/tileset-id/
+      //   url: 'mapbox://mikeairia.ckt7rxi4p0ypm27ryrt2admx3-5i7zf',
+      // });
+      // this.map.addLayer({
+      //   id: 'lakeway-layer',
+      //   type: 'line',
+      //   source: 'lakeway-source',
+      //   'source-layer': 'Lakeway_Christian_Academy',
+      //   layout: {
+      //     'line-join': 'round',
+      //     'line-cap': 'round',
+      //   },
+      //   paint: {
+      //     'line-color': '#ff69b4',
+      //     'line-width': 1,
+      //   },
+      // });
     }
   }
   /** Add all access points to map */
