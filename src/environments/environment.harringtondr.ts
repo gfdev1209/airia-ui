@@ -6,6 +6,7 @@ export const environment = {
     'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',
   zoomLevel: 19,
   hidePOIs: false,
+  hideStreetLabels: false,
   // Azure B2C Configuration
   b2cClientId: '07a24a28-4224-438b-a4a8-e386247a50f1',
   b2cNameSignUpSignIn: 'B2C_1_airiasignupin',
