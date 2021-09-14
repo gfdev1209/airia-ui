@@ -125,6 +125,9 @@ export class MapViewComponent implements OnChanges {
     if (environment.hidePOIs === true) {
       map.setLayoutProperty('poi-label', 'visibility', 'none');
     }
+    if (environment.hideStreetLabels === true) {
+      map.setLayoutProperty('road-label-simple', 'visibility', 'none');
+    }
     this.addBuildingLayers();
     this.addAccessPoints();
     this.addDevices();
