@@ -128,9 +128,16 @@ export class MapViewComponent implements OnChanges {
     if (environment.hideStreetLabels === true) {
       map.setLayoutProperty('road-label-simple', 'visibility', 'none');
     }
+    this.disableRotate();
     this.addBuildingLayers();
     this.addAccessPoints();
     this.addDevices();
+  }
+  disableRotate(): void {
+    // disable map rotation using right click + drag
+    this.map.dragRotate.disable();
+    // disable map rotation using touch rotation gesture
+    this.map.touchZoomRotate.disableRotation();
   }
   addBuildingLayers(): void {
     if (this.map) {
