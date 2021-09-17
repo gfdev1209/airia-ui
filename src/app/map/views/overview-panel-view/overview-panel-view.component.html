@@ -24,11 +24,13 @@
               <h3 class="p-m-0">{{ selectedLocation?.name }}</h3>
               <div class="p-d-flex p-jc-between color-text-medium">
                 <div class="p-flex-column">
-                  <small>{{ mapDateTime | date: "longDate" }}</small>
-                  &nbsp;<small>{{ mapDateTime | date: "shortTime" }}</small>
-                  <small *ngIf="isPlaybackLive" class="color-red">
-                    &nbsp; <strong>LIVE</strong></small
-                  >
+                  <small>
+                    {{ mapDateTime | date: "EEEE, MMM d, y" }}
+                    &nbsp;{{ mapDateTime | date: "shortTime" }}
+                    <span *ngIf="isPlaybackLive" class="color-red">
+                      <br /><strong>LIVE</strong>
+                    </span>
+                  </small>
                 </div>
               </div>
             </div>
