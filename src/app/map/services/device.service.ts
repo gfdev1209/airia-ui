@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BaseService } from '@shared/services/base.service';
 import { Device } from '@map/models';
 import { Observable } from 'rxjs';
-import { retry, map, catchError, share } from 'rxjs/operators';
+import { retry, map, catchError, share, debounceTime } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +15,7 @@ export class DeviceService extends BaseService {
 
   getSeenFromMinutes(fromMin: number): Observable<Device[]> {
     return this.http.get(`${this.apiUrl}/Seen/From/${fromMin}`).pipe(
+      debounceTime(1000),
       retry(2),
       map((response: any) => this.mapArrayResponseToObject(response)),
       catchError((error) => {
@@ -26,6 +27,7 @@ export class DeviceService extends BaseService {
 
   getSeenFromDate(from: Date): Observable<Device[]> {
     return this.http.get(`${this.apiUrl}/Seen/From/${from.toJSON()}`).pipe(
+      debounceTime(1000),
       retry(2),
       map((response: any) => this.mapArrayResponseToObject(response)),
       catchError((error) => {
@@ -39,6 +41,7 @@ export class DeviceService extends BaseService {
     return this.http
       .get(`${this.apiUrl}/Seen/From/${from.toJSON()}/To/${to.toJSON()}`)
       .pipe(
+        debounceTime(1000),
         retry(2),
         map((response: any) => this.mapArrayResponseToObject(response)),
         catchError((error) => {

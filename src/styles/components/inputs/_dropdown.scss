@@ -15,3 +15,19 @@ small .p-dropdown {
     width: 2rem;
   }
 }
+.p-dropdown {
+  &.tiny {
+    .p-dropdown-label {
+      padding: 0.1rem 0.5rem;
+      padding-right: 0;
+    }
+    &.no-arrow {
+      .p-dropdown-label {
+        padding-right: 0.5rem;
+      }
+      .p-dropdown-trigger {
+        display: none;
+      }
+    }
+  }
+}

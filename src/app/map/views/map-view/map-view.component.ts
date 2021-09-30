@@ -3,15 +3,15 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
-import { Map, MapboxGeoJSONFeature, Point, SymbolLayer } from 'mapbox-gl';
-import { of } from 'rxjs';
+import { Map, MapboxGeoJSONFeature, Point } from 'mapbox-gl';
 import { AccessPoint, Building, Device, Floor, Location } from '../../models';
 import { environment } from 'src/environments/environment';
+import { DeviceMapboxDetails } from '@map/models/device-mapbox-details.model';
+import Helpers from '@core/utils/helpers';
 
 @Component({
   selector: 'app-map-view',
@@ -26,8 +26,10 @@ export class MapViewComponent implements OnChanges {
   @Input() selectedFloor?: Floor | null;
   @Input() accessPoints: AccessPoint[] | null = [];
   @Input() devices: Device[] | null = [];
+  @Input() deviceLoading: boolean | null = false;
   @Input() selectedAccessPoint?: AccessPoint | null;
   @Input() showDevices?: boolean | null = true;
+  @Input() showStaticDevices?: boolean | null = true;
   @Input() showAccessPoints?: boolean | null = true;
 
   @Input() showBuildingOverview: boolean | null = false;
@@ -36,17 +38,36 @@ export class MapViewComponent implements OnChanges {
   @Output() clickedBuildingId = new EventEmitter<number>();
   @Output() clickedAccessPoint = new EventEmitter<number>();
 
+  // Reference to the MapBox map component
   map!: Map;
+  // A stored list of all buildings that are highlighted to enable/disable hover effect in MapBox
   highlightedBuildings: MapboxGeoJSONFeature[] = [];
   // Position of the selected feature (coordinates set in object do not match for some reason)
   selectedPosition?: number[];
-
+  // The ID of the access point or building that the user is hovering over (stored to display hover effect)
   hoveredAccessPointId?: any;
   hoveredBuildingId?: any;
   // Whether the access point image has been initialized. Prevents initializing multiple times.
   apIconImageInitialized = false;
-
+  // The initial zoom level to display the map
   initialZoomLevel: number = environment.zoomLevel ? environment.zoomLevel : 20;
+  // Device display settings for mapbox
+  liveDeviceDetails: DeviceMapboxDetails = {
+    id: 'devices',
+    sourceName: 'devices-source',
+    heatmapName: 'devices-heatmap',
+    circleColor: '#00c1ff',
+    circleRadius: 2,
+    heatmapColorRGB: '2, 185, 251',
+  };
+  staticDeviceDetails: DeviceMapboxDetails = {
+    id: 'staticDevices',
+    sourceName: 'static-devices-source',
+    heatmapName: 'static-devices-heatmap',
+    circleColor: '#c702fb',
+    circleRadius: 2,
+    heatmapColorRGB: '199, 2, 251',
+  };
 
   constructor() {}
 
@@ -75,6 +96,9 @@ export class MapViewComponent implements OnChanges {
     }
     if (changes.showDevices?.firstChange === false) {
       this.toggleDevices();
+    }
+    if (changes.showStaticDevices?.firstChange === false) {
+      this.toggleIOT();
     }
   }
 
@@ -114,10 +138,36 @@ export class MapViewComponent implements OnChanges {
       visibility
     );
   }
+
   toggleDevices(): void {
     const visibility = this.showDevices ? 'visible' : 'none';
-    this.map.setLayoutProperty('devices', 'visibility', visibility);
-    this.map.setLayoutProperty('devices-heat', 'visibility', visibility);
+    this.map.setLayoutProperty(
+      this.liveDeviceDetails.id,
+      'visibility',
+      visibility
+    );
+    if (this.liveDeviceDetails.heatmapName) {
+      this.map.setLayoutProperty(
+        this.liveDeviceDetails.heatmapName,
+        'visibility',
+        visibility
+      );
+    }
+  }
+  toggleIOT(): void {
+    const visibility = this.showStaticDevices ? 'visible' : 'none';
+    this.map.setLayoutProperty(
+      this.staticDeviceDetails.id,
+      'visibility',
+      visibility
+    );
+    if (this.staticDeviceDetails.heatmapName) {
+      this.map.setLayoutProperty(
+        this.staticDeviceDetails.heatmapName,
+        'visibility',
+        visibility
+      );
+    }
   }
 
   mapLoad(map: Map): void {
@@ -323,11 +373,14 @@ export class MapViewComponent implements OnChanges {
             },
           });
 
-          if (this.map.getLayer('devices-heat')) {
-            this.map.moveLayer('devices-heat', 'access-points');
+          if (this.map.getLayer(this.liveDeviceDetails.heatmapName)) {
+            this.map.moveLayer(
+              this.liveDeviceDetails.heatmapName,
+              'access-points'
+            );
           }
-          if (this.map.getLayer('devices')) {
-            this.map.moveLayer('devices', 'access-points');
+          if (this.map.getLayer(this.liveDeviceDetails.id)) {
+            this.map.moveLayer(this.liveDeviceDetails.id, 'access-points');
           }
         }
       });
@@ -337,142 +390,132 @@ export class MapViewComponent implements OnChanges {
   /** Add all devices to map */
   addDevices(): void {
     if (this.map && this.devices) {
-      // Add an image to use as a custom marker
-      const pointArr: any[] = [];
-      this.devices.forEach((device) => {
-        pointArr.push({
-          type: 'Feature',
+      const staticDevices = Helpers.filterArrayBy<Device>(
+        this.devices,
+        'ssid',
+        'iot',
+        true
+      );
+      if (staticDevices) {
+        this.addDevicesToMap(staticDevices, this.staticDeviceDetails);
+      }
+      const liveDevices = Helpers.filterArrayBy<Device>(
+        this.devices,
+        'ssid',
+        'iot',
+        false
+      );
+      if (liveDevices) {
+        this.addDevicesToMap(liveDevices, this.liveDeviceDetails);
+      }
+    }
+  }
+
+  addDevicesToMap(devices: Device[], deviceDetails: DeviceMapboxDetails): void {
+    // Add an image to use as a custom marker
+    const pointArr: any[] = [];
+    devices.forEach((device) => {
+      pointArr.push({
+        type: 'Feature',
+        id: device.id,
+        geometry: {
+          type: 'Point',
+          coordinates: [device.longitude, device.latitude],
+        },
+        properties: {
           id: device.id,
-          geometry: {
-            type: 'Point',
-            coordinates: [device.longitude, device.latitude],
-          },
-          properties: {
-            id: device.id,
-          },
-        });
+        },
       });
-      // Add a GeoJSON source with all devices
-      const deviceSource = this.map.getSource(
-        'device-source'
-      ) as mapboxgl.GeoJSONSource;
-      // If the source already exists, update the data in it
-      if (deviceSource) {
-        deviceSource.setData({
+    });
+    // Add a GeoJSON source with all devices
+    const deviceSource = this.map.getSource(
+      deviceDetails.sourceName
+    ) as mapboxgl.GeoJSONSource;
+    // If the source already exists, update the data in it
+    if (deviceSource) {
+      deviceSource.setData({
+        type: 'FeatureCollection',
+        features: pointArr,
+      });
+    } else {
+      this.map.addSource(deviceDetails.sourceName, {
+        type: 'geojson',
+        data: {
           type: 'FeatureCollection',
           features: pointArr,
-        });
-      } else {
-        this.map.addSource('device-source', {
-          type: 'geojson',
-          data: {
-            type: 'FeatureCollection',
-            features: pointArr,
-          },
-          cluster: false,
-          clusterMaxZoom: 17, // Max zoom to cluster points on
-          clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
-        });
+        },
+        cluster: false,
+        clusterMaxZoom: 17, // Max zoom to cluster points on
+        clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
+      });
 
-        // Add device layer
-        this.map.addLayer({
-          id: 'devices-heat',
-          type: 'heatmap',
-          source: 'device-source',
-          maxzoom: 24,
-          paint: {
-            // increase weight as diameter breast height increases
-            // 'heatmap-weight': {
-            //   property: 'dbh',
-            //   type: 'exponential',
-            //   stops: [
-            //     [1, 0],
-            //     [62, 0.15],
-            //   ],
-            // },
-            // increase intensity as zoom level increases
-            'heatmap-intensity': {
-              stops: [
-                [16, 0.5],
-                [24, 1],
-              ],
-            },
-            // assign color values be applied to points depending on their density
-            'heatmap-color': [
-              'interpolate',
-              ['linear'],
-              ['heatmap-density'],
-              0,
-              'rgba(199, 2, 251,0)',
-              0.25,
-              'rgba(199, 2, 251,0.5)',
-              0.5,
-              'rgba(199, 2, 251,0.75)',
-              0.8,
-              'rgb(199, 2, 251)',
+      // Add device layer
+      this.map.addLayer({
+        id: deviceDetails.heatmapName,
+        type: 'heatmap',
+        source: deviceDetails.sourceName,
+        maxzoom: 24,
+        paint: {
+          // increase intensity as zoom level increases
+          'heatmap-intensity': {
+            stops: [
+              [16, 0.5],
+              [24, 1],
             ],
-            // increase radius as zoom increases
-            'heatmap-radius': {
-              stops: [
-                [16, 20],
-                [24, 60],
-              ],
-            },
-            // decrease opacity to transition into the circle layer
-            'heatmap-opacity': {
-              default: 0.25,
-              stops: [
-                [20, 0.35],
-                [22, 0],
-              ],
-            },
           },
-        });
-        // Add device layer
-        this.map.addLayer({
-          id: 'devices',
-          type: 'circle',
-          source: 'device-source',
-          paint: {
-            'circle-color': '#c702fb',
-            'circle-radius': {
-              base: 1.75,
-              stops: [
-                [20, 2],
-                [20, 2],
-                [22, 6],
-              ],
-            },
-            // 'circle-opacity': {
-            //   default: 0.25,
-            //   stops: [
-            //     [19, 0],
-            //     [20, 1],
-            //   ],
-            // },
+          // assign color values be applied to points depending on their density
+          'heatmap-color': [
+            'interpolate',
+            ['linear'],
+            ['heatmap-density'],
+            0,
+            'rgba(' + deviceDetails.heatmapColorRGB + ',0)',
+            0.25,
+            'rgba(' + deviceDetails.heatmapColorRGB + ',0.5)',
+            0.5,
+            'rgba(' + deviceDetails.heatmapColorRGB + ',0.75)',
+            0.8,
+            'rgb(' + deviceDetails.heatmapColorRGB + ')',
+          ],
+          // increase radius as zoom increases
+          'heatmap-radius': {
+            stops: [
+              [16, 20],
+              [24, 60],
+            ],
           },
-        });
-      }
-      if (this.map.getLayer('access-points')) {
-        this.map.moveLayer('devices-heat', 'access-points');
-        this.map.moveLayer('devices', 'access-points');
-      }
-
-      // // Add a cluster layer to display number of access points when zoomed out
-      // this.map.addLayer({
-      //   id: 'device-cluster-count',
-      //   type: 'symbol',
-      //   source: 'device-source',
-      //   filter: ['has', 'point_count'],
-      //   paint: {
-      //     'text-color': '#ffffff',
-      //   },
-      //   layout: {
-      //     'text-field': '{point_count_abbreviated}',
-      //     'text-font': ['Arial Unicode MS Bold'],
-      //     'text-size': 12,
-      //   },
-      // });
+          // decrease opacity to transition into the circle layer
+          'heatmap-opacity': {
+            default: 0.25,
+            stops: [
+              [16, 0.4],
+              [20, 0.1],
+              [22, 0],
+            ],
+          },
+        },
+      });
+      // Add device layer
+      this.map.addLayer({
+        id: deviceDetails.id,
+        type: 'circle',
+        source: deviceDetails.sourceName,
+        paint: {
+          'circle-color': deviceDetails.circleColor,
+          'circle-radius': {
+            base: 1,
+            stops: [
+              [16, deviceDetails.circleRadius],
+              [20, deviceDetails.circleRadius * 2],
+              [22, deviceDetails.circleRadius * 3],
+            ],
+          },
+        },
+      });
+    }
+    if (this.map.getLayer('access-points')) {
+      this.map.moveLayer(deviceDetails.heatmapName, 'access-points');
+      this.map.moveLayer(deviceDetails.id, 'access-points');
     }
   }
 

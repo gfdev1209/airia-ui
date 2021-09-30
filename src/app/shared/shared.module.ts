@@ -36,6 +36,7 @@ import { ToastModule as PrimeToastModule } from 'primeng/toast';
 import { InputNumberModule as PrimeInputNumberModule } from 'primeng/inputnumber';
 import { ChipsModule as PrimeChipsModule } from 'primeng/chips';
 import { TabMenuModule as PrimeTabMenuModule } from 'primeng/tabmenu';
+import { SliderModule as PrimeSliderModule } from 'primeng/slider';
 
 // Components
 import { LeftNavComponent } from './components/left-nav/left-nav.component';
@@ -140,6 +141,7 @@ import { SortByPipe } from './pipes/sort-by.pipe';
     PrimeInputNumberModule,
     PrimeChipsModule,
     PrimeTabMenuModule,
+    PrimeSliderModule,
   ],
   exports: [
     // Components
@@ -190,6 +192,7 @@ import { SortByPipe } from './pipes/sort-by.pipe';
     PrimeInputNumberModule,
     PrimeChipsModule,
     PrimeTabMenuModule,
+    PrimeSliderModule,
     // Pipes
     AlertIconByTypePipe,
     ColorByAlertSeverityPipe,

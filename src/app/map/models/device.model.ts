@@ -14,6 +14,7 @@ export class Device {
   latitude!: number;
   longitude!: number;
   rssi?: number;
+  ssid?: string;
   manufacturer!: string;
   ipv4?: string;
   ipv6?: string;
@@ -33,6 +34,7 @@ export class Device {
     latitude: number;
     longitude: number;
     rssi: number;
+    ssid: string;
     manufacturer: string;
     ipv4: string;
     ipv6: string;
@@ -51,6 +53,7 @@ export class Device {
     this.latitude = args.latitude;
     this.longitude = args.longitude;
     this.rssi = args.rssi;
+    this.ssid = args.ssid;
     this.manufacturer = args.manufacturer;
     this.ipv4 = args.ipv4;
     this.ipv6 = args.ipv6;

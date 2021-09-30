@@ -25,6 +25,57 @@
     }
   }
 
+  .playback-live-indicator {
+    display: inline-block;
+    background: #ee4057;
+    border-radius: 5px;
+    padding: 3px 6px;
+    color: white;
+    line-height: 1;
+  }
+
+  .p-button.p-button-icon-only.btn-playback {
+    padding: 0.5rem 0.75rem;
+    width: inherit;
+    height: inherit;
+    border: none;
+    color: white;
+
+    &.is-active {
+      color: inherit;
+    }
+
+    .p-button-icon {
+      font-size: 1.5rem;
+      top: 2px;
+    }
+  }
+
+  .p-button.p-button-sm.p-button-outlined.btn-skip-time {
+    padding: 0;
+    border: none;
+    position: relative;
+    height: 32px;
+    width: 32px;
+    flex-shrink: 0;
+    background: none;
+    .p-button-icon {
+      font-size: 32px;
+      position: absolute;
+    }
+    .p-button-label {
+      position: relative;
+      top: 2px;
+      left: -1px;
+      letter-spacing: -1px;
+    }
+  }
+
+  .dd-playback-speed {
+    text-align: center;
+    width: 44px;
+  }
+
   .zoom-controls {
     position: absolute;
     left: -40px;
