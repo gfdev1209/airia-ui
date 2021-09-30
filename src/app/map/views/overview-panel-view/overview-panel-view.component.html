@@ -25,10 +25,12 @@
               <div class="p-d-flex p-jc-between color-text-medium">
                 <div class="p-flex-column">
                   <small>
-                    {{ mapDateTime | date: "EEEE, MMM d, y" }}
-                    &nbsp;{{ mapDateTime | date: "shortTime" }}
-                    <span *ngIf="isPlaybackLive" class="color-red">
-                      <br /><strong>LIVE</strong>
+                    {{ mapDateTime | date: "EEEE, MMM d, y" }}<br />
+                    {{ mapDateTime | date: "shortTime" }}
+                    <span
+                      *ngIf="isPlaybackLive"
+                      class="playback-live-indicator p-ml-1"
+                      ><strong>LIVE</strong>
                     </span>
                   </small>
                 </div>
@@ -49,144 +51,201 @@
                   </div>
                   <div class="p-flex-column">
                     <p-calendar
-                      [(ngModel)]="playbackDate"
                       [showIcon]="true"
+                      [maxDate]="currentDateTime"
                       icon="fas fa-clock"
                       inputId="icon"
                       appendTo="body"
                       class="only-icon"
                       (click)="stopPropagation($event)"
+                      (onShow)="onCalendarOpen($event)"
                       (onSelect)="onPlaybackCalendarSelect($event)"
                       panelStyleClass="small"
                       [showTime]="true"
                       hourFormat="12"
+                      [disabled]="isDevicesLoading === true"
                     ></p-calendar>
                   </div>
                 </ng-template>
                 <ng-template pTemplate="content">
-                  <div class="p-d-flex p-ai-center">
-                    <div class="p-flex-column p-as-stretch">
-                      <button
-                        pButton
-                        pRipple
-                        type="button"
-                        [icon]="isPlaybackLive ? 'fas fa-pause' : 'fas fa-play'"
-                        class="btn-playback p-button-outlined height-100 p-mr-2"
-                        [ngClass]="{ 'is-active': isPlaybackLive === true }"
-                        (click)="onTogglePlayback()"
-                      ></button>
+                  <div class="p-d-flex p-ai-center p-jc-between">
+                    <button
+                      pButton
+                      pRipple
+                      type="button"
+                      label="1d"
+                      icon="fak fa-skip-time-back"
+                      class="
+                        btn-skip-time
+                        p-button-secondary
+                        p-button-sm
+                        p-button-xs
+                        p-button-outlined
+                      "
+                      [disabled]="isDevicesLoading === true"
+                      (click)="onPlaybackIntervalChange(-1, 'day')"
+                    ></button>
+                    <button
+                      pButton
+                      pRipple
+                      type="button"
+                      label="1hr"
+                      icon="fak fa-skip-time-back"
+                      class="
+                        btn-skip-time
+                        p-button-secondary
+                        p-button-sm
+                        p-button-xs
+                        p-button-outlined
+                      "
+                      [disabled]="isDevicesLoading === true"
+                      (click)="onPlaybackIntervalChange(-1, 'hour')"
+                    ></button>
+                    <button
+                      pButton
+                      pRipple
+                      type="button"
+                      label="1m"
+                      icon="fak fa-skip-time-back"
+                      class="
+                        btn-skip-time
+                        p-button-secondary
+                        p-button-sm
+                        p-button-xs
+                        p-button-outlined
+                      "
+                      [disabled]="isDevicesLoading === true"
+                      (click)="onPlaybackIntervalChange(-1, 'minute')"
+                    ></button>
+                    <button
+                      pButton
+                      pRipple
+                      type="button"
+                      [icon]="
+                        isDevicesLoading === true
+                          ? 'fal fa-sync fa-spin'
+                          : isPlaying || isPlaybackLive
+                          ? 'fas fa-pause'
+                          : 'fas fa-play'
+                      "
+                      class="btn-playback p-button-outlined"
+                      [ngClass]="{
+                        'is-active': isPlaying === true,
+                        'opacity-100': isDevicesLoading === true
+                      }"
+                      [disabled]="isDevicesLoading === true"
+                      (click)="onTogglePlayback()"
+                    ></button>
+                    <button
+                      pButton
+                      pRipple
+                      type="button"
+                      label="1d"
+                      icon="fak fa-skip-time-forward"
+                      class="
+                        btn-skip-time
+                        p-button-secondary
+                        p-button-sm
+                        p-button-xs
+                        p-button-outlined
+                      "
+                      (click)="onPlaybackIntervalChange(1, 'day')"
+                      [disabled]="
+                        isPlaybackLive ||
+                        isDateInFuture(1, 'day') ||
+                        isDevicesLoading === true
+                      "
+                    ></button>
+                    <button
+                      pButton
+                      pRipple
+                      type="button"
+                      label="1hr"
+                      icon="fak fa-skip-time-forward"
+                      class="
+                        btn-skip-time
+                        p-button-secondary
+                        p-button-sm
+                        p-button-xs
+                        p-button-outlined
+                      "
+                      (click)="onPlaybackIntervalChange(1, 'hour')"
+                      [disabled]="
+                        isPlaybackLive ||
+                        isDateInFuture(1, 'hour') ||
+                        isDevicesLoading === true
+                      "
+                    ></button>
+                    <button
+                      pButton
+                      pRipple
+                      type="button"
+                      label="1m"
+                      icon="fak fa-skip-time-forward"
+                      class="
+                        btn-skip-time
+                        p-button-secondary
+                        p-button-sm
+                        p-button-xs
+                        p-button-outlined
+                      "
+                      (click)="onPlaybackIntervalChange(1, 'minute')"
+                      [disabled]="
+                        isPlaybackLive ||
+                        isDateInFuture(1, 'minute') ||
+                        isDevicesLoading === true
+                      "
+                    ></button>
+                  </div>
+                  <div class="p-d-flex p-ai-center p-jc-between p-mt-2">
+                    <div class="p-ml-2 p-mr-3 flex-grow-1">
+                      <p-slider
+                        [(ngModel)]="playbackSliderValue"
+                        [animate]="false"
+                        [min]="0"
+                        [max]="10"
+                        [disabled]="
+                          isPlaybackLive === null ||
+                          isPlaybackLive === true ||
+                          isDevicesLoading === true
+                        "
+                        (onChange)="onPlaybackSliderChange($event)"
+                      ></p-slider>
                     </div>
-                    <div class="p-flex-column flex-grow-1 p-text-right">
-                      <div class="p-d-flex p-jc-evenly p-ai-center">
+                    <div class="p-mr-2">
+                      <small>
                         <button
                           pButton
                           pRipple
                           type="button"
-                          label="1d"
-                          icon="fas fa-chevron-double-left"
-                          class="
-                            width-100
-                            p-button-secondary
-                            p-button-sm
-                            p-button-xs
-                            p-button-outlined
-                            p-mr-1
-                            p-mb-1
-                          "
-                          (click)="onPlaybackIntervalChange(-1, 'day')"
-                        ></button>
-                        <button
-                          pButton
-                          pRipple
-                          type="button"
-                          label="1hr"
-                          icon="fas fa-chevron-left"
-                          class="
-                            width-100
-                            p-button-secondary
-                            p-button-sm
-                            p-button-xs
-                            p-button-outlined
-                            p-mr-1
-                            p-mb-1
-                          "
-                          (click)="onPlaybackIntervalChange(-1, 'hour')"
-                        ></button>
-                        <button
-                          pButton
-                          pRipple
-                          type="button"
-                          label="1m"
-                          icon="fas fa-chevron-left"
-                          class="
-                            width-100
-                            p-button-secondary
-                            p-button-sm
-                            p-button-xs
-                            p-button-outlined
-                            p-mb-1
-                          "
-                          (click)="onPlaybackIntervalChange(-1, 'minute')"
-                        ></button>
-                      </div>
-                      <div class="p-d-flex p-jc-evenly p-ai-center">
-                        <button
-                          pButton
-                          pRipple
-                          type="button"
-                          label="1d"
-                          icon="fas fa-chevron-double-right"
-                          class="
-                            width-100
-                            p-button-secondary
-                            p-button-sm
-                            p-button-xs
-                            p-button-outlined
-                            p-mr-1
-                          "
-                          (click)="onPlaybackIntervalChange(1, 'day')"
+                          label="LIVE"
+                          class="p-button-secondary p-button-sm"
+                          (click)="onToggleLive()"
                           [disabled]="
-                            isPlaybackLive || isDateInFuture(1, 'day')
+                            isPlaybackLive || isDevicesLoading === true
                           "
                         ></button>
-                        <button
-                          pButton
-                          pRipple
-                          type="button"
-                          label="1hr"
-                          icon="fas fa-chevron-right"
-                          class="
-                            width-100
-                            p-button-secondary
-                            p-button-sm
-                            p-button-xs
-                            p-button-outlined
-                            p-mr-1
-                          "
-                          (click)="onPlaybackIntervalChange(1, 'hour')"
+                      </small>
+                    </div>
+                    <div>
+                      <small>
+                        <p-dropdown
+                          [(ngModel)]="playbackSpeed"
+                          [options]="playbackOptions"
+                          (click)="stopPropagation($event)"
+                          (onChange)="onPlaybackSpeedChange($event)"
+                          appendTo="body"
+                          placeholder="1.5x"
+                          optionLabel="name"
+                          optionValue="value"
+                          value="2"
+                          styleClass="dd-playback-speed tiny no-arrow"
+                          dropdownIcon="fas fa-chevron-down"
                           [disabled]="
-                            isPlaybackLive || isDateInFuture(1, 'hour')
+                            isPlaybackLive || isDevicesLoading === true
                           "
-                        ></button>
-                        <button
-                          pButton
-                          pRipple
-                          type="button"
-                          label="1m"
-                          icon="fas fa-chevron-right"
-                          class="
-                            width-100
-                            p-button-secondary
-                            p-button-sm
-                            p-button-xs
-                            p-button-outlined
-                          "
-                          (click)="onPlaybackIntervalChange(1, 'minute')"
-                          [disabled]="
-                            isPlaybackLive || isDateInFuture(1, 'minute')
-                          "
-                        ></button>
-                      </div>
+                        ></p-dropdown>
+                      </small>
                     </div>
                   </div>
                 </ng-template>
@@ -196,26 +255,9 @@
                   <i class="icon fas fa-eye fa-fw p-mr-2"></i> Map View
                 </ng-template>
                 <ng-template pTemplate="content">
-                  <!-- <div class="p-d-flex p-align-center">
-                    <div class="p-flex-column flex-grow-1">
-                      <label for="footTraffic">
-                        <i class="fas fa-check p-mr-2"></i>
-                        <small class="color-text-medium">Foot Traffic</small>
-                      </label>
-                    </div>
-                    <div class="p-flex-column">
-                      <small>
-                        <p-inputSwitch
-                          inputId="footTraffic"
-                          [(ngModel)]="footTraffic"
-                        ></p-inputSwitch
-                      ></small>
-                    </div>
-                  </div> -->
                   <div class="p-d-flex p-align-center p-mt-2">
                     <div class="p-flex-column flex-grow-1">
                       <label for="staticDevices">
-                        <!-- <i class="fas fa-check p-mr-2 color-primary"></i> -->
                         <div class="icoDevice"></div>
                         <small class="color-text-medium">Devices</small>
                       </label>
@@ -232,8 +274,24 @@
                   </div>
                   <div class="p-d-flex p-align-center p-mt-2">
                     <div class="p-flex-column flex-grow-1">
+                      <label for="iotDevices">
+                        <div class="icoIOT"></div>
+                        <small class="color-text-medium">Static IOT</small>
+                      </label>
+                    </div>
+                    <div class="p-flex-column">
+                      <small>
+                        <p-inputSwitch
+                          inputId="iotDevices"
+                          [(ngModel)]="iotDevices"
+                          (onChange)="onToggleIOT($event)"
+                        ></p-inputSwitch
+                      ></small>
+                    </div>
+                  </div>
+                  <div class="p-d-flex p-align-center p-mt-2">
+                    <div class="p-flex-column flex-grow-1">
                       <label for="accessPoints">
-                        <!-- <i class="fas fa-check p-mr-2"></i> -->
                         <img
                           src="./assets/img/access-point.png"
                           class="icoAccessPoint"
@@ -251,39 +309,6 @@
                       ></small>
                     </div>
                   </div>
-                  <!-- <h5 class="p-mb-2">Data Density</h5>
-                  <div class="p-d-flex p-jc-between">
-                    <div>
-                      <small class="color-text-medium display-block p-mb-2">
-                        Foot Traffic
-                      </small>
-                      <div>
-                        <i class="fas fa-check fa-fw p-mr-2"></i>
-                        <small class="color-text-medium">1 - 5</small>
-                      </div>
-                      <div>
-                        <i class="fas fa-check fa-fw p-mr-2"></i>
-                        <small class="color-text-medium">25 - 50</small>
-                      </div>
-                      <div>
-                        <i class="fas fa-check fa-fw p-mr-2"></i>
-                        <small class="color-text-medium">50+</small>
-                      </div>
-                    </div>
-                    <div>
-                      <small class="color-text-medium display-block p-mb-2">
-                        Static Devices
-                      </small>
-                      <div>
-                        <i class="fas fa-check fa-fw p-mr-2"></i>
-                        <small class="color-text-medium">1 - 5</small>
-                      </div>
-                      <div>
-                        <i class="fas fa-check fa-fw p-mr-2"></i>
-                        <small class="color-text-medium">5+</small>
-                      </div>
-                    </div>
-                  </div> -->
                 </ng-template>
               </p-accordionTab>
               <p-accordionTab transitionOptions="0ms">

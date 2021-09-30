@@ -38,6 +38,7 @@
             ],
             "scripts": ["./node_modules/chart.js/dist/Chart.js"],
             "allowedCommonJsDependencies": [
+              "lodash",
               "chart.js",
               "@mapbox/mapbox-gl-geocoder"
             ]

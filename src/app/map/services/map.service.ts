@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, interval, Subject, timer } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from 'rxjs';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +16,20 @@ export class MapService {
     new BehaviorSubject<boolean>(false);
   isOverviewExpanded$ = this.isOverviewExpanded.asObservable();
 
+  private isPlaying: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    true
+  );
+  isPlaying$ = this.isPlaying.asObservable();
+
   private isPlaybackLive: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
   isPlaybackLive$ = this.isPlaybackLive.asObservable();
+
+  private playbackSliderValue: BehaviorSubject<number> = new BehaviorSubject(0);
+  playbackSliderValue$ = this.playbackSliderValue.asObservable();
+
+  private playbackSpeed: BehaviorSubject<number> = new BehaviorSubject(1);
+  playbackSpeed$ = this.playbackSpeed.asObservable();
 
   stopPlay$: Subject<any> = new Subject();
 
@@ -31,6 +42,10 @@ export class MapService {
     true
   );
   showDevices$ = this.showDevices.asObservable();
+
+  private showStaticDevices: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(true);
+  showStaticDevices$ = this.showStaticDevices.asObservable();
   private showAccessPoints: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
   showAccessPoints$ = this.showAccessPoints.asObservable();
@@ -57,25 +72,66 @@ export class MapService {
 
   startPlayback(): void {
     this.stopPlay$.next(false);
+    this.isPlaying.next(true);
   }
   stopPlayback(): void {
     this.stopPlay$.next();
-    this.isPlaybackLive.next(false);
+    this.isPlaying.next(false);
   }
   togglePlayback(): void {
     this.stopPlay$.next();
+    this.isPlaying.next(!this.isPlaying.value);
+  }
+  toggleLive(): void {
+    this.stopPlay$.next();
     this.isPlaybackLive.next(!this.isPlaybackLive.value);
+    if (this.isPlaybackLive.value === true) {
+      this.updateMapDateTime(new Date());
+      this.resetPlaybackSlider();
+      this.startPlayback();
+    }
   }
 
   setShowDevices(show: boolean): void {
     this.showDevices.next(show);
   }
+  setShowStaticDevices(show: boolean): void {
+    this.showStaticDevices.next(show);
+  }
   setShowAccessPoints(show: boolean): void {
     this.showAccessPoints.next(show);
   }
 
+  resetPlaybackSlider(): void {
+    this.updatePlaybackSlider(0);
+  }
+  updatePlaybackSlider(value: number): void {
+    if (value !== this.playbackSliderValue.value) {
+      // this.stopPlayback();
+      this.playbackSliderValue.next(value);
+    }
+  }
+  updatePlaybackSpeed(value: number): void {
+    if (value !== this.playbackSpeed.value) {
+      this.playbackSpeed.next(value);
+    }
+  }
+
   updateMapDateTime(newDate: Date): void {
-    // this.stopPlayback();
-    this.mapDateTime.next(newDate);
+    const curDate = new Date();
+    if (
+      moment(newDate).seconds(0).milliseconds(0) <=
+      moment(curDate).seconds(0).milliseconds(0)
+    ) {
+      this.mapDateTime.next(newDate);
+      if (
+        moment(newDate).seconds(0).milliseconds(0) >=
+        moment(curDate).seconds(0).milliseconds(0)
+      ) {
+        this.isPlaybackLive.next(true);
+      } else {
+        this.isPlaybackLive.next(false);
+      }
+    }
   }
 }

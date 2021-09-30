@@ -26,29 +26,38 @@ import * as moment from 'moment';
 export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   @Input() selectedLocation!: Location | null;
   @Input() mapDateTime?: Date | null;
+  @Input() playbackSliderValue?: number | null = 0;
+  @Input() playbackSpeed?: number | null = 1;
   @Input() isExpanded?: boolean | null;
+  @Input() isPlaybackLive?: boolean | null;
+  @Input() isPlaying?: boolean | null;
+  @Input() isDevicesLoading?: boolean | null;
 
   @Output() topPanelHeightChanged = new EventEmitter<number>();
   @Output() alertSortTypeChanged = new EventEmitter<AlertSortType>();
   @Output() zoomIn = new EventEmitter();
   @Output() zoomOut = new EventEmitter();
   @Output() mapTimeChanged = new EventEmitter<Date>();
-  @Output() toggledPlayback = new EventEmitter<boolean>();
-  @Output() toggledExpanded = new EventEmitter<boolean>();
+  @Output() togglePlayback = new EventEmitter();
+  @Output() toggleLive = new EventEmitter();
+  @Output() toggleExpanded = new EventEmitter<boolean>();
+  @Output() playbackSliderChanged = new EventEmitter<number>();
+  @Output() resetPlaybackSlider = new EventEmitter();
+  @Output() playbackSpeedChanged = new EventEmitter<number>();
 
-  @Output() toggledAccessPoints = new EventEmitter<boolean>();
-  @Output() toggledDevices = new EventEmitter<boolean>();
+  @Output() toggleAccessPoints = new EventEmitter<boolean>();
+  @Output() toggleDevices = new EventEmitter<boolean>();
+  @Output() toggledStaticDevices = new EventEmitter<boolean>();
 
   @ViewChild('topPanel') topPanel!: ElementRef;
   @ViewChild('alertPanel') private alertPanel!: AlertPanelComponent;
 
-  // expanded = false;
-
-  playbackDate: Date = new Date();
-  isPlaybackLive = true;
+  // playbackTime = 0;
+  currentDateTime = new Date();
 
   footTraffic = true;
   staticDevices = true;
+  iotDevices = true;
   accessPoints = true;
 
   severeUrgency = true;
@@ -67,6 +76,20 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   ];
   selectedAlertSortOption = AlertSortType.Date;
 
+  playbackOptions = [
+    { name: '0.05x', value: 0.05 },
+    { name: '0.1x', value: 0.1 },
+    { name: '0.25x', value: 0.25 },
+    { name: '0.5x', value: 0.5 },
+    { name: '1x', value: 1 },
+    { name: '1.5x', value: 1.5 },
+    { name: '2x', value: 2 },
+    { name: '3x', value: 3 },
+    { name: '4x', value: 4 },
+    { name: '5x', value: 5 },
+    { name: '10x', value: 10 },
+  ];
+
   constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -81,13 +104,16 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    this.playbackSpeedChanged.emit(1);
+    this.playbackSliderChanged.emit(0);
+  }
 
   expandPanel(): void {
-    this.toggledExpanded.emit(true);
+    this.toggleExpanded.emit(true);
   }
   toggleSize(): void {
-    this.toggledExpanded.emit();
+    this.toggleExpanded.emit();
   }
   onZoomIn(): void {
     this.zoomIn.emit();
@@ -109,13 +135,19 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     $event.stopPropagation();
   }
   onToggleAccessPoints(event: any): void {
-    this.toggledAccessPoints.emit(event.checked);
+    this.toggleAccessPoints.emit(event.checked);
   }
   onToggleDevices(event: any): void {
-    this.toggledDevices.emit(event.checked);
+    this.toggleDevices.emit(event.checked);
+  }
+  onToggleIOT(event: any): void {
+    this.toggledStaticDevices.emit(event.checked);
   }
   onSortChange(event: any): void {
     this.alertSortTypeChanged.emit(event?.value);
+  }
+  onPlaybackSpeedChange(event: any): void {
+    this.playbackSpeedChanged.emit(event?.value);
   }
   onToggleSevereUrgency(event: any): void {
     this.alertPanel.onToggleSevereUrgency(event);
@@ -142,37 +174,38 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     this.alertPanel.onToggleShowAPStatus(event);
   }
 
-  onTogglePlayback(): void {
-    this.isPlaybackLive = !this.isPlaybackLive;
-    // If we are live now, change the date to current time
-    if (this.isPlaybackLive === true) {
-      this.setPlaybackLive();
-    }
-    this.toggledPlayback.emit(this.isPlaybackLive);
+  onToggleLive(): void {
+    this.resetPlaybackMeter();
+    this.toggleLive.emit();
   }
-  setPlaybackLive(): void {
-    this.isPlaybackLive = true;
-    // this.changeDate(new Date());
+
+  onTogglePlayback(): void {
+    this.togglePlayback.emit();
+  }
+  onCalendarOpen(event: any): void {
+    this.currentDateTime = new Date();
   }
   onPlaybackCalendarSelect(newDate: any): void {
     this.changeDate(newDate);
-    this.isPlaybackLive = false;
   }
   onPlaybackIntervalChange(
     amount: number,
     unit: moment.unitOfTime.DurationConstructor
   ): void {
     const newDate = moment(this.mapDateTime).add(amount, unit).toDate();
-    if (
-      moment(newDate).seconds(0).milliseconds(0) >=
-      moment(new Date()).seconds(0).milliseconds(0)
-    ) {
-      this.setPlaybackLive();
-      this.toggledPlayback.emit(true);
-    } else {
-      this.changeDate(newDate);
-      this.isPlaybackLive = false;
-    }
+    this.changeDate(newDate);
+  }
+  onPlaybackSliderChange(evt: any): void {
+    // if (evt?.value && evt?.event?.type === 'click') {
+    this.playbackSliderChanged.emit(evt?.value);
+    // }
+  }
+  changeDate(newDate: Date): void {
+    this.resetPlaybackMeter();
+    this.mapTimeChanged.emit(newDate);
+  }
+  resetPlaybackMeter(): void {
+    this.resetPlaybackSlider.emit();
   }
   isDateInFuture(
     amount: number,
@@ -181,8 +214,5 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     return moment(this.mapDateTime).add(amount, unit).toDate() >= new Date()
       ? true
       : false;
-  }
-  changeDate(newDate: Date): void {
-    this.mapTimeChanged.emit(newDate);
   }
 }
