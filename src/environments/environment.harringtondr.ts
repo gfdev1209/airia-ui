@@ -1,6 +1,8 @@
 export const environment = {
   production: true,
   apiUrl: 'https://harringtondr-api.dev.airia20.com/api/',
+  // Client
+  timeZone: 'America/Chicago',
   // MapBox
   mapboxAccessToken:
     'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',
