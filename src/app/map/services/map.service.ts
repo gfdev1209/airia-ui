@@ -125,17 +125,12 @@ export class MapService {
   }
 
   updateMapDateTime(newDate: Date): void {
-    const curDate = new Date();
-    if (
-      moment(newDate).seconds(0).milliseconds(0) <=
-      moment(curDate).seconds(0).milliseconds(0)
-    ) {
+    const curDate = moment(new Date()).seconds(0).milliseconds(0).toDate();
+    newDate = moment(newDate).seconds(0).milliseconds(0).toDate();
+    if (newDate <= curDate) {
       this.mapDateTime.next(newDate);
       this.updateDisplayedMapDateTime(newDate);
-      if (
-        moment(newDate).seconds(0).milliseconds(0) <
-        moment(curDate).seconds(0).milliseconds(0)
-      ) {
+      if (newDate < curDate) {
         this.isPlaybackLive.next(false);
       }
     }

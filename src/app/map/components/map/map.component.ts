@@ -190,7 +190,7 @@ export class MapComponent implements OnInit, OnDestroy {
     this.devices = deviceGroup;
     this.filterDevices(deviceGroup);
     // Update date/time
-    if (sortedKeys.length > 0) {
+    if (sortedKeys.length > 0 && !this.isPlaybackLive$) {
       // Subtract minutes from current map time based on the selected index of the Device array
       const updatedTime = moment(this.mapDateTime)
         .subtract(this.devicePlaybackAmount - index, 'minute')
