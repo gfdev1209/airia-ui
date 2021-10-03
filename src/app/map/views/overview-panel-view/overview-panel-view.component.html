@@ -25,13 +25,15 @@
               <div class="p-d-flex p-jc-between color-text-medium">
                 <div class="p-flex-column">
                   <small>
-                    {{ mapDateTime | date: "EEEE, MMM d, y" }}<br />
-                    {{ mapDateTime | date: "shortTime" }}
-                    <span
+                    {{ displayedMapDateTime }}
+                    <!-- {{ displayedMapDateTime | date: "EEEE, MMM d, y" }}<br />
+                    {{ displayedMapDateTime | date: "h:mm a zzzz" }} -->
+                    <div
                       *ngIf="isPlaybackLive"
-                      class="playback-live-indicator p-ml-1"
-                      ><strong>LIVE</strong>
-                    </span>
+                      class="playback-live-indicator p-ml-2"
+                    >
+                      <strong>LIVE</strong>
+                    </div>
                   </small>
                 </div>
               </div>
@@ -51,6 +53,7 @@
                   </div>
                   <div class="p-flex-column">
                     <p-calendar
+                      [(ngModel)]="currentDateTime"
                       [showIcon]="true"
                       [maxDate]="currentDateTime"
                       icon="fas fa-clock"

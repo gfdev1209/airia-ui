@@ -16,6 +16,7 @@ import { AlertSeverity, AlertSortType } from '../../enums';
 import { Location } from '../../models';
 
 import * as moment from 'moment';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-overview-panel-view',
@@ -26,6 +27,7 @@ import * as moment from 'moment';
 export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   @Input() selectedLocation!: Location | null;
   @Input() mapDateTime?: Date | null;
+  @Input() displayedMapDateTime?: string | null;
   @Input() playbackSliderValue?: number | null = 0;
   @Input() playbackSpeed?: number | null = 1;
   @Input() isExpanded?: boolean | null;
@@ -53,6 +55,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   @ViewChild('alertPanel') private alertPanel!: AlertPanelComponent;
 
   // playbackTime = 0;
+  // currentDateTime = moment(new Date()).tz(environment.timeZone).toDate();
   currentDateTime = new Date();
 
   footTraffic = true;
@@ -106,7 +109,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
 
   ngAfterViewInit(): void {
     this.playbackSpeedChanged.emit(1);
-    this.playbackSliderChanged.emit(0);
+    //this.playbackSliderChanged.emit(0);
   }
 
   expandPanel(): void {
@@ -175,7 +178,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   }
 
   onToggleLive(): void {
-    this.resetPlaybackMeter();
+    // this.resetPlaybackMeter();
     this.toggleLive.emit();
   }
 
@@ -183,6 +186,9 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     this.togglePlayback.emit();
   }
   onCalendarOpen(event: any): void {
+    // this.currentDateTime = new Date(
+    //   moment().tz(environment.timeZone).format('YYYY-MM-DD HH:mm')
+    // );
     this.currentDateTime = new Date();
   }
   onPlaybackCalendarSelect(newDate: any): void {
@@ -201,7 +207,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     // }
   }
   changeDate(newDate: Date): void {
-    this.resetPlaybackMeter();
+    // this.resetPlaybackMeter();
     this.mapTimeChanged.emit(newDate);
   }
   resetPlaybackMeter(): void {

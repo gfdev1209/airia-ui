@@ -12,13 +12,13 @@ import * as DeviceSelectors from '@store/device/device.selectors';
 import * as FloorActions from '@store/floor/floor.actions';
 import * as FloorSelectors from '@store/floor/floor.selectors';
 import { debounceTime, startWith, takeUntil, tap } from 'rxjs/operators';
-import { AccountInfo } from '@azure/msal-browser';
 import { MapService } from '@map/services/map.service';
 import { MapViewComponent } from '@map/views/map-view/map-view.component';
-import { interval, Subscription, timer } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { AccessPoint, Device, Floor } from '@map/models';
 import * as _ from 'lodash';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-map',
@@ -79,22 +79,16 @@ export class MapComponent implements OnInit, OnDestroy {
   selectedAccessPoint$ = this.store.select(
     AccessPointSelectors.selectSelectedAccessPoint
   );
-  // devices$ = this.store
-  //   .select(DeviceSelectors.selectAll)
-  //   .pipe(
-  //     tap((devices) => {
-  //       this.devices = devices;
-  //       this.filterDevices(devices);
-  //     })
-  //   )
-  //   .subscribe();
   devicesGrouped$ = this.store
     .select(DeviceSelectors.selectByMinutes)
     .pipe(
       tap((deviceGroups) => {
         if (!_.isEqual(this.deviceGroups, deviceGroups)) {
           this.deviceGroups = deviceGroups;
-          this.displayDevicesByGroupIndex(0);
+          this.displayDevicesByGroupIndex(
+            this.deviceGroups,
+            this.devicePlaybackAmount
+          );
         }
       })
     )
@@ -108,7 +102,7 @@ export class MapComponent implements OnInit, OnDestroy {
   playbackSliderValue$ = this.mapService.playbackSliderValue$
     .pipe(
       tap((value) => {
-        this.displayDevicesByGroupIndex(+value);
+        this.displayDevicesByGroupIndex(this.deviceGroups, +value);
       })
     )
     .subscribe();
@@ -117,19 +111,20 @@ export class MapComponent implements OnInit, OnDestroy {
   showStaticDevices$ = this.mapService.showStaticDevices$;
   showAccessPoints$ = this.mapService.showAccessPoints$;
   mapDateTime$ = this.mapService.mapDateTime$;
+  mapDateTimeSubscription$: Subscription = new Subscription();
+  mapDateTime: Date = new Date();
 
   zoomIn$: Subscription = new Subscription();
   zoomOut$: Subscription = new Subscription();
   devicePollingInterval$: Subscription = new Subscription();
   isPlaying$: Subscription = new Subscription();
   isPlaybackLive$: Subscription = new Subscription();
-  mapDateTimeSubscription$: Subscription = new Subscription();
-
-  accountInfo?: AccountInfo;
 
   // How often to poll for new devices when playback is live (in milliseconds)
   pollingTimeMS = 60000;
   isPollingForDevices = true;
+  // Max amount of extra time to take when getting devices (in minutes)
+  devicePlaybackAmount = 10;
 
   @ViewChild('mapView') mapView!: MapViewComponent;
 
@@ -162,16 +157,17 @@ export class MapComponent implements OnInit, OnDestroy {
       .pipe(
         debounceTime(500),
         tap((mapTime) => {
+          this.mapDateTime = mapTime;
           if (mapTime !== null && !this.isPollingForDevices) {
             this.filterDevices([]);
             const mapTimeWithoutSeconds = moment(mapTime)
-              .seconds(0)
+              .seconds(30)
               .milliseconds(0)
               .toDate();
             this.store.dispatch(
               DeviceActions.getSeenFromDateToDate({
                 from: moment(mapTimeWithoutSeconds)
-                  .subtract(10, 'minute')
+                  .subtract(this.devicePlaybackAmount, 'minute')
                   .toDate(),
                 to: mapTimeWithoutSeconds,
               })
@@ -182,13 +178,33 @@ export class MapComponent implements OnInit, OnDestroy {
       .subscribe();
   }
 
-  displayDevicesByGroupIndex(index: number): void {
-    const sortedKeys = Object.keys(this.deviceGroups).sort();
-    const deviceGroup = this.deviceGroups[sortedKeys[index]];
+  /** Display Devices on map based on the index of an array of Devices */
+  displayDevicesByGroupIndex(
+    deviceGroups: { [id: string]: Device[] },
+    index: number
+  ): void {
+    // Sort the keys in the "deviceGroups" dictionary
+    const sortedKeys = Object.keys(deviceGroups).sort();
+    // Get the array of Devices at the specified key
+    const deviceGroup = deviceGroups[sortedKeys[index]];
     this.devices = deviceGroup;
     this.filterDevices(deviceGroup);
+    // Update date/time
+    if (sortedKeys.length > 0) {
+      // Subtract minutes from current map time based on the selected index of the Device array
+      const updatedTime = moment(this.mapDateTime)
+        .subtract(this.devicePlaybackAmount - index, 'minute')
+        .toDate();
+      this.updateDisplayedMapDateTime(updatedTime);
+    }
   }
 
+  /** Update the timestamp of currently displayed Devices */
+  updateDisplayedMapDateTime(dateTime: Date): void {
+    this.mapService.updateDisplayedMapDateTime(dateTime);
+  }
+
+  /** Filter an array of devices based on selected Floor */
   filterDevices(devices: Device[]): void {
     if (this.selectedFloorNumber && devices?.length > 0) {
       const buildingFloorsWithFloorNumber = this.floors.filter(
@@ -205,6 +221,7 @@ export class MapComponent implements OnInit, OnDestroy {
     this.mapView?.addDevices();
   }
 
+  /** Filter Access Points based on selected Floor */
   filterAccessPoints(accessPoints: AccessPoint[]): void {
     if (this.selectedFloorNumber && accessPoints?.length > 0) {
       this.accessPointsFiltered = accessPoints.filter(
@@ -216,25 +233,34 @@ export class MapComponent implements OnInit, OnDestroy {
     this.mapView?.addAccessPoints();
   }
 
+  /** Poll the Devices endpoint for updated data every "pollingTimeMS" interval */
   pollForDevices(): void {
     this.devicePollingInterval$?.unsubscribe();
     this.devicePollingInterval$ = interval(this.pollingTimeMS)
       .pipe(
         startWith(0),
         takeUntil(this.mapService.stopPlay$),
+        tap(() => this.mapService.updateMapDateTime(new Date())),
         tap(() =>
-          this.store.dispatch(DeviceActions.getSeenFromMinutes({ fromMin: 10 }))
+          this.store.dispatch(
+            DeviceActions.getSeenFromMinutes({
+              fromMin: this.devicePlaybackAmount,
+            })
+          )
         )
       )
       .subscribe();
   }
 
+  /** Display the building's overview once map has flown to location */
   flyToBuildingComplete(): void {
     this.store.dispatch(BuildingActions.showOverview());
   }
+  /** Select the building upon click */
   clickedBuildingId(mapboxId: number): void {
     this.store.dispatch(BuildingActions.selectByMapboxId({ mapboxId }));
   }
+  /** Select the Access Point upon click */
   clickedAccessPoint(id: number): void {
     this.store.dispatch(AccessPointActions.select({ id }));
   }

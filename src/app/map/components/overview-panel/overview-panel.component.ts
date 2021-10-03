@@ -6,7 +6,7 @@ import { MapService } from '@map/services/map.service';
 import * as AlertActions from '@store/alert/alert.actions';
 import * as LocationSelectors from '@store/location/location.selectors';
 import * as DeviceSelectors from '@store/device/device.selectors';
-import { interval, Subscription } from 'rxjs';
+import { interval, Subject, Subscription } from 'rxjs';
 import { startWith, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
@@ -19,6 +19,7 @@ export class OverviewPanelComponent implements OnInit, OnDestroy {
     LocationSelectors.selectSelectedLocation
   );
   mapDateTime$ = this.mapService.mapDateTime$;
+  displayedMapDateTime$ = this.mapService.displayedMapDateTime$;
   playbackSliderValue$ = this.mapService.playbackSliderValue$.pipe(
     tap(
       (playbackSliderValue: number) =>
@@ -35,7 +36,9 @@ export class OverviewPanelComponent implements OnInit, OnDestroy {
   );
   isExpanded$ = this.mapService.isOverviewExpanded$;
   isPlaybackLive$ = this.mapService.isPlaybackLive$.pipe(
-    tap((isLive) => (this.isLive = isLive))
+    tap((isLive) => {
+      this.isLive = isLive;
+    })
   );
   isPlaying$ = this.mapService.isPlaying$.pipe(
     tap((isPlaying: boolean) => {
@@ -49,8 +52,8 @@ export class OverviewPanelComponent implements OnInit, OnDestroy {
   );
   isDevicesLoading$ = this.store.select(DeviceSelectors.selectLoading).pipe(
     tap((isLoading) => {
-      if (isLoading === false && this.isLive === true) {
-        this.onPlaybackSliderChanged(10);
+      if (isLoading === false) {
+        this.mapService.updatePlaybackSlider(10);
       }
     })
   );
@@ -71,12 +74,20 @@ export class OverviewPanelComponent implements OnInit, OnDestroy {
 
   startPlayback(): void {
     this.playbackInterval$?.unsubscribe();
-    if (this.playbackSpeed !== null && this.playbackSpeed !== undefined) {
+    if (
+      this.playbackSpeed !== null &&
+      this.playbackSpeed !== undefined &&
+      !this.isLive
+    ) {
       this.playbackInterval$ = interval(this.playbackSpeed * 1000)
         .pipe(
           startWith(0),
           takeUntil(this.mapService.stopPlay$),
           tap(() => {
+            if (this.isLive) {
+              this.playbackInterval$?.unsubscribe();
+              return;
+            }
             if (this.playbackSliderValue < 10) {
               this.mapService.updatePlaybackSlider(++this.playbackSliderValue);
             } else {
@@ -102,8 +113,10 @@ export class OverviewPanelComponent implements OnInit, OnDestroy {
   }
 
   onPlaybackSliderChanged(value: number): void {
-    this.mapService.stopPlayback();
-    this.mapService.updatePlaybackSlider(value);
+    if (this.playbackSliderValue !== value) {
+      this.mapService.stopPlayback();
+      this.mapService.updatePlaybackSlider(value);
+    }
   }
   onResetPlaybackSlider(): void {
     this.mapService.resetPlaybackSlider();
@@ -132,6 +145,7 @@ export class OverviewPanelComponent implements OnInit, OnDestroy {
 
   onToggleLive(): void {
     this.mapService.toggleLive();
+    this.mapService.updateMapDateTime(new Date());
   }
 
   onZoomIn(): void {
@@ -139,10 +153,6 @@ export class OverviewPanelComponent implements OnInit, OnDestroy {
   }
   onZoomOut(): void {
     this.mapService.mapZoomOut();
-  }
-
-  onToggleTest(): void {
-    this.mapService.toggleLive();
   }
 
   ngOnDestroy(): void {

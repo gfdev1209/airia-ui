@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,12 @@ export class MapService {
 
   private mapDateTime: BehaviorSubject<Date> = new BehaviorSubject(new Date());
   mapDateTime$ = this.mapDateTime.asObservable();
+
+  // The datetime that is currently displaying data (eg. when scrubbing a range of devices)
+  private displayedMapDateTime: BehaviorSubject<string> = new BehaviorSubject(
+    new Date().toDateString()
+  );
+  displayedMapDateTime$ = this.displayedMapDateTime.asObservable();
 
   private isOverviewExpanded: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
@@ -85,11 +92,11 @@ export class MapService {
   toggleLive(): void {
     this.stopPlay$.next();
     this.isPlaybackLive.next(!this.isPlaybackLive.value);
-    if (this.isPlaybackLive.value === true) {
-      this.updateMapDateTime(new Date());
-      this.resetPlaybackSlider();
-      this.startPlayback();
-    }
+    // if (this.isPlaybackLive.value === true) {
+    //   this.updateMapDateTime(new Date());
+    //   this.resetPlaybackSlider();
+    //   // this.startPlayback();
+    // }
   }
 
   setShowDevices(show: boolean): void {
@@ -124,14 +131,20 @@ export class MapService {
       moment(curDate).seconds(0).milliseconds(0)
     ) {
       this.mapDateTime.next(newDate);
+      this.updateDisplayedMapDateTime(newDate);
       if (
-        moment(newDate).seconds(0).milliseconds(0) >=
+        moment(newDate).seconds(0).milliseconds(0) <
         moment(curDate).seconds(0).milliseconds(0)
       ) {
-        this.isPlaybackLive.next(true);
-      } else {
         this.isPlaybackLive.next(false);
       }
     }
+  }
+  updateDisplayedMapDateTime(newDate: Date): void {
+    this.displayedMapDateTime.next(
+      moment(newDate)
+        .tz(environment.timeZone)
+        .format('ddd MMM DD, yy hh:mm A zz')
+    );
   }
 }
