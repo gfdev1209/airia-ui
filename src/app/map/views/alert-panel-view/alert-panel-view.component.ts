@@ -168,8 +168,8 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
         let value2: any;
         let result: any;
         if (order === AlertSortType.Date) {
-          value1 = data2.featureEventtime;
-          value2 = data1.featureEventtime;
+          value1 = data2.createdAt;
+          value2 = data1.createdAt;
           result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
         } else if (order === AlertSortType.Type) {
           value1 = data1.alertType;

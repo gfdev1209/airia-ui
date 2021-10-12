@@ -29,9 +29,10 @@
     </div>
   </ng-template>
   <div class="alert-details">
-    <h3 class="font-weight-medium p-mt-0">
-      {{ alert.alertMessage }}
-    </h3>
+    <h3
+      class="font-weight-medium p-mt-0"
+      [innerText]="alert.alertMessage ? alert.alertMessage : 'n/a'"
+    ></h3>
     <!-- <button
       pButton
       pRipple
@@ -86,7 +87,7 @@
           {{ alert.acknowledgedBy.lastName }}
         </strong>
         at
-        {{ alert.acknowledgedAt | date: "MMM dd h:mm a" }}
+        {{ acknowledgedAt | date: "MMM dd h:mm a" }}
       </small>
     </div>
   </p-footer>
