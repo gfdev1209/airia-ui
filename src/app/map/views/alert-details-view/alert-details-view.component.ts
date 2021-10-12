@@ -3,21 +3,18 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
-import {
-  trigger,
-  transition,
-  animate,
-  style,
-  state,
-} from '@angular/animations';
 
 import { Message } from 'primeng/api';
 import { Alert, User } from '../../models';
 import { AlertSeverity } from '@map/enums';
-import { slidePanelAnimation } from 'src/app/app.animations';
+import { environment } from 'src/environments/environment';
+
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-alert-details-view',
@@ -25,7 +22,7 @@ import { slidePanelAnimation } from 'src/app/app.animations';
   styleUrls: ['./alert-details-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AlertDetailsViewComponent implements OnInit {
+export class AlertDetailsViewComponent implements OnInit, OnChanges {
   @Input() alert?: Alert | null;
   @Input() user?: User | null;
   @Input() loading: boolean | null = false;
@@ -46,6 +43,7 @@ export class AlertDetailsViewComponent implements OnInit {
   stackedData: any;
 
   stackedOptions: any;
+  acknowledgedAt?: Date;
 
   constructor() {}
 
@@ -111,6 +109,16 @@ export class AlertDetailsViewComponent implements OnInit {
         ],
       },
     };
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.alert && !changes.alert.firstChange) {
+      if (changes.alert.currentValue?.acknowledgedAt) {
+        this.acknowledgedAt = moment(changes.alert.currentValue?.acknowledgedAt)
+          .tz(environment.timeZone)
+          .toDate();
+      }
+    }
   }
 
   onAcknowledge(): void {
