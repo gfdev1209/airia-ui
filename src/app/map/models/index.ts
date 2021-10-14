@@ -5,7 +5,7 @@ export * from './access-point.model';
 export * from './alert.model';
 export * from './device.model';
 export * from './department.model';
-export * from './role.model';
+export * from './user-role.model';
 export * from './user.model';
 export * from './tenant.model';
 export * from './tenant-user.model';

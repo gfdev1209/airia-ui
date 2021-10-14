@@ -30,6 +30,16 @@ export class AppComponent implements OnInit, OnDestroy {
     )
     .subscribe();
 
+  errorMessage$ = this.notificationService.errorMessage$
+    .pipe(
+      tap((errorMessage) => {
+        if (errorMessage !== null) {
+          this.displayErrorMessage(errorMessage);
+        }
+      })
+    )
+    .subscribe();
+
   constructor(
     private store: Store<RootState>,
     private notificationService: NotificationService,
@@ -42,10 +52,18 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   displayError(error: HttpErrorResponse): void {
+    this.addMessageToService(error.message);
+  }
+
+  displayErrorMessage(error: string): void {
+    this.addMessageToService(error);
+  }
+
+  private addMessageToService(message: string): void {
     this.messageService.add({
       severity: 'error',
       summary: 'Error',
-      detail: error.message,
+      detail: message,
     });
   }
 

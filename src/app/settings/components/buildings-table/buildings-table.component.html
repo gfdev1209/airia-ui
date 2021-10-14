@@ -1,4 +1,5 @@
 <app-buildings-table-view
   [buildings]="buildings$ | async"
+  [self]="self$ | async"
   (buildingSelected)="buildingSelected($event)"
 ></app-buildings-table-view>

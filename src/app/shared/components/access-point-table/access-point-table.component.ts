@@ -8,6 +8,7 @@ import * as AccessPointSelectors from '@store/access-point/access-point.selector
 import * as AccessPointActions from '@store/access-point/access-point.actions';
 import * as BuildingSelectors from '@store/building/building.selectors';
 import * as BuildingActions from '@store/building/building.actions';
+import * as UserSelectors from '@store/user/user.selectors';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AccessPointFormComponent } from '../access-point-form/access-point-form.component';
 
@@ -23,6 +24,7 @@ export class AccessPointTableComponent implements OnInit {
 
   buildings$ = this.store.select(BuildingSelectors.selectAll);
   accessPoints$ = this.store.select(AccessPointSelectors.selectAll);
+  self$ = this.store.select(UserSelectors.selectSelf);
 
   constructor(
     private store: Store<RootState>,

@@ -1,6 +1,6 @@
 import { IBase } from '@shared/interfaces';
 
-export class Role implements IBase {
+export class UserRole implements IBase {
   id!: number;
   name!: string;
   createdAt!: Date;

@@ -1,4 +1,4 @@
-<div *ngIf="buildings">
+<div *ngIf="buildings && self">
   <p-table
     [value]="buildings"
     [paginator]="true"
@@ -27,7 +27,7 @@
         <th style="width: 105px" pSortableColumn="floors">
           Floors <p-sortIcon field="floors"></p-sortIcon>
         </th>
-        <th style="width: 100px">Action</th>
+        <th *ngIf="canEdit()" style="width: 100px">Action</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-building>
@@ -44,7 +44,7 @@
         <td>
           {{ building.floors }}
         </td>
-        <td>
+        <td *ngIf="canEdit()">
           <button
             pButton
             pRipple

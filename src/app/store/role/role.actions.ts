@@ -1,10 +1,10 @@
 import { createAction, props } from '@ngrx/store';
-import { Role } from '@map/models';
+import { UserRole } from '@map/models';
 
 export const getAll = createAction('[Map] Get All Roles');
 export const getAllSuccess = createAction(
   '[Role Effect] Get All Roles Success',
-  props<{ roles: Role[] }>()
+  props<{ roles: UserRole[] }>()
 );
 export const getAllFailed = createAction('[Role Effect] Get All Roles Failed');
 
@@ -14,6 +14,6 @@ export const select = createAction(
 );
 export const selectSuccess = createAction(
   '[Role Effect] Select Role Success',
-  props<{ role: Role }>()
+  props<{ role: UserRole }>()
 );
 export const selectFailed = createAction('[Role Effect] Select Role Failed');
