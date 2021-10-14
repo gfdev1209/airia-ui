@@ -1,5 +1,6 @@
 <app-access-point-table-view
   [accessPoints]="accessPoints$ | async"
+  [self]="self$ | async"
   [selectedBuilding]="building"
   [buildings]="buildings$ | async"
   [showCheckboxColumn]="showCheckboxColumn"

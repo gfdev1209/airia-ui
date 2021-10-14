@@ -12,6 +12,7 @@ import * as UserSelectors from '@store/user/user.selectors';
 })
 export class UsersTableComponent implements OnInit {
   users$ = this.store.select(UserSelectors.selectAll);
+  self$ = this.store.select(UserSelectors.selectSelf);
 
   constructor(private store: Store<RootState>) {}
 

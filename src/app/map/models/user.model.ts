@@ -1,6 +1,6 @@
 import { IBase } from '@shared/interfaces';
 import { Department } from './department.model';
-import { Role } from './role.model';
+import { UserRole } from './user-role.model';
 
 export class User implements IBase {
   id!: number;
@@ -13,7 +13,7 @@ export class User implements IBase {
   departmentId?: number;
   department?: Department;
   roleId?: number;
-  role?: Role;
+  role?: UserRole;
   b2cGuid!: string;
   createdAt!: Date;
 
@@ -30,7 +30,7 @@ export class User implements IBase {
     b2cGuid: string;
     createdAt: Date;
     department?: Department;
-    role?: Role;
+    role?: UserRole;
   }) {
     this.id = args.userId;
     this.firstName = args.firstName;
@@ -42,7 +42,7 @@ export class User implements IBase {
     this.departmentId = args.departmentId;
     this.roleId = args.roleId;
     if (args.role) {
-      this.role = new Role(args.role as any);
+      this.role = new UserRole(args.role as any);
     }
     if (args.department) {
       this.department = new Department(args.department as any);

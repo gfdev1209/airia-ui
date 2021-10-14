@@ -1,4 +1,5 @@
 <app-users-table-view
   [users]="users$ | async"
+  [self]="self$ | async"
   (userSelected)="userSelected($event)"
 ></app-users-table-view>

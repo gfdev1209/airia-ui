@@ -7,7 +7,7 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { Role } from '@map/models';
+import { UserRole } from '@map/models';
 import { of } from 'rxjs';
 import * as RoleActions from './role.actions';
 import * as RoleSelectors from './role.selectors';
@@ -29,8 +29,8 @@ export class RoleEffects {
     this.actions$.pipe(
       ofType(RoleActions.getAll),
       mergeMap(() =>
-        this.roleService.getAll<Role[]>().pipe(
-          map((roles: Role[]) => RoleActions.getAllSuccess({ roles })),
+        this.roleService.getAll<UserRole[]>().pipe(
+          map((roles: UserRole[]) => RoleActions.getAllSuccess({ roles })),
           catchError(() => of(RoleActions.getAllFailed()))
         )
       )

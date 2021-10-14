@@ -16,6 +16,7 @@ import { BuildingsTableViewComponent } from './views/buildings-table-view/buildi
 import { BuildingFormComponent } from './components/building-form/building-form.component';
 import { BuildingFormViewComponent } from './views/building-form-view/building-form-view.component';
 import { AccessPointPageComponent } from './pages/access-point-page/access-point-page.component';
+import { RoleGuard } from '@core/guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -23,9 +24,19 @@ export const routes: Routes = [
     component: SettingsLayoutComponent,
     children: [
       { path: 'users', component: UsersPageComponent },
-      { path: 'users/:id', component: UserFormComponent },
+      {
+        path: 'users/:id',
+        component: UserFormComponent,
+        canActivate: [RoleGuard],
+        data: { role: 'Owner' },
+      },
       { path: 'buildings', component: BuildingPageComponent },
-      { path: 'buildings/:id', component: BuildingFormComponent },
+      {
+        path: 'buildings/:id',
+        component: BuildingFormComponent,
+        canActivate: [RoleGuard],
+        data: { role: 'Owner' },
+      },
       { path: 'access-points', component: AccessPointPageComponent },
     ],
   },

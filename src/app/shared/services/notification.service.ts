@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -20,5 +20,10 @@ export class NotificationService {
         ? error.error?.ErrorMessage
         : error.error?.message
     );
+  }
+
+  displayMessage(message: string): void {
+    this.error.next();
+    this.errorMessage.next(message);
   }
 }

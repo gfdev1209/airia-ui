@@ -67,6 +67,7 @@ import { AccessPointSearchInputComponent } from './components/access-point-searc
 import { AccessPointSearchInputViewComponent } from './views/access-point-search-input-view/access-point-search-input-view.component';
 import { LeftNavViewComponent } from './views/left-nav-view/left-nav-view.component';
 import { SortByPipe } from './pipes/sort-by.pipe';
+import { HasAccessLevelPipe } from './pipes/has-access-level.pipe';
 // Components
 
 @NgModule({
@@ -101,6 +102,7 @@ import { SortByPipe } from './pipes/sort-by.pipe';
     EnumToSelectItemsPipe,
     EnumToArrayPipe,
     SortByPipe,
+    HasAccessLevelPipe,
   ],
   imports: [
     // Angular Modules
@@ -200,6 +202,7 @@ import { SortByPipe } from './pipes/sort-by.pipe';
     EnumToSelectItemsPipe,
     EnumToArrayPipe,
     SortByPipe,
+    HasAccessLevelPipe,
   ],
   providers: [],
   entryComponents: [AccessPointFormComponent, FloorFormComponent],

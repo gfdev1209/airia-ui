@@ -6,8 +6,9 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import AccessLevels from '@core/utils/access-levels';
 import { AccessPointStatus } from '@map/enums';
-import { AccessPoint, Building } from '@map/models';
+import { AccessPoint, Building, User } from '@map/models';
 import { EnumToSelectItemsPipe } from '@shared/pipes/enum-to-select-items.pipe';
 
 @Component({
@@ -22,6 +23,7 @@ export class AccessPointTableViewComponent implements OnChanges {
   @Input() selectedBuilding?: Building | null;
   @Input() buildings: Building[] | null = [];
   @Input() showCheckboxColumn!: boolean;
+  @Input() self?: User | null;
 
   @Output() editAccessPoint = new EventEmitter<AccessPoint>();
 
@@ -44,8 +46,19 @@ export class AccessPointTableViewComponent implements OnChanges {
       });
     }
   }
+  canEdit(): boolean {
+    if (this.self?.role) {
+      return AccessLevels.roleHasAccessLevel(
+        this.self.role.name,
+        AccessLevels.CanEdit
+      );
+    }
+    return false;
+  }
   onEdit(accessPoint: AccessPoint): void {
-    this.editAccessPoint.emit(accessPoint);
+    if (this.canEdit()) {
+      this.editAccessPoint.emit(accessPoint);
+    }
   }
   onRowSelect(event: any): void {
     this.onEdit(event.data);

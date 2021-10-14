@@ -38,7 +38,7 @@
           Building
           <p-sortIcon field="floor.building.buildingName"></p-sortIcon>
         </th>
-        <th style="width: 5rem">Action</th>
+        <th *ngIf="canEdit()" style="width: 5rem">Action</th>
       </tr>
       <tr>
         <th *ngIf="showCheckboxColumn">
@@ -119,7 +119,7 @@
             </ng-template>
           </p-columnFilter>
         </th>
-        <th></th>
+        <th *ngIf="canEdit()"></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-accessPoint>
@@ -162,7 +162,7 @@
         <td *ngIf="!selectedBuilding">
           {{ accessPoint.floor?.building?.buildingName }}
         </td>
-        <td>
+        <td *ngIf="canEdit()">
           <button
             pButton
             pRipple

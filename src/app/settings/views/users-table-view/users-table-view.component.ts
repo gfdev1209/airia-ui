@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import AccessLevels from '@core/utils/access-levels';
 import { User } from '@map/models';
 import { ConfirmationService, ConfirmEventType } from 'primeng/api';
 
@@ -10,6 +11,7 @@ import { ConfirmationService, ConfirmEventType } from 'primeng/api';
 })
 export class UsersTableViewComponent implements OnInit {
   @Input() users: User[] | null = [];
+  @Input() self?: User | null;
   @Output() userSelected = new EventEmitter<User>();
 
   selectedUser?: User;
@@ -18,8 +20,20 @@ export class UsersTableViewComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  canEdit(): boolean {
+    if (this.self?.role) {
+      return AccessLevels.roleHasAccessLevel(
+        this.self.role.name,
+        AccessLevels.CanEdit
+      );
+    }
+    return false;
+  }
+
   onRowSelect(event: any): void {
-    this.userSelected.emit(event.data);
+    if (this.canEdit()) {
+      this.userSelected.emit(event.data);
+    }
   }
 
   onDelete(user: User): void {
