@@ -47,10 +47,8 @@
       icon="fas fa-play-circle"
       class="p-button-rounded p-button-sm p-d-block p-mb-4"
     ></button>
-    <p-panel styleClass="standard" header="Building Occupancy">
-      <p class="p-mt-0 p-mb-4">
-        Average building capacity over the past 4 weeks, between 10 PM and 7 AM
-      </p>
+    <p-panel styleClass="standard" header="Placeholder Title">
+      <p class="p-mt-0 p-mb-4">Placeholder description of graph below.</p>
       <p-chart
         *ngIf="alert"
         type="bar"
@@ -62,11 +60,7 @@
   </div>
   <p-footer>
     <button
-      *ngIf="
-        !alert.acknowledgedBy &&
-        (user?.role?.name?.toLowerCase() === 'admin' ||
-          user?.role?.name?.toLowerCase() === 'owner')
-      "
+      *ngIf="!alert.acknowledgedBy && canAcknowledgeAlert()"
       pButton
       pRipple
       type="button"

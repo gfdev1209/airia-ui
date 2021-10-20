@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { AlertSeverity } from '@map/enums';
-import { Alert } from '../../models';
+import { Alert, User } from '../../models';
 
 @Component({
   selector: 'app-alert-preview-view',
@@ -16,6 +16,7 @@ import { Alert } from '../../models';
 })
 export class AlertPreviewViewComponent {
   @Input() alert?: Alert;
+  @Input() self?: User | null;
   @Input() isSelected = false;
   @Output() alertSelected = new EventEmitter<Alert>();
 

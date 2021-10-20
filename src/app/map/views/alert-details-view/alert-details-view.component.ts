@@ -15,6 +15,7 @@ import { AlertSeverity } from '@map/enums';
 import { environment } from 'src/environments/environment';
 
 import * as moment from 'moment-timezone';
+import AccessLevels from '@core/utils/access-levels';
 
 @Component({
   selector: 'app-alert-details-view',
@@ -24,7 +25,7 @@ import * as moment from 'moment-timezone';
 })
 export class AlertDetailsViewComponent implements OnInit, OnChanges {
   @Input() alert?: Alert | null;
-  @Input() user?: User | null;
+  @Input() self?: User | null;
   @Input() loading: boolean | null = false;
 
   @Output() closeAlert = new EventEmitter();
@@ -119,6 +120,16 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
           .toDate();
       }
     }
+  }
+
+  canAcknowledgeAlert(): boolean {
+    if (this.self?.role) {
+      return AccessLevels.roleHasAccessLevel(
+        this.self.role.name,
+        AccessLevels.CanAcknowledgeAlert
+      );
+    }
+    return false;
   }
 
   onAcknowledge(): void {

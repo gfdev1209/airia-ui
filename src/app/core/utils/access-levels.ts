@@ -3,6 +3,7 @@ import { Role } from '@map/enums/role.enum';
 export default class AccessLevels {
   static CanEdit = [Role.Owner];
   static CanDelete = [Role.Owner];
+  static CanAcknowledgeAlert = [Role.Owner, Role.Admin];
 
   static roleHasAccessLevel(roleName: any, role: Role[]): boolean {
     const typedRoleString: keyof typeof Role = roleName;
