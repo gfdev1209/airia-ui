@@ -29,28 +29,27 @@
     </div>
   </ng-template>
   <div class="alert-details">
-    <h3
-      class="font-weight-medium p-mt-0"
-      [innerText]="alert.alertMessage ? alert.alertMessage : 'n/a'"
-    ></h3>
-    <!-- <button
-      pButton
-      pRipple
-      type="button"
-      label="View Alert Playback"
-      icon="fas fa-play-circle"
-      class="p-button-rounded p-button-sm p-d-block p-mb-4"
-    ></button> -->
+    <h4 class="font-weight-medium p-mt-0">
+      <strong>Time:</strong> {{ alert.createdAt | date: "MMM dd h:mm a" }}<br />
+      <strong>Region:</strong> {{ alert.region?.name }}
+    </h4>
     <p-messages
       [(value)]="messages"
       [enableService]="false"
       [closable]="false"
       styleClass="p-mb-4"
     ></p-messages>
-    <p-panel styleClass="standard" header="PLACEHOLDER - Building Occupancy">
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="View Alert Playback"
+      icon="fas fa-play-circle"
+      class="p-button-rounded p-button-sm p-d-block p-mb-4"
+    ></button>
+    <p-panel styleClass="standard" header="Building Occupancy">
       <p class="p-mt-0 p-mb-4">
-        PLACEHOLDER - Average building capacity over the past 4 weeks, between
-        10 PM and 7 AM
+        Average building capacity over the past 4 weeks, between 10 PM and 7 AM
       </p>
       <p-chart
         *ngIf="alert"

@@ -21,7 +21,7 @@
       }"
       >{{ alert.alertType }}</span
     >
-    <small>#{{ alert.id }}</small
+    <small>{{ alert.region?.name }}</small
     ><br />
     <small class="color-text-medium">{{
       alert.createdAt | date: "dd MMM h:mm a"

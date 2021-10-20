@@ -10,3 +10,4 @@ export * from './user.model';
 export * from './tenant.model';
 export * from './tenant-user.model';
 export * from './add-floor-input.model';
+export * from './region.model';
