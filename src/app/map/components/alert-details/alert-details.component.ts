@@ -13,7 +13,7 @@ import * as UserSelectors from '@store/user/user.selectors';
 })
 export class AlertDetailsComponent implements OnInit {
   selectedAlert$ = this.store.select(AlertSelectors.selectSelectedAlert);
-  user$ = this.store.select(UserSelectors.selectSelf);
+  self$ = this.store.select(UserSelectors.selectSelf);
   loading$ = this.store.select(AlertSelectors.selectLoading);
 
   constructor(private store: Store<RootState>) {}
