@@ -1,7 +1,10 @@
 import { AlertSeverity, AlertType } from '../enums';
 import { IBase } from '@shared/interfaces';
-import { AccessPoint } from '.';
 import { User } from './user.model';
+import { AccessPoint } from './access-point.model';
+import { Region } from './region.model';
+import * as moment from 'moment-timezone';
+import { environment } from 'src/environments/environment';
 
 export class Alert implements IBase {
   id!: number;
@@ -17,7 +20,7 @@ export class Alert implements IBase {
   accessPoint?: AccessPoint;
   alertSeverity!: AlertSeverity;
   alertType!: AlertType;
-  region?: string;
+  region?: Region;
 
   constructor(args: {
     alertId: number;
@@ -31,7 +34,7 @@ export class Alert implements IBase {
     acknowledgedBy: User;
     acknowledgedAt: Date;
     accessPoint: AccessPoint;
-    region: string;
+    region: any;
     alertSeverity: string;
     alertType: string;
   }) {
@@ -42,11 +45,24 @@ export class Alert implements IBase {
     this.intensityPercentile = args.intensityPercentile;
     this.regionId = args.regionId;
     this.alertMessage = args.alertMessage;
-    this.createdAt = args.createdAt;
+    this.createdAt = new Date(
+      moment
+        .tz(args.createdAt, 'UTC')
+        .tz(environment.timeZone)
+        .format('YYYY/MM/DD HH:mm:ss')
+    );
     this.acknowledgedBy = args.acknowledgedBy;
-    this.acknowledgedAt = args.acknowledgedAt;
+
+    if (args.acknowledgedAt) {
+      this.acknowledgedAt = new Date(
+        moment
+          .tz(args.acknowledgedAt, 'UTC')
+          .tz(environment.timeZone)
+          .format('YYYY/MM/DD HH:mm:ss')
+      );
+    }
     this.accessPoint = args.accessPoint;
-    this.region = args.region;
+    this.region = new Region(args.region);
     this.alertSeverity = args.alertSeverity as AlertSeverity;
     this.alertType = args.alertType as AlertType;
   }
