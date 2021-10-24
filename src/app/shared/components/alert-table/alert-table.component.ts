@@ -10,6 +10,8 @@ import { Input } from '@angular/core';
 import { Alert, Building } from '@map/models';
 import { Observable } from 'rxjs';
 import { SkipTakeInput } from '@shared/models/skip-take-input.model';
+import { LazyLoadEvent } from 'primeng/api';
+import { AlertService } from '@map/services/alert.service';
 
 @Component({
   selector: 'app-alert-table',
@@ -27,10 +29,16 @@ export class AlertTableComponent implements OnInit {
   loading$ = this.store.select(AlertSelectors.selectLoading);
   buildings$ = this.store.select(BuildingSelectors.selectAll);
 
+  rows = 10;
+  totalRows = 200;
+
   sortField?: string;
   sortOrder?: number;
 
-  constructor(private store: Store<RootState>) {}
+  constructor(
+    private store: Store<RootState>,
+    private alertService: AlertService
+  ) {}
 
   ngOnInit(): void {
     // if (!this.building) {
@@ -44,7 +52,11 @@ export class AlertTableComponent implements OnInit {
     // }
   }
 
-  onSkipAndTake(skipTakeInput: SkipTakeInput): void {
+  onLazyLoad(event: LazyLoadEvent): void {
+    const skipTakeInput = this.alertService.createSkipTakeInput(
+      event,
+      this.rows
+    );
     this.store.dispatch(AlertActions.skipAndTakeAlertTable({ skipTakeInput }));
   }
   onAlertSelected(alert: Alert): void {
