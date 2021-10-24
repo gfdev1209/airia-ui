@@ -13,7 +13,7 @@ import { Alert, Building } from '@map/models';
 import { SkipTakeInput } from '@shared/models/skip-take-input.model';
 import { EnumToSelectItemsPipe } from '@shared/pipes/enum-to-select-items.pipe';
 import { LazyLoadEvent } from 'primeng/api';
-import { first } from 'rxjs/operators';
+import { first, skip } from 'rxjs/operators';
 
 @Component({
   selector: 'app-alert-table-view',
@@ -34,6 +34,7 @@ export class AlertTableViewComponent implements OnChanges, OnInit {
   @Output() alertDeselected = new EventEmitter<Alert>();
 
   totalRecords = 0;
+  rows = 10;
 
   AlertSeverityName = AlertSeverity;
   AlertTypeName = AlertType;
@@ -59,6 +60,41 @@ export class AlertTableViewComponent implements OnChanges, OnInit {
         });
       });
     }
+    if (!changes.alerts?.firstChange && changes.alerts?.currentValue) {
+      this.loading = false;
+      this.totalRecords = 30;
+    }
+  }
+
+  loadAlerts(event: LazyLoadEvent): void {
+    this.loading = true;
+    console.log(event);
+    const skipTakeInput = new SkipTakeInput(0, this.rows);
+    skipTakeInput.parameters = { sortOrder: -1 };
+    if (event.rows) {
+      this.rows = event.rows;
+      skipTakeInput.take = event.rows;
+    }
+    if (event.first) {
+      skipTakeInput.skip = event.first;
+    }
+    if (event.sortOrder) {
+      skipTakeInput.parameters.sortOrder = event.sortOrder;
+    }
+    if (event.sortField) {
+      skipTakeInput.parameters.sortField = event.sortField;
+    }
+    this.skipAndTake.emit(skipTakeInput);
+
+    // setTimeout(() => {
+    //   this.customerService
+    //     .getCustomers({ lazyEvent: JSON.stringify(event) })
+    //     .then((res) => {
+    //       this.customers = res.customers;
+    //       this.totalRecords = res.totalRecords;
+    //       this.loading = false;
+    //     });
+    // }, 1000);
   }
 
   selectAlert(event: any): void {
@@ -70,5 +106,9 @@ export class AlertTableViewComponent implements OnChanges, OnInit {
     if (event?.data) {
       this.alertDeselected.emit(event.data);
     }
+  }
+
+  sortAlerts(event: any): void {
+    console.log(event);
   }
 }

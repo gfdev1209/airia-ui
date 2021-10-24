@@ -23,11 +23,11 @@ export class ReportFormComponent implements OnInit {
     this.store.dispatch(BuildingActions.deselect());
     this.store.dispatch(UserActions.deselect());
     this.store.dispatch(UserActions.getAll());
-    this.store.dispatch(
-      AlertActions.skipAndTakeAlertTable({
-        skipTakeInput: { skip: 0, take: 100 },
-      })
-    );
+    // this.store.dispatch(
+    //   AlertActions.skipAndTakeAlertTable({
+    //     skipTakeInput: { skip: 0, take: 100, sortOrder: -1 },
+    //   })
+    // );
   }
 
   onGenerateReport(createReportInput: CreateReportInput): void {

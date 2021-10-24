@@ -27,6 +27,9 @@ export class AlertTableComponent implements OnInit {
   loading$ = this.store.select(AlertSelectors.selectLoading);
   buildings$ = this.store.select(BuildingSelectors.selectAll);
 
+  sortField?: string;
+  sortOrder?: number;
+
   constructor(private store: Store<RootState>) {}
 
   ngOnInit(): void {
