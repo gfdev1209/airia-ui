@@ -4,6 +4,7 @@ import { throwError, Observable } from 'rxjs';
 import { retry, catchError, tap, map, share } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Alert, Location } from '@map/models';
+import { SkipTakeInput } from '@shared/models/skip-take-input.model';
 
 @Injectable({
   providedIn: 'root',
@@ -71,12 +72,14 @@ export class BaseService {
   }
 
   skipAndTake<T>(
-    skip: number,
-    take: number,
+    skipTakeInput: SkipTakeInput,
     appendToUrl: string = ''
   ): Observable<T> {
+    const params = new URLSearchParams(skipTakeInput.parameters).toString();
     return this.http
-      .get(`${this.apiUrl}/Skip/${skip}/Take/${take}${appendToUrl}`)
+      .get(
+        `${this.apiUrl}/Skip/${skipTakeInput.skip}/Take/${skipTakeInput.take}${appendToUrl}?${params}`
+      )
       .pipe(
         retry(2),
         map((response: any) => this.mapArrayResponseToObject<T>(response)),

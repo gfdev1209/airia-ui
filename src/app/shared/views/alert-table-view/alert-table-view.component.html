@@ -2,9 +2,13 @@
   <p-table
     class="report-table"
     [value]="alerts"
+    [lazy]="true"
+    (onLazyLoad)="loadAlerts($event)"
     [(selection)]="selectedAlerts"
+    [loading]="loading"
     [paginator]="true"
-    [rows]="10"
+    [rows]="rows"
+    [totalRecords]="totalRecords"
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [rowsPerPageOptions]="[10, 25, 50]"
@@ -15,6 +19,7 @@
     dataKey="id"
     (onRowSelect)="selectAlert($event)"
     (onRowUnselect)="deselectAlert($event)"
+    (onSort)="sortAlerts($event)"
   >
     <ng-template pTemplate="header">
       <tr>

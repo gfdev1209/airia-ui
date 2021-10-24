@@ -40,11 +40,7 @@ export class AlertEffects {
       ),
       mergeMap(({ skipTakeInput }) =>
         this.alertService
-          .skipAndTake<Alert[]>(
-            skipTakeInput.skip,
-            skipTakeInput.take,
-            '/+AcknowledgedBy'
-          )
+          .skipAndTake<Alert[]>(skipTakeInput, '/+AcknowledgedBy')
           .pipe(
             map((alerts: Alert[]) =>
               AlertActions.skipAndTakeSuccess({ alerts })

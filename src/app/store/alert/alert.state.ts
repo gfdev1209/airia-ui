@@ -7,6 +7,7 @@ export interface AlertState extends EntityState<Alert> {
   loaded: boolean;
   loading: boolean;
   sortType: AlertSortType;
+  sortField: string | null;
 }
 export const adapter = createEntityAdapter<Alert>();
 export const initialState: AlertState = adapter.getInitialState({
@@ -14,4 +15,5 @@ export const initialState: AlertState = adapter.getInitialState({
   loaded: false,
   loading: false,
   sortType: AlertSortType.Date,
+  sortField: null,
 });
