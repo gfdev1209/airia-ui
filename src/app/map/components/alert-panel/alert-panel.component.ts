@@ -34,7 +34,11 @@ export class AlertPanelComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(
       AlertActions.skipAndTakeAlertTable({
-        skipTakeInput: { skip: 0, take: 100 },
+        skipTakeInput: {
+          skip: 0,
+          take: 100,
+          parameters: { sortField: 'createdAt', sortOrder: -1 },
+        },
       })
     );
   }

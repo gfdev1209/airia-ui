@@ -4,6 +4,8 @@ import { BaseService } from '@shared/services/base.service';
 import { Alert } from '@map/models';
 import { Observable } from 'rxjs';
 import { retry, map, catchError, share } from 'rxjs/operators';
+import { LazyLoadEvent } from 'primeng/api';
+import { SkipTakeInput } from '@shared/models/skip-take-input.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +13,26 @@ import { retry, map, catchError, share } from 'rxjs/operators';
 export class AlertService extends BaseService {
   constructor(private httpClient: HttpClient) {
     super('Alerts', httpClient);
+  }
+
+  createSkipTakeInput(event: LazyLoadEvent, rows: number): SkipTakeInput {
+    const skipTakeInput = new SkipTakeInput(0, rows);
+    skipTakeInput.parameters = { sortOrder: -1 };
+    // if (event.rows) {
+    //   rows = event.rows;
+    //   skipTakeInput.take = event.rows;
+    // }
+    skipTakeInput.take = rows;
+    if (event.first) {
+      skipTakeInput.skip = event.first;
+    }
+    if (event.sortOrder) {
+      skipTakeInput.parameters.sortOrder = event.sortOrder;
+    }
+    if (event.sortField) {
+      skipTakeInput.parameters.sortField = event.sortField;
+    }
+    return skipTakeInput;
   }
 
   acknowledgeAlert(alert: Alert): Observable<void> {

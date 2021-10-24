@@ -10,7 +10,7 @@ import { retry, map, catchError, share, debounceTime } from 'rxjs/operators';
 })
 export class DeviceService extends BaseService {
   constructor(private httpClient: HttpClient) {
-    super('Devices', httpClient);
+    super('DevicesRationalized', httpClient);
   }
 
   getSeenFromMinutes(fromMin: number): Observable<Device[]> {

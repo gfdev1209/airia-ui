@@ -4,7 +4,9 @@
   [buildings]="buildings$ | async"
   [selectedBuilding]="building"
   [showCheckboxColumn]="showCheckboxColumn"
-  (skipAndTake)="onSkipAndTake($event)"
+  [rows]="rows"
+  [totalRows]="totalRows"
+  (lazyLoad)="onLazyLoad($event)"
   (alertSelected)="onAlertSelected($event)"
   (alertDeselected)="onAlertDeselected($event)"
 ></app-alert-table-view>

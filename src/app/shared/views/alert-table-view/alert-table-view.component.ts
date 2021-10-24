@@ -28,13 +28,15 @@ export class AlertTableViewComponent implements OnChanges, OnInit {
   @Input() selectedBuilding?: Building | null;
   @Input() buildings: Building[] | null = [];
   @Input() showCheckboxColumn!: boolean;
+  @Input() rows = 10;
+  @Input() totalRows = 0;
 
-  @Output() skipAndTake = new EventEmitter<SkipTakeInput>();
+  @Output() lazyLoad = new EventEmitter<LazyLoadEvent>();
   @Output() alertSelected = new EventEmitter<Alert>();
   @Output() alertDeselected = new EventEmitter<Alert>();
 
-  totalRecords = 0;
-  rows = 10;
+  // totalRecords = 0;
+  // rows = 10;
 
   AlertSeverityName = AlertSeverity;
   AlertTypeName = AlertType;
@@ -62,29 +64,13 @@ export class AlertTableViewComponent implements OnChanges, OnInit {
     }
     if (!changes.alerts?.firstChange && changes.alerts?.currentValue) {
       this.loading = false;
-      this.totalRecords = 30;
     }
   }
 
   loadAlerts(event: LazyLoadEvent): void {
     this.loading = true;
     console.log(event);
-    const skipTakeInput = new SkipTakeInput(0, this.rows);
-    skipTakeInput.parameters = { sortOrder: -1 };
-    if (event.rows) {
-      this.rows = event.rows;
-      skipTakeInput.take = event.rows;
-    }
-    if (event.first) {
-      skipTakeInput.skip = event.first;
-    }
-    if (event.sortOrder) {
-      skipTakeInput.parameters.sortOrder = event.sortOrder;
-    }
-    if (event.sortField) {
-      skipTakeInput.parameters.sortField = event.sortField;
-    }
-    this.skipAndTake.emit(skipTakeInput);
+    this.lazyLoad.emit(event);
 
     // setTimeout(() => {
     //   this.customerService
