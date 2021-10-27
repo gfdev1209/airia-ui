@@ -18,6 +18,7 @@ export class AlertService extends BaseService {
   createSkipTakeInput(event: LazyLoadEvent, rows: number): SkipTakeInput {
     const skipTakeInput = new SkipTakeInput(0, rows);
     skipTakeInput.parameters = { sortOrder: -1 };
+    skipTakeInput.filters = {};
     // if (event.rows) {
     //   rows = event.rows;
     //   skipTakeInput.take = event.rows;
@@ -32,7 +33,59 @@ export class AlertService extends BaseService {
     if (event.sortField) {
       skipTakeInput.parameters.sortField = event.sortField;
     }
+    if (event.filters) {
+      if (event.filters.createdAt?.value && event.filters.createdAt.matchMode) {
+        skipTakeInput.filters.createdAt = {};
+        skipTakeInput.filters.createdAt.value = '2021-10-22 00:00:00';
+        skipTakeInput.filters.createdAt.matchMode =
+          event.filters.createdAt.matchMode;
+      }
+      if (event.filters.alertMessage?.value) {
+        skipTakeInput.filters.alertMessage = {};
+        skipTakeInput.filters.alertMessage.value =
+          event.filters.alertMessage.value;
+        skipTakeInput.filters.alertMessage.matchMode =
+          event.filters.alertMessage.matchMode;
+      }
+      if (
+        event.filters.alertSeverity?.value &&
+        event.filters.alertSeverity.value.length > 0
+      ) {
+        skipTakeInput.filters.alertSeverity = {};
+        skipTakeInput.filters.alertSeverity.value =
+          event.filters.alertSeverity.value;
+        skipTakeInput.filters.alertSeverity.matchMode =
+          event.filters.alertSeverity.matchMode;
+      }
+    }
+    //   'https://lakeway-api.dev.airia20.com/api/Alerts/Skip/0/Take/10?withPagination=true&AlertSeverity.Values=orange&AlertSeverity.Values=red&AlertSeverity.MatchMode=in' \
+
     return skipTakeInput;
+  }
+
+  skipAndTake<T>(
+    skipTakeInput: SkipTakeInput,
+    appendToUrl: string = '',
+    params: string = ''
+  ): Observable<T> {
+    params = new URLSearchParams(skipTakeInput.parameters).toString();
+    if (skipTakeInput.filters?.alertMessage) {
+      params += `&AlertMessage.Value=${skipTakeInput.filters.alertMessage.value}&AlertMessage.MatchMode=${skipTakeInput.filters.alertMessage.matchMode}`;
+    }
+    if (skipTakeInput.filters?.createdAt) {
+      params += `&FeatureEventtime.Value=${skipTakeInput.filters.createdAt.value}&FeatureEventtime.MatchMode=${skipTakeInput.filters.createdAt.matchMode}`;
+    }
+    if (skipTakeInput.filters?.alertSeverity) {
+      skipTakeInput.filters.alertSeverity.value.forEach(
+        (alertSeverity: any) => {
+          if (alertSeverity) {
+            params += `&AlertSeverity.Value=${alertSeverity}`;
+          }
+        }
+      );
+      // params += `&AlertSeverity.MatchMode=${skipTakeInput.filters.alertSeverity.matchMode}`;
+    }
+    return super.skipAndTake<T>(skipTakeInput, appendToUrl, params);
   }
 
   acknowledgeAlert(alert: Alert): Observable<void> {

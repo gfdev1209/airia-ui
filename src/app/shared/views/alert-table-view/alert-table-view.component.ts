@@ -34,6 +34,7 @@ export class AlertTableViewComponent implements OnChanges, OnInit {
   @Output() lazyLoad = new EventEmitter<LazyLoadEvent>();
   @Output() alertSelected = new EventEmitter<Alert>();
   @Output() alertDeselected = new EventEmitter<Alert>();
+  @Output() rowAmountChanged = new EventEmitter<number>();
 
   // totalRecords = 0;
   // rows = 10;
@@ -67,9 +68,12 @@ export class AlertTableViewComponent implements OnChanges, OnInit {
     }
   }
 
+  onPageChange(event: any): void {
+    this.rowAmountChanged.emit(event.rows);
+  }
+
   loadAlerts(event: LazyLoadEvent): void {
     this.loading = true;
-    console.log(event);
     this.lazyLoad.emit(event);
 
     // setTimeout(() => {

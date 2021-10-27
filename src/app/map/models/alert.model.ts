@@ -15,6 +15,8 @@ export class Alert implements IBase {
   regionId!: number;
   alertMessage!: string;
   createdAt!: Date;
+  hasPagination!: boolean;
+  count?: number;
   acknowledgedBy?: User;
   acknowledgedAt?: Date;
   accessPoint?: AccessPoint;
@@ -31,6 +33,8 @@ export class Alert implements IBase {
     regionId: number;
     alertMessage: string;
     createdAt: Date;
+    hasPagination: boolean;
+    count: number;
     acknowledgedBy: User;
     acknowledgedAt: Date;
     accessPoint: AccessPoint;
@@ -52,6 +56,9 @@ export class Alert implements IBase {
         .format('YYYY/MM/DD HH:mm:ss')
     );
     this.acknowledgedBy = args.acknowledgedBy;
+
+    this.hasPagination = args.hasPagination;
+    this.count = args.count;
 
     if (args.acknowledgedAt) {
       this.acknowledgedAt = new Date(

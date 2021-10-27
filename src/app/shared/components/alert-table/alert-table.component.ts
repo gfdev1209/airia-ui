@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { SkipTakeInput } from '@shared/models/skip-take-input.model';
 import { LazyLoadEvent } from 'primeng/api';
 import { AlertService } from '@map/services/alert.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-alert-table',
@@ -30,10 +31,11 @@ export class AlertTableComponent implements OnInit {
   buildings$ = this.store.select(BuildingSelectors.selectAll);
 
   rows = 10;
-  totalRows = 200;
+  totalRows = 10;
 
   sortField?: string;
   sortOrder?: number;
+  skipTakeInput?: SkipTakeInput;
 
   constructor(
     private store: Store<RootState>,
@@ -41,15 +43,13 @@ export class AlertTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // if (!this.building) {
-    // this.store.dispatch(AlertActions.getAll());
-    // this.store.dispatch(BuildingActions.getAll());
-    this.alerts$ = this.store.select(AlertSelectors.selectAll);
-    // } else {
-    //   this.alerts$ = this.store.select(AlertSelectors.selectByBuildingId, {
-    //     buildingId: this.building.id,
-    //   });
-    // }
+    this.alerts$ = this.store.select(AlertSelectors.selectAll).pipe(
+      tap((alerts) => {
+        if (alerts.length > 0 && alerts[0].hasPagination && alerts[0].count) {
+          this.totalRows = alerts[0].count;
+        }
+      })
+    );
   }
 
   onLazyLoad(event: LazyLoadEvent): void {
@@ -57,7 +57,20 @@ export class AlertTableComponent implements OnInit {
       event,
       this.rows
     );
+    skipTakeInput.parameters.withPagination = true;
+    this.skipTakeInput = skipTakeInput;
     this.store.dispatch(AlertActions.skipAndTakeAlertTable({ skipTakeInput }));
+  }
+  onRowAmountChanged(rows: number): void {
+    if (this.skipTakeInput) {
+      this.rows = rows;
+      this.skipTakeInput.take = rows;
+      this.store.dispatch(
+        AlertActions.skipAndTakeAlertTable({
+          skipTakeInput: this.skipTakeInput,
+        })
+      );
+    }
   }
   onAlertSelected(alert: Alert): void {
     if (alert) {
