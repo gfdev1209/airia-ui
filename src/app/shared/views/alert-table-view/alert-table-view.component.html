@@ -20,6 +20,7 @@
     (onRowSelect)="selectAlert($event)"
     (onRowUnselect)="deselectAlert($event)"
     (onSort)="sortAlerts($event)"
+    (onPage)="onPageChange($event)"
   >
     <ng-template pTemplate="header">
       <tr>
@@ -50,10 +51,30 @@
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
         <th>
-          <p-columnFilter type="date" field="createdAt"></p-columnFilter>
+          <p-columnFilter
+            type="date"
+            field="createdAt"
+            [showMenu]="false"
+            matchMode="dateIs"
+            ><ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <p-calendar
+                #calendar
+                [ngModel]="value"
+                (onSelect)="filter(calendar.value)"
+              ></p-calendar> </ng-template
+          ></p-columnFilter>
         </th>
         <th>
-          <p-columnFilter type="text" field="alertMessage"></p-columnFilter>
+          <p-columnFilter
+            type="text"
+            field="alertMessage"
+            [showMenu]="false"
+            matchMode="contains"
+          ></p-columnFilter>
         </th>
         <th>
           <p-columnFilter

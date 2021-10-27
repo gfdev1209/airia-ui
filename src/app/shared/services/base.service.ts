@@ -73,9 +73,9 @@ export class BaseService {
 
   skipAndTake<T>(
     skipTakeInput: SkipTakeInput,
-    appendToUrl: string = ''
+    appendToUrl: string = '',
+    params: string = ''
   ): Observable<T> {
-    const params = new URLSearchParams(skipTakeInput.parameters).toString();
     return this.http
       .get(
         `${this.apiUrl}/Skip/${skipTakeInput.skip}/Take/${skipTakeInput.take}${appendToUrl}?${params}`
