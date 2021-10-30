@@ -36,7 +36,9 @@ export class AlertService extends BaseService {
     if (event.filters) {
       if (event.filters.createdAt?.value && event.filters.createdAt.matchMode) {
         skipTakeInput.filters.createdAt = {};
-        skipTakeInput.filters.createdAt.value = '2021-10-22 00:00:00';
+        skipTakeInput.filters.createdAt.value = new Date(
+          event.filters.createdAt.value
+        ).toISOString();
         skipTakeInput.filters.createdAt.matchMode =
           event.filters.createdAt.matchMode;
       }
@@ -46,6 +48,15 @@ export class AlertService extends BaseService {
           event.filters.alertMessage.value;
         skipTakeInput.filters.alertMessage.matchMode =
           event.filters.alertMessage.matchMode;
+      }
+      if (
+        event.filters.alertType?.value &&
+        event.filters.alertSeverity.value.length > 0
+      ) {
+        skipTakeInput.filters.alertType = {};
+        skipTakeInput.filters.alertType.value = event.filters.alertType.value;
+        skipTakeInput.filters.alertType.matchMode =
+          event.filters.alertType.matchMode;
       }
       if (
         event.filters.alertSeverity?.value &&
@@ -58,8 +69,6 @@ export class AlertService extends BaseService {
           event.filters.alertSeverity.matchMode;
       }
     }
-    //   'https://lakeway-api.dev.airia20.com/api/Alerts/Skip/0/Take/10?withPagination=true&AlertSeverity.Values=orange&AlertSeverity.Values=red&AlertSeverity.MatchMode=in' \
-
     return skipTakeInput;
   }
 
@@ -70,22 +79,65 @@ export class AlertService extends BaseService {
   ): Observable<T> {
     params = new URLSearchParams(skipTakeInput.parameters).toString();
     if (skipTakeInput.filters?.alertMessage) {
-      params += `&AlertMessage.Value=${skipTakeInput.filters.alertMessage.value}&AlertMessage.MatchMode=${skipTakeInput.filters.alertMessage.matchMode}`;
+      params += this.createFilterQueryString(
+        skipTakeInput,
+        'alertMessage',
+        'AlertMessage'
+      );
     }
     if (skipTakeInput.filters?.createdAt) {
-      params += `&FeatureEventtime.Value=${skipTakeInput.filters.createdAt.value}&FeatureEventtime.MatchMode=${skipTakeInput.filters.createdAt.matchMode}`;
+      params += this.createFilterQueryString(
+        skipTakeInput,
+        'createdAt',
+        'AlertStartTime',
+        'dateIs'
+      );
+    }
+    if (skipTakeInput.filters?.alertType) {
+      params += this.createFilterQueryString(
+        skipTakeInput,
+        'alertType',
+        'AlertType',
+        'in'
+      );
     }
     if (skipTakeInput.filters?.alertSeverity) {
-      skipTakeInput.filters.alertSeverity.value.forEach(
-        (alertSeverity: any) => {
-          if (alertSeverity) {
-            params += `&AlertSeverity.Value=${alertSeverity}`;
-          }
-        }
+      params += this.createFilterQueryString(
+        skipTakeInput,
+        'alertSeverity',
+        'AlertSeverity'
       );
-      // params += `&AlertSeverity.MatchMode=${skipTakeInput.filters.alertSeverity.matchMode}`;
     }
     return super.skipAndTake<T>(skipTakeInput, appendToUrl, params);
+  }
+
+  createFilterQueryString(
+    skipTakeInput: SkipTakeInput,
+    parameterName: string,
+    queryName: string,
+    matchModeOverride?: string
+  ): string {
+    let queryString = '';
+    let matchMode = matchModeOverride;
+    if (
+      Array.isArray(skipTakeInput.filters[parameterName].value) &&
+      skipTakeInput.filters[parameterName].value.length > 0
+    ) {
+      skipTakeInput.filters[parameterName].value.forEach((parameter: any) => {
+        if (parameter) {
+          queryString += `&${queryName}.Values=${parameter}`;
+        }
+      });
+      matchMode = matchModeOverride
+        ? matchModeOverride
+        : skipTakeInput.filters[parameterName].matchMode;
+      queryString += `&${queryName}.MatchMode=${matchMode}`;
+    } else if (skipTakeInput.filters[parameterName].value.length > 0) {
+      queryString += `&${queryName}.Value=${skipTakeInput.filters[parameterName].value}`;
+      matchMode = matchModeOverride ? matchModeOverride : 'is';
+      queryString += `&${queryName}.MatchMode=${matchMode}`;
+    }
+    return queryString;
   }
 
   acknowledgeAlert(alert: Alert): Observable<void> {
