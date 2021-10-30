@@ -6,17 +6,15 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { AlertPanelComponent } from '../../components/alert-panel/alert-panel.component';
-import { AlertSeverity, AlertSortType } from '../../enums';
+import { AlertSortType } from '../../enums';
 import { Location } from '../../models';
 
 import * as moment from 'moment';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-overview-panel-view',
@@ -54,8 +52,6 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   @ViewChild('topPanel') topPanel!: ElementRef;
   @ViewChild('alertPanel') private alertPanel!: AlertPanelComponent;
 
-  // playbackTime = 0;
-  // currentDateTime = moment(new Date()).tz(environment.timeZone).toDate();
   currentDateTime = new Date();
 
   footTraffic = true;
@@ -80,17 +76,14 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   selectedAlertSortOption = AlertSortType.Date;
 
   playbackOptions = [
-    { name: '0.05x', value: 0.05 },
-    { name: '0.1x', value: 0.1 },
-    { name: '0.25x', value: 0.25 },
-    { name: '0.5x', value: 0.5 },
+    { name: '0.1x', value: 10 },
+    { name: '0.25x', value: 4 },
+    { name: '0.5x', value: 2 },
     { name: '1x', value: 1 },
-    { name: '1.5x', value: 1.5 },
-    { name: '2x', value: 2 },
-    { name: '3x', value: 3 },
-    { name: '4x', value: 4 },
-    { name: '5x', value: 5 },
-    { name: '10x', value: 10 },
+    { name: '1.5x', value: 0.75 },
+    { name: '2x', value: 0.5 },
+    { name: '5x', value: 0.25 },
+    { name: '10x', value: 0.125 },
   ];
 
   constructor() {}
@@ -109,7 +102,6 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
 
   ngAfterViewInit(): void {
     this.playbackSpeedChanged.emit(1);
-    //this.playbackSliderChanged.emit(0);
   }
 
   expandPanel(): void {

@@ -74,6 +74,7 @@ export class AlertTableViewComponent implements OnChanges, OnInit {
 
   loadAlerts(event: LazyLoadEvent): void {
     this.loading = true;
+    console.log(event);
     this.lazyLoad.emit(event);
 
     // setTimeout(() => {
