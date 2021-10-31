@@ -1,5 +1,4 @@
 <p-dialog
-  *ngIf="alert"
   [(visible)]="alert"
   [maximizable]="true"
   [dismissableMask]="true"
@@ -10,7 +9,7 @@
   (onHide)="onClose($event)"
 >
   <ng-template pTemplate="header">
-    <div>
+    <div *ngIf="alert">
       <i
         class="font-size-1-rem fa-fw {{ alert.alertType | alertIconByType }} {{
           alert.alertSeverity | colorByAlertSeverity
@@ -28,7 +27,7 @@
       </h2>
     </div>
   </ng-template>
-  <div class="alert-details">
+  <div class="alert-details" *ngIf="alert">
     <h4 class="font-weight-medium p-mt-0">
       <strong>Time:</strong> {{ alert.createdAt | date: "MMM dd h:mm a" }}<br />
       <strong>Region:</strong> {{ alert.region?.name }}
@@ -58,7 +57,7 @@
       ></p-chart>
     </p-panel>
   </div>
-  <p-footer>
+  <p-footer *ngIf="alert">
     <button
       *ngIf="!alert.acknowledgedBy && canAcknowledgeAlert()"
       pButton

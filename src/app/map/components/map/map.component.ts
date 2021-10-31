@@ -7,6 +7,7 @@ import * as LocationActions from '@store/location/location.actions';
 import * as LocationSelectors from '@store/location/location.selectors';
 import * as AccessPointActions from '@store/access-point/access-point.actions';
 import * as AccessPointSelectors from '@store/access-point/access-point.selectors';
+import * as AlertSelectors from '@store/alert/alert.selectors';
 import * as DeviceActions from '@store/device/device.actions';
 import * as DeviceSelectors from '@store/device/device.selectors';
 import * as FloorActions from '@store/floor/floor.actions';
@@ -16,7 +17,7 @@ import { MapService } from '@map/services/map.service';
 import { MapViewComponent } from '@map/views/map-view/map-view.component';
 import { interval, Subscription } from 'rxjs';
 import * as moment from 'moment';
-import { AccessPoint, Device, Floor } from '@map/models';
+import { AccessPoint, Alert, Device, Floor } from '@map/models';
 import * as _ from 'lodash';
 import { environment } from 'src/environments/environment';
 
@@ -40,6 +41,15 @@ export class MapComponent implements OnInit, OnDestroy {
   );
   selectedLocation$ = this.store.select(
     LocationSelectors.selectSelectedLocation
+  );
+  selectedAlert$ = this.store.select(AlertSelectors.selectSelectedAlert).pipe(
+    tap((alert) => {
+      if (alert?.region?.regionPolygon) {
+        this.regionPolygon = alert.region.regionPolygon;
+      } else if (!alert) {
+        this.regionPolygon = null;
+      }
+    })
   );
   buildings$ = this.store.select(BuildingSelectors.selectAll);
   selectedBuilding$ = this.store.select(
@@ -113,6 +123,9 @@ export class MapComponent implements OnInit, OnDestroy {
   mapDateTime$ = this.mapService.mapDateTime$;
   mapDateTimeSubscription$: Subscription = new Subscription();
   mapDateTime: Date = new Date();
+
+  // Polygon coordinates of selected region
+  regionPolygon?: number[][] | null;
 
   zoomIn$: Subscription = new Subscription();
   zoomOut$: Subscription = new Subscription();
