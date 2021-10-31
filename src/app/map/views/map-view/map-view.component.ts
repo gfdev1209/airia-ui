@@ -7,8 +7,15 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
-import { Map, MapboxGeoJSONFeature, Point } from 'mapbox-gl';
-import { AccessPoint, Building, Device, Floor, Location } from '../../models';
+import { LngLatLike, Map, MapboxGeoJSONFeature, Point } from 'mapbox-gl';
+import {
+  AccessPoint,
+  Alert,
+  Building,
+  Device,
+  Floor,
+  Location,
+} from '../../models';
 import { environment } from 'src/environments/environment';
 import { DeviceMapboxDetails } from '@map/models/device-mapbox-details.model';
 import Helpers from '@core/utils/helpers';
@@ -31,6 +38,9 @@ export class MapViewComponent implements OnChanges {
   @Input() showDevices?: boolean | null = true;
   @Input() showStaticDevices?: boolean | null = true;
   @Input() showAccessPoints?: boolean | null = true;
+
+  @Input() selectedAlert?: Alert | null;
+  @Input() regionPolygon?: number[][] | null;
 
   @Input() showBuildingOverview: boolean | null = false;
 
@@ -100,6 +110,14 @@ export class MapViewComponent implements OnChanges {
     if (changes.showStaticDevices?.firstChange === false) {
       this.toggleIOT();
     }
+    if (changes.regionPolygon?.firstChange === false) {
+      console.log('show region', changes.regionPolygon.currentValue);
+      let regionCoordinates = [];
+      if (changes.regionPolygon.currentValue) {
+        regionCoordinates = changes.regionPolygon.currentValue;
+      }
+      this.addRegionPreview(regionCoordinates);
+    }
   }
 
   flyToLocation(latitude: number, longitude: number): void {
@@ -110,7 +128,7 @@ export class MapViewComponent implements OnChanges {
       this.map.flyTo({
         center: [longitude, latitude],
         essential: true,
-        speed: 0.375,
+        speed: 0.475,
         curve: 2.0,
         zoom: 19,
       });
@@ -179,9 +197,9 @@ export class MapViewComponent implements OnChanges {
       map.setLayoutProperty('road-label-simple', 'visibility', 'none');
     }
     this.disableRotate();
-    this.addBuildingLayers();
     this.addAccessPoints();
     this.addDevices();
+    this.addBuildingLayers();
   }
   disableRotate(): void {
     // disable map rotation using right click + drag
@@ -191,6 +209,39 @@ export class MapViewComponent implements OnChanges {
   }
   addBuildingLayers(): void {
     if (this.map) {
+      const dataSource = 'region';
+      // Add a data source containing GeoJSON data.
+      this.map.addSource(dataSource, {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: 'Polygon',
+            coordinates: [],
+          },
+        },
+      });
+      // Add a new layer to visualize the polygon.
+      this.map.addLayer({
+        id: dataSource,
+        type: 'fill',
+        source: dataSource, // reference the data source
+        layout: {},
+        paint: {
+          'fill-color': '#ff0000', // blue color fill
+          'fill-opacity': 0.25,
+        },
+      });
+      this.map.addLayer({
+        id: 'region-outline',
+        type: 'line',
+        source: dataSource, // reference the data source
+        paint: {
+          'line-width': 4,
+          'line-color': 'rgba(255,0,0,0.5)',
+        },
+      });
       // this.map.addLayer({
       //   id: 'building-outline',
       //   type: 'line',
@@ -244,6 +295,33 @@ export class MapViewComponent implements OnChanges {
       //     'line-width': 1,
       //   },
       // });
+    }
+  }
+  addRegionPreview(region: number[][]): void {
+    if (this.map && region) {
+      // Add a GeoJSON source with all devices
+      const regionSource = this.map.getSource(
+        'region'
+      ) as mapboxgl.GeoJSONSource;
+      if (regionSource) {
+        regionSource.setData({
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: 'Polygon',
+            coordinates: [region],
+          },
+        });
+        const coordinates = region;
+        const firstCoord = new mapboxgl.LngLat(region[0][0], region[0][1]);
+        // Create a 'LngLatBounds' with both corners at the first coordinate.
+        const bounds = new mapboxgl.LngLatBounds(firstCoord, firstCoord);
+        // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
+        for (const coord of coordinates) {
+          bounds.extend(new mapboxgl.LngLat(coord[0], coord[1]));
+        }
+        this.flyToLocation(bounds.getCenter().lat, bounds.getCenter().lng);
+      }
     }
   }
   /** Add all access points to map */

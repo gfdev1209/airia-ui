@@ -8,7 +8,7 @@ export class Region {
   modelRegion!: string;
   locationId?: string;
   buildingFloorId!: number;
-  regionPolygonJson: any;
+  regionPolygon?: number[][];
   buildingFloor?: Floor;
   alerts?: Alert[];
   activeType!: string;
@@ -31,9 +31,18 @@ export class Region {
     this.modelRegion = args.modelRegion;
     this.locationId = args.locationId;
     this.buildingFloorId = args.buildingFloorId;
-    this.regionPolygonJson = args.regionPolygonJson;
     this.buildingFloor = args.buildingFloor;
     this.activeType = args.activeType;
+
+    if (args.regionPolygonJson) {
+      this.regionPolygon = JSON.parse(args.regionPolygonJson)?.area_polygon;
+      if (this.regionPolygon) {
+        this.regionPolygon.forEach((position) => {
+          [position[0], position[1]] = [position[1], position[0]];
+        });
+        this.regionPolygon.push(this.regionPolygon[0]);
+      }
+    }
 
     if (args.alerts?.$values) {
       this.alerts = args.alerts.$values.map(
