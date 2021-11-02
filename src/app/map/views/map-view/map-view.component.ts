@@ -120,7 +120,11 @@ export class MapViewComponent implements OnChanges {
     }
   }
 
-  flyToLocation(latitude: number, longitude: number): void {
+  flyToLocation(
+    latitude: number,
+    longitude: number,
+    padding: number = 0
+  ): void {
     if (latitude && longitude) {
       this.map.once('moveend', () => {
         this.flyToBuildingComplete.emit();
@@ -131,6 +135,7 @@ export class MapViewComponent implements OnChanges {
         speed: 0.475,
         curve: 2.0,
         zoom: 19,
+        padding,
       });
     }
   }
@@ -320,7 +325,11 @@ export class MapViewComponent implements OnChanges {
         for (const coord of coordinates) {
           bounds.extend(new mapboxgl.LngLat(coord[0], coord[1]));
         }
-        this.flyToLocation(bounds.getCenter().lat, bounds.getCenter().lng);
+        this.map.fitBounds(bounds, {
+          padding: 300,
+          offset: [45, 0],
+        });
+        // this.flyToLocation(bounds.getCenter().lat, bounds.getCenter().lng, 500);
       }
     }
   }
