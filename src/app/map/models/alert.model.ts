@@ -9,12 +9,12 @@ import { environment } from 'src/environments/environment';
 export class Alert implements IBase {
   id!: number;
   accessPointId?: number;
-  featureEventtime!: Date;
-  featureCreatedAt!: Date;
   intensityPercentile?: number;
   regionId!: number;
   alertMessage!: string;
   createdAt!: Date;
+  alertStartTime!: Date;
+  alertEndTime!: Date;
   hasPagination!: boolean;
   count?: number;
   acknowledgedBy?: User;
@@ -27,12 +27,12 @@ export class Alert implements IBase {
   constructor(args: {
     alertId: number;
     accessPointId: number;
-    featureEventtime: Date;
-    featureCreatedAt: Date;
     intensityPercentile: number;
     regionId: number;
     alertMessage: string;
     createdAt: Date;
+    alertStartTime: Date;
+    alertEndTime: Date;
     hasPagination: boolean;
     count: number;
     acknowledgedBy: User;
@@ -44,14 +44,24 @@ export class Alert implements IBase {
   }) {
     this.id = args.alertId;
     this.accessPointId = args.accessPointId;
-    this.featureEventtime = args.featureEventtime;
-    this.featureCreatedAt = args.featureCreatedAt;
     this.intensityPercentile = args.intensityPercentile;
     this.regionId = args.regionId;
     this.alertMessage = args.alertMessage;
     this.createdAt = new Date(
       moment
         .tz(args.createdAt, 'UTC')
+        .tz(environment.timeZone)
+        .format('YYYY/MM/DD HH:mm:ss')
+    );
+    this.alertStartTime = new Date(
+      moment
+        .tz(args.alertStartTime, 'UTC')
+        .tz(environment.timeZone)
+        .format('YYYY/MM/DD HH:mm:ss')
+    );
+    this.alertEndTime = new Date(
+      moment
+        .tz(args.alertEndTime, 'UTC')
         .tz(environment.timeZone)
         .format('YYYY/MM/DD HH:mm:ss')
     );
