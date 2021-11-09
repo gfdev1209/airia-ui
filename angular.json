@@ -23,6 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "showCircularDependencies": false,
             "outputPath": "dist/airia",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -31,9 +32,9 @@
             "aot": true,
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "node_modules/primeicons/primeicons.css",
-              "node_modules/primeflex/primeflex.css",
-              "node_modules/primeng/resources/primeng.min.css",
+              "./node_modules/primeicons/primeicons.css",
+              "./node_modules/primeflex/primeflex.css",
+              "./node_modules/primeng/resources/primeng.min.css",
               "src/styles/styles.scss"
             ],
             "scripts": ["./node_modules/chart.js/dist/Chart.js"],

@@ -35,6 +35,9 @@ export class MapService {
   private playbackSliderValue: BehaviorSubject<number> = new BehaviorSubject(0);
   playbackSliderValue$ = this.playbackSliderValue.asObservable();
 
+  private playbackSliderMax: BehaviorSubject<number> = new BehaviorSubject(10);
+  playbackSliderMax$ = this.playbackSliderMax.asObservable();
+
   private playbackSpeed: BehaviorSubject<number> = new BehaviorSubject(1);
   playbackSpeed$ = this.playbackSpeed.asObservable();
 
@@ -92,11 +95,12 @@ export class MapService {
   toggleLive(): void {
     this.stopPlay$.next();
     this.isPlaybackLive.next(!this.isPlaybackLive.value);
-    // if (this.isPlaybackLive.value === true) {
-    //   this.updateMapDateTime(new Date());
-    //   this.resetPlaybackSlider();
-    //   // this.startPlayback();
-    // }
+    if (this.isPlaybackLive.value === true) {
+      // this.updateMapDateTime(new Date());
+      this.resetPlaybackSlider();
+      this.resetPlaybackSliderMax();
+      // this.startPlayback();
+    }
   }
 
   setShowDevices(show: boolean): void {
@@ -121,6 +125,15 @@ export class MapService {
   updatePlaybackSpeed(value: number): void {
     if (value !== this.playbackSpeed.value) {
       this.playbackSpeed.next(value);
+    }
+  }
+
+  resetPlaybackSliderMax(): void {
+    this.updatePlaybackSliderMax(10);
+  }
+  updatePlaybackSliderMax(value: number): void {
+    if (value !== this.playbackSliderMax.value) {
+      this.playbackSliderMax.next(value);
     }
   }
 

@@ -16,9 +16,7 @@ export class NotificationService {
   displayError(error: HttpErrorResponse): void {
     this.error.next(error);
     this.errorMessage.next(
-      error.error?.ErrorMessage
-        ? error.error?.ErrorMessage
-        : error.error?.message
+      error.error?.ErrorMessage ? error.error?.ErrorMessage : error.message
     );
   }
 

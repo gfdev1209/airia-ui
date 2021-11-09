@@ -23,10 +23,8 @@ import {
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { InMemApiService } from '@shared/services/in-mem-api.service';
 import { FloorEffects } from '@store/floor/floor.effects';
 import { LocationEffects } from '@store/location/location.effects';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from 'src/environments/environment';
 

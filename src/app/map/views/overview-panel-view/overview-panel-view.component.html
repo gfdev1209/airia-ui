@@ -45,7 +45,10 @@
               (onClose)="onAccordionToggle($event)"
               expandIcon=""
             >
-              <p-accordionTab transitionOptions="0ms">
+              <p-accordionTab
+                transitionOptions="0ms"
+                [(selected)]="activeState[0]"
+              >
                 <ng-template pTemplate="header">
                   <div class="p-flex-column flex-grow-1">
                     <i class="icon fas fa-play-circle fa-fw p-mr-2"></i>
@@ -206,7 +209,7 @@
                         [(ngModel)]="playbackSliderValue"
                         [animate]="false"
                         [min]="0"
-                        [max]="10"
+                        [max]="playbackSliderMax!"
                         [disabled]="
                           isPlaybackLive === null ||
                           isPlaybackLive === true ||
@@ -253,7 +256,10 @@
                   </div>
                 </ng-template>
               </p-accordionTab>
-              <p-accordionTab transitionOptions="0ms">
+              <p-accordionTab
+                transitionOptions="0ms"
+                [(selected)]="activeState[1]"
+              >
                 <ng-template pTemplate="header">
                   <i class="icon fas fa-eye fa-fw p-mr-2"></i> Map View
                 </ng-template>
@@ -314,7 +320,10 @@
                   </div>
                 </ng-template>
               </p-accordionTab>
-              <p-accordionTab transitionOptions="0ms">
+              <p-accordionTab
+                transitionOptions="0ms"
+                [(selected)]="activeState[2]"
+              >
                 <ng-template pTemplate="header">
                   <div class="p-d-flex p-align-center p-jc-between flex-grow-1">
                     <div class="p-flex-column flex-grow-1">

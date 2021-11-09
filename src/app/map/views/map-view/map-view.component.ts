@@ -111,7 +111,6 @@ export class MapViewComponent implements OnChanges {
       this.toggleIOT();
     }
     if (changes.regionPolygon?.firstChange === false) {
-      console.log('show region', changes.regionPolygon.currentValue);
       let regionCoordinates = [];
       if (changes.regionPolygon.currentValue) {
         regionCoordinates = changes.regionPolygon.currentValue;
@@ -317,18 +316,20 @@ export class MapViewComponent implements OnChanges {
             coordinates: [region],
           },
         });
-        const coordinates = region;
-        const firstCoord = new mapboxgl.LngLat(region[0][0], region[0][1]);
-        // Create a 'LngLatBounds' with both corners at the first coordinate.
-        const bounds = new mapboxgl.LngLatBounds(firstCoord, firstCoord);
-        // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
-        for (const coord of coordinates) {
-          bounds.extend(new mapboxgl.LngLat(coord[0], coord[1]));
+        if (region?.length > 0) {
+          const coordinates = region;
+          const firstCoord = new mapboxgl.LngLat(region[0][0], region[0][1]);
+          // Create a 'LngLatBounds' with both corners at the first coordinate.
+          const bounds = new mapboxgl.LngLatBounds(firstCoord, firstCoord);
+          // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
+          for (const coord of coordinates) {
+            bounds.extend(new mapboxgl.LngLat(coord[0], coord[1]));
+          }
+          this.map.fitBounds(bounds, {
+            padding: 300,
+            offset: [40, 0],
+          });
         }
-        this.map.fitBounds(bounds, {
-          padding: 300,
-          offset: [45, 0],
-        });
         // this.flyToLocation(bounds.getCenter().lat, bounds.getCenter().lng, 500);
       }
     }

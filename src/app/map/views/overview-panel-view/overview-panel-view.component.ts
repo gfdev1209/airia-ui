@@ -27,6 +27,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   @Input() mapDateTime?: Date | null;
   @Input() displayedMapDateTime?: string | null;
   @Input() playbackSliderValue?: number | null = 0;
+  @Input() playbackSliderMax?: number | null = 10;
   @Input() playbackSpeed?: number | null = 1;
   @Input() isExpanded?: boolean | null;
   @Input() isPlaybackLive?: boolean | null;
@@ -51,6 +52,8 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
 
   @ViewChild('topPanel') topPanel!: ElementRef;
   @ViewChild('alertPanel') private alertPanel!: AlertPanelComponent;
+
+  activeState: boolean[] = [false, false, false];
 
   currentDateTime = new Date();
 
@@ -97,6 +100,11 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     }
     if (changes.isExpanded?.currentValue) {
       setTimeout(() => this.getTopPanelHeight(), 600);
+    }
+    if (changes.isPlaying?.currentValue) {
+      if (changes.isPlaying.currentValue === true) {
+        this.activeState[0] = true;
+      }
     }
   }
 

@@ -31,23 +31,25 @@
     <table>
       <tbody>
         <tr>
-          <td><h4 class="font-weight-medium p-m-0 p-pr-4">ID</h4></td>
+          <td width="33%">
+            <h4 class="font-weight-medium p-m-0 p-pr-3">ID</h4>
+          </td>
           <td>#{{ alert.id }}</td>
         </tr>
         <tr>
-          <td><h4 class="font-weight-medium p-m-0 p-pr-4">Start Time</h4></td>
+          <td><h4 class="font-weight-medium p-m-0 p-pr-3">Start Time</h4></td>
           <td>{{ alert.alertStartTime | date: "MMM dd h:mm a" }}</td>
         </tr>
         <tr>
-          <td><h4 class="font-weight-medium p-m-0 p-pr-4">End Time</h4></td>
+          <td><h4 class="font-weight-medium p-m-0 p-pr-3">End Time</h4></td>
           <td>{{ alert.alertEndTime | date: "MMM dd h:mm a" }}</td>
         </tr>
         <tr>
-          <td><h4 class="font-weight-medium p-m-0 p-pr-4">Region</h4></td>
+          <td><h4 class="font-weight-medium p-m-0 p-pr-3">Region</h4></td>
           <td>{{ alert.region?.name }}</td>
         </tr>
         <tr>
-          <td><h4 class="font-weight-medium p-m-0 p-pr-4">Message</h4></td>
+          <td><h4 class="font-weight-medium p-m-0 p-pr-3">Message</h4></td>
           <td>{{ alert.alertMessage }}</td>
         </tr>
       </tbody>
@@ -59,6 +61,7 @@
       type="button"
       label="View Alert Playback"
       icon="fas fa-play-circle"
+      (click)="onViewAlertPlayback()"
       class="p-button-rounded p-button-sm p-d-block p-mb-4"
     ></button>
     <hr class="p-mb-4" />

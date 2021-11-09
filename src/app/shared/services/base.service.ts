@@ -81,7 +81,7 @@ export class BaseService {
         `${this.apiUrl}/Skip/${skipTakeInput.skip}/Take/${skipTakeInput.take}${appendToUrl}?${params}`
       )
       .pipe(
-        retry(2),
+        // retry(2),
         map((response: any) => this.mapArrayResponseToObject<T>(response)),
         catchError((error) => {
           return this.handleError(error);

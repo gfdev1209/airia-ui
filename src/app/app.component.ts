@@ -20,15 +20,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
   self$ = this.store.select(UserSelectors.selectSelf).subscribe();
 
-  error$ = this.notificationService.error$
-    .pipe(
-      tap((error) => {
-        if (error !== null) {
-          this.displayError(error);
-        }
-      })
-    )
-    .subscribe();
+  // error$ = this.notificationService.error$
+  //   .pipe(
+  //     tap((error) => {
+  //       if (error !== null) {
+  //         this.displayError(error);
+  //       }
+  //     })
+  //   )
+  //   .subscribe();
 
   errorMessage$ = this.notificationService.errorMessage$
     .pipe(
@@ -64,6 +64,7 @@ export class AppComponent implements OnInit, OnDestroy {
       severity: 'error',
       summary: 'Error',
       detail: message,
+      sticky: false,
     });
   }
 
