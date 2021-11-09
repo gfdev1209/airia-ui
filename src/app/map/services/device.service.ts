@@ -4,6 +4,8 @@ import { BaseService } from '@shared/services/base.service';
 import { Device } from '@map/models';
 import { Observable } from 'rxjs';
 import { retry, map, catchError, share, debounceTime } from 'rxjs/operators';
+import * as moment from 'moment-timezone';
+import Helpers from '@core/utils/helpers';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +28,8 @@ export class DeviceService extends BaseService {
   }
 
   getSeenFromDate(from: Date): Observable<Device[]> {
-    return this.http.get(`${this.apiUrl}/Seen/From/${from.toJSON()}`).pipe(
+    const dateFormatted = Helpers.formatDateToJSON(from);
+    return this.http.get(`${this.apiUrl}/Seen/From/${dateFormatted}`).pipe(
       debounceTime(1000),
       retry(2),
       map((response: any) => this.mapArrayResponseToObject(response)),
@@ -39,7 +42,11 @@ export class DeviceService extends BaseService {
 
   getSeenFromDateToDate(from: Date, to: Date): Observable<Device[]> {
     return this.http
-      .get(`${this.apiUrl}/Seen/From/${from.toJSON()}/To/${to.toJSON()}`)
+      .get(
+        `${this.apiUrl}/Seen/From/${Helpers.formatDateToJSON(
+          from
+        )}/To/${Helpers.formatDateToJSON(to)}`
+      )
       .pipe(
         debounceTime(1000),
         retry(2),

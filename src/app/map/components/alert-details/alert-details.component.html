@@ -2,6 +2,7 @@
   [alert]="selectedAlert$ | async"
   [self]="self$ | async"
   [loading]="loading$ | async"
+  (viewAlertPlayback)="onViewAlertPlayback($event)"
   (acknowledgeAlert)="onAcknowledgeAlert($event)"
   (closeAlert)="closeAlert()"
 ></app-alert-details-view>

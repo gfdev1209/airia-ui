@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { retry, map, catchError, share } from 'rxjs/operators';
 import { LazyLoadEvent } from 'primeng/api';
 import { SkipTakeInput } from '@shared/models/skip-take-input.model';
+import Helpers from '@core/utils/helpers';
 
 @Injectable({
   providedIn: 'root',
@@ -168,7 +169,9 @@ export class AlertService extends BaseService {
 
   getFromDate(from: Date, appendToUrl: string = ''): Observable<Alert[]> {
     return this.http
-      .get(`${this.apiUrl}/From/${from.toJSON()}${appendToUrl}`)
+      .get(
+        `${this.apiUrl}/From/${Helpers.formatDateToJSON(from)}${appendToUrl}`
+      )
       .pipe(
         retry(2),
         map((response: any) => this.mapArrayResponseToObject(response)),
@@ -186,7 +189,9 @@ export class AlertService extends BaseService {
   ): Observable<Alert[]> {
     return this.http
       .get(
-        `${this.apiUrl}/From/${from.toJSON()}/To/${to.toJSON()}${appendToUrl}`
+        `${this.apiUrl}/From/${Helpers.formatDateToJSON(
+          from
+        )}/To/${Helpers.formatDateToJSON(to)}${appendToUrl}`
       )
       .pipe(
         retry(2),

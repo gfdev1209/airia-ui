@@ -30,6 +30,7 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
 
   @Output() closeAlert = new EventEmitter();
   @Output() acknowledgeAlert = new EventEmitter<Alert>();
+  @Output() viewAlertPlayback = new EventEmitter<Alert>();
 
   AlertSeverityEnum = AlertSeverity;
 
@@ -135,6 +136,12 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
   onAcknowledge(): void {
     if (this.alert) {
       this.acknowledgeAlert.emit(this.alert);
+    }
+  }
+
+  onViewAlertPlayback(): void {
+    if (this.alert) {
+      this.viewAlertPlayback.emit(this.alert);
     }
   }
 

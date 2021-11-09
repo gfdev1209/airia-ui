@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 export default class Helpers {
   static getKeyValue = (key: string) => (obj: Record<string, any>) => obj[key];
 
@@ -18,5 +19,13 @@ export default class Helpers {
       });
     }
     return [];
+  }
+
+  static formatDateToJSON(date: Date, addGMTOffset: boolean = true): string {
+    return moment.parseZone(date).utc().format();
+    const offset = addGMTOffset ? 60000 : 1;
+    return new Date(
+      date.getTime() - date.getTimezoneOffset() * offset
+    ).toJSON();
   }
 }

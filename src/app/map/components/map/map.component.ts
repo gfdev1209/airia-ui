@@ -137,7 +137,7 @@ export class MapComponent implements OnInit, OnDestroy {
   pollingTimeMS = 60000;
   isPollingForDevices = true;
   // Max amount of extra time to take when getting devices (in minutes)
-  devicePlaybackAmount = 10;
+  devicePlaybackAmount = 0;
 
   @ViewChild('mapView') mapView!: MapViewComponent;
 
@@ -168,24 +168,8 @@ export class MapComponent implements OnInit, OnDestroy {
 
     this.mapDateTimeSubscription$ = this.mapService.mapDateTime$
       .pipe(
-        debounceTime(500),
         tap((mapTime) => {
           this.mapDateTime = mapTime;
-          if (mapTime !== null && !this.isPollingForDevices) {
-            this.filterDevices([]);
-            const mapTimeWithoutSeconds = moment(mapTime)
-              .seconds(30)
-              .milliseconds(0)
-              .toDate();
-            this.store.dispatch(
-              DeviceActions.getSeenFromDateToDate({
-                from: moment(mapTimeWithoutSeconds)
-                  .subtract(this.devicePlaybackAmount, 'minute')
-                  .toDate(),
-                to: mapTimeWithoutSeconds,
-              })
-            );
-          }
         })
       )
       .subscribe();
@@ -254,13 +238,18 @@ export class MapComponent implements OnInit, OnDestroy {
         startWith(0),
         takeUntil(this.mapService.stopPlay$),
         tap(() => this.mapService.updateMapDateTime(new Date())),
-        tap(() =>
+        tap(() => {
+          const curDate = moment(new Date())
+            .subtract(1, 'minute')
+            .seconds(0)
+            .milliseconds(0)
+            .toDate();
           this.store.dispatch(
-            DeviceActions.getSeenFromMinutes({
-              fromMin: this.devicePlaybackAmount,
+            DeviceActions.getSeenFromDate({
+              date: curDate,
             })
-          )
-        )
+          );
+        })
       )
       .subscribe();
   }

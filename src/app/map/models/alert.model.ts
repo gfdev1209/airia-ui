@@ -14,7 +14,11 @@ export class Alert implements IBase {
   alertMessage!: string;
   createdAt!: Date;
   alertStartTime!: Date;
+  alertStartTimeUTC!: Date;
+  alertStartTimeLocal!: Date;
   alertEndTime!: Date;
+  alertEndTimeUTC!: Date;
+  alertEndTimeLocal!: Date;
   hasPagination!: boolean;
   count?: number;
   acknowledgedBy?: User;
@@ -53,10 +57,24 @@ export class Alert implements IBase {
         .tz(environment.timeZone)
         .format('YYYY/MM/DD HH:mm:ss')
     );
+    this.alertStartTimeUTC = new Date(args.alertStartTime);
+    this.alertStartTimeLocal = new Date(
+      moment
+        .tz(args.alertStartTime, 'UTC')
+        .tz(moment.tz.guess())
+        .format('YYYY/MM/DD HH:mm:ss')
+    );
     this.alertStartTime = new Date(
       moment
         .tz(args.alertStartTime, 'UTC')
         .tz(environment.timeZone)
+        .format('YYYY/MM/DD HH:mm:ss')
+    );
+    this.alertEndTimeUTC = new Date(args.alertEndTime);
+    this.alertEndTimeLocal = new Date(
+      moment
+        .tz(args.alertEndTime, 'UTC')
+        .tz(moment.tz.guess())
         .format('YYYY/MM/DD HH:mm:ss')
     );
     this.alertEndTime = new Date(
