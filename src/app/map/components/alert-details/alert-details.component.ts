@@ -8,6 +8,7 @@ import { Alert } from '@map/models';
 import * as UserSelectors from '@store/user/user.selectors';
 import { MapService } from '@map/services/map.service';
 import * as moment from 'moment-timezone';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-alert-details',
@@ -15,9 +16,16 @@ import * as moment from 'moment-timezone';
   styleUrls: ['./alert-details.component.scss'],
 })
 export class AlertDetailsComponent implements OnInit {
-  selectedAlert$ = this.store.select(AlertSelectors.selectSelectedAlert);
+  selectedAlert$ = this.store.select(AlertSelectors.selectSelectedAlert).pipe(
+    tap((alert) => {
+      if (alert) {
+        this.onViewAlertPlayback(alert);
+      }
+    })
+  );
   self$ = this.store.select(UserSelectors.selectSelf);
   loading$ = this.store.select(AlertSelectors.selectLoading);
+  isPlaybackLive$ = this.mapService.isPlaybackLive$;
 
   constructor(
     private store: Store<RootState>,
