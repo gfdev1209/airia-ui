@@ -16,7 +16,11 @@ export class AlertService extends BaseService {
     super('Alerts', httpClient);
   }
 
-  createSkipTakeInput(event: LazyLoadEvent, rows: number): SkipTakeInput {
+  createSkipTakeInput(
+    event: LazyLoadEvent,
+    rows: number,
+    buildingId?: number
+  ): SkipTakeInput {
     const skipTakeInput = new SkipTakeInput(0, rows);
     skipTakeInput.parameters = { sortOrder: -1 };
     skipTakeInput.filters = {};
@@ -69,6 +73,11 @@ export class AlertService extends BaseService {
         skipTakeInput.filters.alertSeverity.matchMode =
           event.filters.alertSeverity.matchMode;
       }
+      if (buildingId) {
+        skipTakeInput.filters.buildingId = {};
+        skipTakeInput.filters.buildingId.value = buildingId;
+        skipTakeInput.filters.buildingId.matchMode = 'is';
+      }
     }
     return skipTakeInput;
   }
@@ -109,6 +118,14 @@ export class AlertService extends BaseService {
         'AlertSeverity'
       );
     }
+    if (skipTakeInput.filters?.buildingId) {
+      params += this.createFilterQueryString(
+        skipTakeInput,
+        'buildingId',
+        'BuildingId',
+        'is'
+      );
+    }
     return super.skipAndTake<T>(skipTakeInput, appendToUrl, params);
   }
 
@@ -122,7 +139,7 @@ export class AlertService extends BaseService {
     let matchMode = matchModeOverride;
     if (
       Array.isArray(skipTakeInput.filters[parameterName].value) &&
-      skipTakeInput.filters[parameterName].value.length > 0
+      skipTakeInput.filters[parameterName].value.toString().length > 0
     ) {
       skipTakeInput.filters[parameterName].value.forEach((parameter: any) => {
         if (parameter) {
@@ -133,7 +150,9 @@ export class AlertService extends BaseService {
         ? matchModeOverride
         : skipTakeInput.filters[parameterName].matchMode;
       queryString += `&${queryName}.MatchMode=${matchMode}`;
-    } else if (skipTakeInput.filters[parameterName].value.length > 0) {
+    } else if (
+      skipTakeInput.filters[parameterName].value.toString().length > 0
+    ) {
       queryString += `&${queryName}.Value=${skipTakeInput.filters[parameterName].value}`;
       matchMode = matchModeOverride ? matchModeOverride : 'is';
       queryString += `&${queryName}.MatchMode=${matchMode}`;

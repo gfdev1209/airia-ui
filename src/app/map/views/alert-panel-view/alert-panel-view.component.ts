@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api';
 import { AlertSeverity, AlertSortType, AlertType } from '../../enums';
-import { Alert } from '../../models';
+import { Alert, Building } from '../../models';
 
 @Component({
   selector: 'app-alert-panel-view',
@@ -20,6 +20,7 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
   @Input() height?: number | null;
   @Input() alerts: Alert[] | null = null;
   @Input() selectedAlert: Alert | null = null;
+  @Input() selectedBuilding: Building | null = null;
   @Input() sortType: AlertSortType | null = AlertSortType.Date;
   @Input() showSevereUrgency!: boolean;
   @Input() showHighUrgency!: boolean;
@@ -44,7 +45,7 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const currentAlerts: SimpleChange = changes.alerts;
     const sortType: SimpleChange = changes.sortType;
-    if (currentAlerts) {
+    if (currentAlerts && this.selectedBuilding === null) {
       if (currentAlerts.currentValue) {
         this.loadAlertsLazy({
           first: 0,

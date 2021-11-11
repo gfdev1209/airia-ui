@@ -27,6 +27,7 @@ export class Alert implements IBase {
   alertSeverity!: AlertSeverity;
   alertType!: AlertType;
   region?: Region;
+  buildingId!: number;
 
   constructor(args: {
     alertId: number;
@@ -45,12 +46,14 @@ export class Alert implements IBase {
     region: any;
     alertSeverity: string;
     alertType: string;
+    buildingId: number;
   }) {
     this.id = args.alertId;
     this.accessPointId = args.accessPointId;
     this.intensityPercentile = args.intensityPercentile;
     this.regionId = args.regionId;
     this.alertMessage = args.alertMessage;
+    this.buildingId = args.buildingId;
     this.createdAt = new Date(
       moment
         .tz(args.createdAt, 'UTC')

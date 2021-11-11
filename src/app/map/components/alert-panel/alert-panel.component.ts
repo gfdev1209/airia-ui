@@ -4,6 +4,7 @@ import { RootState } from 'src/app/store';
 import { MapService } from '@map/services/map.service';
 import * as AlertSelectors from '@store/alert/alert.selectors';
 import * as AlertActions from '@store/alert/alert.actions';
+import * as BuildingSelectors from '@store/building/building.selectors';
 import { AlertSeverity } from '@map/enums';
 
 @Component({
@@ -14,6 +15,9 @@ import { AlertSeverity } from '@map/enums';
 export class AlertPanelComponent implements OnInit {
   overviewPanelHeight$ = this.mapService.overviewPanelHeight$;
   alerts$ = this.store.select(AlertSelectors.selectAll);
+  selectedBuilding$ = this.store.select(
+    BuildingSelectors.selectSelectedBuilding
+  );
   selectedAlert$ = this.store.select(AlertSelectors.selectSelectedAlert);
   alertSortType$ = this.store.select(AlertSelectors.selectSortType);
 
