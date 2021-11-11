@@ -50,12 +50,20 @@ export class AlertTableComponent implements OnInit {
         }
       })
     );
+    this.buildings$ = this.store.select(BuildingSelectors.selectAll).pipe(
+      tap((buildings) => {
+        if (buildings.length === 0) {
+          this.store.dispatch(BuildingActions.getAll());
+        }
+      })
+    );
   }
 
   onLazyLoad(event: LazyLoadEvent): void {
     const skipTakeInput = this.alertService.createSkipTakeInput(
       event,
-      this.rows
+      this.rows,
+      this.building?.id || event.filters?.buildingId?.value
     );
     skipTakeInput.parameters.withPagination = true;
     this.skipTakeInput = skipTakeInput;

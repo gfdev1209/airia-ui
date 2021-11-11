@@ -47,6 +47,8 @@ export class AlertTableViewComponent implements OnChanges, OnInit {
   alertTypes = this.enumToSelectItemsPipe.transform(AlertType);
   buildingList: any[] = [];
 
+  buildingDictionary = new Map<number, Building>();
+
   constructor(private enumToSelectItemsPipe: EnumToSelectItemsPipe) {}
 
   ngOnInit(): void {
@@ -57,6 +59,7 @@ export class AlertTableViewComponent implements OnChanges, OnInit {
     if (!changes.buildings?.firstChange && changes.buildings?.currentValue) {
       this.buildingList = [];
       changes.buildings.currentValue.forEach((building: Building) => {
+        this.buildingDictionary.set(building.id, building);
         this.buildingList.push({
           label: building.buildingName,
           value: building.id,
