@@ -27,6 +27,7 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
   @Input() alert?: Alert | null;
   @Input() self?: User | null;
   @Input() loading: boolean | null = false;
+  @Input() isPlaybackLive: boolean | null = false;
 
   @Output() closeAlert = new EventEmitter();
   @Output() acknowledgeAlert = new EventEmitter<Alert>();

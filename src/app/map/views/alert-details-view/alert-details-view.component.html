@@ -54,16 +54,17 @@
         </tr>
       </tbody>
     </table>
-    <hr class="p-mb-4" />
+    <!-- <hr class="p-mb-4" />
     <button
       pButton
       pRipple
       type="button"
       label="View Alert Playback"
       icon="fas fa-play-circle"
+      [disabled]="loading === true || !isPlaybackLive"
       (click)="onViewAlertPlayback()"
       class="p-button-rounded p-button-sm p-d-block p-mb-4"
-    ></button>
+    ></button> -->
     <hr class="p-mb-4" />
 
     <p-chart

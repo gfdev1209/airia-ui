@@ -107,7 +107,13 @@ export class MapComponent implements OnInit, OnDestroy {
   devices: Device[] = [];
   devicesFiltered: Device[] = [];
   selectedDevice$ = this.store.select(DeviceSelectors.selectSelectedDevice);
-  deviceLoading$ = this.store.select(DeviceSelectors.selectLoading);
+  deviceLoading$ = this.store.select(DeviceSelectors.selectLoading).pipe(
+    tap((loading) => {
+      if (loading === true) {
+        this.filterDevices([]);
+      }
+    })
+  );
 
   playbackSliderValue$ = this.mapService.playbackSliderValue$
     .pipe(

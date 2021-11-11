@@ -24,7 +24,7 @@ export class MapService {
   isOverviewExpanded$ = this.isOverviewExpanded.asObservable();
 
   private isPlaying: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    true
+    false
   );
   isPlaying$ = this.isPlaying.asObservable();
 
@@ -120,6 +120,12 @@ export class MapService {
     if (value !== this.playbackSliderValue.value) {
       // this.stopPlayback();
       this.playbackSliderValue.next(value);
+      this.updateDisplayedMapDateTime(
+        moment(this.mapDateTime.value)
+          .subtract(this.playbackSliderMax.value, 'minute')
+          .add(value, 'minute')
+          .toDate()
+      );
     }
   }
   updatePlaybackSpeed(value: number): void {

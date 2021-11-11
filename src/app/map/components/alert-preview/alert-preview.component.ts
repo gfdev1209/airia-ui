@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { RootState } from 'src/app/store';
 import { Alert } from '../../models';
 import * as AlertActions from '@store/alert/alert.actions';
+import { MapService } from '@map/services/map.service';
 
 @Component({
   selector: 'app-alert-preview',
@@ -13,13 +14,15 @@ export class AlertPreviewComponent {
   @Input() alert?: Alert;
   @Input() isSelected = false;
 
-  constructor(private store: Store<RootState>) {}
+  constructor(
+    private store: Store<RootState>,
+    private mapService: MapService
+  ) {}
 
   alertSelected(alert: Alert): void {
     this.store.dispatch(AlertActions.deselect());
-    setTimeout(
-      () => this.store.dispatch(AlertActions.select({ id: alert.id })),
-      300
-    );
+    this.mapService.resetPlaybackSlider();
+    this.mapService.stopPlayback();
+    this.store.dispatch(AlertActions.select({ id: alert.id }));
   }
 }
