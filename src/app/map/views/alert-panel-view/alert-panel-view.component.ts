@@ -140,7 +140,7 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
       : alert?.alertSeverity !== AlertSeverity.Low;
   };
   filterAcknowledged = (alert: Alert) => {
-    return this.showAcknowledged ? true : alert?.acknowledgedAt === null;
+    return this.showAcknowledged ? true : alert?.acknowledgedAt === undefined;
   };
   // filterCapacity = (alert: Alert) => {
   //   return this.showCapacity
