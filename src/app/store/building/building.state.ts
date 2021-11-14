@@ -1,11 +1,12 @@
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
-import { Building } from '@map/models';
+import { Building, BuildingAnalytics } from '@map/models';
 
 export interface BuildingState extends EntityState<Building> {
   selected: Building | null;
   searchResults: Building[] | null;
   showOverview: boolean;
   showDetails: boolean;
+  analytics: BuildingAnalytics | null;
   loaded: boolean;
   loading: boolean;
 }
@@ -15,6 +16,7 @@ export const initialState: BuildingState = adapter.getInitialState({
   searchResults: [],
   showOverview: false,
   showDetails: false,
+  analytics: null,
   loaded: false,
   loading: false,
 });

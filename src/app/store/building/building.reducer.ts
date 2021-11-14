@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { adapter, initialState } from './building.state';
 import * as Actions from './building.actions';
+import { state } from '@angular/animations';
 
 export const buildingReducer = createReducer(
   initialState,
@@ -109,6 +110,25 @@ export const buildingReducer = createReducer(
       selected: null,
       showOverview: false,
       showDetails: false,
+    };
+  }),
+  on(Actions.getAnalytics, (state) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+  on(Actions.getAnalyticsSuccess, (state, { analytics }) => {
+    return {
+      ...state,
+      analytics,
+      loading: false,
+    };
+  }),
+  on(Actions.getAnalyticsFailed, (state) => {
+    return {
+      ...state,
+      loading: false,
     };
   }),
   on(Actions.selectByMapboxId, (state) => {

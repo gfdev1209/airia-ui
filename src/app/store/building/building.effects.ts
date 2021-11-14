@@ -7,7 +7,7 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { Building } from '@map/models';
+import { Building, BuildingAnalytics } from '@map/models';
 import { of } from 'rxjs';
 import * as BuildingActions from './building.actions';
 import * as BuildingSelectors from './building.selectors';
@@ -53,6 +53,20 @@ export class BuildingEffects {
             ),
             catchError(() => of(BuildingActions.getFailed()))
           )
+      )
+    )
+  );
+
+  getAnalytics$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BuildingActions.getAnalytics),
+      mergeMap(({ buildingId }) =>
+        this.buildingService.getAnalytics(buildingId).pipe(
+          map((analytics: BuildingAnalytics) =>
+            BuildingActions.getAnalyticsSuccess({ analytics })
+          ),
+          catchError(() => of(BuildingActions.getAnalyticsFailed()))
+        )
       )
     )
   );

@@ -16,15 +16,17 @@ export class BuildingOverviewComponent implements OnInit {
   building$ = this.store.select(BuildingSelectors.selectSelectedBuilding).pipe(
     tap((building) => {
       if (building) {
-        if (building) {
-          this.store.dispatch(BuildingActions.get({ id: building.id }));
-        }
+        this.store.dispatch(BuildingActions.get({ id: building.id }));
+        this.store.dispatch(
+          BuildingActions.getAnalytics({ buildingId: building.id })
+        );
         // this.store.dispatch(
         //   FloorActions.getByBuildingId({ buildingId: building.id })
         // );
       }
     })
   );
+  analytics$ = this.store.select(BuildingSelectors.selectAnalytics);
   show$ = this.store.select(BuildingSelectors.selectShowOverview);
   floors$ = this.store.select(FloorSelectors.selectAll);
 
