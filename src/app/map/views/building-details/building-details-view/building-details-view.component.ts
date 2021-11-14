@@ -1,6 +1,6 @@
 import { EventEmitter, Output } from '@angular/core';
 import { Component, Input, OnInit } from '@angular/core';
-import { Building } from '@map/models';
+import { Building, BuildingAnalytics } from '@map/models';
 import { slidePanelAnimation } from 'src/app/app.animations';
 
 @Component({
