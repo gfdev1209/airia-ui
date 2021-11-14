@@ -1,5 +1,6 @@
 <app-building-overview-view
   [building]="building$ | async"
+  [analytics]="analytics$ | async"
   [show]="show$ | async"
   (showDetails)="showDetails($event)"
   (closePanel)="closePanel()"

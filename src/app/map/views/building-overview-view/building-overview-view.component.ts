@@ -8,7 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { AccessPointStatus } from '@map/enums';
-import { AccessPoint, Building, Floor } from '@map/models';
+import { AccessPoint, Building, BuildingAnalytics, Floor } from '@map/models';
 
 @Component({
   selector: 'app-building-overview-view',
@@ -17,6 +17,7 @@ import { AccessPoint, Building, Floor } from '@map/models';
 })
 export class BuildingOverviewViewComponent implements OnInit, OnChanges {
   @Input() building?: Building | null;
+  @Input() analytics?: BuildingAnalytics | null;
   @Input() show?: boolean | null = false;
 
   @Output() closePanel = new EventEmitter();

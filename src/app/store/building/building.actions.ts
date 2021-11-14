@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Building } from '@map/models';
+import { Building, BuildingAnalytics } from '@map/models';
 import { Update } from '@ngrx/entity';
 
 export const getAll = createAction('[Map] Get All Buildings');
@@ -73,6 +73,18 @@ export const selectByMapboxIdNotFound = createAction(
 );
 export const selectByMapboxIdFailed = createAction(
   '[Building Effect] Select Building Failed'
+);
+
+export const getAnalytics = createAction(
+  '[Building Overview] Get Building Analytics',
+  props<{ buildingId: number }>()
+);
+export const getAnalyticsSuccess = createAction(
+  '[Building Effect] Get Building Analytics Success',
+  props<{ analytics: BuildingAnalytics }>()
+);
+export const getAnalyticsFailed = createAction(
+  '[Building Effect] Get Building Analytics Failed'
 );
 
 export const showOverview = createAction('[Map] Show Building Overview');

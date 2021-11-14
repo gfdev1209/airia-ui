@@ -7,6 +7,11 @@ export const selectFeature = (state: RootState) => state.buildings;
 export const { selectIds, selectEntities, selectAll, selectTotal } =
   adapter.getSelectors(selectFeature);
 
+export const selectAnalytics = createSelector(
+  selectFeature,
+  (state: BuildingState) => state.analytics
+);
+
 export const selectLoading = createSelector(
   selectFeature,
   (state: BuildingState) => state.loading
