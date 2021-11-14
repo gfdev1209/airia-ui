@@ -1,5 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Building } from '@map/models';
+import { Store } from '@ngrx/store';
+import { RootState } from '@store/index';
+
+import * as BuildingSelectors from '@store/building/building.selectors';
 
 @Component({
   selector: 'app-building-details-occupancy',
@@ -8,7 +12,10 @@ import { Building } from '@map/models';
 })
 export class BuildingDetailsOccupancyComponent {
   @Input() building?: Building | null;
-  constructor() {}
+
+  analytics$ = this.store.select(BuildingSelectors.selectAnalytics);
+
+  constructor(private store: Store<RootState>) {}
 
   onOccupancyDateChanged(date: Date): void {
     console.log(date);

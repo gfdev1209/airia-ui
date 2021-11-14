@@ -1,5 +1,6 @@
-import { EventEmitter, Output } from '@angular/core';
+import { EventEmitter, Input, Output } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { BuildingAnalytics } from '@map/models';
 
 import * as moment from 'moment';
 
@@ -9,6 +10,8 @@ import * as moment from 'moment';
   styleUrls: ['./building-details-occupancy-view.component.scss'],
 })
 export class BuildingDetailsOccupancyViewComponent implements OnInit {
+  @Input() analytics?: BuildingAnalytics | null;
+
   @Output() occupancyDateChanged = new EventEmitter<Date>();
   @Output() historicDateRangeChanged = new EventEmitter<Date[]>();
 

@@ -18,9 +18,7 @@ export class BuildingService extends BaseService {
     endDate?: Date
   ): Observable<BuildingAnalytics> {
     return this.http.get(`${this.apiUrl}/${buildingId}/Analytics`).pipe(
-      map((response: any) =>
-        this.mapResponseToObject<BuildingAnalytics>(response)
-      ),
+      map((response: any) => new BuildingAnalytics(response)),
       catchError((error) => {
         return this.handleError(error);
       }),

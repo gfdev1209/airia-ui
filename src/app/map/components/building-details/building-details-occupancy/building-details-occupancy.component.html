@@ -1,4 +1,5 @@
 <app-building-details-occupancy-view
+  [analytics]="analytics$ | async"
   (historicDateRangeChanged)="onHistoricDateRangeChanged($event)"
   (occupancyDateChanged)="onOccupancyDateChanged($event)"
 ></app-building-details-occupancy-view>
