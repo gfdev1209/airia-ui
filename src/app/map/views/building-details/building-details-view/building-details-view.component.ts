@@ -15,11 +15,18 @@ export class BuildingDetailsViewComponent implements OnInit {
 
   @Output() closed = new EventEmitter();
 
+  maximized = false;
+
   constructor() {}
 
   ngOnInit(): void {}
 
   onHide(): void {
+    this.maximized = false;
     this.closed.emit();
+  }
+
+  onMaximize(evt: any): void {
+    this.maximized = evt.maximized;
   }
 }
