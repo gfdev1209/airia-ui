@@ -12,6 +12,7 @@ import * as BuildingSelectors from '@store/building/building.selectors';
 })
 export class BuildingDetailsOccupancyComponent {
   @Input() building?: Building | null;
+  @Input() maximized!: boolean;
 
   analytics$ = this.store.select(BuildingSelectors.selectAnalytics);
 

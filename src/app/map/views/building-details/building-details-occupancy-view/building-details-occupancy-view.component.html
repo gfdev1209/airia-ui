@@ -80,12 +80,28 @@
   <div class="p-d-flex p-flex-column p-flex-md-row p-jc-between">
     <div class="width-100 p-mr-4">
       <h4 class="p-mt-0">Average Occupancy</h4>
-      <p-chart
+      <apx-chart
+        [series]="chartOptions?.series!"
+        [chart]="chartOptions?.chart!"
+        [xaxis]="chartOptions?.xaxis!"
+        [stroke]="chartOptions?.stroke!"
+        [dataLabels]="chartOptions?.dataLabels!"
+        [yaxis]="chartOptions?.yaxis!"
+        [labels]="chartOptions?.labels!"
+        [legend]="chartOptions?.legend!"
+        [title]="chartOptions?.title!"
+        [subtitle]="chartOptions?.subtitle!"
+        [grid]="chartOptions?.grid!"
+        [fill]="chartOptions?.fill!"
+        [theme]="chartOptions?.theme!"
+        [tooltip]="chartOptions?.tooltip!"
+      ></apx-chart>
+      <!-- <p-chart
         type="line"
         height="160"
         [data]="sampleData"
         [options]="sampleOptions"
-      ></p-chart>
+      ></p-chart> -->
     </div>
     <div class="width-100">
       <h4 class="p-mt-0">Average Devices</h4>

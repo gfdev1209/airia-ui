@@ -8,11 +8,13 @@
   styleClass="building-details-container"
   position="top-left"
   (onHide)="onHide()"
+  (onMaximize)="onMaximize($event)"
 >
-  <p-tabView>
+  <p-tabView *ngIf="showDetails">
     <p-tabPanel header="Occupancy">
       <app-building-details-occupancy
         [building]="building"
+        [maximized]="maximized"
       ></app-building-details-occupancy>
     </p-tabPanel>
     <p-tabPanel header="Alert History">

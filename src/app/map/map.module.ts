@@ -33,6 +33,7 @@ import { BuildingDetailsAlertsComponent } from './components/building-details/bu
 import { BuildingDetailsAccessPointsComponent } from './components/building-details/building-details-access-points/building-details-access-points.component';
 import { FloorControlsComponent } from './components/floor-controls/floor-controls.component';
 import { FloorControlsViewComponent } from './views/floor-controls-view/floor-controls-view.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   imports: [
@@ -41,11 +42,13 @@ import { FloorControlsViewComponent } from './views/floor-controls-view/floor-co
     FormsModule,
     RouterModule,
     SharedModule,
+    NgApexchartsModule,
     NgxMapboxGLModule.withConfig({
       accessToken:
         'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',
     }),
   ],
+  entryComponents: [BuildingDetailsComponent],
   declarations: [
     MapComponent,
     MapViewComponent,

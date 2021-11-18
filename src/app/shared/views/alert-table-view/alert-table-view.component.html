@@ -188,7 +188,9 @@
         <td>
           {{ alert.alertType | underscoreToSpace }}
         </td>
-        <td>{{ buildingDictionary.get(alert.buildingId)?.buildingName }}</td>
+        <td *ngIf="!selectedBuilding">
+          {{ buildingDictionary.get(alert.buildingId)?.buildingName }}
+        </td>
       </tr>
     </ng-template>
   </p-table>
