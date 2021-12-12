@@ -41,7 +41,7 @@ export class AlertPanelComponent implements OnInit {
         skipTakeInput: {
           skip: 0,
           take: 100,
-          parameters: { sortField: 'createdAt', sortOrder: -1 },
+          parameters: { sortField: 'alertEndTime', sortOrder: -1 },
         },
       })
     );

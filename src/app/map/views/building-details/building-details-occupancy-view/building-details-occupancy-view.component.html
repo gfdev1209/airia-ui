@@ -1,69 +1,11 @@
 <section class="p-mt-3">
-  <div class="p-d-flex p-flex-column p-flex-md-row p-jc-between">
-    <div
-      class="width-100 p-p-3 p-m-1 rounded-corners background-color-text-input"
-    >
-      <span>Current Occupancy %</span><br />
-      <h1 class="p-m-0">
-        {{ analytics?.occupancyPercentile | number: "1.2-2" }}%
-      </h1>
-      <small class="color-text-medium"
-        ><span class="color-green">+ 4.3%</span> &nbsp;Last hour</small
-      >
+  <div class="p-d-flex p-align-center p-jc-between">
+    <div class="p-d-flex p-flex-column flex-grow-1 p-jc-between">
+      <h3 class="p-m-0">Occupancy Statistics</h3>
+      <p class="p-m-0">
+        Total occupancy of this building by day-time frequency.
+      </p>
     </div>
-    <div
-      class="width-100 p-p-3 p-m-1 rounded-corners background-color-text-input"
-    >
-      <span>Current Devices</span><br />
-      <h1 class="p-m-0">{{ analytics?.deviceCount }}</h1>
-      <small class="color-text-medium"
-        ><span class="color-green">+ 2.3%</span> &nbsp;Last hour</small
-      >
-    </div>
-    <div
-      class="width-100 p-p-3 p-m-1 rounded-corners background-color-text-input"
-    >
-      <span>24 Hour Average Occupancy</span><br />
-      <h1 class="p-m-0">n/a</h1>
-      <small class="color-text-medium"
-        ><span class="color-red">- 2.2%</span> &nbsp;Since prior 24 hours</small
-      >
-    </div>
-  </div>
-</section>
-<hr />
-<section>
-  <div class="p-d-flex p-jc-between p-ai-center p-mb-3">
-    <h3 class="p-m-0">
-      Occupancy &nbsp;
-      <small class="color-text-medium">{{ occupancyDate | date }}</small>
-    </h3>
-    <div>
-      <p-calendar
-        [(ngModel)]="occupancyDate"
-        [showIcon]="true"
-        [maxDate]="maxDateValue"
-        icon="fas fa-clock"
-        inputId="icon"
-        appendTo="body"
-        class="only-icon"
-        (onSelect)="onOccupancyCalendarSelect($event)"
-        panelStyleClass="small"
-        hourFormat="12"
-      ></p-calendar>
-    </div>
-  </div>
-  <div class="p-d-flex p-jc-between">
-    <app-block-chart-view
-      [data]="occupancyLevels"
-      [maximumAmount]="maxOccupancy"
-    ></app-block-chart-view>
-  </div>
-</section>
-<hr />
-<section>
-  <div class="p-d-flex p-jc-between p-ai-center p-mb-3">
-    <h3 class="p-m-0">Historic Data</h3>
     <div>
       <small>
         <p-dropdown
@@ -77,40 +19,9 @@
       </small>
     </div>
   </div>
-  <div class="p-d-flex p-flex-column p-flex-md-row p-jc-between">
-    <div class="width-100 p-mr-4">
-      <h4 class="p-mt-0">Average Occupancy</h4>
-      <apx-chart
-        [series]="chartOptions?.series!"
-        [chart]="chartOptions?.chart!"
-        [xaxis]="chartOptions?.xaxis!"
-        [stroke]="chartOptions?.stroke!"
-        [dataLabels]="chartOptions?.dataLabels!"
-        [yaxis]="chartOptions?.yaxis!"
-        [labels]="chartOptions?.labels!"
-        [legend]="chartOptions?.legend!"
-        [title]="chartOptions?.title!"
-        [subtitle]="chartOptions?.subtitle!"
-        [grid]="chartOptions?.grid!"
-        [fill]="chartOptions?.fill!"
-        [theme]="chartOptions?.theme!"
-        [tooltip]="chartOptions?.tooltip!"
-      ></apx-chart>
-      <!-- <p-chart
-        type="line"
-        height="160"
-        [data]="sampleData"
-        [options]="sampleOptions"
-      ></p-chart> -->
-    </div>
-    <div class="width-100">
-      <h4 class="p-mt-0">Average Devices</h4>
-      <p-chart
-        type="line"
-        height="160"
-        [data]="sampleData"
-        [options]="sampleOptions"
-      ></p-chart>
-    </div>
-  </div>
 </section>
+<hr />
+<app-block-chart-view
+  id="occupancy-heatmap"
+  [data]="series"
+></app-block-chart-view>

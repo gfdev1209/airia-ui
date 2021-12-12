@@ -33,7 +33,8 @@ import { BuildingDetailsAlertsComponent } from './components/building-details/bu
 import { BuildingDetailsAccessPointsComponent } from './components/building-details/building-details-access-points/building-details-access-points.component';
 import { FloorControlsComponent } from './components/floor-controls/floor-controls.component';
 import { FloorControlsViewComponent } from './views/floor-controls-view/floor-controls-view.component';
-import { NgApexchartsModule } from 'ng-apexcharts';
+import { BuildingDetailsOverviewComponent } from './components/building-details/building-details-overview/building-details-overview.component';
+import { BuildingDetailsOverviewViewComponent } from './views/building-details/building-details-overview-view/building-details-overview-view.component';
 
 @NgModule({
   imports: [
@@ -42,7 +43,6 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     FormsModule,
     RouterModule,
     SharedModule,
-    NgApexchartsModule,
     NgxMapboxGLModule.withConfig({
       accessToken:
         'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',
@@ -66,6 +66,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     BuildingOverviewViewComponent,
     BuildingDetailsComponent,
     BuildingDetailsViewComponent,
+    BuildingDetailsOverviewComponent,
+    BuildingDetailsOverviewViewComponent,
     BuildingDetailsOccupancyComponent,
     BuildingDetailsOccupancyViewComponent,
     BuildingDetailsAlertsComponent,

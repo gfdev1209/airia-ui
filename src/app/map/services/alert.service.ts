@@ -39,13 +39,16 @@ export class AlertService extends BaseService {
       skipTakeInput.parameters.sortField = event.sortField;
     }
     if (event.filters) {
-      if (event.filters.createdAt?.value && event.filters.createdAt.matchMode) {
-        skipTakeInput.filters.createdAt = {};
-        skipTakeInput.filters.createdAt.value = new Date(
-          event.filters.createdAt.value
+      if (
+        event.filters.alertEndTime?.value &&
+        event.filters.alertEndTime.matchMode
+      ) {
+        skipTakeInput.filters.alertEndTime = {};
+        skipTakeInput.filters.alertEndTime.value = new Date(
+          event.filters.alertEndTime.value
         ).toISOString();
-        skipTakeInput.filters.createdAt.matchMode =
-          event.filters.createdAt.matchMode;
+        skipTakeInput.filters.alertEndTime.matchMode =
+          event.filters.alertEndTime.matchMode;
       }
       if (event.filters.alertMessage?.value) {
         skipTakeInput.filters.alertMessage = {};
@@ -95,10 +98,10 @@ export class AlertService extends BaseService {
         'AlertMessage'
       );
     }
-    if (skipTakeInput.filters?.createdAt) {
+    if (skipTakeInput.filters?.alertEndTime) {
       params += this.createFilterQueryString(
         skipTakeInput,
-        'createdAt',
+        'alertEndTime',
         'AlertStartTime',
         'dateIs'
       );

@@ -223,24 +223,19 @@ export const series = {
 };
 
 @Component({
-  selector: 'app-building-details-occupancy-view',
-  templateUrl: './building-details-occupancy-view.component.html',
-  styleUrls: ['./building-details-occupancy-view.component.scss'],
+  selector: 'app-building-details-overview-view',
+  templateUrl: './building-details-overview-view.component.html',
+  styleUrls: ['./building-details-overview-view.component.scss'],
 })
-export class BuildingDetailsOccupancyViewComponent
-  implements OnInit, OnChanges
-{
+export class BuildingDetailsOverviewViewComponent implements OnInit, OnChanges {
   @Input() analytics?: BuildingAnalytics | null;
   @Input() maximized!: boolean;
-  @Input() tabChange: any;
 
   @Output() occupancyDateChanged = new EventEmitter<Date>();
   @Output() historicDateRangeChanged = new EventEmitter<Date[]>();
 
   @ViewChild('chart', { static: false }) chart?: ChartComponent;
   public chartOptions?: Partial<ChartOptions>;
-
-  series: any[] = [];
 
   dateRange = [
     {
@@ -257,48 +252,57 @@ export class BuildingDetailsOccupancyViewComponent
         moment().subtract(1, 'weeks').endOf('isoWeek').toDate(),
       ],
     },
+    {
+      name: 'This Month',
+      range: [
+        moment().startOf('month').toDate(),
+        moment().endOf('month').toDate(),
+      ],
+    },
+    {
+      name: 'Last Month',
+      range: [
+        moment().subtract(1, 'month').startOf('month').toDate(),
+        moment().subtract(1, 'month').endOf('month').toDate(),
+      ],
+    },
   ];
   historicDataRange: any;
   maxDateValue = new Date();
   occupancyDate: Date = new Date();
 
-  maxOccupancy = 3000;
-  occupancyLevels = [{ date: new Date(2021, 7, 1, 0), occupancy: 100 }];
-
   sampleData: any;
   sampleOptions: any;
 
+  series: any[] = [];
+
   constructor() {
-    for (let i = 23; i > -1; i--) {
-      this.series.push({
-        name: i.toString(),
-        data: this.generateData(
-          7,
-          ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-          {
-            min: 0,
-            max: 100,
-          }
-        ),
-      });
-    }
+    this.series.push({
+      name: '',
+      data: this.generateData(24, {
+        min: 0,
+        max: 100,
+      }),
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.analytics && !changes.analytics.firstChange) {
       console.log(changes.analytics?.currentValue);
     }
-    if (
-      (changes.maximized && !changes.maximized?.firstChange) ||
-      changes.tabChange
-    ) {
+    if (changes.maximized && !changes.maximized?.firstChange) {
       window.dispatchEvent(new Event('resize'));
     }
   }
 
-  ngOnInit(): void {}
-
-  updateChartData(): void {}
+  ngOnInit(): void {
+    const chartOptions2 = chartOptionsConfig;
+    chartOptions2.series[0].data = series.monthDataSeries1.prices;
+    chartOptions2.labels = series.monthDataSeries1.dates;
+    chartOptions2.chart.redrawOnParentResize = true;
+    this.chartOptions = chartOptions2;
+    this.chart?.updateOptions(chartOptions2, true);
+  }
 
   onOccupancyCalendarSelect(newDate: Date): void {
     this.occupancyDate = newDate;
@@ -308,12 +312,12 @@ export class BuildingDetailsOccupancyViewComponent
     this.historicDateRangeChanged.emit(data.value);
   }
 
-  public generateData(count: number, colNameArr: string[], yrange: any): any {
+  public generateData(count: number, yrange: any): any {
     let i = 0;
     const series = [];
     while (i < count) {
       const x = i.toString();
-      const colName = colNameArr[i];
+      const colName = x;
       const y =
         Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
 

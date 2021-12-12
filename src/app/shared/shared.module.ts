@@ -69,6 +69,7 @@ import { LeftNavViewComponent } from './views/left-nav-view/left-nav-view.compon
 import { SortByPipe } from './pipes/sort-by.pipe';
 import { HasAccessLevelPipe } from './pipes/has-access-level.pipe';
 // Components
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [
@@ -110,6 +111,8 @@ import { HasAccessLevelPipe } from './pipes/has-access-level.pipe';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
+    // Vendors
+    NgApexchartsModule,
     // Prime Modules
     PrimeRippleModule,
     PrimeButtonModule,
@@ -161,6 +164,8 @@ import { HasAccessLevelPipe } from './pipes/has-access-level.pipe';
     BuildingSearchInputComponent,
     FloorTableComponent,
     FloorFormComponent,
+    // Vendors
+    NgApexchartsModule,
     // Prime Modules
     PrimeRippleModule,
     PrimeButtonModule,
