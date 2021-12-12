@@ -24,7 +24,7 @@
     <small>{{ alert.region?.name }}</small
     ><br />
     <small class="color-text-medium">{{
-      alert.createdAt | date: "dd MMM h:mm a"
+      alert.alertEndTime | date: "dd MMM h:mm a"
     }}</small>
   </div>
   <div *ngIf="alert.acknowledgedAt" class="p-flex-column p-ml-3 acknowledged">

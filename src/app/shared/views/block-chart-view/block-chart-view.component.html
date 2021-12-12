@@ -1,27 +1,23 @@
-<div class="p-d-flex width-100">
-  <app-block-chart-item-view
-    class="block-chart-item"
-    *ngFor="let item of data"
-    [date]="item.date"
-    [amount]="item.occupancy"
-    [maximumAmount]="maximumAmount"
-  ></app-block-chart-item-view>
+<div class="p-d-flex p-flex-column p-flex-md-row p-jc-between">
+  <div [id]="id" class="width-100">
+    <apx-chart
+      [grid]="chartOptions?.grid!"
+      [series]="chartOptions?.series!"
+      [chart]="chartOptions?.chart!"
+      [dataLabels]="chartOptions?.dataLabels!"
+      [xaxis]="chartOptions?.xaxis!"
+      [yaxis]="chartOptions?.yaxis!"
+      [theme]="chartOptions?.theme!"
+      [stroke]="chartOptions?.stroke!"
+      [colors]="chartOptions?.colors!"
+      [tooltip]="chartOptions?.tooltip!"
+      [legend]="chartOptions?.legend!"
+      [plotOptions]="chartOptions?.plotOptions!"
+    ></apx-chart>
+  </div>
 </div>
-<div class="p-d-flex p-jc-between p-mt-2 color-text-medium">
-  <small>1AM</small>
-  <small>3AM</small>
-  <small>5AM</small>
-  <small>7AM</small>
-  <small>9AM</small>
-  <small>11AM</small>
-  <small>1PM</small>
-  <small>3PM</small>
-  <small>5PM</small>
-  <small>7PM</small>
-  <small>9PM</small>
-  <small>12AM</small>
-</div>
-<div class="p-d-flex p-jc-between width-100 p-mt-3">
+<hr class="p-mb-3" style="position: relative; margin-top: -24px" />
+<div class="p-d-flex p-jc-between width-100">
   <div
     *ngFor="let item of legendItems; let i = index"
     class="block-legend-item"

@@ -6,14 +6,13 @@ import { RootState } from '@store/index';
 import * as BuildingSelectors from '@store/building/building.selectors';
 
 @Component({
-  selector: 'app-building-details-occupancy',
-  templateUrl: './building-details-occupancy.component.html',
-  styleUrls: ['./building-details-occupancy.component.scss'],
+  selector: 'app-building-details-overview',
+  templateUrl: './building-details-overview.component.html',
+  styleUrls: ['./building-details-overview.component.scss'],
 })
-export class BuildingDetailsOccupancyComponent {
+export class BuildingDetailsOverviewComponent {
   @Input() building?: Building | null;
   @Input() maximized!: boolean;
-  @Input() tabChange: any;
 
   analytics$ = this.store.select(BuildingSelectors.selectAnalytics);
 

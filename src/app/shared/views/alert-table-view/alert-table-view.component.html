@@ -12,9 +12,9 @@
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [rowsPerPageOptions]="[10, 25, 50]"
-    [globalFilterFields]="['createdAt']"
+    [globalFilterFields]="['alertEndTime']"
     [responsive]="true"
-    sortField="createdAt"
+    sortField="alertEndTime"
     [sortOrder]="-1"
     dataKey="id"
     (onRowSelect)="selectAlert($event)"
@@ -27,8 +27,8 @@
         <th *ngIf="showCheckboxColumn" style="width: 3rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
-        <th style="width: 185px" pSortableColumn="createdAt">
-          Date <p-sortIcon field="createdAt"></p-sortIcon>
+        <th style="width: 185px" pSortableColumn="alertEndTime">
+          Date <p-sortIcon field="alertEndTime"></p-sortIcon>
         </th>
         <th style="width: 33%" pSortableColumn="alertMessage">
           Message <p-sortIcon field="alertMessage"></p-sortIcon>
@@ -51,7 +51,7 @@
         <th>
           <p-columnFilter
             type="date"
-            field="createdAt"
+            field="alertEndTime"
             [showMenu]="false"
             matchMode="dateIs"
             ><ng-template
@@ -171,7 +171,7 @@
         <td *ngIf="showCheckboxColumn">
           <p-tableCheckbox [value]="alert"></p-tableCheckbox>
         </td>
-        <td>{{ alert.createdAt | date: "medium" }}</td>
+        <td>{{ alert.alertEndTime | date: "medium" }}</td>
         <td>
           <span
             [innerText]="alert.alertMessage ? alert.alertMessage : 'n/a'"

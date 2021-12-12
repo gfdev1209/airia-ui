@@ -10,11 +10,18 @@
   (onHide)="onHide()"
   (onMaximize)="onMaximize($event)"
 >
-  <p-tabView *ngIf="showDetails">
+  <p-tabView *ngIf="showDetails" (onChange)="onTabChange($event)">
+    <p-tabPanel header="Overview">
+      <app-building-details-overview
+        [building]="building"
+        [maximized]="maximized"
+      ></app-building-details-overview>
+    </p-tabPanel>
     <p-tabPanel header="Occupancy">
       <app-building-details-occupancy
         [building]="building"
         [maximized]="maximized"
+        [tabChange]="tabChange$ | async"
       ></app-building-details-occupancy>
     </p-tabPanel>
     <p-tabPanel header="Alert History">
