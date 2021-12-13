@@ -41,6 +41,7 @@
             "allowedCommonJsDependencies": [
               "lodash",
               "chart.js",
+              "apexcharts",
               "moment-timezone",
               "@mapbox/mapbox-gl-geocoder"
             ]
@@ -95,8 +96,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "3mb",
-                  "maximumError": "3.5mb"
+                  "maximumWarning": "4.5mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
