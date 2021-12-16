@@ -1,5 +1,4 @@
-import { IBase } from '@shared/interfaces';
-import { Floor } from '.';
+import { Floor } from './floor.model';
 
 export class Device {
   id!: string;

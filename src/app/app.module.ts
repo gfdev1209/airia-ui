@@ -45,6 +45,7 @@ import { ErrorInterceptor } from '@core/interceptors/error.interceptor';
 import { SharedModule } from '@shared/shared.module';
 import { ToastModule } from 'primeng/toast';
 import { ReportEffects } from '@store/report/report.effects';
+import { RegionEffects } from '@store/region/region.effects';
 
 const isIE =
   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
@@ -115,6 +116,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
       DepartmentEffects,
       UserEffects,
       RoleEffects,
+      RegionEffects,
     ]),
     StoreDevtoolsModule.instrument({
       maxAge: 20,
