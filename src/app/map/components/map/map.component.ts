@@ -12,14 +12,13 @@ import * as DeviceActions from '@store/device/device.actions';
 import * as DeviceSelectors from '@store/device/device.selectors';
 import * as FloorActions from '@store/floor/floor.actions';
 import * as FloorSelectors from '@store/floor/floor.selectors';
-import { debounceTime, startWith, takeUntil, tap } from 'rxjs/operators';
+import { startWith, takeUntil, tap } from 'rxjs/operators';
 import { MapService } from '@map/services/map.service';
 import { MapViewComponent } from '@map/views/map-view/map-view.component';
 import { interval, Subscription } from 'rxjs';
 import * as moment from 'moment';
-import { AccessPoint, Alert, Device, Floor } from '@map/models';
+import { AccessPoint, Device, Floor } from '@map/models';
 import * as _ from 'lodash';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-map',

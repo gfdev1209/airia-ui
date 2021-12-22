@@ -10,6 +10,7 @@ export class Region {
   buildingFloorId!: number;
   regionPolygon?: number[][];
   buildingFloor?: Floor;
+  buildingFloorNumber?: number;
   alerts?: Alert[];
   activeType!: string;
 
@@ -22,6 +23,7 @@ export class Region {
     buildingFloorId: number;
     regionPolygonJson: any;
     buildingFloor: Floor;
+    buildingFloorNumber: number;
     location: Location;
     alerts: ResponseList<Alert>;
     activeType: string;
@@ -31,6 +33,7 @@ export class Region {
     this.modelRegion = args.modelRegion;
     this.locationId = args.locationId;
     this.buildingFloorId = args.buildingFloorId;
+    this.buildingFloorNumber = args.buildingFloorNumber;
     this.buildingFloor = args.buildingFloor;
     this.activeType = args.activeType;
 

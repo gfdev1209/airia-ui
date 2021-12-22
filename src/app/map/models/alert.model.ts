@@ -42,7 +42,7 @@ export class Alert implements IBase {
     count: number;
     acknowledgedBy: User;
     acknowledgedAt: Date;
-    accessPoint: AccessPoint;
+    accessPoint: any;
     region: any;
     alertSeverity: string;
     alertType: string;
@@ -99,7 +99,9 @@ export class Alert implements IBase {
           .format('YYYY/MM/DD HH:mm:ss')
       );
     }
-    this.accessPoint = args.accessPoint;
+    this.accessPoint = args.accessPoint
+      ? new AccessPoint(args.accessPoint)
+      : undefined;
     this.region = new Region(args.region);
     this.alertSeverity = args.alertSeverity as AlertSeverity;
     this.alertType = args.alertType as AlertType;
