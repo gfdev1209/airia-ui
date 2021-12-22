@@ -4,6 +4,7 @@ import { RootState } from 'src/app/store';
 import * as AlertSelectors from '@store/alert/alert.selectors';
 import * as AlertActions from '@store/alert/alert.actions';
 import * as DeviceActions from '@store/device/device.actions';
+import * as FloorActions from '@store/floor/floor.actions';
 import { Alert } from '@map/models';
 import * as UserSelectors from '@store/user/user.selectors';
 import { MapService } from '@map/services/map.service';
@@ -48,6 +49,13 @@ export class AlertDetailsComponent implements OnInit {
     );
     this.mapService.updateMapDateTime(alert.alertEndTimeLocal);
     this.mapService.startPlayback();
+    if (alert.region?.buildingFloorNumber) {
+      this.store.dispatch(
+        FloorActions.selectFloorNumber({
+          floorNumber: alert.region.buildingFloorNumber,
+        })
+      );
+    }
     this.store.dispatch(
       DeviceActions.getSeenFromDateToDate({
         from: alert.alertStartTimeLocal,
