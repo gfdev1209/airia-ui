@@ -2,7 +2,7 @@ import { Floor } from './floor.model';
 
 export class Device {
   id!: string;
-  deviceRatId!: number;
+  deviceratId!: number;
   buildingFloorId?: number;
   clientMac!: string;
   wapMac!: string;
@@ -22,7 +22,7 @@ export class Device {
 
   constructor(args: {
     $id: string;
-    deviceRatId: number;
+    deviceratId: number;
     buildingFloorId: number;
     clientMac: string;
     wapmac: string;
@@ -41,7 +41,7 @@ export class Device {
     buildingFloor: Floor;
   }) {
     this.id = args.$id;
-    this.deviceRatId = args.deviceRatId;
+    this.deviceratId = args.deviceratId;
     this.buildingFloorId = args.buildingFloorId;
     this.clientMac = args.clientMac;
     this.wapMac = args.wapmac;
