@@ -487,11 +487,8 @@ export class MapViewComponent implements OnChanges {
       if (staticDevices) {
         this.addDevicesToMap(staticDevices, this.staticDeviceDetails);
       }
-      const liveDevices = Helpers.filterArrayBy<Device>(
-        this.devices,
-        'ssid',
-        'iot',
-        false
+      const liveDevices = this.devices.filter(
+        (d) => !staticDevices.includes(d)
       );
       if (liveDevices) {
         this.addDevicesToMap(liveDevices, this.liveDeviceDetails);
@@ -505,13 +502,13 @@ export class MapViewComponent implements OnChanges {
     devices.forEach((device) => {
       pointArr.push({
         type: 'Feature',
-        id: device.id,
+        id: device.deviceratId,
         geometry: {
           type: 'Point',
           coordinates: [device.longitude, device.latitude],
         },
         properties: {
-          id: device.id,
+          id: device.deviceratId,
         },
       });
     });
