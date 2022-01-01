@@ -21,6 +21,23 @@ export const regionReducer = createReducer(
       loading: false,
     };
   }),
+  on(Actions.getBuildingRegions, (state) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+  on(Actions.getBuildingRegionsSuccess, (state, { regions }) => ({
+    ...state,
+    buildingRegions: regions,
+    loading: false,
+  })),
+  on(Actions.getBuildingRegionsFailed, (state) => {
+    return {
+      ...state,
+      loading: false,
+    };
+  }),
   on(Actions.select, (state) => {
     return {
       ...state,
