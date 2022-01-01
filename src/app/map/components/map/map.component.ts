@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { RootState } from 'src/app/store';
 import * as BuildingSelectors from '@store/building/building.selectors';
 import * as BuildingActions from '@store/building/building.actions';
+import * as RegionActions from '@store/region/region.actions';
 import * as LocationActions from '@store/location/location.actions';
 import * as LocationSelectors from '@store/location/location.selectors';
 import * as AccessPointActions from '@store/access-point/access-point.actions';
@@ -33,6 +34,7 @@ export class MapComponent implements OnInit, OnDestroy {
           LocationActions.select({ id: locations[0].locationId })
         );
         this.store.dispatch(BuildingActions.getAll());
+        this.store.dispatch(RegionActions.getBuildingRegions());
         this.store.dispatch(AccessPointActions.getAll());
         this.store.dispatch(FloorActions.getAll());
       }

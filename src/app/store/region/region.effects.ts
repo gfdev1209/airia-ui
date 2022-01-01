@@ -37,6 +37,20 @@ export class RegionEffects {
     )
   );
 
+  getBuildingRegions$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RegionActions.getBuildingRegions),
+      mergeMap(() =>
+        this.regionService.getAll<Region[]>('?buildingsOnly=true').pipe(
+          map((regions: Region[]) =>
+            RegionActions.getBuildingRegionsSuccess({ regions })
+          ),
+          catchError(() => of(RegionActions.getBuildingRegionsFailed()))
+        )
+      )
+    )
+  );
+
   getOccupancy$ = createEffect(() =>
     this.actions$.pipe(
       ofType(RegionActions.getOccupancy),

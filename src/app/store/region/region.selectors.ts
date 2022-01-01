@@ -12,6 +12,11 @@ export const selectLoading = createSelector(
   (state: RegionState) => state.loading
 );
 
+export const selectBuildingRegions = createSelector(
+  selectFeature,
+  (state: RegionState) => state.buildingRegions
+);
+
 export const selectSelectedRegion = createSelector(
   selectFeature,
   (state: RegionState) => state.selected

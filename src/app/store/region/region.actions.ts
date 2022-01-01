@@ -10,6 +10,15 @@ export const getAllFailed = createAction(
   '[Region Effect] Get All Regions Failed'
 );
 
+export const getBuildingRegions = createAction('[Map] Get Building Regions');
+export const getBuildingRegionsSuccess = createAction(
+  '[Region Effect] Get Building Regions Success',
+  props<{ regions: Region[] }>()
+);
+export const getBuildingRegionsFailed = createAction(
+  '[Region Effect] Get Building Regions Failed'
+);
+
 export const getOccupancy = createAction(
   '[Building Details] Get Occupancy',
   props<{ id: number; year: number; month: number; day: number }>()
