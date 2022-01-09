@@ -1,3 +1,4 @@
+import { Region } from '@map/models';
 import { createSelector } from '@ngrx/store';
 import { RootState } from '..';
 import { adapter, RegionState } from './region.state';
@@ -10,6 +11,15 @@ export const { selectIds, selectEntities, selectAll, selectTotal } =
 export const selectLoading = createSelector(
   selectFeature,
   (state: RegionState) => state.loading
+);
+
+export const selectByBuildingId = createSelector(
+  selectFeature,
+  (state: RegionState, props: any) => {
+    return state.buildingRegions.filter(
+      (x: Region) => x.buildingId === props.buildingId
+    )[0];
+  }
 );
 
 export const selectBuildingRegions = createSelector(

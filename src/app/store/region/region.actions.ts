@@ -21,7 +21,7 @@ export const getBuildingRegionsFailed = createAction(
 
 export const getOccupancy = createAction(
   '[Building Details] Get Occupancy',
-  props<{ id: number; year: number; month: number; day: number }>()
+  props<{ id: number; year: number; month: number; day?: number }>()
 );
 export const getOccupancySuccess = createAction(
   '[Region Effect] Get Occupancy Success',

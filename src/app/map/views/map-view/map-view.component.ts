@@ -478,21 +478,22 @@ export class MapViewComponent implements OnChanges {
   /** Add all devices to map */
   addDevices(): void {
     if (this.map && this.devices) {
-      const staticDevices = Helpers.filterArrayBy<Device>(
-        this.devices,
-        'ssid',
-        'iot',
-        true
-      );
-      if (staticDevices) {
-        this.addDevicesToMap(staticDevices, this.staticDeviceDetails);
-      }
-      const liveDevices = this.devices.filter(
-        (d) => !staticDevices.includes(d)
-      );
-      if (liveDevices) {
-        this.addDevicesToMap(liveDevices, this.liveDeviceDetails);
-      }
+      // const staticDevices = Helpers.filterArrayBy<Device>(
+      //   this.devices,
+      //   'ssid',
+      //   'iot',
+      //   true
+      // );
+      // if (staticDevices) {
+      //   this.addDevicesToMap(staticDevices, this.staticDeviceDetails);
+      // }
+      // const liveDevices = this.devices.filter(
+      //   (d) => !staticDevices.includes(d)
+      // );
+      // if (liveDevices) {
+      //   this.addDevicesToMap(liveDevices, this.liveDeviceDetails);
+      // }
+      this.addDevicesToMap(this.devices, this.liveDeviceDetails);
     }
   }
 

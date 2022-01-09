@@ -22,6 +22,8 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "es2020",
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true, //tsconfig.json
     "lib": ["es2018", "dom"]
   },
   "angularCompilerOptions": {

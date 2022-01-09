@@ -1,6 +1,6 @@
 import { EventEmitter, Output } from '@angular/core';
 import { Component, Input, OnInit } from '@angular/core';
-import { Building, BuildingAnalytics } from '@map/models';
+import { Building, BuildingAnalytics, Region } from '@map/models';
 import { Subject } from 'rxjs';
 import { slidePanelAnimation } from 'src/app/app.animations';
 
@@ -12,6 +12,7 @@ import { slidePanelAnimation } from 'src/app/app.animations';
 })
 export class BuildingDetailsViewComponent implements OnInit {
   @Input() building?: Building | null;
+  @Input() region?: Region | null;
   @Input() showDetails?: boolean | null = false;
 
   @Output() closed = new EventEmitter();

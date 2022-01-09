@@ -3,6 +3,7 @@ export const environment = {
   apiUrl: 'https://school-api.demo.airia20.com/api/',
   // Client
   timeZone: 'America/New_York',
+  timeZoneOffsetUTC: -5,
   // MapBox
   mapboxAccessToken:
     'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',

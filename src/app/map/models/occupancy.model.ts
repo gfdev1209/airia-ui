@@ -8,6 +8,7 @@ export class Occupancy {
   averageOccupancy: number;
   maxOccupancy: number;
   medianOccupancy: number;
+  title?: string;
 
   constructor(args: {
     $id: string;
@@ -19,6 +20,7 @@ export class Occupancy {
     averageOccupancy: number;
     maxOccupancy: number;
     medianOccupancy: number;
+    title?: string;
   }) {
     this.id = args.$id;
     this.regionId = args.regionId;
@@ -29,5 +31,6 @@ export class Occupancy {
     this.averageOccupancy = args.averageOccupancy;
     this.maxOccupancy = args.maxOccupancy;
     this.medianOccupancy = args.medianOccupancy;
+    this.title = args.title;
   }
 }

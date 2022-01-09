@@ -3,6 +3,7 @@ export const environment = {
   apiUrl: 'https://api.stuartshome.airia20.com/api/',
   // Client
   timeZone: 'America/Chicago',
+  timeZoneOffsetUTC: -5,
   // MapBox
   mapboxAccessToken:
     'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',

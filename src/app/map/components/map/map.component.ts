@@ -34,6 +34,7 @@ export class MapComponent implements OnInit, OnDestroy {
           LocationActions.select({ id: locations[0].locationId })
         );
         this.store.dispatch(BuildingActions.getAll());
+        this.store.dispatch(RegionActions.getAll());
         this.store.dispatch(RegionActions.getBuildingRegions());
         this.store.dispatch(AccessPointActions.getAll());
         this.store.dispatch(FloorActions.getAll());

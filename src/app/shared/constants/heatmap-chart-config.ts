@@ -84,7 +84,7 @@ export const heatMapChartConfig = {
           },
           {
             from: 80,
-            to: 100,
+            to: 1000,
             color: '#965ec5',
           },
         ],
@@ -151,9 +151,16 @@ export const heatMapChartConfig = {
   },
   tooltip: {
     y: {
-      formatter: (val: any) => {
-        return val > -1 ? val + '%' : '';
+      formatter: (value: any, options: FormatterOptions) => {
+        return `Hour ${
+          options.w.config.series[options.seriesIndex].data[
+            options.dataPointIndex
+          ].hour
+        }:   ${value.toFixed(2)}%`;
       },
+      // formatter: (val: any) => {
+      //   return val > -1 ? val + '%' : '';
+      // },
     },
   },
   dataLabels: {
@@ -164,7 +171,13 @@ export const heatMapChartConfig = {
       fontWeight: 'normal',
     },
     formatter: (val: any) => {
-      return val > -1 ? val + '%' : '';
+      return val > -1 ? val.toFixed(0) + '%' : '';
     },
   },
 };
+
+export class FormatterOptions {
+  seriesIndex!: number;
+  dataPointIndex!: number;
+  w!: any;
+}

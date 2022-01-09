@@ -68,9 +68,9 @@ export class RegionEffects {
   select$ = createEffect(() =>
     this.actions$.pipe(
       ofType(RegionActions.select),
-      withLatestFrom(this.store.select(RegionSelectors.selectEntities)),
+      withLatestFrom(this.store.select(RegionSelectors.selectAll)),
       switchMap(([{ id }, regions]) => {
-        const region = regions[id];
+        const region = regions.filter((x: Region) => x.id === id)[0];
         if (region) {
           return of(
             RegionActions.selectSuccess({
