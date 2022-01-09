@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   EventEmitter,
   Input,
   OnChanges,
@@ -7,12 +8,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { BuildingAnalytics } from '@map/models';
+import { BuildingAnalytics, Occupancy } from '@map/models';
 
 import { ChartComponent } from 'ng-apexcharts';
 
 import * as moment from 'moment';
 import { ChartOptions, chartOptionsConfig } from '@shared/constants';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 export const series = {
   monthDataSeries1: {
@@ -226,13 +228,21 @@ export const series = {
   selector: 'app-building-details-overview-view',
   templateUrl: './building-details-overview-view.component.html',
   styleUrls: ['./building-details-overview-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BuildingDetailsOverviewViewComponent implements OnInit, OnChanges {
   @Input() analytics?: BuildingAnalytics | null;
+  @Input() occupancy?: Occupancy[] | null;
+  @Input() loading?: boolean | null;
   @Input() maximized!: boolean;
 
   @Output() occupancyDateChanged = new EventEmitter<Date>();
   @Output() historicDateRangeChanged = new EventEmitter<Date[]>();
+
+  chartData = new BehaviorSubject<any>(null);
+  chartData$ = this.chartData.asObservable();
+
+  // chartData: any;
 
   @ViewChild('chart', { static: false }) chart?: ChartComponent;
   public chartOptions?: Partial<ChartOptions>;
@@ -276,15 +286,7 @@ export class BuildingDetailsOverviewViewComponent implements OnInit, OnChanges {
 
   series: any[] = [];
 
-  constructor() {
-    this.series.push({
-      name: '',
-      data: this.generateData(24, {
-        min: 0,
-        max: 100,
-      }),
-    });
-  }
+  constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.analytics && !changes.analytics.firstChange) {
@@ -292,6 +294,36 @@ export class BuildingDetailsOverviewViewComponent implements OnInit, OnChanges {
     }
     if (changes.maximized && !changes.maximized?.firstChange) {
       window.dispatchEvent(new Event('resize'));
+    }
+    if (changes.occupancy && changes.occupancy.currentValue?.length > 0) {
+      const occupancyData = changes.occupancy.currentValue;
+      console.log(occupancyData);
+      occupancyData.forEach((occupancy: any) => {
+        occupancy.x = occupancy.day.toString();
+        occupancy.y =
+          (occupancy.averageOccupancy / occupancy.maxOccupancy) * 100;
+      });
+      // occupancyData = Object.values(groupBy(occupancyData, (i) => i.day));
+      occupancyData.reverse();
+
+      const occupancyDictionary = Object.values(
+        occupancyData.reduce(
+          (a: any, x: any) => ({
+            ...a,
+            [x.hour]: {
+              x: x.hour.toString(),
+              y: (x.averageOccupancy / x.maxOccupancy) * 100,
+              hour: x.hour.toString(),
+              day: x.day.toString(),
+              year: x.year.toString(),
+              month: x.month.toString(),
+            },
+          }),
+          {}
+        )
+      );
+      this.chartData.next([{ name: '', data: occupancyDictionary }]);
+      // this.chartData = [{ name: '', data: occupancyDictionary }];
     }
   }
 
@@ -310,23 +342,5 @@ export class BuildingDetailsOverviewViewComponent implements OnInit, OnChanges {
   }
   onHistoricDateSelected(data: any): void {
     this.historicDateRangeChanged.emit(data.value);
-  }
-
-  public generateData(count: number, yrange: any): any {
-    let i = 0;
-    const series = [];
-    while (i < count) {
-      const x = i.toString();
-      const colName = x;
-      const y =
-        Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-
-      series.push({
-        x: colName,
-        y,
-      });
-      i++;
-    }
-    return series;
   }
 }

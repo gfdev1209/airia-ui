@@ -14,12 +14,14 @@
     <p-tabPanel header="Overview">
       <app-building-details-overview
         [building]="building"
+        [region]="region"
         [maximized]="maximized"
       ></app-building-details-overview>
     </p-tabPanel>
     <p-tabPanel header="Occupancy">
       <app-building-details-occupancy
         [building]="building"
+        [region]="region"
         [maximized]="maximized"
         [tabChange]="tabChange$ | async"
       ></app-building-details-occupancy>

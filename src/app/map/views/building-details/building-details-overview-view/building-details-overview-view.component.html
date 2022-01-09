@@ -54,10 +54,13 @@
     </div>
   </div>
   <div class="p-d-flex p-jc-between">
+    <i *ngIf="loading" class="fas fa-spinner fa-spin"></i>
     <app-block-chart-view
+      *ngIf="loading === false"
       id="overview-heatmap"
+      [rows]="1"
       [showValues]="false"
-      [data]="series"
+      [data]="chartData$ | async"
     ></app-block-chart-view>
   </div>
 </section>

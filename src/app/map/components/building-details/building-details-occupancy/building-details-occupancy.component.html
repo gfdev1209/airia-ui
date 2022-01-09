@@ -1,5 +1,6 @@
 <app-building-details-occupancy-view
   [analytics]="analytics$ | async"
+  [occupancy]="occupancy$ | async"
   [maximized]="maximized"
   [tabChange]="tabChange"
   (historicDateRangeChanged)="onHistoricDateRangeChanged($event)"

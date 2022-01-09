@@ -1,6 +1,7 @@
 <div class="p-d-flex p-flex-column p-flex-md-row p-jc-between">
   <div [id]="id" class="width-100">
     <apx-chart
+      *ngIf="data?.length > 0"
       [grid]="chartOptions?.grid!"
       [series]="chartOptions?.series!"
       [chart]="chartOptions?.chart!"

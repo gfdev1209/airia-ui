@@ -1,21 +1,29 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import {
   heatMapChartConfig,
   HeatmapChartOptions,
 } from '@shared/constants/heatmap-chart-config';
 import { ChartComponent } from 'ng-apexcharts';
-
-import { cloneDeep } from 'lodash';
 import * as _ from 'lodash';
+import { Occupancy } from '@map/models';
+import { groupBy } from 'lodash';
 
 @Component({
   selector: 'app-block-chart-view',
   templateUrl: './block-chart-view.component.html',
   styleUrls: ['./block-chart-view.component.scss'],
 })
-export class BlockChartViewComponent implements OnInit {
+export class BlockChartViewComponent implements OnInit, OnChanges {
   @Input() id!: string;
-  @Input() data!: any[];
+  @Input() rows?: number;
+  @Input() data?: any;
   @Input() showValues = true;
 
   @ViewChild('chart', { static: false }) chart?: ChartComponent;
@@ -25,9 +33,19 @@ export class BlockChartViewComponent implements OnInit {
     .fill(0)
     .map((x, i) => i);
 
+  // data: BlockChartSeries[] = [];
+
   constructor() {}
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.data) {
+      console.log(changes.data);
+      this.data = changes.data.currentValue;
+      this.updateChart();
+    }
+  }
+
+  updateChart(): void {
     const chartOptions2 = _.cloneDeep(heatMapChartConfig);
     chartOptions2.series = this.data;
     chartOptions2.chart.redrawOnParentResize = true;
@@ -39,4 +57,15 @@ export class BlockChartViewComponent implements OnInit {
     // height: 66 + (2*18),
     this.chart?.updateOptions(chartOptions2, true);
   }
+
+  ngOnInit(): void {}
+}
+
+export class BlockChartData {
+  x!: string;
+  y!: number;
+}
+export class BlockChartSeries {
+  name = '';
+  data: any[] = [];
 }
