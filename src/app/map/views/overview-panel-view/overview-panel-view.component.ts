@@ -60,7 +60,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   footTraffic = true;
   staticDevices = true;
   iotDevices = true;
-  accessPoints = true;
+  accessPoints = false;
 
   severeUrgency = true;
   highUrgency = true;

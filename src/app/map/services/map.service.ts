@@ -57,7 +57,7 @@ export class MapService {
     new BehaviorSubject<boolean>(true);
   showStaticDevices$ = this.showStaticDevices.asObservable();
   private showAccessPoints: BehaviorSubject<boolean> =
-    new BehaviorSubject<boolean>(true);
+    new BehaviorSubject<boolean>(false);
   showAccessPoints$ = this.showAccessPoints.asObservable();
 
   constructor() {}

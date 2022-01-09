@@ -37,7 +37,7 @@ export class MapViewComponent implements OnChanges {
   @Input() selectedAccessPoint?: AccessPoint | null;
   @Input() showDevices?: boolean | null = true;
   @Input() showStaticDevices?: boolean | null = true;
-  @Input() showAccessPoints?: boolean | null = true;
+  @Input() showAccessPoints?: boolean | null = false;
 
   @Input() selectedAlert?: Alert | null;
   @Input() regionPolygon?: number[][] | null;
@@ -148,17 +148,20 @@ export class MapViewComponent implements OnChanges {
 
   toggleAccessPoints(): void {
     const visibility = this.showAccessPoints ? 'visible' : 'none';
-    this.map.setLayoutProperty('access-points', 'visibility', visibility);
-    this.map.setLayoutProperty(
-      'access-points-circles',
-      'visibility',
-      visibility
-    );
-    this.map.setLayoutProperty(
-      'access-point-clusters',
-      'visibility',
-      visibility
-    );
+    if (this.map.getSource('access-point-source')) {
+      this.map.setLayoutProperty('access-points', 'visibility', visibility);
+      this.map.setLayoutProperty(
+        'access-points-circles',
+        'visibility',
+        visibility
+      );
+      this.map.setLayoutProperty(
+        'access-point-clusters',
+        'visibility',
+        visibility
+      );
+    }
+    this.addAccessPoints();
   }
 
   toggleDevices(): void {
@@ -336,7 +339,12 @@ export class MapViewComponent implements OnChanges {
   }
   /** Add all access points to map */
   addAccessPoints(): void {
-    if (this.map && this.accessPoints && this.accessPoints.length > 0) {
+    if (
+      this.map &&
+      this.showAccessPoints === true &&
+      this.accessPoints &&
+      this.accessPoints.length > 0
+    ) {
       this.map.loadImage('/assets/img/access-point.png', (error, image) => {
         if (error) {
           throw error;
