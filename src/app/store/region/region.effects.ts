@@ -65,6 +65,20 @@ export class RegionEffects {
     )
   );
 
+  getOccupancyRange$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RegionActions.getOccupancyRange),
+      mergeMap(({ id, from, to }) =>
+        this.regionService.getOccupancyRange(id, from, to).pipe(
+          map((occupancy: Occupancy[]) =>
+            RegionActions.getOccupancyRangeSuccess({ occupancy })
+          ),
+          catchError(() => of(RegionActions.getOccupancyRangeFailed()))
+        )
+      )
+    )
+  );
+
   select$ = createEffect(() =>
     this.actions$.pipe(
       ofType(RegionActions.select),

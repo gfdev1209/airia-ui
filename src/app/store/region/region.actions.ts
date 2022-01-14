@@ -31,6 +31,18 @@ export const getOccupancyFailed = createAction(
   '[Region Effect] Get Occupancy Failed'
 );
 
+export const getOccupancyRange = createAction(
+  '[Building Details] Get Occupancy Range',
+  props<{ id: number; from: Date; to: Date }>()
+);
+export const getOccupancyRangeSuccess = createAction(
+  '[Region Effect] Get Occupancy Range Success',
+  props<{ occupancy: Occupancy[] }>()
+);
+export const getOccupancyRangeFailed = createAction(
+  '[Region Effect] Get Occupancy Range Failed'
+);
+
 export const select = createAction(
   '[Map Search Bar] Select Region',
   props<{ id: number }>()
