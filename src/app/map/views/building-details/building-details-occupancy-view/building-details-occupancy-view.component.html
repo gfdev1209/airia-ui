@@ -21,7 +21,9 @@
   </div>
 </section>
 <hr />
+<i *ngIf="loading" class="fas fa-spinner fa-spin"></i>
 <app-block-chart-view
+  *ngIf="loading === false"
   id="occupancy-heatmap"
   [data]="chartData"
 ></app-block-chart-view>

@@ -6,7 +6,9 @@ import { RootState } from '@store/index';
 import * as BuildingSelectors from '@store/building/building.selectors';
 import { RegionService } from '@map/services/region.service';
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-building-details-occupancy',
@@ -18,6 +20,9 @@ export class BuildingDetailsOccupancyComponent implements OnChanges {
   @Input() region?: Region | null;
   @Input() maximized!: boolean;
   @Input() tabChange: any;
+
+  private loading = new BehaviorSubject<boolean>(false);
+  loading$ = this.loading.asObservable();
 
   analytics$ = this.store.select(BuildingSelectors.selectAnalytics);
 
@@ -34,24 +39,32 @@ export class BuildingDetailsOccupancyComponent implements OnChanges {
     if (changes?.region) {
       this.regionId = changes.region.currentValue?.id;
       if (this.regionId) {
-        const curDate = moment(new Date());
         this.getOccupancyData(
           this.regionId,
-          moment(curDate).subtract(1, 'year').year(),
-          moment(curDate).subtract(1, 'month').month() + 1
+          moment
+            .utc()
+            .startOf('week')
+            .subtract(environment.timeZoneOffsetUTC, 'hour')
+            .toDate(),
+          moment
+            .utc()
+            .endOf('week')
+            .subtract(environment.timeZoneOffsetUTC, 'hour')
+            .toDate()
         );
       }
     }
   }
 
-  getOccupancyData(
-    regionId: number,
-    year: number,
-    month: number,
-    startDate?: Date,
-    endDate?: Date
-  ): void {
-    this.occupancy$ = this.regionService.getOccupancy(regionId, year, month);
+  getOccupancyData(regionId: number, startDate: Date, endDate: Date): void {
+    this.loading.next(true);
+    this.occupancy$ = this.regionService
+      .getOccupancyRange(regionId, startDate, endDate)
+      .pipe(
+        tap(() => {
+          this.loading.next(false);
+        })
+      );
   }
 
   onOccupancyDateChanged(date: Date): void {
@@ -60,5 +73,8 @@ export class BuildingDetailsOccupancyComponent implements OnChanges {
 
   onHistoricDateRangeChanged(dateRange: Date[]): void {
     console.log(dateRange);
+    if (this.regionId) {
+      this.getOccupancyData(this.regionId, dateRange[0], dateRange[1]);
+    }
   }
 }

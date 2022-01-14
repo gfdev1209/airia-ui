@@ -6,6 +6,7 @@ import { BaseService } from '@shared/services/base.service';
 import { HttpClient } from '@angular/common/http';
 import * as _ from 'lodash';
 import { environment } from 'src/environments/environment';
+import Helpers from '@core/utils/helpers';
 
 @Injectable({
   providedIn: 'root',
@@ -30,20 +31,9 @@ export class RegionService extends BaseService {
           (responseJson: any) => new Occupancy(responseJson)
         )
       ),
-      tap((occupancyData: Occupancy[]) => {
-        occupancyData.forEach((occupancy, index) => {
-          occupancy.hour += environment.timeZoneOffsetUTC;
-          // 4 - 5 = -1
-          // -1 + 24 = 23;
-          if (occupancy.hour < 0) {
-            occupancy.hour += 24;
-            occupancy.day -= 1;
-            // if (occupancy.day === 0) {
-            //   occupancyData.splice(index, 1);
-            // }
-          }
-        });
-      }),
+      tap((occupancyData: Occupancy[]) =>
+        this.setTimezoneOffsets(occupancyData)
+      ),
       map((occupancyData: Occupancy[]) =>
         occupancyData.filter((element) => element.day !== 0)
       ),
@@ -56,6 +46,50 @@ export class RegionService extends BaseService {
       share()
     );
   }
+
+  getOccupancyRange(id: number, from: Date, to: Date): Observable<Occupancy[]> {
+    return this.http
+      .get(
+        `${this.apiUrl}/${id}/Occupancy/From/${Helpers.formatDateToJSON(
+          from
+        )}/To/${Helpers.formatDateToJSON(to)}`
+      )
+      .pipe(
+        map((response: any) =>
+          response?.rows?.$values.map(
+            (responseJson: any) => new Occupancy(responseJson)
+          )
+        ),
+        tap((occupancyData: Occupancy[]) =>
+          this.setTimezoneOffsets(occupancyData)
+        ),
+        map((occupancyData: Occupancy[]) =>
+          occupancyData.filter((element) => element.day !== 0)
+        ),
+        tap((occupancyData: Occupancy[]) =>
+          occupancyData.sort((a, b) => a.hour - b.hour)
+        ),
+        catchError((error) => {
+          return this.handleError(error);
+        }),
+        share()
+      );
+  }
+
+  private setTimezoneOffsets(occupancyData: Occupancy[]): Occupancy[] {
+    occupancyData.forEach((occupancy, index) => {
+      occupancy.hour += environment.timeZoneOffsetUTC;
+      if (occupancy.hour < 0) {
+        occupancy.hour += 24;
+        occupancy.day -= 1;
+        // if (occupancy.day === 0) {
+        //   occupancyData.splice(index, 1);
+        // }
+      }
+    });
+    return occupancyData;
+  }
+
   mapResponseToObject<T>(response: any): T {
     const region = new Region(response) as any;
     return region;

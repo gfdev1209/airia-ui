@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Building, Region } from '@map/models';
+import { Building, Occupancy, Region } from '@map/models';
 import { Store } from '@ngrx/store';
 import { RootState } from '@store/index';
 
@@ -9,6 +9,9 @@ import * as RegionActions from '@store/region/region.actions';
 
 import * as moment from 'moment';
 import { map, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { RegionService } from '@map/services/region.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-building-details-overview',
@@ -24,16 +27,15 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
   private curDate: Date = new Date();
 
   analytics$ = this.store.select(BuildingSelectors.selectAnalytics);
-  loading$ = this.store.select(RegionSelectors.selectLoading);
-  occupancy$ = this.store
-    .select(RegionSelectors.selectOccupancy)
-    .pipe(
-      map((occupancy) =>
-        occupancy.filter((o) => o.day === moment(this.curDate).date())
-      )
-    );
+  occupancy$?: Observable<Occupancy[]>;
 
-  constructor(private store: Store<RootState>) {}
+  private loading = new BehaviorSubject<boolean>(false);
+  loading$ = this.loading.asObservable();
+
+  constructor(
+    private store: Store<RootState>,
+    private regionService: RegionService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.region) {
@@ -42,7 +44,7 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
       this.getOccupancyData(
         changes.region.currentValue?.id,
         moment(this.curDate).year(),
-        moment(this.curDate).month() + 1,
+        moment(this.curDate).month(),
         moment(this.curDate).date()
       );
     }
@@ -54,14 +56,26 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
     month: number,
     day?: number
   ): void {
-    this.store.dispatch(
-      RegionActions.getOccupancy({
-        id: regionId,
-        year,
-        month,
-        day,
-      })
-    );
+    this.loading.next(true);
+    this.occupancy$ = this.regionService
+      .getOccupancyRange(
+        regionId,
+        moment(new Date(year, month, day))
+          .utc()
+          .startOf('day')
+          .subtract(environment.timeZoneOffsetUTC, 'hour')
+          .toDate(),
+        moment(new Date(year, month, day))
+          .utc()
+          .endOf('day')
+          .subtract(environment.timeZoneOffsetUTC, 'hour')
+          .toDate()
+      )
+      .pipe(
+        tap(() => {
+          this.loading.next(false);
+        })
+      );
   }
 
   onOccupancyDateChanged(date: Date): void {
@@ -71,7 +85,7 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
       this.getOccupancyData(
         this.regionId,
         moment(date).year(),
-        moment(date).month() + 1,
+        moment(date).month(),
         moment(date).date()
       );
     }

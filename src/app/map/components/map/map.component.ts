@@ -247,16 +247,17 @@ export class MapComponent implements OnInit, OnDestroy {
         takeUntil(this.mapService.stopPlay$),
         tap(() => this.mapService.updateMapDateTime(new Date())),
         tap(() => {
-          const curDate = moment(new Date())
-            .subtract(1, 'minute')
-            .seconds(0)
-            .milliseconds(0)
-            .toDate();
-          this.store.dispatch(
-            DeviceActions.getSeenFromDate({
-              date: curDate,
-            })
-          );
+          this.store.dispatch(DeviceActions.getSeenFromMinutes({ fromMin: 1 }));
+          // const curDate = moment(new Date())
+          //   .subtract(1, 'minute')
+          //   .seconds(0)
+          //   .milliseconds(0)
+          //   .toDate();
+          // this.store.dispatch(
+          //   DeviceActions.getSeenFromDate({
+          //     date: curDate,
+          //   })
+          // );
         })
       )
       .subscribe();

@@ -14,7 +14,7 @@ import { ChartComponent } from 'ng-apexcharts';
 
 import * as moment from 'moment';
 import { ChartOptions, chartOptionsConfig } from '@shared/constants';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 export const series = {
   monthDataSeries1: {

@@ -14,6 +14,7 @@ import { ChartComponent } from 'ng-apexcharts';
 import * as moment from 'moment';
 import { ChartOptions } from '@shared/constants';
 import { groupBy } from 'lodash';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-building-details-occupancy-view',
@@ -25,6 +26,7 @@ export class BuildingDetailsOccupancyViewComponent
 {
   @Input() analytics?: BuildingAnalytics | null;
   @Input() occupancy?: Occupancy[] | null;
+  @Input() loading?: boolean | null;
   @Input() maximized!: boolean;
   @Input() tabChange: any;
 
@@ -46,27 +48,45 @@ export class BuildingDetailsOccupancyViewComponent
     //     new Date(),
     //   ],
     // },
+    // {
+    //   name: 'Last Month',
+    //   range: [
+    //     moment(new Date()).subtract(1, 'months').startOf('month').toDate(),
+    //     moment(new Date()).subtract(1, 'months').endOf('month').toDate(),
+    //   ],
+    // },
     {
-      name: 'Last Month',
+      name: 'This Week',
       range: [
-        moment(new Date()).subtract(1, 'months').startOf('month').toDate(),
-        moment(new Date()).subtract(1, 'months').endOf('month').toDate(),
+        moment
+          .utc()
+          .startOf('week')
+          .subtract(environment.timeZoneOffsetUTC, 'hour')
+          .toDate(),
+        moment
+          .utc()
+          .endOf('week')
+          .subtract(environment.timeZoneOffsetUTC, 'hour')
+          .toDate(),
       ],
     },
-    // {
-    //   name: 'This Week',
-    //   range: [
-    //     moment().startOf('isoWeek').toDate(),
-    //     moment().endOf('isoWeek').toDate(),
-    //   ],
-    // },
-    // {
-    //   name: 'Last Week',
-    //   range: [
-    //     moment().subtract(1, 'weeks').startOf('isoWeek').toDate(),
-    //     moment().subtract(1, 'weeks').endOf('isoWeek').toDate(),
-    //   ],
-    // },
+    {
+      name: 'Last Week',
+      range: [
+        moment
+          .utc()
+          .subtract(1, 'week')
+          .startOf('week')
+          .subtract(environment.timeZoneOffsetUTC, 'hour')
+          .toDate(),
+        moment
+          .utc()
+          .subtract(1, 'week')
+          .endOf('week')
+          .subtract(environment.timeZoneOffsetUTC, 'hour')
+          .toDate(),
+      ],
+    },
   ];
   historicDataRange: any;
   maxDateValue = new Date();
@@ -110,8 +130,10 @@ export class BuildingDetailsOccupancyViewComponent
       if (key) {
         const data = occupancyDataArray[key];
         // Group hourly data by day
-        const dataByDay = groupBy(data, (i) =>
-          moment(new Date(i.year, i.month, i.day)).format('ddd')
+        const dataByDay = groupBy(
+          data,
+          (i) => i.day
+          // moment(new Date(i.year, i.month, i.day)).format('ddd')
         );
         // Convert to an array
         const dataArray: any = Object.values(dataByDay);

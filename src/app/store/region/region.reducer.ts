@@ -73,5 +73,23 @@ export const regionReducer = createReducer(
       ...state,
       loading: false,
     };
+  }),
+  on(Actions.getOccupancyRange, (state) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+  on(Actions.getOccupancyRangeSuccess, (state, { occupancy }) => ({
+    ...state,
+    occupancy,
+    loading: false,
+    loaded: true,
+  })),
+  on(Actions.getOccupancyRangeFailed, (state) => {
+    return {
+      ...state,
+      loading: false,
+    };
   })
 );
