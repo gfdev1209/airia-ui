@@ -56,21 +56,6 @@ export class BuildingDetailsOccupancyViewComponent
     //   ],
     // },
     {
-      name: 'This Week',
-      range: [
-        moment
-          .utc()
-          .startOf('week')
-          .subtract(environment.timeZoneOffsetUTC, 'hour')
-          .toDate(),
-        moment
-          .utc()
-          .endOf('week')
-          .subtract(environment.timeZoneOffsetUTC, 'hour')
-          .toDate(),
-      ],
-    },
-    {
       name: 'Last Week',
       range: [
         moment
@@ -82,6 +67,21 @@ export class BuildingDetailsOccupancyViewComponent
         moment
           .utc()
           .subtract(1, 'week')
+          .endOf('week')
+          .subtract(environment.timeZoneOffsetUTC, 'hour')
+          .toDate(),
+      ],
+    },
+    {
+      name: 'This Week',
+      range: [
+        moment
+          .utc()
+          .startOf('week')
+          .subtract(environment.timeZoneOffsetUTC, 'hour')
+          .toDate(),
+        moment
+          .utc()
           .endOf('week')
           .subtract(environment.timeZoneOffsetUTC, 'hour')
           .toDate(),
@@ -146,9 +146,7 @@ export class BuildingDetailsOccupancyViewComponent
             const average =
               days.reduce((total: any, next: any) => {
                 const avg =
-                  next.averageOccupancy > 0 && next.maxOccupancy > 0
-                    ? (next.averageOccupancy / next.maxOccupancy) * 100
-                    : 0;
+                  next.averageOccupancy > 0 ? next.averageOccupancy : 0;
                 return total + avg;
               }, 0) / days.length;
             // Update dictionary value

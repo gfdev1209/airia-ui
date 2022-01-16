@@ -43,11 +43,13 @@ export class BuildingDetailsOccupancyComponent implements OnChanges {
           this.regionId,
           moment
             .utc()
+            .subtract(1, 'week')
             .startOf('week')
             .subtract(environment.timeZoneOffsetUTC, 'hour')
             .toDate(),
           moment
             .utc()
+            .subtract(1, 'week')
             .endOf('week')
             .subtract(environment.timeZoneOffsetUTC, 'hour')
             .toDate()

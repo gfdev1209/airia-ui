@@ -300,8 +300,7 @@ export class BuildingDetailsOverviewViewComponent implements OnInit, OnChanges {
       console.log(occupancyData);
       occupancyData.forEach((occupancy: any) => {
         occupancy.x = occupancy.day.toString();
-        occupancy.y =
-          (occupancy.averageOccupancy / occupancy.maxOccupancy) * 100;
+        occupancy.y = occupancy.averageOccupancy;
       });
       // occupancyData = Object.values(groupBy(occupancyData, (i) => i.day));
       occupancyData.reverse();
@@ -312,7 +311,7 @@ export class BuildingDetailsOverviewViewComponent implements OnInit, OnChanges {
             ...a,
             [x.hour]: {
               x: x.hour.toString(),
-              y: (x.averageOccupancy / x.maxOccupancy) * 100,
+              y: x.averageOccupancy,
               hour: x.hour.toString(),
               day: x.day.toString(),
               year: x.year.toString(),
