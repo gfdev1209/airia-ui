@@ -29,6 +29,20 @@
     <app-building-overview></app-building-overview>
   </mgl-popup>
   <mgl-popup
+    *ngIf="
+      hoveredDevice &&
+      hoveredDevice.properties?.cluster === true &&
+      selectedPosition
+    "
+    [lngLat]="[selectedPosition[0], selectedPosition[1]]"
+    [closeOnClick]="false"
+    maxWidth="400px"
+    className="device-count-popup"
+    [offset]="[0, -5]"
+  >
+    <strong>{{ hoveredDevice.properties?.point_count?.toString() }}</strong>
+  </mgl-popup>
+  <mgl-popup
     *ngIf="selectedAccessPoint && selectedPosition"
     [lngLat]="[selectedPosition[0], selectedPosition[1]]"
     [closeOnClick]="false"

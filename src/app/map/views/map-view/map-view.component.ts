@@ -57,6 +57,7 @@ export class MapViewComponent implements OnChanges {
   // The ID of the access point or building that the user is hovering over (stored to display hover effect)
   hoveredAccessPointId?: any;
   hoveredBuildingId?: any;
+  hoveredDevice?: mapboxgl.MapboxGeoJSONFeature;
   // Whether the access point image has been initialized. Prevents initializing multiple times.
   apIconImageInitialized = false;
   // The initial zoom level to display the map
@@ -64,18 +65,30 @@ export class MapViewComponent implements OnChanges {
   // Device display settings for mapbox
   liveDeviceDetails: DeviceMapboxDetails = {
     id: 'devices',
+    layers: [
+      'device-unclustered-point',
+      'device-clusters',
+      'device-cluster-count',
+    ],
     sourceName: 'devices-source',
     heatmapName: 'devices-heatmap',
     circleColor: '#00c1ff',
-    circleRadius: 2,
+    circleRadius: 2.5,
+    circleOpacity: 0.5,
     heatmapColorRGB: '2, 185, 251',
   };
   staticDeviceDetails: DeviceMapboxDetails = {
     id: 'staticDevices',
+    layers: [
+      'static-devices',
+      'static-devices-unclustered-point',
+      'static-devices-clusters',
+    ],
     sourceName: 'static-devices-source',
     heatmapName: 'static-devices-heatmap',
     circleColor: '#c702fb',
     circleRadius: 2,
+    circleOpacity: 0.5,
     heatmapColorRGB: '199, 2, 251',
   };
 
@@ -166,33 +179,19 @@ export class MapViewComponent implements OnChanges {
 
   toggleDevices(): void {
     const visibility = this.showDevices ? 'visible' : 'none';
-    this.map.setLayoutProperty(
-      this.liveDeviceDetails.id,
-      'visibility',
-      visibility
-    );
-    if (this.liveDeviceDetails.heatmapName) {
-      this.map.setLayoutProperty(
-        this.liveDeviceDetails.heatmapName,
-        'visibility',
-        visibility
-      );
-    }
+    this.liveDeviceDetails.layers.forEach((layer) => {
+      if (this.map.getLayer(layer)) {
+        this.map.setLayoutProperty(layer, 'visibility', visibility);
+      }
+    });
   }
   toggleIOT(): void {
     const visibility = this.showStaticDevices ? 'visible' : 'none';
-    this.map.setLayoutProperty(
-      this.staticDeviceDetails.id,
-      'visibility',
-      visibility
-    );
-    if (this.staticDeviceDetails.heatmapName) {
-      this.map.setLayoutProperty(
-        this.staticDeviceDetails.heatmapName,
-        'visibility',
-        visibility
-      );
-    }
+    this.staticDeviceDetails.layers.forEach((layer) => {
+      if (this.map.getLayer(layer)) {
+        this.map.setLayoutProperty(layer, 'visibility', visibility);
+      }
+    });
   }
 
   mapLoad(map: Map): void {
@@ -538,78 +537,137 @@ export class MapViewComponent implements OnChanges {
           type: 'FeatureCollection',
           features: pointArr,
         },
-        cluster: false,
-        clusterMaxZoom: 17, // Max zoom to cluster points on
-        clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
+        cluster: true,
+        clusterMaxZoom: 23, // Max zoom to cluster points on
+        clusterRadius: 2, // Radius of each cluster when clustering points (defaults to 50)
+      });
+
+      // Add device layer
+      // this.map.addLayer({
+      //   id: deviceDetails.heatmapName,
+      //   type: 'heatmap',
+      //   source: deviceDetails.sourceName,
+      //   maxzoom: 24,
+      //   paint: {
+      //     // increase intensity as zoom level increases
+      //     'heatmap-intensity': {
+      //       stops: [
+      //         [16, 0.5],
+      //         [24, 1],
+      //       ],
+      //     },
+      //     // assign color values be applied to points depending on their density
+      //     'heatmap-color': [
+      //       'interpolate',
+      //       ['linear'],
+      //       ['heatmap-density'],
+      //       0,
+      //       'rgba(' + deviceDetails.heatmapColorRGB + ',0)',
+      //       0.25,
+      //       'rgba(' + deviceDetails.heatmapColorRGB + ',0.5)',
+      //       0.5,
+      //       'rgba(' + deviceDetails.heatmapColorRGB + ',0.75)',
+      //       0.8,
+      //       'rgb(' + deviceDetails.heatmapColorRGB + ')',
+      //     ],
+      //     // increase radius as zoom increases
+      //     'heatmap-radius': {
+      //       stops: [
+      //         [16, 20],
+      //         [24, 60],
+      //       ],
+      //     },
+      //     // decrease opacity to transition into the circle layer
+      //     'heatmap-opacity': {
+      //       default: 0.25,
+      //       stops: [
+      //         [16, 0.4],
+      //         [20, 0.1],
+      //         [22, 0],
+      //       ],
+      //     },
+      //   },
+      // });
+
+      this.map.addLayer({
+        id: deviceDetails.layers[0],
+        type: 'circle',
+        source: deviceDetails.sourceName,
+        filter: ['!', ['has', 'point_count']],
+        paint: {
+          'circle-color': deviceDetails.circleColor,
+          'circle-opacity': deviceDetails.circleOpacity,
+          'circle-radius': {
+            base: deviceDetails.circleRadius,
+            stops: [
+              [16, deviceDetails.circleRadius],
+              // [20, deviceDetails.circleRadius * 2],
+              // [22, deviceDetails.circleRadius * 3],
+            ],
+          },
+        },
       });
 
       // Add device layer
       this.map.addLayer({
-        id: deviceDetails.heatmapName,
-        type: 'heatmap',
-        source: deviceDetails.sourceName,
-        maxzoom: 24,
-        paint: {
-          // increase intensity as zoom level increases
-          'heatmap-intensity': {
-            stops: [
-              [16, 0.5],
-              [24, 1],
-            ],
-          },
-          // assign color values be applied to points depending on their density
-          'heatmap-color': [
-            'interpolate',
-            ['linear'],
-            ['heatmap-density'],
-            0,
-            'rgba(' + deviceDetails.heatmapColorRGB + ',0)',
-            0.25,
-            'rgba(' + deviceDetails.heatmapColorRGB + ',0.5)',
-            0.5,
-            'rgba(' + deviceDetails.heatmapColorRGB + ',0.75)',
-            0.8,
-            'rgb(' + deviceDetails.heatmapColorRGB + ')',
-          ],
-          // increase radius as zoom increases
-          'heatmap-radius': {
-            stops: [
-              [16, 20],
-              [24, 60],
-            ],
-          },
-          // decrease opacity to transition into the circle layer
-          'heatmap-opacity': {
-            default: 0.25,
-            stops: [
-              [16, 0.4],
-              [20, 0.1],
-              [22, 0],
-            ],
-          },
-        },
-      });
-      // Add device layer
-      this.map.addLayer({
-        id: deviceDetails.id,
+        id: deviceDetails.layers[1],
         type: 'circle',
         source: deviceDetails.sourceName,
+        filter: ['has', 'point_count'],
         paint: {
           'circle-color': deviceDetails.circleColor,
-          'circle-radius': {
-            base: 1,
-            stops: [
-              [16, deviceDetails.circleRadius],
-              [20, deviceDetails.circleRadius * 2],
-              [22, deviceDetails.circleRadius * 3],
-            ],
-          },
+          'circle-opacity': [
+            'case',
+            ['boolean', ['feature-state', 'hover'], false],
+            1,
+            deviceDetails.circleOpacity,
+          ],
+          // 'circle-radius': {
+          //   base: 1,
+          //   stops: [
+          //     [16, deviceDetails.circleRadius],
+          //     [20, deviceDetails.circleRadius * 2],
+          //     [22, deviceDetails.circleRadius * 3],
+          //   ],
+          // },
+          'circle-radius': [
+            'step',
+            ['get', 'point_count'],
+            deviceDetails.circleRadius * 3,
+            5,
+            deviceDetails.circleRadius * 6,
+            10,
+            deviceDetails.circleRadius * 9,
+            20,
+            deviceDetails.circleRadius * 12,
+            100,
+            deviceDetails.circleRadius * 16,
+          ],
         },
       });
+      // Add a cluster layer to display number of devices stacked
+      // this.map.addLayer({
+      //   id: deviceDetails.layers[2],
+      //   type: 'symbol',
+      //   source: deviceDetails.sourceName,
+      //   filter: ['has', 'point_count'],
+      //   paint: {
+      //     'text-color': '#F7FFD7',
+      //   },
+      //   layout: {
+      //     'text-field': '{point_count_abbreviated}',
+      //     'text-font': ['Arial Unicode MS Bold'],
+      //     'text-size': 10,
+      //   },
+      // });
     }
     if (this.map.getLayer('access-points')) {
+      this.liveDeviceDetails.layers.forEach((layer) => {
+        if (this.map.getLayer(layer)) {
+          this.map.moveLayer(layer, 'access-points');
+        }
+      });
       this.map.moveLayer(deviceDetails.heatmapName, 'access-points');
-      this.map.moveLayer(deviceDetails.id, 'access-points');
     }
   }
 
@@ -621,6 +679,9 @@ export class MapViewComponent implements OnChanges {
   }
   isFeatureAccessPoint(feature: MapboxGeoJSONFeature): boolean {
     return feature.layer.id.toString() === 'access-points';
+  }
+  isFeatureDeviceCluster(feature: MapboxGeoJSONFeature): boolean {
+    return feature.layer.id.toString() === 'device-clusters';
   }
 
   mapMouseMove(event: any): void {
@@ -650,10 +711,33 @@ export class MapViewComponent implements OnChanges {
           id: this.hoveredAccessPointId,
         });
       }
+      if (this.hoveredDevice) {
+        this.map.removeFeatureState({
+          source: this.liveDeviceDetails.sourceName,
+          id: this.hoveredDevice.id,
+        });
+        this.hoveredDevice = undefined;
+      }
       if (features) {
         features.some((feature) => {
           if (feature) {
-            if (this.isFeatureAccessPoint(feature)) {
+            if (this.isFeatureDeviceCluster(feature)) {
+              this.map.getCanvasContainer().style.cursor = 'pointer';
+              this.hoveredDevice = feature;
+              this.map.setFeatureState(
+                {
+                  source: this.liveDeviceDetails.sourceName,
+                  id: feature.id,
+                },
+                {
+                  hover: true,
+                }
+              );
+              if (feature.geometry.type === 'Point') {
+                this.selectedPosition = feature.geometry.coordinates;
+              }
+              return true;
+            } else if (this.isFeatureAccessPoint(feature)) {
               this.map.getCanvasContainer().style.cursor = 'pointer';
               this.hoveredAccessPointId = feature.id;
               this.map.setFeatureState(
@@ -695,46 +779,66 @@ export class MapViewComponent implements OnChanges {
     );
     features.some((feature) => {
       console.log(feature);
-      if (this.isFeatureAccessPoint(feature)) {
-        // Check if this is a cluster of access points
-        if (feature.properties?.cluster) {
+      if (feature) {
+        if (this.isFeatureDeviceCluster(feature)) {
+          const clusterId = feature.properties?.cluster_id;
           const clusterSource = this.map.getSource(
-            'access-point-source'
+            this.liveDeviceDetails.sourceName
           ) as mapboxgl.GeoJSONSource;
-          clusterSource.getClusterLeaves(
-            feature.properties.cluster_id,
-            feature.properties.point_count,
-            0,
-            (err, aFeatures) => {
-              // build the bounding box with the selected points coordinates
-              const bounds = new mapboxgl.LngLatBounds();
-              aFeatures.forEach((feature2) => {
-                if (feature2.geometry.type === 'Point') {
-                  const coordinates =
-                    feature2.geometry.coordinates.slice() as mapboxgl.LngLatLike;
-                  bounds.extend(coordinates);
-                }
-              });
-              // Move the map to fit the Bounding Box (BBox)
-              return this.map.fitBounds(bounds, {
-                padding: 45, // orig 45
-                maxZoom: 20,
+          clusterSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
+            if (err) {
+              return;
+            }
+
+            if (feature.geometry.type === 'Point') {
+              const coordinates =
+                feature.geometry.coordinates.slice() as mapboxgl.LngLatLike;
+              this.map.easeTo({
+                center: coordinates,
               });
             }
-          );
-        } else if (feature.geometry.type === 'Point') {
-          console.log(feature.geometry.coordinates);
-          this.selectedPosition = feature.geometry.coordinates;
-          this.clickedAccessPoint.emit(+feature.properties?.id);
+          });
+        } else if (this.isFeatureAccessPoint(feature)) {
+          // Check if this is a cluster of access points
+          if (feature.properties?.cluster) {
+            const clusterSource = this.map.getSource(
+              'access-point-source'
+            ) as mapboxgl.GeoJSONSource;
+            clusterSource.getClusterLeaves(
+              feature.properties.cluster_id,
+              feature.properties.point_count,
+              0,
+              (err, aFeatures) => {
+                // build the bounding box with the selected points coordinates
+                const bounds = new mapboxgl.LngLatBounds();
+                aFeatures.forEach((feature2) => {
+                  if (feature2.geometry.type === 'Point') {
+                    const coordinates =
+                      feature2.geometry.coordinates.slice() as mapboxgl.LngLatLike;
+                    bounds.extend(coordinates);
+                  }
+                });
+                // Move the map to fit the Bounding Box (BBox)
+                return this.map.fitBounds(bounds, {
+                  padding: 45, // orig 45
+                  maxZoom: 20,
+                });
+              }
+            );
+          } else if (feature.geometry.type === 'Point') {
+            console.log(feature.geometry.coordinates);
+            this.selectedPosition = feature.geometry.coordinates;
+            this.clickedAccessPoint.emit(+feature.properties?.id);
+          }
+          return true;
+        } else if (this.isFeatureBuilding(feature) && feature.id) {
+          console.log('building', feature);
+          console.log(feature.id);
+          console.log(feature.geometry); // feature.geometry getter returns building shape points (basement)
+          console.log('height', feature?.properties?.height); // this is the building height
+          this.clickedBuildingId.emit(+feature.id);
+          return true;
         }
-        return true;
-      } else if (this.isFeatureBuilding(feature) && feature.id) {
-        console.log('building', feature);
-        console.log(feature.id);
-        console.log(feature.geometry); // feature.geometry getter returns building shape points (basement)
-        console.log('height', feature?.properties?.height); // this is the building height
-        this.clickedBuildingId.emit(+feature.id);
-        return true;
       }
       return false;
     });

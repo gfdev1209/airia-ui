@@ -32,3 +32,13 @@
     max-width: 100%;
   }
 }
+.device-count-popup {
+  .mapboxgl-popup-close-button {
+    display: none;
+  }
+  .mapboxgl-popup-content {
+    padding: 4px 10px;
+    color: white;
+    font-weight: strong;
+  }
+}
