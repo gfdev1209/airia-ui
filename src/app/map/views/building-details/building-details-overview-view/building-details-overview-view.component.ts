@@ -235,6 +235,7 @@ export class BuildingDetailsOverviewViewComponent implements OnInit, OnChanges {
   @Input() occupancy?: Occupancy[] | null;
   @Input() loading?: boolean | null;
   @Input() maximized!: boolean;
+  @Input() analytics24Hours?: BuildingAnalytics | null;
 
   @Output() occupancyDateChanged = new EventEmitter<Date>();
   @Output() historicDateRangeChanged = new EventEmitter<Date[]>();
@@ -298,9 +299,13 @@ export class BuildingDetailsOverviewViewComponent implements OnInit, OnChanges {
     if (changes.occupancy && changes.occupancy.currentValue?.length > 0) {
       const occupancyData = changes.occupancy.currentValue;
       console.log(occupancyData);
+      const highestMax = Math.max.apply(
+        Math,
+        occupancyData.map((o: any) => o.maxOccupancy)
+      );
       occupancyData.forEach((occupancy: any) => {
         occupancy.x = occupancy.day.toString();
-        occupancy.y = occupancy.averageOccupancy;
+        occupancy.y = (occupancy.averageOccupancy / highestMax) * 100;
       });
       // occupancyData = Object.values(groupBy(occupancyData, (i) => i.day));
       occupancyData.reverse();
@@ -311,7 +316,7 @@ export class BuildingDetailsOverviewViewComponent implements OnInit, OnChanges {
             ...a,
             [x.hour]: {
               x: x.hour.toString(),
-              y: x.averageOccupancy,
+              y: (x.averageOccupancy / highestMax) * 100,
               hour: x.hour.toString(),
               day: x.day.toString(),
               year: x.year.toString(),

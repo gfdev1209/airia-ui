@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Building, Occupancy, Region } from '@map/models';
+import { Building, BuildingAnalytics, Occupancy, Region } from '@map/models';
 import { Store } from '@ngrx/store';
 import { RootState } from '@store/index';
 
@@ -12,6 +12,7 @@ import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { RegionService } from '@map/services/region.service';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { BuildingService } from '@map/services/building.service';
 
 @Component({
   selector: 'app-building-details-overview',
@@ -28,13 +29,15 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
 
   analytics$ = this.store.select(BuildingSelectors.selectAnalytics);
   occupancy$?: Observable<Occupancy[]>;
+  analytics24Hours$?: Observable<BuildingAnalytics>;
 
   private loading = new BehaviorSubject<boolean>(false);
   loading$ = this.loading.asObservable();
 
   constructor(
     private store: Store<RootState>,
-    private regionService: RegionService
+    private regionService: RegionService,
+    private buildingService: BuildingService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -47,6 +50,16 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
         moment(this.curDate).month(),
         moment(this.curDate).date()
       );
+    }
+    if (changes?.building) {
+      if (changes.building.currentValue && changes.building.currentValue.id) {
+        const prev24Hours = moment().subtract(24, 'hours').toDate();
+        this.analytics24Hours$ = this.buildingService.getAnalytics(
+          changes.building.currentValue.id,
+          prev24Hours,
+          new Date()
+        );
+      }
     }
   }
 

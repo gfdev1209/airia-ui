@@ -119,6 +119,21 @@ export class BuildingDetailsOccupancyViewComponent
   }
 
   mapOccupancyData(occupancyDataArray: any[]): { [id: string]: any } {
+    // const highestMax = Math.max.apply(
+    //   Math,
+    //   occupancyDataArray.map((o: any) => o.maxOccupancy)
+    // );
+    // Create empty dictionary to store data
+    const maxByDay: { [id: number]: number } = {};
+    const dayList = Object.values(groupBy(occupancyDataArray, (i) => i.day));
+    dayList.forEach((day) => {
+      day.filter((d) => d.hour);
+      const highestMax = Math.max.apply(
+        Math,
+        day.map((o) => o.maxOccupancy)
+      );
+      maxByDay[day[0]?.day] = highestMax;
+    });
     // Group data by the hour
     occupancyDataArray = Object.values(
       groupBy(occupancyDataArray, (i) => i.hour)
@@ -146,7 +161,9 @@ export class BuildingDetailsOccupancyViewComponent
             const average =
               days.reduce((total: any, next: any) => {
                 const avg =
-                  next.averageOccupancy > 0 ? next.averageOccupancy : 0;
+                  next.averageOccupancy > 0
+                    ? (next.averageOccupancy / maxByDay[next.day]) * 100
+                    : 0;
                 return total + avg;
               }, 0) / days.length;
             // Update dictionary value
