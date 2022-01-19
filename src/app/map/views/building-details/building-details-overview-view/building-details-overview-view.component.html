@@ -7,27 +7,30 @@
       <h1 class="p-m-0">
         {{ analytics?.occupancyPercentile | number: "1.2-2" }}%
       </h1>
-      <small class="color-text-medium"
+      <!-- <small class="color-text-medium"
         ><span class="color-green">+ 4.3%</span> &nbsp;Last hour</small
-      >
+      > -->
     </div>
     <div
       class="width-100 p-p-3 p-m-1 rounded-corners background-color-text-input"
     >
       <span>Current Devices</span><br />
       <h1 class="p-m-0">{{ analytics?.deviceCount }}</h1>
-      <small class="color-text-medium"
+      <!-- <small class="color-text-medium"
         ><span class="color-green">+ 2.3%</span> &nbsp;Last hour</small
-      >
+      > -->
     </div>
     <div
       class="width-100 p-p-3 p-m-1 rounded-corners background-color-text-input"
     >
       <span>24 Hour Average Occupancy</span><br />
-      <h1 class="p-m-0">n/a</h1>
-      <small class="color-text-medium"
+      <i *ngIf="!analytics24Hours" class="fas fa-spinner fa-spin p-mt-3"></i>
+      <h1 *ngIf="analytics24Hours" class="p-m-0">
+        {{ analytics24Hours?.occupancyPercentile | number: "1.2-2" }}%
+      </h1>
+      <!-- <small class="color-text-medium"
         ><span class="color-red">- 2.2%</span> &nbsp;Since prior 24 hours</small
-      >
+      > -->
     </div>
   </div>
 </section>

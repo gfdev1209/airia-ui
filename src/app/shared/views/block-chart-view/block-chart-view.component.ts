@@ -25,6 +25,7 @@ export class BlockChartViewComponent implements OnInit, OnChanges {
   @Input() rows?: number;
   @Input() data?: any;
   @Input() showValues = true;
+  @Input() distributedColors = false;
 
   @ViewChild('chart', { static: false }) chart?: ChartComponent;
   public chartOptions?: Partial<HeatmapChartOptions>;
@@ -53,6 +54,7 @@ export class BlockChartViewComponent implements OnInit, OnChanges {
     if (!this.showValues) {
       chartOptions2.dataLabels.enabled = false;
     }
+    chartOptions2.plotOptions.heatmap.distributed = this.distributedColors;
     this.chartOptions = chartOptions2;
     // height: 66 + (2*18),
     this.chart?.updateOptions(chartOptions2, true);

@@ -1,6 +1,7 @@
 <app-building-details-overview-view
   [analytics]="analytics$ | async"
   [occupancy]="occupancy$ | async"
+  [analytics24Hours]="analytics24Hours$ | async"
   [loading]="loading$ | async"
   [maximized]="maximized"
   (historicDateRangeChanged)="onHistoricDateRangeChanged($event)"
