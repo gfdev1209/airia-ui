@@ -49,6 +49,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   @Output() toggleAccessPoints = new EventEmitter<boolean>();
   @Output() toggleDevices = new EventEmitter<boolean>();
   @Output() toggledStaticDevices = new EventEmitter<boolean>();
+  @Output() toggledClusters = new EventEmitter<boolean>();
 
   @ViewChild('topPanel') topPanel!: ElementRef;
   @ViewChild('alertPanel') private alertPanel!: AlertPanelComponent;
@@ -61,6 +62,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   staticDevices = true;
   iotDevices = true;
   accessPoints = false;
+  clusters = false;
 
   severeUrgency = true;
   highUrgency = true;
@@ -145,6 +147,9 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   }
   onToggleIOT(event: any): void {
     this.toggledStaticDevices.emit(event.checked);
+  }
+  onToggleClusters(event: any): void {
+    this.toggledClusters.emit(event.checked);
   }
   onSortChange(event: any): void {
     this.alertSortTypeChanged.emit(event?.value);

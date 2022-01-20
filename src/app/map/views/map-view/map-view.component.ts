@@ -38,6 +38,7 @@ export class MapViewComponent implements OnChanges {
   @Input() showDevices?: boolean | null = true;
   @Input() showStaticDevices?: boolean | null = true;
   @Input() showAccessPoints?: boolean | null = false;
+  @Input() showClusters?: boolean | null = false;
 
   @Input() selectedAlert?: Alert | null;
   @Input() regionPolygon?: number[][] | null;
@@ -70,7 +71,7 @@ export class MapViewComponent implements OnChanges {
       'device-clusters',
       'device-cluster-count',
     ],
-    sourceName: 'devices-source',
+    sourceName: 'devicesSource',
     heatmapName: 'devices-heatmap',
     circleColor: '#00c1ff',
     circleRadius: 2.5,
@@ -119,6 +120,10 @@ export class MapViewComponent implements OnChanges {
     }
     if (changes.showDevices?.firstChange === false) {
       this.toggleDevices();
+    }
+    if (changes.showClusters?.firstChange === false) {
+      this.toggleClusters();
+      this.addDevices();
     }
     if (changes.showStaticDevices?.firstChange === false) {
       this.toggleIOT();
@@ -177,6 +182,9 @@ export class MapViewComponent implements OnChanges {
     this.addAccessPoints();
   }
 
+  toggleClusters(): void {
+    console.log(this.showClusters);
+  }
   toggleDevices(): void {
     const visibility = this.showDevices ? 'visible' : 'none';
     this.liveDeviceDetails.layers.forEach((layer) => {
@@ -453,20 +461,22 @@ export class MapViewComponent implements OnChanges {
           });
 
           // Add a cluster layer to display number of access points when zoomed out
-          this.map.addLayer({
-            id: 'access-point-clusters',
-            type: 'symbol',
-            source: 'access-point-source',
-            filter: ['has', 'point_count'],
-            paint: {
-              'text-color': '#F7FFD7',
-            },
-            layout: {
-              'text-field': '{point_count_abbreviated}',
-              'text-font': ['Arial Unicode MS Bold'],
-              'text-size': 12,
-            },
-          });
+          if (this.showClusters) {
+            this.map.addLayer({
+              id: 'access-point-clusters',
+              type: 'symbol',
+              source: 'access-point-source',
+              filter: ['has', 'point_count'],
+              paint: {
+                'text-color': '#F7FFD7',
+              },
+              layout: {
+                'text-field': '{point_count_abbreviated}',
+                'text-font': ['Arial Unicode MS Bold'],
+                'text-size': 12,
+              },
+            });
+          }
 
           if (this.map.getLayer(this.liveDeviceDetails.heatmapName)) {
             this.map.moveLayer(
@@ -530,6 +540,12 @@ export class MapViewComponent implements OnChanges {
         type: 'FeatureCollection',
         features: pointArr,
       });
+      const style = this.map.getStyle();
+      if (style && style.sources && style.sources.devicesSource) {
+        const clusterSource: any = style.sources.devicesSource;
+        clusterSource.cluster = this.showClusters;
+        this.map.setStyle(style);
+      }
     } else {
       this.map.addSource(deviceDetails.sourceName, {
         type: 'geojson',
@@ -537,57 +553,57 @@ export class MapViewComponent implements OnChanges {
           type: 'FeatureCollection',
           features: pointArr,
         },
-        cluster: true,
+        cluster: this.showClusters ? this.showClusters : false,
         clusterMaxZoom: 23, // Max zoom to cluster points on
         clusterRadius: 2, // Radius of each cluster when clustering points (defaults to 50)
       });
 
       // Add device layer
-      // this.map.addLayer({
-      //   id: deviceDetails.heatmapName,
-      //   type: 'heatmap',
-      //   source: deviceDetails.sourceName,
-      //   maxzoom: 24,
-      //   paint: {
-      //     // increase intensity as zoom level increases
-      //     'heatmap-intensity': {
-      //       stops: [
-      //         [16, 0.5],
-      //         [24, 1],
-      //       ],
-      //     },
-      //     // assign color values be applied to points depending on their density
-      //     'heatmap-color': [
-      //       'interpolate',
-      //       ['linear'],
-      //       ['heatmap-density'],
-      //       0,
-      //       'rgba(' + deviceDetails.heatmapColorRGB + ',0)',
-      //       0.25,
-      //       'rgba(' + deviceDetails.heatmapColorRGB + ',0.5)',
-      //       0.5,
-      //       'rgba(' + deviceDetails.heatmapColorRGB + ',0.75)',
-      //       0.8,
-      //       'rgb(' + deviceDetails.heatmapColorRGB + ')',
-      //     ],
-      //     // increase radius as zoom increases
-      //     'heatmap-radius': {
-      //       stops: [
-      //         [16, 20],
-      //         [24, 60],
-      //       ],
-      //     },
-      //     // decrease opacity to transition into the circle layer
-      //     'heatmap-opacity': {
-      //       default: 0.25,
-      //       stops: [
-      //         [16, 0.4],
-      //         [20, 0.1],
-      //         [22, 0],
-      //       ],
-      //     },
-      //   },
-      // });
+      this.map.addLayer({
+        id: deviceDetails.heatmapName,
+        type: 'heatmap',
+        source: deviceDetails.sourceName,
+        maxzoom: 24,
+        paint: {
+          // increase intensity as zoom level increases
+          'heatmap-intensity': {
+            stops: [
+              [16, 0.5],
+              [24, 1],
+            ],
+          },
+          // assign color values be applied to points depending on their density
+          'heatmap-color': [
+            'interpolate',
+            ['linear'],
+            ['heatmap-density'],
+            0,
+            'rgba(' + deviceDetails.heatmapColorRGB + ',0)',
+            0.25,
+            'rgba(' + deviceDetails.heatmapColorRGB + ',0.5)',
+            0.5,
+            'rgba(' + deviceDetails.heatmapColorRGB + ',0.75)',
+            0.8,
+            'rgb(' + deviceDetails.heatmapColorRGB + ')',
+          ],
+          // increase radius as zoom increases
+          'heatmap-radius': {
+            stops: [
+              [16, 20],
+              [24, 60],
+            ],
+          },
+          // decrease opacity to transition into the circle layer
+          'heatmap-opacity': {
+            default: 0.25,
+            stops: [
+              [16, 0.4],
+              [20, 0.1],
+              [22, 0],
+            ],
+          },
+        },
+      });
 
       this.map.addLayer({
         id: deviceDetails.layers[0],

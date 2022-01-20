@@ -55,43 +55,43 @@ export const heatMapChartConfig = {
       reverseNegativeShade: false,
       shadeIntensity: 0.5,
       useFillColorAsStroke: false,
-      // colorScale: {
-      //   ranges: [
-      //     {
-      //       from: 0,
-      //       to: 16,
-      //       color: '#2a1d32',
-      //     },
-      //     {
-      //       from: 16,
-      //       to: 32,
-      //       color: '#3f2a50',
-      //     },
-      //     {
-      //       from: 32,
-      //       to: 48,
-      //       color: '#55376d',
-      //     },
-      //     {
-      //       from: 48,
-      //       to: 64,
-      //       color: '#6a448b',
-      //     },
-      //     {
-      //       from: 64,
-      //       to: 80,
-      //       color: '#8151a7',
-      //     },
-      //     {
-      //       from: 80,
-      //       to: 1000,
-      //       color: '#965ec5',
-      //     },
-      //   ],
-      //   inverse: false,
-      //   min: 0,
-      //   max: 0,
-      // },
+      colorScale: {
+        ranges: [
+          {
+            from: 0,
+            to: 16,
+            color: '#2a1d32',
+          },
+          {
+            from: 16,
+            to: 32,
+            color: '#3f2a50',
+          },
+          {
+            from: 32,
+            to: 48,
+            color: '#55376d',
+          },
+          {
+            from: 48,
+            to: 64,
+            color: '#6a448b',
+          },
+          {
+            from: 64,
+            to: 80,
+            color: '#8151a7',
+          },
+          {
+            from: 80,
+            to: 1000,
+            color: '#965ec5',
+          },
+        ],
+        inverse: false,
+        min: 0,
+        max: 0,
+      },
     },
   },
   series: [

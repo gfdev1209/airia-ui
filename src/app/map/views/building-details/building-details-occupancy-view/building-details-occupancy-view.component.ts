@@ -72,21 +72,21 @@ export class BuildingDetailsOccupancyViewComponent
           .toDate(),
       ],
     },
-    {
-      name: 'This Week',
-      range: [
-        moment
-          .utc()
-          .startOf('week')
-          .subtract(environment.timeZoneOffsetUTC, 'hour')
-          .toDate(),
-        moment
-          .utc()
-          .endOf('week')
-          .subtract(environment.timeZoneOffsetUTC, 'hour')
-          .toDate(),
-      ],
-    },
+    // {
+    //   name: 'This Week',
+    //   range: [
+    //     moment
+    //       .utc()
+    //       .startOf('week')
+    //       .subtract(environment.timeZoneOffsetUTC, 'hour')
+    //       .toDate(),
+    //     moment
+    //       .utc()
+    //       .endOf('week')
+    //       .subtract(environment.timeZoneOffsetUTC, 'hour')
+    //       .toDate(),
+    //   ],
+    // },
   ];
   historicDataRange: any;
   maxDateValue = new Date();
@@ -134,6 +134,11 @@ export class BuildingDetailsOccupancyViewComponent
       );
       maxByDay[day[0]?.day] = highestMax;
     });
+
+    const highestMaxTotal = Math.max.apply(
+      Math,
+      occupancyDataArray.map((o) => o.maxOccupancy)
+    );
     // Group data by the hour
     occupancyDataArray = Object.values(
       groupBy(occupancyDataArray, (i) => i.hour)
@@ -162,7 +167,7 @@ export class BuildingDetailsOccupancyViewComponent
               days.reduce((total: any, next: any) => {
                 const avg =
                   next.averageOccupancy > 0
-                    ? (next.averageOccupancy / maxByDay[next.day]) * 100
+                    ? (next.averageOccupancy / highestMaxTotal) * 100
                     : 0;
                 return total + avg;
               }, 0) / days.length;

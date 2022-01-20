@@ -53,6 +53,11 @@ export class MapService {
   );
   showDevices$ = this.showDevices.asObservable();
 
+  private showClusters: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
+  showClusters$ = this.showClusters.asObservable();
+
   private showStaticDevices: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
   showStaticDevices$ = this.showStaticDevices.asObservable();
@@ -111,6 +116,9 @@ export class MapService {
   }
   setShowAccessPoints(show: boolean): void {
     this.showAccessPoints.next(show);
+  }
+  setShowClusters(show: boolean): void {
+    this.showClusters.next(show);
   }
 
   resetPlaybackSlider(): void {

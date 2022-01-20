@@ -165,6 +165,9 @@ export class OverviewPanelComponent implements OnInit, OnDestroy {
   onToggledStaticDevices(checked: boolean): void {
     this.mapService.setShowStaticDevices(checked);
   }
+  onToggledClusters(checked: boolean): void {
+    this.mapService.setShowClusters(checked);
+  }
 
   onToggleExpanded(isExpanded?: boolean): void {
     this.mapService.toggleOverview(isExpanded);
