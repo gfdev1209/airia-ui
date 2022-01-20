@@ -73,10 +73,10 @@ export class MapViewComponent implements OnChanges {
     ],
     sourceName: 'devicesSource',
     heatmapName: 'devices-heatmap',
-    circleColor: '#00c1ff',
+    circleColor: '#c702fb',
     circleRadius: 2.5,
     circleOpacity: 0.5,
-    heatmapColorRGB: '2, 185, 251',
+    heatmapColorRGB: '199, 2, 251',
   };
   staticDeviceDetails: DeviceMapboxDetails = {
     id: 'staticDevices',
@@ -87,10 +87,10 @@ export class MapViewComponent implements OnChanges {
     ],
     sourceName: 'static-devices-source',
     heatmapName: 'static-devices-heatmap',
-    circleColor: '#c702fb',
+    circleColor: '#00c1ff',
     circleRadius: 2,
     circleOpacity: 0.5,
-    heatmapColorRGB: '199, 2, 251',
+    heatmapColorRGB: '2, 185, 251',
   };
 
   constructor() {}
