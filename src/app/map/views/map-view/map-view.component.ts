@@ -617,8 +617,8 @@ export class MapViewComponent implements OnChanges {
             base: deviceDetails.circleRadius,
             stops: [
               [16, deviceDetails.circleRadius],
-              // [20, deviceDetails.circleRadius * 2],
-              // [22, deviceDetails.circleRadius * 3],
+              [20, deviceDetails.circleRadius * 2],
+              [22, deviceDetails.circleRadius * 3],
             ],
           },
         },
