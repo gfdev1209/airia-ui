@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { retry, catchError, tap, map, share } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -11,6 +11,7 @@ import { SkipTakeInput } from '@shared/models/skip-take-input.model';
 })
 export class BaseService {
   protected apiUrl = environment.apiUrl;
+  headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
     @Inject(String) protected apiName: string,

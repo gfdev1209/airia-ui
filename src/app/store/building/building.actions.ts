@@ -94,3 +94,26 @@ export const showDetails = createAction('[Map] Show Building Details');
 export const hideDetails = createAction('[Map] Hide Building Details');
 
 export const deselect = createAction('[Building Details] Deselect Building');
+
+export const updateBuildingPolygon = createAction(
+  '[Building Form] Update Building Polygon',
+  props<{ id: number; polygon?: number[][] }>()
+);
+export const updateBuildingPolygonMap = createAction(
+  '[Map] Update Building Polygon',
+  props<{ id: number; polygon?: number[][] }>()
+);
+export const updateBuildingPolygonSuccess = createAction(
+  '[Building Effect] Update Building Polygon Success',
+  props<{ building: Building }>()
+);
+export const updateBuildingPolygonFailed = createAction(
+  '[Building Effect] Update Building Polygon Failed'
+);
+
+export const editBuildingShape = createAction(
+  '[Building Form] Edit Building Shape'
+);
+export const cancelEditBuildingShape = createAction(
+  '[Map] Cancel Edit Building Shape'
+);

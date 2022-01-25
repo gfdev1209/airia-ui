@@ -19,8 +19,6 @@ import { MapComponent } from './components/map/map.component';
 import { MapViewComponent } from './views/map-view/map-view.component';
 import { BuildingOverviewComponent } from './components/building-overview/building-overview.component';
 import { BuildingOverviewViewComponent } from './views/building-overview-view/building-overview-view.component';
-import { ZoomControlsComponent } from './components/zoom-controls/zoom-controls.component';
-import { ZoomControlsViewComponent } from './views/zoom-controls-view/zoom-controls-view.component';
 import { AccessPointOverviewComponent } from './components/access-point-overview/access-point-overview.component';
 import { AccessPointOverviewViewComponent } from './views/access-point-overview-view/access-point-overview-view.component';
 import { BuildingDetailsComponent } from './components/building-details/building-details.component';
@@ -33,6 +31,8 @@ import { BuildingDetailsAlertsComponent } from './components/building-details/bu
 import { BuildingDetailsAccessPointsComponent } from './components/building-details/building-details-access-points/building-details-access-points.component';
 import { FloorControlsComponent } from './components/floor-controls/floor-controls.component';
 import { FloorControlsViewComponent } from './views/floor-controls-view/floor-controls-view.component';
+import { MapControlsComponent } from './components/map-controls/map-controls.component';
+import { MapControlsViewComponent } from './views/map-controls-view/map-controls-view.component';
 import { BuildingDetailsOverviewComponent } from './components/building-details/building-details-overview/building-details-overview.component';
 import { BuildingDetailsOverviewViewComponent } from './views/building-details/building-details-overview-view/building-details-overview-view.component';
 
@@ -76,10 +76,10 @@ import { BuildingDetailsOverviewViewComponent } from './views/building-details/b
     BuildingDetailsAccessPointsViewComponent,
     AccessPointOverviewComponent,
     AccessPointOverviewViewComponent,
-    ZoomControlsComponent,
-    ZoomControlsViewComponent,
     FloorControlsComponent,
     FloorControlsViewComponent,
+    MapControlsComponent,
+    MapControlsViewComponent,
   ],
 })
 export class MapModule {}

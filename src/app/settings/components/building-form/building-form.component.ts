@@ -4,7 +4,7 @@ import * as BuildingActions from '@store/building/building.actions';
 import * as FloorSelectors from '@store/floor/floor.selectors';
 import * as FloorActions from '@store/floor/floor.actions';
 import { tap } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { RootState } from '@store/index';
 import { Building } from '@map/models';
@@ -34,6 +34,7 @@ export class BuildingFormComponent implements OnInit {
   constructor(
     private store: Store<RootState>,
     private route: ActivatedRoute,
+    private router: Router,
     private dialogService: DialogService
   ) {}
 
@@ -67,5 +68,17 @@ export class BuildingFormComponent implements OnInit {
         this.store.dispatch(FloorActions.deselect());
       });
     }
+  }
+  onEditShape(building: Building): void {
+    this.store.dispatch(BuildingActions.editBuildingShape());
+    this.router.navigate(['/map']);
+  }
+  onRemoveShape(building: Building): void {
+    this.store.dispatch(
+      BuildingActions.updateBuildingPolygon({
+        id: building.id,
+        polygon: undefined,
+      })
+    );
   }
 }

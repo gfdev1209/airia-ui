@@ -65,6 +65,13 @@ export class MapService {
     new BehaviorSubject<boolean>(false);
   showAccessPoints$ = this.showAccessPoints.asObservable();
 
+  private isDrawing: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
+  isDrawing$ = this.isDrawing.asObservable();
+  private deleteDrawing: Subject<void> = new Subject();
+  deleteDrawing$ = this.deleteDrawing.asObservable();
+
   constructor() {}
 
   updateOverviewPanelHeight(newHeight: number): void {
@@ -121,6 +128,12 @@ export class MapService {
     this.showClusters.next(show);
   }
 
+  setDrawing(value: boolean): void {
+    this.isDrawing.next(value);
+  }
+  onDeleteDrawing(): void {
+    this.deleteDrawing.next();
+  }
   resetPlaybackSlider(): void {
     this.updatePlaybackSlider(0);
   }

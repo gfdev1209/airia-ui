@@ -32,9 +32,10 @@
             "aot": true,
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "./node_modules/primeicons/primeicons.css",
-              "./node_modules/primeflex/primeflex.css",
-              "./node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeflex/primeflex.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css",
               "src/styles/styles.scss"
             ],
             "scripts": ["./node_modules/apexcharts/dist/apexcharts.js"],
@@ -52,6 +53,14 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.schooldemo.ts"
+                }
+              ]
+            },
+            "devtest": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.devtest.ts"
                 }
               ]
             },
@@ -119,6 +128,9 @@
             },
             "schooldemo": {
               "browserTarget": "airia:build:schooldemo"
+            },
+            "devtest": {
+              "browserTarget": "airia:build:devtest"
             },
             "lakewaydev": {
               "browserTarget": "airia:build:lakewaydev"

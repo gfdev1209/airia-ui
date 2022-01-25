@@ -14,6 +14,7 @@ import * as BuildingSelectors from './building.selectors';
 import { BuildingService } from '@map/services/building.service';
 import { RootState } from '..';
 import { Store } from '@ngrx/store';
+import { Update } from '@ngrx/entity';
 
 @Injectable({
   providedIn: 'root',
@@ -161,6 +162,34 @@ export class BuildingEffects {
             catchError((error) => of(BuildingActions.updateFailed()))
           )
       )
+    )
+  );
+
+  updatePolygon$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        BuildingActions.updateBuildingPolygon,
+        BuildingActions.updateBuildingPolygonMap
+      ),
+      withLatestFrom(this.store.select(BuildingSelectors.selectEntities)),
+      switchMap(([{ id, polygon }, buildings]) => {
+        const building = buildings[id];
+        if (!building) {
+          throw new Error(`Unable to find building with ID of ${id}`);
+        }
+        return of({ building, polygon });
+      }),
+      mergeMap(({ building, polygon }) => {
+        return this.buildingService.updatePolygon(building.id, polygon).pipe(
+          map(() => {
+            building.buildingPolygonJson = polygon;
+            return BuildingActions.updateBuildingPolygonSuccess({
+              building,
+            });
+          })
+        );
+      }),
+      catchError(() => of(BuildingActions.selectFailed()))
     )
   );
 }

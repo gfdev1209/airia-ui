@@ -30,6 +30,9 @@
   .p-button-icon + span.p-button-label {
     color: var(--text-color);
   }
+  &.active {
+    background: var(--primary-color);
+  }
   &:hover {
     .p-button-icon + span.p-button-label {
       color: var(--background-color-contrast);

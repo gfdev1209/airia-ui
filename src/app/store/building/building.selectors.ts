@@ -12,6 +12,11 @@ export const selectAnalytics = createSelector(
   (state: BuildingState) => state.analytics
 );
 
+export const selectEditingShape = createSelector(
+  selectFeature,
+  (state: BuildingState) => state.editBuildingShape
+);
+
 export const selectLoading = createSelector(
   selectFeature,
   (state: BuildingState) => state.loading

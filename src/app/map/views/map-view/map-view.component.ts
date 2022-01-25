@@ -7,7 +7,8 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
-import { LngLatLike, Map, MapboxGeoJSONFeature, Point } from 'mapbox-gl';
+import { Map, MapboxGeoJSONFeature, Point, SymbolLayer } from 'mapbox-gl';
+import * as MapboxDraw from '@mapbox/mapbox-gl-draw';
 import {
   AccessPoint,
   Alert,
@@ -18,18 +19,22 @@ import {
 } from '../../models';
 import { environment } from 'src/environments/environment';
 import { DeviceMapboxDetails } from '@map/models/device-mapbox-details.model';
-import Helpers from '@core/utils/helpers';
+import { MapViewDataSource } from './map-view-data-source';
+import { ConfirmationService, ConfirmEventType } from 'primeng/api';
+import { Position } from 'ngx-mapbox-gl';
 
 @Component({
   selector: 'app-map-view',
   templateUrl: './map-view.component.html',
   styleUrls: ['./map-view.component.scss'],
+  providers: [ConfirmationService],
 })
 export class MapViewComponent implements OnChanges {
   @Input() locations: Location[] | null = [];
   @Input() selectedLocation: Location | null = null;
   @Input() buildings: Building[] | null = [];
   @Input() selectedBuilding?: Building | null;
+  @Input() isEditingBuildingShape?: boolean | null = false;
   @Input() selectedFloor?: Floor | null;
   @Input() accessPoints: AccessPoint[] | null = [];
   @Input() devices: Device[] | null = [];
@@ -43,14 +48,29 @@ export class MapViewComponent implements OnChanges {
   @Input() selectedAlert?: Alert | null;
   @Input() regionPolygon?: number[][] | null;
 
+  // Drawing
+  @Input() isDrawing: boolean | null = false;
+  @Input() deleteDrawing: any | null;
+
   @Input() showBuildingOverview: boolean | null = false;
 
   @Output() flyToBuildingComplete = new EventEmitter();
   @Output() clickedBuildingId = new EventEmitter<number>();
   @Output() clickedAccessPoint = new EventEmitter<number>();
+  @Output() drawingComplete = new EventEmitter();
+  @Output() updateBuildingShape = new EventEmitter<number[][]>();
 
-  // Reference to the MapBox map component
+  // MapBox Map
   map!: Map;
+  // Custom data sources
+  mapBuildingData!: MapViewDataSource;
+  mapRegionData!: MapViewDataSource;
+  mapAccessPointData!: MapViewDataSource;
+  mapDeviceData!: MapViewDataSource;
+
+  // MapBox Drawing tools
+  draw!: MapboxDraw;
+  currentPolygon?: GeoJSON.Polygon;
   // A stored list of all buildings that are highlighted to enable/disable hover effect in MapBox
   highlightedBuildings: MapboxGeoJSONFeature[] = [];
   // Position of the selected feature (coordinates set in object do not match for some reason)
@@ -93,21 +113,20 @@ export class MapViewComponent implements OnChanges {
     heatmapColorRGB: '2, 185, 251',
   };
 
-  constructor() {}
+  constructor(private confirmationService: ConfirmationService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.selectedBuilding?.currentValue) {
-      this.flyToLocation(
-        changes.selectedBuilding.currentValue.coordLatitude,
-        changes.selectedBuilding.currentValue.coordLongitude
-      );
+    if (changes.buildings?.firstChange === false) {
+      if (changes.buildings.currentValue) {
+        this.addCustomBuildings();
+      }
     }
     if (
       changes.accessPoints?.firstChange === false &&
       changes.accessPoints.currentValue.toString() !==
         changes.accessPoints.previousValue.toString()
     ) {
-      this.addAccessPoints();
+      this.addAccessPointsToMap();
     }
     if (changes.devices?.firstChange === false) {
       this.addDevices();
@@ -121,19 +140,91 @@ export class MapViewComponent implements OnChanges {
     if (changes.showDevices?.firstChange === false) {
       this.toggleDevices();
     }
+    if (changes.isDrawing?.firstChange === false) {
+      if (changes.isDrawing.currentValue === true) {
+        this.draw?.changeMode('draw_polygon');
+      }
+    }
     if (changes.showClusters?.firstChange === false) {
       this.toggleClusters();
-      this.addDevices();
     }
-    if (changes.showStaticDevices?.firstChange === false) {
-      this.toggleIOT();
+    if (changes.isEditingBuildingShape?.currentValue === true) {
+      console.log('editing building', this.selectedBuilding);
+      this.startDrawing();
     }
+    if (changes.isEditingBuildingShape?.currentValue === false) {
+      console.log('done editing');
+      // this.draw?.changeMode('static');
+      // this.addCustomBuildings();
+      this.draw?.trash();
+    }
+    // if (changes.showStaticDevices?.firstChange === false) {
+    //   this.toggleIOT();
+    // }
     if (changes.regionPolygon?.firstChange === false) {
       let regionCoordinates = [];
       if (changes.regionPolygon.currentValue) {
         regionCoordinates = changes.regionPolygon.currentValue;
       }
-      this.addRegionPreview(regionCoordinates);
+      this.showRegionPreview(regionCoordinates);
+    }
+    if (changes.isDrawing?.firstChange === false) {
+      if (changes.isDrawing.currentValue === true) {
+        this.startDrawing();
+      }
+    }
+    if (changes.selectedBuilding?.currentValue) {
+      this.flyToLocation(
+        changes.selectedBuilding.currentValue.coordLatitude,
+        changes.selectedBuilding.currentValue.coordLongitude
+      );
+    }
+  }
+
+  mapLoad(map: Map): void {
+    this.map = map;
+    // Don't allow user to rotate the map
+    this.disableRotate();
+    // Add drawing tools
+    this.addDrawingTools();
+    // Create a data source for devices
+    this.addDeviceData(this.liveDeviceDetails);
+    this.addDevices();
+    // Create a data source for custom buildings
+    this.addBuildingData();
+    // Create a data source for region overlays
+    this.addRegionData();
+    // Create a data source for access points
+    this.addAccessPointData();
+    // Hide map data if required
+    if (environment.hidePOIs === true) {
+      map.setLayoutProperty('poi-label', 'visibility', 'none');
+    }
+    if (environment.hideStreetLabels === true) {
+      map.setLayoutProperty('road-label-simple', 'visibility', 'none');
+    }
+  }
+
+  addCustomBuildings(): void {
+    if (this.mapBuildingData) {
+      this.mapBuildingData.resetFeatureArray();
+      this.buildings?.forEach((building) => {
+        if (building.buildingPolygonJson) {
+          const shapeCoordinates: GeoJSON.Position[][] =
+            building.buildingPolygonJson as any;
+          this.mapBuildingData.addFeature(
+            false,
+            building.id.toString(),
+            {
+              type: 'Polygon',
+              coordinates: shapeCoordinates,
+            },
+            {
+              id: building.id,
+            }
+          );
+        }
+      });
     }
   }
 
@@ -142,7 +233,7 @@ export class MapViewComponent implements OnChanges {
     longitude: number,
     padding: number = 0
   ): void {
-    if (latitude && longitude) {
+    if (this.map && latitude && longitude) {
       this.map.once('moveend', () => {
         this.flyToBuildingComplete.emit();
       });
@@ -164,331 +255,410 @@ export class MapViewComponent implements OnChanges {
     this.map?.zoomOut();
   }
 
-  toggleAccessPoints(): void {
-    const visibility = this.showAccessPoints ? 'visible' : 'none';
-    if (this.map.getSource('access-point-source')) {
-      this.map.setLayoutProperty('access-points', 'visibility', visibility);
-      this.map.setLayoutProperty(
-        'access-points-circles',
-        'visibility',
-        visibility
-      );
-      this.map.setLayoutProperty(
-        'access-point-clusters',
-        'visibility',
-        visibility
-      );
-    }
-    this.addAccessPoints();
-  }
-
-  toggleClusters(): void {
-    console.log(this.showClusters);
-  }
-  toggleDevices(): void {
-    const visibility = this.showDevices ? 'visible' : 'none';
-    this.liveDeviceDetails.layers.forEach((layer) => {
-      if (this.map.getLayer(layer)) {
-        this.map.setLayoutProperty(layer, 'visibility', visibility);
-      }
-    });
-  }
-  toggleIOT(): void {
-    const visibility = this.showStaticDevices ? 'visible' : 'none';
-    this.staticDeviceDetails.layers.forEach((layer) => {
-      if (this.map.getLayer(layer)) {
-        this.map.setLayoutProperty(layer, 'visibility', visibility);
-      }
-    });
-  }
-
-  mapLoad(map: Map): void {
-    this.map = map;
-    if (environment.hidePOIs === true) {
-      map.setLayoutProperty('poi-label', 'visibility', 'none');
-    }
-    if (environment.hideStreetLabels === true) {
-      map.setLayoutProperty('road-label-simple', 'visibility', 'none');
-    }
-    this.disableRotate();
-    this.addAccessPoints();
-    this.addDevices();
-    this.addBuildingLayers();
-  }
   disableRotate(): void {
     // disable map rotation using right click + drag
     this.map.dragRotate.disable();
     // disable map rotation using touch rotation gesture
     this.map.touchZoomRotate.disableRotation();
   }
-  addBuildingLayers(): void {
-    if (this.map) {
-      const dataSource = 'region';
-      // Add a data source containing GeoJSON data.
-      this.map.addSource(dataSource, {
-        type: 'geojson',
-        data: {
-          type: 'Feature',
-          properties: {},
-          geometry: {
-            type: 'Polygon',
-            coordinates: [],
-          },
-        },
-      });
-      // Add a new layer to visualize the polygon.
-      this.map.addLayer({
-        id: dataSource,
-        type: 'fill',
-        source: dataSource, // reference the data source
-        layout: {},
-        paint: {
-          'fill-color': '#ff0000', // blue color fill
-          'fill-opacity': 0.25,
-        },
-      });
-      this.map.addLayer({
-        id: 'region-outline',
-        type: 'line',
-        source: dataSource, // reference the data source
-        paint: {
-          'line-width': 4,
-          'line-color': 'rgba(255,0,0,0.5)',
-        },
-      });
-      // this.map.addLayer({
-      //   id: 'building-outline',
-      //   type: 'line',
-      //   source: 'composite',
-      //   'source-layer': 'building',
-      //   paint: {
-      //     'line-width': 2,
-      //     'line-color': [
-      //       'case',
-      //       ['boolean', ['feature-state', 'hover'], false],
-      //       'rgba(159,100,209,1.0)',
-      //       'rgba(255,255,255,0.0)',
-      //     ],
-      //   },
-      // });
-      // this.map.addLayer({
-      //   id: '3d-buildings',
-      //   type: 'fill',
-      //   source: 'composite',
-      //   'source-layer': 'building',
-      //   paint: {
-      //     'fill-outline-color': 'rgba(0,0,0,0)',
-      //     // 'fill-color': 'rgba(0,0,0,0)',
-      //     'fill-color': [
-      //       'case',
-      //       ['boolean', ['feature-state', 'hover'], false],
-      //       'rgba(159,100,209,0.3)',
-      //       'rgba(255,255,255,0.0)',
-      //     ],
-      //     'fill-opacity': 1.0,
-      //   },
-      // });
-      // this.map.addSource('lakeway-source', {
-      //   type: 'vector',
-      //   // Use any Mapbox-hosted tileset using its tileset id.
-      //   // Learn more about where to find a tileset id:
-      //   // https://docs.mapbox.com/help/glossary/tileset-id/
-      //   url: 'mapbox://mikeairia.ckt7rxi4p0ypm27ryrt2admx3-5i7zf',
-      // });
-      // this.map.addLayer({
-      //   id: 'lakeway-layer',
-      //   type: 'line',
-      //   source: 'lakeway-source',
-      //   'source-layer': 'Lakeway_Christian_Academy',
-      //   layout: {
-      //     'line-join': 'round',
-      //     'line-cap': 'round',
-      //   },
-      //   paint: {
-      //     'line-color': '#ff69b4',
-      //     'line-width': 1,
-      //   },
-      // });
+
+  addDrawingTools(): void {
+    this.draw = new MapboxDraw({
+      displayControlsDefault: false,
+      controls: {
+        polygon: true,
+        trash: true,
+      },
+    });
+    this.map.addControl(this.draw);
+    this.map.on('draw.create', (e) => {
+      const x = this.draw.getAll();
+      const polygon = x.features[0].geometry as GeoJSON.Polygon;
+      if (polygon?.coordinates) {
+        this.currentPolygon = polygon;
+        this.drawingComplete.emit();
+      }
+    });
+    this.map.on('draw.update', (e) => {
+      const x = this.draw.getAll();
+      const polygon = x.features[0].geometry as GeoJSON.Polygon;
+      if (polygon?.coordinates) {
+        this.currentPolygon = polygon;
+        this.drawingComplete.emit();
+      }
+    });
+    if (this.isEditingBuildingShape) {
+      this.startDrawing();
     }
   }
-  addRegionPreview(region: number[][]): void {
-    if (this.map && region) {
-      // Add a GeoJSON source with all devices
-      const regionSource = this.map.getSource(
-        'region'
-      ) as mapboxgl.GeoJSONSource;
-      if (regionSource) {
-        regionSource.setData({
-          type: 'Feature',
-          properties: {},
-          geometry: {
-            type: 'Polygon',
-            coordinates: [region],
+
+  onDeleteDrawing(): void {
+    this.draw.trash();
+    if (this.draw.getAll().features?.length === 0) {
+      this.currentPolygon = undefined;
+    }
+  }
+  startDrawing(): void {
+    this.draw?.changeMode('draw_polygon');
+  }
+  onEditBuildingSave(): void {
+    if (this.selectedBuilding) {
+      const shapeCoordinates: number[][] = this.currentPolygon
+        ?.coordinates as any;
+      if (shapeCoordinates) {
+        this.confirmationService.confirm({
+          key: 'buildingShapeConfirmation',
+          message: `Are you sure that you want to update ${this.selectedBuilding.buildingName}'s shape?`,
+          header: 'Confirmation',
+          acceptButtonStyleClass: 'p-mr-0',
+          acceptIcon: 'fal fa-check',
+          rejectIcon: 'fal fa-times',
+          accept: () => {
+            this.updateBuildingShape.emit(shapeCoordinates);
+            this.drawingComplete.emit();
+          },
+          reject: (type: ConfirmEventType) => {
+            switch (type) {
+              case ConfirmEventType.REJECT:
+                console.log('rejected');
+                break;
+              case ConfirmEventType.CANCEL:
+                console.log('cancelled');
+                break;
+            }
           },
         });
-        if (region?.length > 0) {
-          const coordinates = region;
-          const firstCoord = new mapboxgl.LngLat(region[0][0], region[0][1]);
-          // Create a 'LngLatBounds' with both corners at the first coordinate.
-          const bounds = new mapboxgl.LngLatBounds(firstCoord, firstCoord);
-          // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
-          for (const coord of coordinates) {
-            bounds.extend(new mapboxgl.LngLat(coord[0], coord[1]));
-          }
-          this.map.fitBounds(bounds, {
-            padding: 300,
-            offset: [40, 0],
-          });
-        }
-        // this.flyToLocation(bounds.getCenter().lat, bounds.getCenter().lng, 500);
       }
     }
   }
+
+  addBuildingData(): void {
+    this.mapBuildingData = new MapViewDataSource(this.map, 'buildings');
+    this.mapBuildingData.addDataSource();
+    this.mapBuildingData.addLayer('customBuildings', 'fill-extrusion', {
+      'fill-extrusion-opacity': 0.3,
+      'fill-extrusion-color': [
+        'case',
+        ['boolean', ['feature-state', 'hover'], false],
+        '#57517b',
+        '#a9a4c1',
+      ],
+      'fill-extrusion-height': ['number', ['get', 'height'], 3],
+      'fill-extrusion-base': ['number', ['get', 'min_height'], 0],
+    });
+    this.addCustomBuildings();
+    // let plan1 = [
+    //   [
+    //     [-83.33935886011474, 36.114052145044894],
+    //     [-83.34014901131403, 36.113538661106105],
+    //     [-83.33940393949328, 36.11304554139731],
+    //     [-83.3379092876988, 36.11263804597093],
+    //     [-83.33790357156333, 36.11335061598983],
+    //     [-83.33968583939483, 36.113457030509224],
+    //     [-83.33982404553778, 36.11348560211005],
+    //     [-83.33992050914402, 36.11353470141232],
+    //     [-83.33981350653184, 36.11358308975351],
+    //     [-83.33968717992234, 36.1136152762856],
+    //     [-83.33790060755503, 36.11372830725743],
+    //     [-83.33790282625036, 36.114473874385354],
+    //     [-83.33935886011474, 36.114052145044894],
+    //   ],
+    // ];
+    // console.log(JSON.stringify(plan1));
+  }
+
+  addRegionData(): void {
+    this.mapRegionData = new MapViewDataSource(this.map, 'region');
+    this.mapRegionData.addDataSource();
+    // Fill layer
+    this.mapRegionData.addLayer('region', 'fill', {
+      'fill-color': '#ff0000',
+      'fill-opacity': 0.25,
+    });
+    // Outline layer
+    this.mapRegionData.addLayer('regionOutline', 'line', {
+      'line-width': 4,
+      'line-color': 'rgba(255,0,0,0.5)',
+    });
+  }
+
+  addAccessPointData(): void {
+    this.map.loadImage('/assets/img/access-point.png', (error, image) => {
+      if (error) {
+        throw error;
+      }
+      // Add the image to the map style.
+      if (image && !this.apIconImageInitialized) {
+        this.apIconImageInitialized = true;
+        this.map.addImage('accessPointImage', image);
+      }
+      this.mapAccessPointData = new MapViewDataSource(
+        this.map,
+        'accessPointSource'
+      );
+      this.mapAccessPointData.addDataSource(true, 17, 50);
+      // Symbol layer
+      this.mapAccessPointData.addLayer(
+        'accessPoints',
+        'symbol',
+        {
+          'icon-color': '#ffffff',
+        },
+        {
+          'icon-image': 'accessPointImage',
+          'icon-size': {
+            base: 0.025,
+            stops: [
+              [18, 0.01],
+              [20, 0.02],
+              [22, 0.03],
+            ],
+          },
+        }
+      );
+      this.mapAccessPointData.addLayer('accessPointOutlines', 'circle', {
+        'circle-color': 'transparent',
+        'circle-radius': {
+          base: 1.75,
+          stops: [
+            [18, 8],
+            [18, 2],
+            [20, 4],
+            [22, 10],
+          ],
+        },
+        'circle-stroke-width': [
+          'case',
+          ['boolean', ['feature-state', 'hover'], false],
+          4,
+          2,
+        ],
+        'circle-stroke-color': '#F7FFD7',
+
+        'circle-stroke-opacity': {
+          default: 0.25,
+          stops: [
+            [18, 1],
+            [18, 0],
+          ],
+        },
+      });
+      // Add a cluster layer to display number of access points when zoomed out
+      // if (this.showClusters) {
+      this.mapAccessPointData.addLayer(
+        'accessPointClusters',
+        'symbol',
+        {
+          'text-color': '#F7FFD7',
+        },
+        {
+          'text-field': '{point_count_abbreviated}',
+          'text-font': ['Arial Unicode MS Bold'],
+          'text-size': 12,
+        }
+      );
+      // }
+    });
+  }
+
+  addDeviceData(deviceDetails: DeviceMapboxDetails): void {
+    this.mapDeviceData = new MapViewDataSource(
+      this.map,
+      deviceDetails.sourceName
+    );
+    this.mapDeviceData.addDataSource(
+      this.showClusters ? this.showClusters : false,
+      23,
+      2
+    );
+    this.mapDeviceData.addLayer(deviceDetails.heatmapName, 'heatmap', {
+      // increase intensity as zoom level increases
+      'heatmap-intensity': {
+        stops: [
+          [16, 0.5],
+          [24, 1],
+        ],
+      },
+      // assign color values be applied to points depending on their density
+      'heatmap-color': [
+        'interpolate',
+        ['linear'],
+        ['heatmap-density'],
+        0,
+        'rgba(' + deviceDetails.heatmapColorRGB + ',0)',
+        0.25,
+        'rgba(' + deviceDetails.heatmapColorRGB + ',0.5)',
+        0.5,
+        'rgba(' + deviceDetails.heatmapColorRGB + ',0.75)',
+        0.8,
+        'rgb(' + deviceDetails.heatmapColorRGB + ')',
+      ],
+      // increase radius as zoom increases
+      'heatmap-radius': {
+        stops: [
+          [16, 20],
+          [24, 60],
+        ],
+      },
+      // decrease opacity to transition into the circle layer
+      'heatmap-opacity': {
+        default: 0.25,
+        stops: [
+          [16, 0.4],
+          [20, 0.1],
+          [22, 0],
+        ],
+      },
+    });
+
+    this.mapDeviceData.addLayer(
+      deviceDetails.layers[0],
+      'circle',
+      {
+        'circle-color': deviceDetails.circleColor,
+        'circle-opacity': deviceDetails.circleOpacity,
+        'circle-radius': {
+          base: deviceDetails.circleRadius,
+          stops: [
+            [16, deviceDetails.circleRadius],
+            [20, deviceDetails.circleRadius * 2],
+            [22, deviceDetails.circleRadius * 3],
+          ],
+        },
+      },
+      null,
+      ['!', ['has', 'point_count']]
+    );
+
+    this.mapDeviceData.addLayer(
+      deviceDetails.layers[1],
+      'circle',
+      {
+        'circle-color': deviceDetails.circleColor,
+        'circle-opacity': [
+          'case',
+          ['boolean', ['feature-state', 'hover'], false],
+          1,
+          deviceDetails.circleOpacity,
+        ],
+        'circle-radius': [
+          'step',
+          ['get', 'point_count'],
+          deviceDetails.circleRadius * 3,
+          5,
+          deviceDetails.circleRadius * 6,
+          10,
+          deviceDetails.circleRadius * 9,
+          20,
+          deviceDetails.circleRadius * 12,
+          100,
+          deviceDetails.circleRadius * 16,
+        ],
+      },
+      null,
+      ['has', 'point_count']
+    );
+  }
+
+  showRegionPreview(region: number[][]): void {
+    if (this.map && region && this.mapRegionData) {
+      this.mapRegionData.addFeature(true, 'region', {
+        type: 'Polygon',
+        coordinates: [region],
+      });
+      // Display the region within the viewport
+      if (region?.length > 0) {
+        this.zoomToPolygon(region, 300, [40, 0]);
+      }
+    }
+  }
+
+  toggleClusters(): void {
+    // If the source already exists, update the data in it
+    const style = this.map.getStyle();
+    if (this.mapDeviceData.dataSource && style.sources) {
+      const clusterSource: any =
+        style.sources[this.mapDeviceData.dataSourceName];
+      clusterSource.cluster = this.showClusters;
+      this.map.setStyle(style);
+    }
+    console.log(this.showClusters);
+  }
+  toggleDevices(): void {
+    if (!this.showDevices) {
+      this.mapDeviceData.hideAllLayers();
+    } else {
+      this.mapDeviceData.showAllLayers();
+    }
+  }
+  toggleAccessPoints(): void {
+    if (!this.showAccessPoints) {
+      this.mapAccessPointData.hideAllLayers();
+    } else {
+      this.mapAccessPointData.showAllLayers();
+    }
+    this.addAccessPointsToMap();
+  }
+  // toggleIOT(): void {
+  //   const visibility = this.showStaticDevices ? 'visible' : 'none';
+  //   this.staticDeviceDetails.layers.forEach((layer) => {
+  //     if (this.map.getLayer(layer)) {
+  //       this.map.setLayoutProperty(layer, 'visibility', visibility);
+  //     }
+  //   });
+  // }
+
+  /** Zoom to a specific polygon's coordinates and fit within the viewport */
+  zoomToPolygon(
+    polygon: number[][],
+    padding: number = 300,
+    offset: mapboxgl.PointLike = [0, 0]
+  ): void {
+    const firstCoord = new mapboxgl.LngLat(polygon[0][0], polygon[0][1]);
+    // Create a 'LngLatBounds' with both corners at the first coordinate.
+    const bounds = new mapboxgl.LngLatBounds(firstCoord, firstCoord);
+    // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
+    for (const coord of polygon) {
+      bounds.extend(new mapboxgl.LngLat(coord[0], coord[1]));
+    }
+    this.map.fitBounds(bounds, {
+      padding,
+      offset,
+    });
+    // this.flyToLocation(bounds.getCenter().lat, bounds.getCenter().lng, 500);
+  }
   /** Add all access points to map */
-  addAccessPoints(): void {
+  addAccessPointsToMap(): void {
     if (
       this.map &&
       this.showAccessPoints === true &&
       this.accessPoints &&
       this.accessPoints.length > 0
     ) {
-      this.map.loadImage('/assets/img/access-point.png', (error, image) => {
-        if (error) {
-          throw error;
-        }
-        // Add the image to the map style.
-        if (image && !this.apIconImageInitialized) {
-          this.apIconImageInitialized = true;
-          this.map.addImage('accessPointImage', image);
-        }
-        // Add an image to use as a custom marker
-        const pointArr: any[] = [];
-        if (this.accessPoints) {
-          this.accessPoints.forEach((accessPoint) => {
-            pointArr.push({
-              type: 'Feature',
-              id: accessPoint.id,
-              geometry: {
-                type: 'Point',
-                coordinates: [
-                  accessPoint.coordLongitude,
-                  accessPoint.coordLatitude,
-                ],
-              },
-              properties: {
-                id: accessPoint.id,
-                name: accessPoint.name,
-              },
-            });
-          });
-        }
-        // Add a GeoJSON source with all devices
-        const accessPointSource = this.map.getSource(
-          'access-point-source'
-        ) as mapboxgl.GeoJSONSource;
-        // If the source already exists, update the data in it
-        if (accessPointSource) {
-          accessPointSource.setData({
-            type: 'FeatureCollection',
-            features: pointArr,
-          });
-        } else {
-          // Add a GeoJSON source with all access points
-          this.map.addSource('access-point-source', {
-            type: 'geojson',
-            data: {
-              type: 'FeatureCollection',
-              features: pointArr,
-            },
-            cluster: true,
-            clusterMaxZoom: 17, // Max zoom to cluster points on
-            clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
-          });
-
-          // Add access point layer
-          this.map.addLayer({
-            id: 'access-points',
-            type: 'symbol',
-            source: 'access-point-source',
-            layout: {
-              'icon-image': 'accessPointImage',
-              'icon-size': {
-                base: 0.025,
-                stops: [
-                  [18, 0.01],
-                  [20, 0.02],
-                  [22, 0.03],
-                ],
-              },
-            },
-            paint: {
-              'icon-color': '#ffffff',
-            },
-          });
-
-          // Add access point layer
-          this.map.addLayer({
-            id: 'access-points-circles',
-            type: 'circle',
-            source: 'access-point-source',
-            paint: {
-              'circle-color': 'transparent',
-              'circle-radius': {
-                base: 1.75,
-                stops: [
-                  [18, 8],
-                  [18, 2],
-                  [20, 4],
-                  [22, 10],
-                ],
-              },
-              'circle-stroke-width': [
-                'case',
-                ['boolean', ['feature-state', 'hover'], false],
-                4,
-                2,
-              ],
-              'circle-stroke-color': '#F7FFD7',
-
-              'circle-stroke-opacity': {
-                default: 0.25,
-                stops: [
-                  [18, 1],
-                  [18, 0],
-                ],
-              },
-            },
-          });
-
-          // Add a cluster layer to display number of access points when zoomed out
-          if (this.showClusters) {
-            this.map.addLayer({
-              id: 'access-point-clusters',
-              type: 'symbol',
-              source: 'access-point-source',
-              filter: ['has', 'point_count'],
-              paint: {
-                'text-color': '#F7FFD7',
-              },
-              layout: {
-                'text-field': '{point_count_abbreviated}',
-                'text-font': ['Arial Unicode MS Bold'],
-                'text-size': 12,
-              },
-            });
+      this.mapAccessPointData.resetFeatureArray();
+      this.accessPoints.forEach((accessPoint) => {
+        this.mapAccessPointData.addFeature(
+          false,
+          accessPoint.id.toString(),
+          {
+            type: 'Point',
+            coordinates: [
+              accessPoint.coordLongitude,
+              accessPoint.coordLatitude,
+            ],
+          },
+          {
+            id: accessPoint.id,
+            name: accessPoint.name,
           }
-
-          if (this.map.getLayer(this.liveDeviceDetails.heatmapName)) {
-            this.map.moveLayer(
-              this.liveDeviceDetails.heatmapName,
-              'access-points'
-            );
-          }
-          if (this.map.getLayer(this.liveDeviceDetails.id)) {
-            this.map.moveLayer(this.liveDeviceDetails.id, 'access-points');
-          }
-        }
+        );
       });
+      if (this.map.getLayer(this.liveDeviceDetails.heatmapName)) {
+        this.map.moveLayer(this.liveDeviceDetails.heatmapName, 'accessPoints');
+      }
+      if (this.map.getLayer(this.liveDeviceDetails.id)) {
+        this.map.moveLayer(this.liveDeviceDetails.id, 'accessPoints');
+      }
     }
   }
 
@@ -515,175 +685,49 @@ export class MapViewComponent implements OnChanges {
   }
 
   addDevicesToMap(devices: Device[], deviceDetails: DeviceMapboxDetails): void {
-    // Add an image to use as a custom marker
-    const pointArr: any[] = [];
-    devices.forEach((device) => {
-      pointArr.push({
-        type: 'Feature',
-        id: device.deviceratId,
-        geometry: {
-          type: 'Point',
-          coordinates: [device.longitude, device.latitude],
-        },
-        properties: {
+    // this.mapDeviceData.resetFeatureArray();
+    // devices.forEach((device) => {
+    //   this.mapDeviceData.addFeature(
+    //     false,
+    //     device.deviceratId.toString(),
+    //     {
+    //       type: 'Point',
+    //       coordinates: [device.longitude, device.latitude],
+    //     },
+    //     {
+    //       id: device.deviceratId,
+    //     }
+    //   );
+    // });
+    if (devices.length > 0) {
+      // Add an image to use as a custom marker
+      const pointArr: any[] = [];
+      devices.forEach((device) => {
+        pointArr.push({
+          type: 'Feature',
           id: device.deviceratId,
-        },
+          geometry: {
+            type: 'Point',
+            coordinates: [device.longitude, device.latitude],
+          },
+          properties: {
+            id: device.deviceratId,
+          },
+        });
       });
-    });
-    // Add a GeoJSON source with all devices
-    const deviceSource = this.map.getSource(
-      deviceDetails.sourceName
-    ) as mapboxgl.GeoJSONSource;
-    // If the source already exists, update the data in it
-    if (deviceSource) {
-      deviceSource.setData({
+      this.mapDeviceData.dataSource?.setData({
         type: 'FeatureCollection',
         features: pointArr,
       });
-      const style = this.map.getStyle();
-      if (style && style.sources && style.sources.devicesSource) {
-        const clusterSource: any = style.sources.devicesSource;
-        clusterSource.cluster = this.showClusters;
-        this.map.setStyle(style);
-      }
-    } else {
-      this.map.addSource(deviceDetails.sourceName, {
-        type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: pointArr,
-        },
-        cluster: this.showClusters ? this.showClusters : false,
-        clusterMaxZoom: 23, // Max zoom to cluster points on
-        clusterRadius: 2, // Radius of each cluster when clustering points (defaults to 50)
-      });
-
-      // Add device layer
-      this.map.addLayer({
-        id: deviceDetails.heatmapName,
-        type: 'heatmap',
-        source: deviceDetails.sourceName,
-        maxzoom: 24,
-        paint: {
-          // increase intensity as zoom level increases
-          'heatmap-intensity': {
-            stops: [
-              [16, 0.5],
-              [24, 1],
-            ],
-          },
-          // assign color values be applied to points depending on their density
-          'heatmap-color': [
-            'interpolate',
-            ['linear'],
-            ['heatmap-density'],
-            0,
-            'rgba(' + deviceDetails.heatmapColorRGB + ',0)',
-            0.25,
-            'rgba(' + deviceDetails.heatmapColorRGB + ',0.5)',
-            0.5,
-            'rgba(' + deviceDetails.heatmapColorRGB + ',0.75)',
-            0.8,
-            'rgb(' + deviceDetails.heatmapColorRGB + ')',
-          ],
-          // increase radius as zoom increases
-          'heatmap-radius': {
-            stops: [
-              [16, 20],
-              [24, 60],
-            ],
-          },
-          // decrease opacity to transition into the circle layer
-          'heatmap-opacity': {
-            default: 0.25,
-            stops: [
-              [16, 0.4],
-              [20, 0.1],
-              [22, 0],
-            ],
-          },
-        },
-      });
-
-      this.map.addLayer({
-        id: deviceDetails.layers[0],
-        type: 'circle',
-        source: deviceDetails.sourceName,
-        filter: ['!', ['has', 'point_count']],
-        paint: {
-          'circle-color': deviceDetails.circleColor,
-          'circle-opacity': deviceDetails.circleOpacity,
-          'circle-radius': {
-            base: deviceDetails.circleRadius,
-            stops: [
-              [16, deviceDetails.circleRadius],
-              [20, deviceDetails.circleRadius * 2],
-              [22, deviceDetails.circleRadius * 3],
-            ],
-          },
-        },
-      });
-
-      // Add device layer
-      this.map.addLayer({
-        id: deviceDetails.layers[1],
-        type: 'circle',
-        source: deviceDetails.sourceName,
-        filter: ['has', 'point_count'],
-        paint: {
-          'circle-color': deviceDetails.circleColor,
-          'circle-opacity': [
-            'case',
-            ['boolean', ['feature-state', 'hover'], false],
-            1,
-            deviceDetails.circleOpacity,
-          ],
-          // 'circle-radius': {
-          //   base: 1,
-          //   stops: [
-          //     [16, deviceDetails.circleRadius],
-          //     [20, deviceDetails.circleRadius * 2],
-          //     [22, deviceDetails.circleRadius * 3],
-          //   ],
-          // },
-          'circle-radius': [
-            'step',
-            ['get', 'point_count'],
-            deviceDetails.circleRadius * 3,
-            5,
-            deviceDetails.circleRadius * 6,
-            10,
-            deviceDetails.circleRadius * 9,
-            20,
-            deviceDetails.circleRadius * 12,
-            100,
-            deviceDetails.circleRadius * 16,
-          ],
-        },
-      });
-      // Add a cluster layer to display number of devices stacked
-      // this.map.addLayer({
-      //   id: deviceDetails.layers[2],
-      //   type: 'symbol',
-      //   source: deviceDetails.sourceName,
-      //   filter: ['has', 'point_count'],
-      //   paint: {
-      //     'text-color': '#F7FFD7',
-      //   },
-      //   layout: {
-      //     'text-field': '{point_count_abbreviated}',
-      //     'text-font': ['Arial Unicode MS Bold'],
-      //     'text-size': 10,
-      //   },
-      // });
     }
-    if (this.map.getLayer('access-points')) {
+
+    if (this.map.getLayer('accessPoints')) {
       this.liveDeviceDetails.layers.forEach((layer) => {
         if (this.map.getLayer(layer)) {
-          this.map.moveLayer(layer, 'access-points');
+          this.map.moveLayer(layer, 'accessPoints');
         }
       });
-      this.map.moveLayer(deviceDetails.heatmapName, 'access-points');
+      this.map.moveLayer(deviceDetails.heatmapName, 'accessPoints');
     }
   }
 
@@ -694,7 +738,7 @@ export class MapViewComponent implements OnChanges {
     return feature.layer.id.toString() === '3d-buildings';
   }
   isFeatureAccessPoint(feature: MapboxGeoJSONFeature): boolean {
-    return feature.layer.id.toString() === 'access-points';
+    return feature.layer.id.toString() === 'accessPoints';
   }
   isFeatureDeviceCluster(feature: MapboxGeoJSONFeature): boolean {
     return feature.layer.id.toString() === 'device-clusters';
@@ -723,7 +767,7 @@ export class MapViewComponent implements OnChanges {
       }
       if (this.hoveredAccessPointId) {
         this.map.removeFeatureState({
-          source: 'access-point-source',
+          source: this.mapAccessPointData.dataSourceName,
           id: this.hoveredAccessPointId,
         });
       }
@@ -758,7 +802,7 @@ export class MapViewComponent implements OnChanges {
               this.hoveredAccessPointId = feature.id;
               this.map.setFeatureState(
                 {
-                  source: 'access-point-source',
+                  source: this.mapAccessPointData.dataSourceName,
                   id: feature.id,
                 },
                 {
@@ -794,7 +838,9 @@ export class MapViewComponent implements OnChanges {
       new Point(event.point.x, event.point.y)
     );
     features.some((feature) => {
-      console.log(feature);
+      if (!this.isDrawing) {
+        console.log(feature);
+      }
       if (feature) {
         if (this.isFeatureDeviceCluster(feature)) {
           const clusterId = feature.properties?.cluster_id;
@@ -816,11 +862,11 @@ export class MapViewComponent implements OnChanges {
           });
         } else if (this.isFeatureAccessPoint(feature)) {
           // Check if this is a cluster of access points
-          if (feature.properties?.cluster) {
-            const clusterSource = this.map.getSource(
-              'access-point-source'
-            ) as mapboxgl.GeoJSONSource;
-            clusterSource.getClusterLeaves(
+          if (
+            feature.properties?.cluster &&
+            this.mapAccessPointData.dataSource
+          ) {
+            this.mapAccessPointData.dataSource.getClusterLeaves(
               feature.properties.cluster_id,
               feature.properties.point_count,
               0,

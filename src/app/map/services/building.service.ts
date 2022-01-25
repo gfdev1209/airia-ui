@@ -34,6 +34,20 @@ export class BuildingService extends BaseService {
         share()
       );
   }
+  updatePolygon(id: number, polygon?: number[][]): Observable<void> {
+    let data = '""';
+    if (polygon) {
+      data = `"${JSON.stringify(polygon[0])}"`;
+    }
+    return this.http
+      .put(`${this.apiUrl}/${id}/PolygonJson`, data, { headers: this.headers })
+      .pipe(
+        catchError((error) => {
+          return this.handleError(error);
+        }),
+        share()
+      );
+  }
   mapResponseToObject<T>(response: any): T {
     const building = new Building(response) as any;
     return building;

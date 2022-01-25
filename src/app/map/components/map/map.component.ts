@@ -18,7 +18,7 @@ import { MapService } from '@map/services/map.service';
 import { MapViewComponent } from '@map/views/map-view/map-view.component';
 import { interval, Subscription } from 'rxjs';
 import * as moment from 'moment';
-import { AccessPoint, Device, Floor } from '@map/models';
+import { AccessPoint, Building, Device, Floor } from '@map/models';
 import * as _ from 'lodash';
 
 @Component({
@@ -54,8 +54,14 @@ export class MapComponent implements OnInit, OnDestroy {
     })
   );
   buildings$ = this.store.select(BuildingSelectors.selectAll);
-  selectedBuilding$ = this.store.select(
-    BuildingSelectors.selectSelectedBuilding
+  selectedBuilding$ = this.store
+    .select(BuildingSelectors.selectSelectedBuilding)
+    .pipe(tap((building) => (this.selectedBuilding = building)))
+    .subscribe();
+  selectedBuilding?: Building | null;
+
+  isEditingBuildingShape$ = this.store.select(
+    BuildingSelectors.selectEditingShape
   );
   floors: Floor[] = [];
   floors$ = this.store
@@ -142,6 +148,10 @@ export class MapComponent implements OnInit, OnDestroy {
   isPlaying$: Subscription = new Subscription();
   isPlaybackLive$: Subscription = new Subscription();
 
+  // Drawing
+  isDrawing$ = this.mapService.isDrawing$;
+  deleteDrawing$: Subscription = new Subscription();
+
   // How often to poll for new devices when playback is live (in milliseconds)
   pollingTimeMS = 60000;
   isPollingForDevices = true;
@@ -160,6 +170,9 @@ export class MapComponent implements OnInit, OnDestroy {
     );
     this.zoomOut$ = this.mapService.zoomOut$.subscribe(() =>
       this.mapView?.onZoomOut()
+    );
+    this.deleteDrawing$ = this.mapService.deleteDrawing$.subscribe(() =>
+      this.mapView?.onDeleteDrawing()
     );
     this.isPlaybackLive$ = this.mapService.isPlaybackLive$
       .pipe(
@@ -236,7 +249,7 @@ export class MapComponent implements OnInit, OnDestroy {
     } else {
       this.accessPointsFiltered = accessPoints;
     }
-    this.mapView?.addAccessPoints();
+    this.mapView?.addAccessPointsToMap();
   }
 
   /** Poll the Devices endpoint for updated data every "pollingTimeMS" interval */
@@ -276,6 +289,21 @@ export class MapComponent implements OnInit, OnDestroy {
   clickedAccessPoint(id: number): void {
     this.store.dispatch(AccessPointActions.select({ id }));
   }
+
+  onDrawingComplete(): void {
+    this.mapService.setDrawing(false);
+  }
+  onUpdateBuildingShape(coordinates: number[][]): void {
+    if (this.selectedBuilding) {
+      this.store.dispatch(
+        BuildingActions.updateBuildingPolygon({
+          id: this.selectedBuilding.id,
+          polygon: coordinates,
+        })
+      );
+    }
+  }
+
   ngOnDestroy(): void {
     this.selectedFloorNumber$?.unsubscribe();
     this.devicesGrouped$?.unsubscribe();
@@ -284,6 +312,7 @@ export class MapComponent implements OnInit, OnDestroy {
     this.floors$?.unsubscribe();
     this.zoomIn$?.unsubscribe();
     this.zoomOut$?.unsubscribe();
+    this.deleteDrawing$?.unsubscribe();
     this.isPlaying$.unsubscribe();
     this.isPlaybackLive$.unsubscribe();
     this.devicePollingInterval$?.unsubscribe();
