@@ -25,6 +25,11 @@
     }
   }
 
+  .map-controls {
+    position: absolute;
+    left: -40px;
+    top: 8px;
+  }
   .playback-live-indicator {
     display: inline-block;
     background: #ee4057;
@@ -76,11 +81,6 @@
     width: 44px;
   }
 
-  .zoom-controls {
-    position: absolute;
-    left: -40px;
-    top: 8px;
-  }
   .floor-controls {
     position: absolute;
     left: -40px;

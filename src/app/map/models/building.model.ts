@@ -15,7 +15,7 @@ export class Building implements IBase, IHasCoordinates {
   coordLongitude!: number;
   maxOccupancy!: number;
   createdAt!: Date;
-  buildingPolygonJson?: string;
+  buildingPolygonJson?: number[][];
   buildingAddress!: string;
   location?: Location;
   buildingFloors?: Floor[];
@@ -35,6 +35,7 @@ export class Building implements IBase, IHasCoordinates {
     coordLatitude: number;
     coordLongitude: number;
     maxOccupancy: number;
+    buildingPolygonJson: string;
     createdAt: Date;
     // location: Location;
     buildingFloorInfos: ResponseList<Floor>;
@@ -52,7 +53,9 @@ export class Building implements IBase, IHasCoordinates {
     this.maxOccupancy = args.maxOccupancy;
     this.createdAt = args.createdAt;
     // this.location = args.location;
-
+    if (args.buildingPolygonJson) {
+      this.buildingPolygonJson = [JSON.parse(args.buildingPolygonJson)];
+    }
     if (args.buildingFloorInfos?.$values) {
       this.buildingFloors = args.buildingFloorInfos.$values.map(
         (responseJson: any) => new Floor(responseJson)

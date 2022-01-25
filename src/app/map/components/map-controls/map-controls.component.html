@@ -1,0 +1,8 @@
+<app-map-controls-view
+  [isDrawing]="isDrawing$ | async"
+  (zoomIn)="onZoomIn()"
+  (zoomOut)="onZoomOut()"
+  (toggleOverview)="onToggleOverview()"
+  (toggleDraw)="onToggleDraw()"
+  (toggleDelete)="onToggleDelete()"
+></app-map-controls-view>

@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { ZoomControlsComponent } from './zoom-controls.component';
+import { MapControlsComponent } from './map-controls.component';
 
-describe('ZoomControlsComponent', () => {
-  let component: ZoomControlsComponent;
-  let fixture: ComponentFixture<ZoomControlsComponent>;
+describe('MapControlsComponent', () => {
+  let component: MapControlsComponent;
+  let fixture: ComponentFixture<MapControlsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ZoomControlsComponent ]
+      declarations: [ MapControlsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ZoomControlsComponent);
+    fixture = TestBed.createComponent(MapControlsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

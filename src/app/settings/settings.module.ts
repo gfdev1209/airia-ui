@@ -34,8 +34,8 @@ export const routes: Routes = [
       {
         path: 'buildings/:id',
         component: BuildingFormComponent,
-        canActivate: [RoleGuard],
-        data: { role: 'Owner' },
+        // canActivate: [RoleGuard],
+        // data: { role: 'Owner' },
       },
       { path: 'access-points', component: AccessPointPageComponent },
     ],

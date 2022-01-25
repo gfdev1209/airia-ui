@@ -4,4 +4,6 @@
   [loading]="loading$ | async"
   (updateBuilding)="updateBuilding($event)"
   (addFloor)="addFloor($event)"
+  (editShape)="onEditShape($event)"
+  (removeShape)="onRemoveShape($event)"
 ></app-building-form-view>

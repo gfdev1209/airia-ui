@@ -101,7 +101,7 @@
       [disabled]="!buildingForm.valid || loading === true"
     ></button>
   </div>
-  <hr class="p-mt-4 p-mb-4" />
+  <!-- <hr class="p-mt-4 p-mb-4" />
   <div class="p-d-flex p-jc-between p-ai-center">
     <div>
       <h3 class="p-m-0">Floors</h3>
@@ -110,8 +110,40 @@
   </div>
   <div class="p-mt-4">
     <app-floor-table></app-floor-table>
+  </div> -->
+  <hr class="p-mt-4 p-mb-4" />
+  <div class="p-d-flex p-jc-between p-ai-center">
+    <div>
+      <h3 class="p-m-0">Map Details</h3>
+      <p class="p-m-0 p-pt-1">
+        If this building is not represented on the map, you can use the tool
+        below to create a shape for it.
+      </p>
+    </div>
+  </div>
+  <div class="p-mt-5 p-d-flex p-jc-between">
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Remove"
+      class="p-button-rounded p-button-secondary"
+      [disabled]="!building.buildingPolygonJson"
+      (click)="onRemoveShape()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      type="button"
+      [label]="!building.buildingPolygonJson ? 'Add Shape' : 'Update Shape'"
+      class="p-button-rounded"
+      (click)="onEditShape()"
+      [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
+      [disabled]="!buildingForm.valid || loading === true"
+    ></button>
   </div>
 </div>
-<!-- <pre
-  >{{ buildingForm.value | json }}
-</pre> -->
+<p-confirmDialog
+  header="Confirmation"
+  rejectButtonStyleClass="p-button-text"
+></p-confirmDialog>

@@ -1,5 +1,5 @@
-<div class="zoom-controls p-d-block p-d-sm-none">
-  <app-zoom-controls></app-zoom-controls>
+<div class="map-controls p-d-block p-d-sm-none">
+  <app-map-controls></app-map-controls>
 </div>
 <div class="floor-controls p-d-block p-d-sm-none">
   <app-floor-controls></app-floor-controls>
@@ -55,3 +55,44 @@
     ></app-access-point-overview>
   </mgl-popup>
 </mgl-map>
+<div
+  *ngIf="isEditingBuildingShape === true"
+  class="building-draw-overlay"
+  style="
+    z-index: 2;
+    width: 100%;
+    background: #1d1522c9;
+    position: absolute;
+    top: 0;
+    padding: 2rem;
+  "
+>
+  <h2 class="p-mb-1 p-mt-0">Editing Building</h2>
+  <p class="p-mt-0">
+    Click on the map to begin plotting the shape of your building.
+  </p>
+  <hr />
+  <div class="p-mt-4 p-d-flex">
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Cancel"
+      class="p-button-rounded p-button-secondary p-mr-4"
+    ></button>
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Save Changes"
+      (click)="onEditBuildingSave()"
+      [disabled]="!currentPolygon"
+      class="p-button-rounded"
+    ></button>
+  </div>
+</div>
+<p-confirmDialog
+  key="buildingShapeConfirmation"
+  header="Confirmation"
+  rejectButtonStyleClass="p-button-text"
+></p-confirmDialog>

@@ -5,6 +5,7 @@ export interface BuildingState extends EntityState<Building> {
   selected: Building | null;
   searchResults: Building[] | null;
   showOverview: boolean;
+  editBuildingShape: boolean;
   showDetails: boolean;
   analytics: BuildingAnalytics | null;
   loaded: boolean;
@@ -16,6 +17,7 @@ export const initialState: BuildingState = adapter.getInitialState({
   searchResults: [],
   showOverview: false,
   showDetails: false,
+  editBuildingShape: false,
   analytics: null,
   loaded: false,
   loading: false,

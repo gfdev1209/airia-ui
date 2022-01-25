@@ -163,5 +163,43 @@ export const buildingReducer = createReducer(
       ...state,
       showDetails: false,
     };
+  }),
+  on(Actions.editBuildingShape, (state) => {
+    return {
+      ...state,
+      loading: true,
+      editBuildingShape: true,
+    };
+  }),
+  on(Actions.cancelEditBuildingShape, (state) => {
+    return {
+      ...state,
+      editBuildingShape: false,
+    };
+  }),
+  on(
+    Actions.updateBuildingPolygon,
+    Actions.updateBuildingPolygonMap,
+    (state) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+  ),
+  on(Actions.updateBuildingPolygonSuccess, (state, { building }) => {
+    return adapter.upsertOne(building, {
+      ...state,
+      editBuildingShape: false,
+      loading: false,
+      loaded: true,
+    });
+  }),
+  on(Actions.updateBuildingPolygonFailed, (state) => {
+    return {
+      ...state,
+      editBuildingShape: false,
+      loading: false,
+    };
   })
 );
