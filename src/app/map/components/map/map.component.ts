@@ -206,6 +206,19 @@ export class MapComponent implements OnInit, OnDestroy {
     const sortedKeys = Object.keys(deviceGroups).sort();
     // Get the array of Devices at the specified key
     const deviceGroup = deviceGroups[sortedKeys[index]];
+
+    // Temporary workaround - Display ALL devices, rather than grouped by minute if this is not an Alert
+    // if (!this.regionPolygon) {
+    //   deviceGroup = [];
+    //   for (const key in deviceGroups) {
+    //     if (key) {
+    //       const value = deviceGroups[key];
+    //       value.forEach((device) => {
+    //         deviceGroup.push(device);
+    //       });
+    //     }
+    //   }
+    // }
     this.devices = deviceGroup;
     this.filterDevices(deviceGroup);
     // Update date/time

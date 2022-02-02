@@ -7,6 +7,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class MapService {
+  public playbackSliderMaxAmt = 10;
+
   private overviewPanelHeight: BehaviorSubject<number> = new BehaviorSubject(0);
   overviewPanelHeight$ = this.overviewPanelHeight.asObservable();
 
@@ -35,7 +37,9 @@ export class MapService {
   private playbackSliderValue: BehaviorSubject<number> = new BehaviorSubject(0);
   playbackSliderValue$ = this.playbackSliderValue.asObservable();
 
-  private playbackSliderMax: BehaviorSubject<number> = new BehaviorSubject(10);
+  private playbackSliderMax: BehaviorSubject<number> = new BehaviorSubject(
+    this.playbackSliderMaxAmt
+  );
   playbackSliderMax$ = this.playbackSliderMax.asObservable();
 
   private playbackSpeed: BehaviorSubject<number> = new BehaviorSubject(1);
@@ -156,7 +160,7 @@ export class MapService {
   }
 
   resetPlaybackSliderMax(): void {
-    this.updatePlaybackSliderMax(10);
+    this.updatePlaybackSliderMax(this.playbackSliderMaxAmt);
   }
   updatePlaybackSliderMax(value: number): void {
     if (value !== this.playbackSliderMax.value) {
