@@ -21,8 +21,9 @@ export const selectSelectedDevice = createSelector(
   (state: DeviceState) => state.selected
 );
 
-export const selectByMinutes = createSelector(selectFeature, (state: any) =>
-  _.groupBy(state.entities, (device: Device) => {
+export const selectByMinutes = createSelector(selectFeature, (state: any) => {
+  // console.log(state.entities);
+  return _.groupBy(state.entities, (device: Device) => {
     return moment(device.ingestionTime).startOf('minute').format();
-  })
-);
+  });
+});

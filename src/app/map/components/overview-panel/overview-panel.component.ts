@@ -74,7 +74,7 @@ export class OverviewPanelComponent implements OnInit, OnDestroy {
   isPlaying = false;
   playbackSpeed = 0;
   playbackSliderValue = 0;
-  playbackSliderMax = 10;
+  playbackSliderMax = this.mapService.playbackSliderMaxAmt;
 
   constructor(private mapService: MapService, private store: Store<RootState>) {
     this.mapTimeChangedDebouncer$
@@ -84,7 +84,7 @@ export class OverviewPanelComponent implements OnInit, OnDestroy {
 
   getDevices(mapTime: Date): void {
     const mapTimeWithoutSeconds = moment(mapTime)
-      .seconds(30)
+      .seconds(0)
       .milliseconds(0)
       .toDate();
     this.store.dispatch(
