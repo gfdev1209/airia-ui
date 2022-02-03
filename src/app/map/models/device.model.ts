@@ -10,6 +10,7 @@ export class Device {
   datasourceType!: string;
   deviceType!: string;
   ingestionTime!: Date;
+  seenTime!: Date;
   latitude!: number;
   longitude!: number;
   rssi?: number;
@@ -30,6 +31,7 @@ export class Device {
     datasourcetype: string;
     devicetype: string;
     ingestiontime: Date;
+    seentime: Date;
     latitude: number;
     longitude: number;
     rssi: number;
@@ -49,6 +51,7 @@ export class Device {
     this.datasourceType = args.datasourcetype;
     this.deviceType = args.devicetype;
     this.ingestionTime = args.ingestiontime;
+    this.seenTime = args.seentime;
     this.latitude = args.latitude;
     this.longitude = args.longitude;
     this.rssi = args.rssi;
