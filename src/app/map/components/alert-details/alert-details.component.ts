@@ -65,6 +65,7 @@ export class AlertDetailsComponent implements OnInit {
   }
 
   closeAlert(): void {
+    this.mapService.stopPlayback();
     this.store.dispatch(AlertActions.deselect());
   }
 }
