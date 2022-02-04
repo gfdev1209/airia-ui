@@ -50,6 +50,8 @@ export class MapComponent implements OnInit, OnDestroy {
         this.regionPolygon = alert.region.regionPolygon;
       } else if (!alert) {
         this.regionPolygon = null;
+        this.store.dispatch(FloorActions.deselectFloorNumber());
+        this.mapService.stopPlayback();
       }
     })
   );
