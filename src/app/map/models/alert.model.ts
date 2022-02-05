@@ -103,7 +103,7 @@ export class Alert implements IBase {
       ? new AccessPoint(args.accessPoint)
       : undefined;
     this.region = new Region(args.region);
-    this.alertSeverity = args.alertSeverity as AlertSeverity;
+    this.alertSeverity = AlertSeverity[args.alertSeverity] as AlertSeverity;
     this.alertType = args.alertType as AlertType;
   }
 }

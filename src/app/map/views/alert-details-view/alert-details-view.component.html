@@ -19,9 +19,6 @@
         class="display-inline-block p-m-0 {{
           alert.alertSeverity | colorByAlertSeverity
         }}"
-        [ngClass]="{
-          'color-heading': alert.alertSeverity === AlertSeverityEnum.Low
-        }"
       >
         {{ alert.alertType }}
       </h2>

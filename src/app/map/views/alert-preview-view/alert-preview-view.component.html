@@ -16,9 +16,6 @@
       class="display-block line-height-1-25 font-size-90-percent {{
         alert.alertSeverity | colorByAlertSeverity
       }}"
-      [ngClass]="{
-        'color-heading': alert.alertSeverity === AlertSeverityEnum.Low
-      }"
       >{{ alert.alertType }}</span
     >
     <small>{{ alert.region?.name }}</small
