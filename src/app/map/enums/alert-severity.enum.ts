@@ -1,6 +1,6 @@
 export enum AlertSeverity {
-  Low = 'White',
-  Medium = 'Yellow',
-  High = 'Orange',
-  Severe = 'Red',
+  White = 0,
+  Yellow,
+  Orange,
+  Red,
 }

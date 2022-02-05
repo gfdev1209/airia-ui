@@ -122,22 +122,22 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
   filterSeveritySevere = (alert: Alert) => {
     return this.showSevereUrgency
       ? true
-      : alert?.alertSeverity !== AlertSeverity.Severe;
+      : alert?.alertSeverity !== AlertSeverity.Red;
   };
   filterSeverityHigh = (alert: Alert) => {
     return this.showHighUrgency
       ? true
-      : alert?.alertSeverity !== AlertSeverity.High;
+      : alert?.alertSeverity !== AlertSeverity.Orange;
   };
   filterSeverityMedium = (alert: Alert) => {
     return this.showMediumUrgency
       ? true
-      : alert?.alertSeverity !== AlertSeverity.Medium;
+      : alert?.alertSeverity !== AlertSeverity.Yellow;
   };
   filterSeverityLow = (alert: Alert) => {
     return this.showLowUrgency
       ? true
-      : alert?.alertSeverity !== AlertSeverity.Low;
+      : alert?.alertSeverity !== AlertSeverity.White;
   };
   filterAcknowledged = (alert: Alert) => {
     return this.showAcknowledged ? true : alert?.acknowledgedAt === undefined;
