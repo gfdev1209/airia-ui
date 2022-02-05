@@ -36,6 +36,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
 
   @Output() topPanelHeightChanged = new EventEmitter<number>();
   @Output() alertSortTypeChanged = new EventEmitter<AlertSortType>();
+  @Output() alertSortDirectionChanged = new EventEmitter<number>();
   @Output() zoomIn = new EventEmitter();
   @Output() zoomOut = new EventEmitter();
   @Output() mapTimeChanged = new EventEmitter<Date>();
@@ -79,6 +80,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     { name: 'Sort by Type', value: AlertSortType.Type },
   ];
   selectedAlertSortOption = AlertSortType.Date;
+  sortDirection = -1;
 
   playbackOptions = [
     { name: '0.1x', value: 10 },
@@ -153,6 +155,14 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   }
   onSortChange(event: any): void {
     this.alertSortTypeChanged.emit(event?.value);
+  }
+  onSortDirectionChange(event: any): void {
+    if (this.sortDirection > 0) {
+      this.sortDirection = -1;
+    } else {
+      this.sortDirection = 1;
+    }
+    this.alertSortDirectionChanged.emit(this.sortDirection);
   }
   onPlaybackSpeedChange(event: any): void {
     this.playbackSpeedChanged.emit(event?.value);

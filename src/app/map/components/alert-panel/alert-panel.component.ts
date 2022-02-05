@@ -5,7 +5,6 @@ import { MapService } from '@map/services/map.service';
 import * as AlertSelectors from '@store/alert/alert.selectors';
 import * as AlertActions from '@store/alert/alert.actions';
 import * as BuildingSelectors from '@store/building/building.selectors';
-import { AlertSeverity } from '@map/enums';
 
 @Component({
   selector: 'app-alert-panel',
@@ -20,6 +19,7 @@ export class AlertPanelComponent implements OnInit {
   );
   selectedAlert$ = this.store.select(AlertSelectors.selectSelectedAlert);
   alertSortType$ = this.store.select(AlertSelectors.selectSortType);
+  alertSortDirection$ = this.store.select(AlertSelectors.selectSortDirection);
 
   showSevereUrgency = true;
   showHighUrgency = true;

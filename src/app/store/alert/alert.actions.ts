@@ -82,6 +82,10 @@ export const setSortType = createAction(
   '[Overview Panel] Set Alert Sort Type',
   props<{ sortType: AlertSortType }>()
 );
+export const setSortDirection = createAction(
+  '[Overview Panel] Set Alert Sort Direction',
+  props<{ direction: number }>()
+);
 
 export const acknowledgeAlert = createAction(
   '[Alert Details] Acknowledge Alert',

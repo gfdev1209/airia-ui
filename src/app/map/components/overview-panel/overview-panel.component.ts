@@ -135,6 +135,9 @@ export class OverviewPanelComponent implements OnInit, OnDestroy {
   onAlertSortTypeChanged(sortType: AlertSortType): void {
     this.store.dispatch(AlertActions.setSortType({ sortType }));
   }
+  onAlertSortDirectionChanged(direction: number): void {
+    this.store.dispatch(AlertActions.setSortDirection({ direction }));
+  }
 
   onMapTimeChanged(mapTime: Date): void {
     this.mapService.stopPlayback();
