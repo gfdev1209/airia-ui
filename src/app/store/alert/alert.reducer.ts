@@ -122,6 +122,10 @@ export const alertReducer = createReducer(
     ...state,
     sortType,
   })),
+  on(Actions.setSortDirection, (state, { direction }) => ({
+    ...state,
+    sortDirection: direction,
+  })),
   on(Actions.acknowledgeAlert, (state, { alert }) => ({
     ...state,
     loading: true,

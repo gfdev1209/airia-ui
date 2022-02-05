@@ -23,6 +23,11 @@ export const selectSortType = createSelector(
   (state: AlertState) => state.sortType
 );
 
+export const selectSortDirection = createSelector(
+  selectFeature,
+  (state: AlertState) => state.sortDirection
+);
+
 // export const selectByBuildingId = createSelector(
 //   selectAll,
 //   (state: any, props: any) =>

@@ -22,6 +22,7 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
   @Input() selectedAlert: Alert | null = null;
   @Input() selectedBuilding: Building | null = null;
   @Input() sortType: AlertSortType | null = AlertSortType.Date;
+  @Input() sortDirection: number | null = -1;
   @Input() showSevereUrgency!: boolean;
   @Input() showHighUrgency!: boolean;
   @Input() showMediumUrgency!: boolean;
@@ -45,6 +46,7 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const currentAlerts: SimpleChange = changes.alerts;
     const sortType: SimpleChange = changes.sortType;
+    const sortDirection: SimpleChange = changes.sortDirection;
     if (currentAlerts && this.selectedBuilding === null) {
       if (currentAlerts.currentValue) {
         this.loadAlertsLazy({
@@ -57,7 +59,11 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
       }
     }
     if (sortType) {
+      this.sortType = sortType.currentValue;
       this.sort(sortType.currentValue);
+    }
+    if (sortDirection && this.sortType) {
+      this.sort(this.sortType);
     }
     if (
       changes.showSevereUrgency ||
@@ -162,7 +168,7 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
   // };
 
   sort(order: number): void {
-    if (this.alerts && this.alerts.length > 0) {
+    if (this.alerts && this.alerts.length > 0 && this.sortDirection) {
       const alerts = [...this.alerts];
       alerts.sort((data1, data2) => {
         let value1: any;
@@ -171,15 +177,27 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
         if (order === AlertSortType.Date) {
           value1 = data2.alertEndTime;
           value2 = data1.alertEndTime;
-          result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+          if (this.sortDirection === -1) {
+            result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+          } else {
+            result = value2 < value1 ? -1 : value2 > value1 ? 1 : 0;
+          }
         } else if (order === AlertSortType.Type) {
           value1 = data1.alertType;
           value2 = data2.alertType;
-          result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+          if (this.sortDirection === -1) {
+            result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+          } else {
+            result = value2 < value1 ? -1 : value2 > value1 ? 1 : 0;
+          }
         } else if (order === AlertSortType.Severity) {
           value1 = data1.alertSeverity;
           value2 = data2.alertSeverity;
-          result = value2 < value1 ? -1 : value2 > value1 ? 1 : 0;
+          if (this.sortDirection === -1) {
+            result = value2 < value1 ? -1 : value2 > value1 ? 1 : 0;
+          } else {
+            result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+          }
         }
 
         return order * result;
