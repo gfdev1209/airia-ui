@@ -1,10 +1,9 @@
 export enum AlertType {
-  None = 'None',
-  Unusual_Pattern = 'Unusual Pattern',
-  // Low_Capacity = 'low capacity',
-  // High_Capacity = 'high capacity',
-  // Covid_Capacity = 'covid capacity',
-  // Access_Point_Offline = 'access point offline',
-  // Access_Point_Online = 'access point online',
-  // Network_Health = 'network health',
+  High_Occupancy = 'high occupancy',
+  Low_Occupancy = 'low occupancy',
+  Unusual_Pattern = 'unusual pattern',
+  Unusual_Pattern_With_High_Occupancy = 'unusual pattern with high occupancy',
+  Unusual_Pattern_With_Low_Occupancy = 'unusual pattern with low occupancy',
+  Unusual_Signals = 'unusual signals',
+  Unusual_Occupancy = 'unusual occupancy',
 }

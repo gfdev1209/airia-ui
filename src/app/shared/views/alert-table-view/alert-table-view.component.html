@@ -179,10 +179,10 @@
         </td>
         <td class="{{ alert.alertSeverity | colorByAlertSeverity }}">
           <p-tag
-            [value]="alert.alertSeverity"
+            [value]="AlertSeverityName[alert.alertSeverity]"
             [rounded]="true"
             severity="info"
-            styleClass="severity-{{ alert.alertSeverity }}"
+            styleClass="severity-{{ AlertSeverityName[alert.alertSeverity] }}"
           ></p-tag>
         </td>
         <td>

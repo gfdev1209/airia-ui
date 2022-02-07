@@ -7,6 +7,7 @@ import { retry, map, catchError, share } from 'rxjs/operators';
 import { LazyLoadEvent } from 'primeng/api';
 import { SkipTakeInput } from '@shared/models/skip-take-input.model';
 import Helpers from '@core/utils/helpers';
+import { AlertType } from '@map/enums';
 
 @Injectable({
   providedIn: 'root',
@@ -57,10 +58,7 @@ export class AlertService extends BaseService {
         skipTakeInput.filters.alertMessage.matchMode =
           event.filters.alertMessage.matchMode;
       }
-      if (
-        event.filters.alertType?.value &&
-        event.filters.alertSeverity.value.length > 0
-      ) {
+      if (event.filters.alertType?.value) {
         skipTakeInput.filters.alertType = {};
         skipTakeInput.filters.alertType.value = event.filters.alertType.value;
         skipTakeInput.filters.alertType.matchMode =

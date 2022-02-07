@@ -2,6 +2,8 @@ import * as moment from 'moment';
 export default class Helpers {
   static getKeyValue = (key: string) => (obj: Record<string, any>) => obj[key];
 
+  static stringIsNumber = (value: any) => isNaN(Number(value)) === false;
+
   static filterArrayBy<T>(
     array: T[],
     parameter: string,
