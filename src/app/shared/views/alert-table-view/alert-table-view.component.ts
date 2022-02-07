@@ -8,6 +8,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import Helpers from '@core/utils/helpers';
 import { AlertSeverity, AlertType } from '@map/enums';
 import { Alert, Building } from '@map/models';
 import { SkipTakeInput } from '@shared/models/skip-take-input.model';
@@ -43,7 +44,14 @@ export class AlertTableViewComponent implements OnChanges, OnInit {
   AlertTypeName = AlertType;
 
   selectedAlerts: Alert[] = [];
-  severities = this.enumToSelectItemsPipe.transform(AlertSeverity);
+  severities = Object.keys(AlertSeverity)
+    .filter(Helpers.stringIsNumber)
+    .map((o) => {
+      return {
+        value: o,
+        label: AlertSeverity[o],
+      };
+    });
   alertTypes = this.enumToSelectItemsPipe.transform(AlertType);
   buildingList: any[] = [];
 
