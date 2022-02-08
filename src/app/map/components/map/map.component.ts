@@ -145,6 +145,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
   zoomIn$: Subscription = new Subscription();
   zoomOut$: Subscription = new Subscription();
+  centerMap$: Subscription = new Subscription();
   devicePollingInterval$: Subscription = new Subscription();
   isPlaying$: Subscription = new Subscription();
   isPlaybackLive$: Subscription = new Subscription();
@@ -171,6 +172,9 @@ export class MapComponent implements OnInit, OnDestroy {
     );
     this.zoomOut$ = this.mapService.zoomOut$.subscribe(() =>
       this.mapView?.onZoomOut()
+    );
+    this.centerMap$ = this.mapService.centerMap$.subscribe(() =>
+      this.mapView?.onCenterMap()
     );
     this.deleteDrawing$ = this.mapService.deleteDrawing$.subscribe(() =>
       this.mapView?.onDeleteDrawing()
