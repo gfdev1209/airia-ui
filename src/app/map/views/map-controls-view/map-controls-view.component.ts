@@ -18,6 +18,7 @@ export class MapControlsViewComponent {
 
   @Output() zoomIn = new EventEmitter();
   @Output() zoomOut = new EventEmitter();
+  @Output() centerMap = new EventEmitter();
   @Output() toggleOverview = new EventEmitter();
   @Output() toggleDraw = new EventEmitter();
   @Output() toggleDelete = new EventEmitter();
@@ -29,6 +30,9 @@ export class MapControlsViewComponent {
   }
   onZoomOut(): void {
     this.zoomOut.emit();
+  }
+  onCenter(): void {
+    this.centerMap.emit();
   }
   onToggleOverview(): void {
     this.toggleOverview.emit();

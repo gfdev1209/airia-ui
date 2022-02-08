@@ -83,6 +83,8 @@ export class MapViewComponent implements OnChanges {
   apIconImageInitialized = false;
   // The initial zoom level to display the map
   initialZoomLevel: number = environment.zoomLevel ? environment.zoomLevel : 20;
+  // Width of the overview panel on the right of the screen
+  overviewPanelWidth = 310;
   // Device display settings for mapbox
   liveDeviceDetails: DeviceMapboxDetails = {
     id: 'devices',
@@ -243,7 +245,12 @@ export class MapViewComponent implements OnChanges {
         speed: 0.475,
         curve: 2.0,
         zoom: 19,
-        padding,
+        padding: {
+          top: 0,
+          right: this.overviewPanelWidth,
+          bottom: 0,
+          left: 0,
+        },
       });
     }
   }
@@ -253,6 +260,24 @@ export class MapViewComponent implements OnChanges {
   }
   onZoomOut(): void {
     this.map?.zoomOut();
+  }
+  onCenterMap(): void {
+    if (this.locations && this.locations?.length > 0) {
+      this.map.flyTo({
+        center: [
+          this.locations[0].coordLongitude,
+          this.locations[0].coordLatitude,
+        ],
+        essential: true,
+        zoom: 16,
+        padding: {
+          top: 0,
+          right: this.overviewPanelWidth,
+          bottom: 0,
+          left: 0,
+        },
+      });
+    }
   }
 
   disableRotate(): void {

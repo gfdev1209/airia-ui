@@ -47,6 +47,8 @@ export class MapService {
 
   stopPlay$: Subject<any> = new Subject();
 
+  centerMap$: Subject<any> = new Subject();
+
   private zoomIn: Subject<void> = new Subject();
   zoomIn$ = this.zoomIn.asObservable();
   private zoomOut: Subject<void> = new Subject();
@@ -87,6 +89,9 @@ export class MapService {
   }
   mapZoomOut(): void {
     this.zoomOut.next();
+  }
+  centerMap(): void {
+    this.centerMap$.next();
   }
   toggleOverview(isExpanded?: boolean): void {
     if (isExpanded) {
