@@ -7,7 +7,7 @@ import { retry, map, catchError, share } from 'rxjs/operators';
 import { LazyLoadEvent } from 'primeng/api';
 import { SkipTakeInput } from '@shared/models/skip-take-input.model';
 import Helpers from '@core/utils/helpers';
-import { AlertType } from '@map/enums';
+import { AlertSeverity } from '@map/enums';
 
 @Injectable({
   providedIn: 'root',

@@ -191,8 +191,8 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
             result = value2 < value1 ? -1 : value2 > value1 ? 1 : 0;
           }
         } else if (order === AlertSortType.Severity) {
-          value1 = data1.alertSeverity;
-          value2 = data2.alertSeverity;
+          value1 = data1.alertSeverityLevel;
+          value2 = data2.alertSeverityLevel;
           if (this.sortDirection === -1) {
             result = value2 < value1 ? -1 : value2 > value1 ? 1 : 0;
           } else {

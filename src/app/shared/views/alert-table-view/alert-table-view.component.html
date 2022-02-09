@@ -34,7 +34,7 @@
           Message <p-sortIcon field="alertMessage"></p-sortIcon>
         </th>
         <th pSortableColumn="alertSeverity">
-          Severity <p-sortIcon field="alertSeverity"></p-sortIcon>
+          Severity <p-sortIcon field="alertSeverityLevel"></p-sortIcon>
         </th>
         <th pSortableColumn="alertType">
           Type <p-sortIcon field="alertType"></p-sortIcon>
@@ -90,7 +90,7 @@
                 [options]="severities"
                 placeholder="Any"
                 optionLabel="label"
-                optionValue="label"
+                optionValue="value"
                 (onChange)="filter($event.value)"
                 [showHeader]="false"
                 appendTo="body"
@@ -179,10 +179,10 @@
         </td>
         <td class="{{ alert.alertSeverity | colorByAlertSeverity }}">
           <p-tag
-            [value]="AlertSeverityName[alert.alertSeverity]"
+            [value]="alert.alertSeverity"
             [rounded]="true"
             severity="info"
-            styleClass="severity-{{ AlertSeverityName[alert.alertSeverity] }}"
+            styleClass="severity-{{ alert.alertSeverity }}"
           ></p-tag>
         </td>
         <td>
