@@ -44,14 +44,13 @@ export class AlertTableViewComponent implements OnChanges, OnInit {
   AlertTypeName = AlertType;
 
   selectedAlerts: Alert[] = [];
-  severities = Object.keys(AlertSeverity)
-    .filter(Helpers.stringIsNumber)
-    .map((o) => {
-      return {
-        value: o,
-        label: AlertSeverity[o],
-      };
-    });
+  // severities = this.enumToSelectItemsPipe.transform(AlertSeverity);
+  severities = Object.keys(AlertSeverity).map((o) => {
+    return {
+      value: o,
+      label: AlertSeverity[o],
+    };
+  });
   alertTypes = this.enumToSelectItemsPipe.transform(AlertType);
   buildingList: any[] = [];
 

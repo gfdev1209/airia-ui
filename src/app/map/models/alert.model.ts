@@ -25,6 +25,7 @@ export class Alert implements IBase {
   acknowledgedAt?: Date;
   accessPoint?: AccessPoint;
   alertSeverity!: AlertSeverity;
+  alertSeverityLevel!: number;
   alertType!: AlertType;
   region?: Region;
   buildingId!: number;
@@ -45,6 +46,7 @@ export class Alert implements IBase {
     accessPoint: any;
     region: any;
     alertSeverity: string;
+    alertSeverityLevel: number;
     alertType: string;
     buildingId: number;
   }) {
@@ -104,6 +106,7 @@ export class Alert implements IBase {
       : undefined;
     this.region = new Region(args.region);
     this.alertSeverity = AlertSeverity[args.alertSeverity] as AlertSeverity;
+    this.alertSeverityLevel = args.alertSeverityLevel;
     this.alertType = args.alertType as AlertType;
   }
 }
