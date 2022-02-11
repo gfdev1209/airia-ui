@@ -28,7 +28,7 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
   private curDate: Date = new Date();
 
   analytics$ = this.store.select(BuildingSelectors.selectAnalytics);
-  occupancy$?: Observable<Occupancy[]>;
+  occupancy$?: Observable<Occupancy>;
   analytics24Hours$?: Observable<BuildingAnalytics>;
 
   private loading = new BehaviorSubject<boolean>(false);
@@ -85,7 +85,7 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
           .toDate()
       )
       .pipe(
-        tap(() => {
+        tap((response) => {
           this.loading.next(false);
         })
       );

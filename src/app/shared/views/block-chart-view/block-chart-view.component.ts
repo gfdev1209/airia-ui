@@ -47,17 +47,19 @@ export class BlockChartViewComponent implements OnInit, OnChanges {
   }
 
   updateChart(): void {
-    const chartOptions2 = _.cloneDeep(heatMapChartConfig);
-    chartOptions2.series = this.data;
-    chartOptions2.chart.redrawOnParentResize = true;
-    chartOptions2.chart.height = 66 + (this.data.length + 1) * 18;
-    if (!this.showValues) {
-      chartOptions2.dataLabels.enabled = false;
+    if (this.data) {
+      const chartOptions2 = _.cloneDeep(heatMapChartConfig);
+      chartOptions2.series = this.data;
+      chartOptions2.chart.redrawOnParentResize = true;
+      chartOptions2.chart.height = 66 + (this.data.length + 1) * 18;
+      if (!this.showValues) {
+        chartOptions2.dataLabels.enabled = false;
+      }
+      chartOptions2.plotOptions.heatmap.distributed = this.distributedColors;
+      this.chartOptions = chartOptions2;
+      // height: 66 + (2*18),
+      this.chart?.updateOptions(chartOptions2, true);
     }
-    chartOptions2.plotOptions.heatmap.distributed = this.distributedColors;
-    this.chartOptions = chartOptions2;
-    // height: 66 + (2*18),
-    this.chart?.updateOptions(chartOptions2, true);
   }
 
   ngOnInit(): void {}

@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import * as _ from 'lodash';
 import { environment } from 'src/environments/environment';
 import Helpers from '@core/utils/helpers';
+import { OccupancyStat } from '@map/models/occupancy-stat.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,25 +21,21 @@ export class RegionService extends BaseService {
     year?: number,
     month?: number,
     day?: number
-  ): Observable<Occupancy[]> {
+  ): Observable<Occupancy> {
     let queryParams = `${id}/Occupancy?year=${year}&month=${month}`;
     if (day) {
       queryParams += `&day=${day}`;
     }
     return this.http.get(`${this.apiUrl}/${queryParams}`).pipe(
-      map((response: any) =>
-        response?.rows?.$values.map(
-          (responseJson: any) => new Occupancy(responseJson)
-        )
+      map((response: any) => new Occupancy(response)),
+      tap((occupancyData: Occupancy) =>
+        this.setTimezoneOffsets(occupancyData.occupancyStats)
       ),
-      tap((occupancyData: Occupancy[]) =>
-        this.setTimezoneOffsets(occupancyData)
+      tap((occupancyData: Occupancy) =>
+        occupancyData.occupancyStats.filter((element) => element.day !== 0)
       ),
-      map((occupancyData: Occupancy[]) =>
-        occupancyData.filter((element) => element.day !== 0)
-      ),
-      tap((occupancyData: Occupancy[]) =>
-        occupancyData.sort((a, b) => a.hour - b.hour)
+      tap((occupancyData: Occupancy) =>
+        occupancyData.occupancyStats.sort((a, b) => a.hour - b.hour)
       ),
       catchError((error) => {
         return this.handleError(error);
@@ -47,7 +44,7 @@ export class RegionService extends BaseService {
     );
   }
 
-  getOccupancyRange(id: number, from: Date, to: Date): Observable<Occupancy[]> {
+  getOccupancyRange(id: number, from: Date, to: Date): Observable<Occupancy> {
     return this.http
       .get(
         `${this.apiUrl}/${id}/Occupancy/From/${Helpers.formatDateToJSON(
@@ -55,19 +52,15 @@ export class RegionService extends BaseService {
         )}/To/${Helpers.formatDateToJSON(to)}`
       )
       .pipe(
-        map((response: any) =>
-          response?.rows?.$values.map(
-            (responseJson: any) => new Occupancy(responseJson)
-          )
+        map((response: any) => (response = new Occupancy(response))),
+        tap((occupancyData: Occupancy) =>
+          this.setTimezoneOffsets(occupancyData.occupancyStats)
         ),
-        tap((occupancyData: Occupancy[]) =>
-          this.setTimezoneOffsets(occupancyData)
+        tap((occupancyData: Occupancy) =>
+          occupancyData.occupancyStats.filter((element) => element.day !== 0)
         ),
-        map((occupancyData: Occupancy[]) =>
-          occupancyData.filter((element) => element.day !== 0)
-        ),
-        tap((occupancyData: Occupancy[]) =>
-          occupancyData.sort((a, b) => a.hour - b.hour)
+        tap((occupancyData: Occupancy) =>
+          occupancyData.occupancyStats.sort((a, b) => a.hour - b.hour)
         ),
         catchError((error) => {
           return this.handleError(error);
@@ -76,7 +69,7 @@ export class RegionService extends BaseService {
       );
   }
 
-  private setTimezoneOffsets(occupancyData: Occupancy[]): Occupancy[] {
+  private setTimezoneOffsets(occupancyData: OccupancyStat[]): OccupancyStat[] {
     occupancyData.forEach((occupancy, index) => {
       occupancy.hour += environment.timeZoneOffsetUTC;
       if (occupancy.hour < 0) {

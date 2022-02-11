@@ -56,7 +56,7 @@ export class RegionEffects {
       ofType(RegionActions.getOccupancy),
       mergeMap(({ id, year, month, day }) =>
         this.regionService.getOccupancy(id, year, month, day).pipe(
-          map((occupancy: Occupancy[]) =>
+          map((occupancy: Occupancy) =>
             RegionActions.getOccupancySuccess({ occupancy })
           ),
           catchError(() => of(RegionActions.getOccupancyFailed()))
@@ -70,7 +70,7 @@ export class RegionEffects {
       ofType(RegionActions.getOccupancyRange),
       mergeMap(({ id, from, to }) =>
         this.regionService.getOccupancyRange(id, from, to).pipe(
-          map((occupancy: Occupancy[]) =>
+          map((occupancy: Occupancy) =>
             RegionActions.getOccupancyRangeSuccess({ occupancy })
           ),
           catchError(() => of(RegionActions.getOccupancyRangeFailed()))

@@ -26,7 +26,7 @@ export class BuildingDetailsOccupancyComponent implements OnChanges {
 
   analytics$ = this.store.select(BuildingSelectors.selectAnalytics);
 
-  occupancy$?: Observable<Occupancy[]>;
+  occupancy$?: Observable<Occupancy>;
 
   private regionId?: number;
 

@@ -1,36 +1,27 @@
+import { OccupancyStat } from './occupancy-stat.model';
+
 export class Occupancy {
   id: string;
+  count!: number;
+  maxOccupancyHistoric!: number;
   regionId: number;
-  year: number;
-  month: number;
-  day: number;
-  hour: number;
-  averageOccupancy: number;
-  maxOccupancy: number;
-  medianOccupancy: number;
-  title?: string;
+  occupancyStats: OccupancyStat[] = [];
 
   constructor(args: {
     $id: string;
+    count: number;
+    maxOccupancyHistoric: number;
     regionId: number;
-    year: number;
-    month: number;
-    day: number;
-    hour: number;
-    averageOccupancy: number;
-    maxOccupancy: number;
-    medianOccupancy: number;
-    title?: string;
+    rows: any;
   }) {
     this.id = args.$id;
+    this.count = args.count;
+    this.maxOccupancyHistoric = args.maxOccupancyHistoric;
     this.regionId = args.regionId;
-    this.year = args.year;
-    this.month = args.month;
-    this.day = args.day;
-    this.hour = args.hour;
-    this.averageOccupancy = args.averageOccupancy;
-    this.maxOccupancy = args.maxOccupancy;
-    this.medianOccupancy = args.medianOccupancy;
-    this.title = args.title;
+    if (args.rows?.$values) {
+      this.occupancyStats = args.rows.$values.map(
+        (responseJson: any) => new OccupancyStat(responseJson)
+      );
+    }
   }
 }
