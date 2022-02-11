@@ -25,7 +25,7 @@ export const getOccupancy = createAction(
 );
 export const getOccupancySuccess = createAction(
   '[Region Effect] Get Occupancy Success',
-  props<{ occupancy: Occupancy[] }>()
+  props<{ occupancy: Occupancy }>()
 );
 export const getOccupancyFailed = createAction(
   '[Region Effect] Get Occupancy Failed'
@@ -37,7 +37,7 @@ export const getOccupancyRange = createAction(
 );
 export const getOccupancyRangeSuccess = createAction(
   '[Region Effect] Get Occupancy Range Success',
-  props<{ occupancy: Occupancy[] }>()
+  props<{ occupancy: Occupancy }>()
 );
 export const getOccupancyRangeFailed = createAction(
   '[Region Effect] Get Occupancy Range Failed'

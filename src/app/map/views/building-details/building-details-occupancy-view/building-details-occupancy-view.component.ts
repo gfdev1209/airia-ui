@@ -25,7 +25,7 @@ export class BuildingDetailsOccupancyViewComponent
   implements OnInit, OnChanges
 {
   @Input() analytics?: BuildingAnalytics | null;
-  @Input() occupancy?: Occupancy[] | null;
+  @Input() occupancy?: Occupancy | null;
   @Input() loading?: boolean | null;
   @Input() maximized!: boolean;
   @Input() tabChange: any;
@@ -73,6 +73,23 @@ export class BuildingDetailsOccupancyViewComponent
       ],
     },
     // {
+    //   name: '2 Weeks Ago',
+    //   range: [
+    //     moment
+    //       .utc()
+    //       .subtract(2, 'week')
+    //       .startOf('week')
+    //       .subtract(environment.timeZoneOffsetUTC, 'hour')
+    //       .toDate(),
+    //     moment
+    //       .utc()
+    //       .subtract(2, 'week')
+    //       .endOf('week')
+    //       .subtract(environment.timeZoneOffsetUTC, 'hour')
+    //       .toDate(),
+    //   ],
+    // },
+    // {
     //   name: 'This Week',
     //   range: [
     //     moment
@@ -104,9 +121,10 @@ export class BuildingDetailsOccupancyViewComponent
     if (changes.analytics && !changes.analytics.firstChange) {
       console.log(changes.analytics?.currentValue);
     }
-    if (changes.occupancy && changes.occupancy.currentValue?.length > 0) {
-      const occupancyDataArray = changes.occupancy.currentValue;
-      const occupancyData = this.mapOccupancyData(occupancyDataArray);
+    if (changes.occupancy && changes.occupancy.currentValue) {
+      const occupancyData = this.mapOccupancyData(
+        changes.occupancy.currentValue
+      );
       // console.log(occupancyData);
       this.chartData = Object.values(occupancyData).reverse();
     }
@@ -118,27 +136,8 @@ export class BuildingDetailsOccupancyViewComponent
     }
   }
 
-  mapOccupancyData(occupancyDataArray: any[]): { [id: string]: any } {
-    // const highestMax = Math.max.apply(
-    //   Math,
-    //   occupancyDataArray.map((o: any) => o.maxOccupancy)
-    // );
-    // Create empty dictionary to store data
-    const maxByDay: { [id: number]: number } = {};
-    const dayList = Object.values(groupBy(occupancyDataArray, (i) => i.day));
-    dayList.forEach((day) => {
-      day.filter((d) => d.hour);
-      const highestMax = Math.max.apply(
-        Math,
-        day.map((o) => o.maxOccupancy)
-      );
-      maxByDay[day[0]?.day] = highestMax;
-    });
-
-    const highestMaxTotal = Math.max.apply(
-      Math,
-      occupancyDataArray.map((o) => o.maxOccupancy)
-    );
+  mapOccupancyData(occupancyDataResponse: Occupancy): { [id: string]: any } {
+    let occupancyDataArray = occupancyDataResponse.occupancyStats as any;
     // Group data by the hour
     occupancyDataArray = Object.values(
       groupBy(occupancyDataArray, (i) => i.hour)
@@ -149,7 +148,7 @@ export class BuildingDetailsOccupancyViewComponent
     for (const key in occupancyDataArray) {
       if (key) {
         const data = occupancyDataArray[key];
-        // Group hourly data by day
+        // Group hourly data by date
         const dataByDay = groupBy(
           data,
           (i) => i.day
@@ -158,6 +157,11 @@ export class BuildingDetailsOccupancyViewComponent
         // Convert to an array
         const dataArray: any = Object.values(dataByDay);
         occupancyData[key] = { name: key, data: dataArray };
+        dataArray.sort(
+          (a: any, b: any) =>
+            new Date(b[0].year, b[0].month - 1, b[0].day, b[0].hour).valueOf() -
+            new Date(a[0].year, a[0].month - 1, a[0].day, a[0].hour).valueOf()
+        );
         // Go through each day
         for (const dayKey in dataArray) {
           if (dayKey) {
@@ -167,7 +171,9 @@ export class BuildingDetailsOccupancyViewComponent
               days.reduce((total: any, next: any) => {
                 const avg =
                   next.averageOccupancy > 0
-                    ? (next.averageOccupancy / highestMaxTotal) * 100
+                    ? (next.averageOccupancy /
+                        occupancyDataResponse.maxOccupancyHistoric) *
+                      100
                     : 0;
                 return total + avg;
               }, 0) / days.length;

@@ -15,6 +15,7 @@ import { ChartComponent } from 'ng-apexcharts';
 import * as moment from 'moment';
 import { ChartOptions, chartOptionsConfig } from '@shared/constants';
 import { BehaviorSubject } from 'rxjs';
+import { OccupancyStat } from '@map/models/occupancy-stat.model';
 
 export const series = {
   monthDataSeries1: {
@@ -232,7 +233,7 @@ export const series = {
 })
 export class BuildingDetailsOverviewViewComponent implements OnInit, OnChanges {
   @Input() analytics?: BuildingAnalytics | null;
-  @Input() occupancy?: Occupancy[] | null;
+  @Input() occupancy?: Occupancy | null;
   @Input() loading?: boolean | null;
   @Input() maximized!: boolean;
   @Input() analytics24Hours?: BuildingAnalytics | null;
@@ -296,31 +297,31 @@ export class BuildingDetailsOverviewViewComponent implements OnInit, OnChanges {
     if (changes.maximized && !changes.maximized?.firstChange) {
       window.dispatchEvent(new Event('resize'));
     }
-    if (changes.occupancy && changes.occupancy.currentValue?.length > 0) {
-      const occupancyData = changes.occupancy.currentValue;
+    if (changes.occupancy && changes.occupancy.currentValue) {
+      const occupancyData: Occupancy = changes.occupancy.currentValue;
       console.log(occupancyData);
-      const highestMax = Math.max.apply(
-        Math,
-        occupancyData.map((o: any) => o.maxOccupancy)
-      );
-      occupancyData.forEach((occupancy: any) => {
+      occupancyData.occupancyStats.forEach((occupancy: OccupancyStat) => {
         occupancy.x = occupancy.day.toString();
-        occupancy.y = (occupancy.averageOccupancy / highestMax) * 100;
+        occupancy.y =
+          (occupancy.averageOccupancy / occupancyData.maxOccupancyHistoric) *
+          100;
       });
       // occupancyData = Object.values(groupBy(occupancyData, (i) => i.day));
-      occupancyData.reverse();
+      occupancyData.occupancyStats.reverse();
 
       const occupancyDictionary = Object.values(
-        occupancyData.reduce(
+        occupancyData.occupancyStats.reduce(
           (a: any, x: any) => ({
             ...a,
             [x.hour]: {
               x: x.hour.toString(),
-              y: (x.averageOccupancy / highestMax) * 100,
+              y:
+                (x.averageOccupancy / occupancyData.maxOccupancyHistoric) * 100,
               hour: x.hour.toString(),
               day: x.day.toString(),
               year: x.year.toString(),
               month: x.month.toString(),
+              deviceCount: x.deviceCount,
             },
           }),
           {}

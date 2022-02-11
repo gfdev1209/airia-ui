@@ -53,7 +53,7 @@ export const heatMapChartConfig = {
       distributed: false,
       enableShades: true,
       reverseNegativeShade: false,
-      shadeIntensity: 0.5,
+      shadeIntensity: 0,
       useFillColorAsStroke: false,
       colorScale: {
         ranges: [
@@ -78,14 +78,19 @@ export const heatMapChartConfig = {
             color: '#6a448b',
           },
           {
-            from: 64,
+            from: 65,
             to: 80,
             color: '#8151a7',
           },
           {
-            from: 80,
-            to: 1000,
+            from: 81,
+            to: 99.49,
             color: '#965ec5',
+          },
+          {
+            from: 99.5,
+            to: 1000,
+            color: '#ee4057',
           },
         ],
         inverse: false,

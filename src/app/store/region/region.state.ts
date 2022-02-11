@@ -6,7 +6,7 @@ export interface RegionState extends EntityState<Region> {
   buildingRegions: Region[];
   loaded: boolean;
   loading: boolean;
-  occupancy: Occupancy[];
+  occupancy: Occupancy | null;
 }
 export const adapter = createEntityAdapter<Region>();
 export const initialState: RegionState = adapter.getInitialState({
@@ -14,5 +14,5 @@ export const initialState: RegionState = adapter.getInitialState({
   buildingRegions: [],
   loaded: false,
   loading: false,
-  occupancy: [],
+  occupancy: null,
 });
