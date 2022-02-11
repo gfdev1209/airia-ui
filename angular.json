@@ -143,6 +143,9 @@
             "lakewaydev": {
               "browserTarget": "airia:build:lakewaydev"
             },
+            "ncidev": {
+              "browserTarget": "airia:build:ncidev"
+            },
             "harringtondr": {
               "browserTarget": "airia:build:harringtondr"
             },
