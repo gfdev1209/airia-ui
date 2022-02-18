@@ -487,13 +487,19 @@ export class MapViewComponent implements OnChanges {
   }
 
   addDeviceData(deviceDetails: DeviceMapboxDetails): void {
+    if (this.mapDeviceData !== undefined) {
+      this.map.removeLayer(deviceDetails.heatmapName);
+      this.map.removeLayer(deviceDetails.layers[0]);
+      this.map.removeLayer(deviceDetails.layers[1]);
+      this.map.removeSource(deviceDetails.sourceName);
+    }
     this.mapDeviceData = new MapViewDataSource(
       this.map,
       deviceDetails.sourceName
     );
     this.mapDeviceData.addDataSource(
       this.showClusters ? this.showClusters : false,
-      23,
+      24,
       2
     );
     this.mapDeviceData.addLayer(deviceDetails.heatmapName, 'heatmap', {
@@ -607,6 +613,8 @@ export class MapViewComponent implements OnChanges {
       clusterSource.cluster = this.showClusters;
       this.map.setStyle(style);
     }
+    this.addDeviceData(this.liveDeviceDetails);
+    this.addDevices();
     console.log(this.showClusters);
   }
   toggleDevices(): void {
@@ -724,9 +732,9 @@ export class MapViewComponent implements OnChanges {
     //     }
     //   );
     // });
+    // Add an image to use as a custom marker
+    const pointArr: any[] = [];
     if (devices.length > 0) {
-      // Add an image to use as a custom marker
-      const pointArr: any[] = [];
       devices.forEach((device) => {
         pointArr.push({
           type: 'Feature',
@@ -740,11 +748,8 @@ export class MapViewComponent implements OnChanges {
           },
         });
       });
-      this.mapDeviceData.dataSource?.setData({
-        type: 'FeatureCollection',
-        features: pointArr,
-      });
     }
+    this.mapDeviceData.updateData(pointArr);
 
     if (this.map.getLayer('accessPoints')) {
       this.liveDeviceDetails.layers.forEach((layer) => {
