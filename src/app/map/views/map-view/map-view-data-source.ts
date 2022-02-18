@@ -95,6 +95,16 @@ export class MapViewDataSource {
     }
   }
 
+  updateData(data: any[]): void {
+    if (!this.dataSource) {
+      throw new Error('Attempted to update data with not data source');
+    }
+    this.dataSource?.setData({
+      type: 'FeatureCollection',
+      features: data,
+    });
+  }
+
   hideAllLayers(): void {
     this.layers.forEach((layer) => {
       this.map.setLayoutProperty(layer.id, 'visibility', 'none');
