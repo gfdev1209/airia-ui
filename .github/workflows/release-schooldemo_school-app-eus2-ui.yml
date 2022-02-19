@@ -23,7 +23,7 @@ jobs:
     - name: npm install and build
       run: |
         npm install
-        npm run build -- --prod --configuration=schooldemo
+        npm run build -- --outputHashing=all --prod --configuration=schooldemo
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
