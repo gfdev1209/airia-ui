@@ -62,15 +62,8 @@
       (click)="onViewAlertPlayback()"
       class="p-button-rounded p-button-sm p-d-block p-mb-4"
     ></button> -->
-    <hr class="p-mb-4" />
-
-    <p-chart
-      *ngIf="alert"
-      type="bar"
-      height="200"
-      [data]="stackedData"
-      [options]="stackedOptions"
-    ></p-chart>
+    <hr *ngIf="alert.visualizationUrl" class="p-mb-4" />
+    <img [src]="alert.visualizationUrl" width="100%" />
   </div>
   <p-footer *ngIf="alert">
     <button
