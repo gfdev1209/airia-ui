@@ -1,9 +1,12 @@
-<div class="overview-panel has-shadow" [class.expanded]="isExpanded === true">
-  <div class="map-controls p-d-none p-d-sm-block">
+<div
+  class="overview-panel has-shadow position-relative"
+  [class.expanded]="isExpanded === true"
+>
+  <div class="map-controls p-d-sm-block">
     <app-map-controls></app-map-controls>
-  </div>
-  <div class="floor-controls p-d-none p-d-sm-block">
-    <app-floor-controls></app-floor-controls>
+    <div class="p-mt-3 p-d-sm-block">
+      <app-floor-controls></app-floor-controls>
+    </div>
   </div>
   <div class="p-d-flex p-flex-column overflow-hidden">
     <div class="p-d-flex p-flex-column">

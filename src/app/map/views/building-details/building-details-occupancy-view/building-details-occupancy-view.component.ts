@@ -12,7 +12,7 @@ import { BuildingAnalytics, Occupancy } from '@map/models';
 import { ChartComponent } from 'ng-apexcharts';
 
 import * as moment from 'moment';
-import { ChartOptions } from '@shared/constants';
+import { LineChartOptions } from '@shared/constants';
 import { groupBy } from 'lodash';
 import { environment } from 'src/environments/environment';
 
@@ -34,7 +34,7 @@ export class BuildingDetailsOccupancyViewComponent
   @Output() historicDateRangeChanged = new EventEmitter<Date[]>();
 
   @ViewChild('chart', { static: false }) chart?: ChartComponent;
-  public chartOptions?: Partial<ChartOptions>;
+  public chartOptions?: Partial<LineChartOptions>;
 
   chartData: any;
 

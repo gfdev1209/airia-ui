@@ -13,16 +13,15 @@ import { BuildingAnalytics, Occupancy } from '@map/models';
 import { ChartComponent } from 'ng-apexcharts';
 
 import * as moment from 'moment';
-import { ChartOptions, chartOptionsConfig } from '@shared/constants';
+import { LineChartOptions, chartOptionsConfig } from '@shared/constants';
 import { BehaviorSubject } from 'rxjs';
 import { OccupancyStat } from '@map/models/occupancy-stat.model';
 
 export const series = {
   monthDataSeries1: {
     prices: [
-      2107.85, 3128.0, 5122.9, 3165.5, 6340.7, 2423.7, 8423.5, 4514.3, 6481.85,
-      8487.7, 2506.9, 5626.2, 8668.95, 8602.3, 4607.55, 2512.9, 3496.25,
-      5600.65, 6881.1, 9340.85, 0, 0, 0, 0,
+      21.85, 31.0, 51.9, 31.5, 63.7, 24.7, 84.5, 45.3, 64.85, 84.7, 25.9, 56.2,
+      86.95, 86.3, 46.55, 25.9, 34.25, 56.65, 68.1, 93.85, 0, 0, 0, 0,
     ],
     dates: [
       '13 Nov 2017',
@@ -247,7 +246,7 @@ export class BuildingDetailsOverviewViewComponent implements OnInit, OnChanges {
   // chartData: any;
 
   @ViewChild('chart', { static: false }) chart?: ChartComponent;
-  public chartOptions?: Partial<ChartOptions>;
+  public chartOptions?: Partial<LineChartOptions>;
 
   dateRange = [
     {

@@ -41,6 +41,7 @@
             "scripts": ["./node_modules/apexcharts/dist/apexcharts.js"],
             "allowedCommonJsDependencies": [
               "lodash",
+              "apexcharts",
               "chart.js",
               "apexcharts",
               "moment-timezone",

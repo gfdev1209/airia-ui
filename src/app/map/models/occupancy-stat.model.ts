@@ -1,10 +1,10 @@
 export class OccupancyStat {
   id: string;
   regionId: number;
-  year: number;
-  month: number;
-  day: number;
   hour: number;
+  day: number;
+  month: number;
+  year: number;
   averageOccupancy: number;
   maxOccupancy: number;
   medianOccupancy: number;

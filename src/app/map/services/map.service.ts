@@ -22,8 +22,12 @@ export class MapService {
   displayedMapDateTime$ = this.displayedMapDateTime.asObservable();
 
   private isOverviewExpanded: BehaviorSubject<boolean> =
-    new BehaviorSubject<boolean>(false);
+    new BehaviorSubject<boolean>(true);
   isOverviewExpanded$ = this.isOverviewExpanded.asObservable();
+
+  private isAnalyticsExpanded: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+  isAnalyticsExpanded$ = this.isAnalyticsExpanded.asObservable();
 
   private isPlaying: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
@@ -98,6 +102,13 @@ export class MapService {
       this.isOverviewExpanded.next(isExpanded);
     } else {
       this.isOverviewExpanded.next(!this.isOverviewExpanded.value);
+    }
+  }
+  toggleAnalytics(isExpanded?: boolean): void {
+    if (isExpanded) {
+      this.isAnalyticsExpanded.next(isExpanded);
+    } else {
+      this.isAnalyticsExpanded.next(!this.isAnalyticsExpanded.value);
     }
   }
 

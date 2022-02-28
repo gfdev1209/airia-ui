@@ -6,6 +6,13 @@
     padding-bottom: $left-nav-item-height-mobile;
   }
 }
+.map-interface-container {
+  display: flex;
+  flex-grow: 1;
+  position: absolute;
+  width: 100%;
+  pointer-events: none;
+}
 :host(app-map-layout) {
   display: flex;
   flex-grow: 1;
