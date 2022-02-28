@@ -17,7 +17,7 @@ import {
   ChartType,
 } from 'ng-apexcharts';
 
-export type ChartOptions = {
+export type LineChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   xaxis: ApexXAxis;
@@ -57,6 +57,30 @@ export const chartOptionsConfig = {
   forecastDataPoints: {
     count: 7,
   },
+  annotations: {
+    xaxis: [
+      {
+        x: new Date('27 Feb 2022 4:00').getTime(),
+        strokeDashArray: 2,
+        borderColor: '#ee4057',
+        label: {
+          offsetY: 0,
+          // offsetX: 12,
+          textAnchor: 'middle',
+          orientation: 'horizontal',
+          borderColor: '#ee4057',
+          style: {
+            color: '#fff',
+            background: '#ee4057',
+            fontSize: '8px',
+            fontFamily: 'Helvetica, Arial, sans-serif',
+            fontWeight: 'bold',
+          },
+          text: 'LIVE',
+        },
+      },
+    ],
+  },
   tooltip: {
     enabled: true,
     followCursor: true,
@@ -66,24 +90,34 @@ export const chartOptionsConfig = {
     },
     x: {
       show: true,
-      format: 'dd MMM yyyy',
+      format: 'MMM dd, yyyy H:mm:ss',
     },
     y: {
       title: {
         formatter: (seriesName: any) => seriesName,
       },
+      formatter: (value: any) => (value >= 0 ? value.toFixed(2) + '%' : 'n/a'),
     },
+    // y: {
+    //   formatter: (value: any, options: FormatterOptions) => {
+    //     return `Hour ${
+    //       options.w.config.series[options.seriesIndex].data[
+    //         options.dataPointIndex
+    //       ].hour
+    //     }:   ${value.toFixed(2)}%`;
+    //   },
+    // },
   },
   dataLabels: {
     enabled: true,
-    formatter: (val: any) => {
-      return val > 0 ? (val * 0.01).toFixed(0) + '%' : '';
-    },
     style: {
       fontSize: '10px',
       fontFamily: 'Helvetica, Arial, sans-serif',
       fontWeight: 'bold',
       colors: ['#000'],
+    },
+    formatter: (val: any) => {
+      return val > -1 ? val.toFixed(0) + '%' : '';
     },
     background: {
       enabled: true,
@@ -130,7 +164,7 @@ export const chartOptionsConfig = {
   stroke: {
     colors: ['#E1C6F9c2'],
     curve: 'smooth' as 'smooth',
-    width: 2,
+    width: 3,
   },
 
   title: {},
@@ -142,7 +176,12 @@ export const chartOptionsConfig = {
     type: 'datetime' as 'datetime',
     tickAmount: 0,
     labels: {
-      show: false,
+      show: true,
+      datetimeUTC: false,
+      offsetY: -4,
+      style: {
+        fontSize: '9px',
+      },
     },
     axisTicks: {
       show: false,
@@ -152,11 +191,20 @@ export const chartOptionsConfig = {
     },
   },
   yaxis: {
-    show: false,
+    show: true,
+    min: 0,
+    max: 100,
+    seriesName: 'occupancy',
+    tickAmount: 2,
+    forceNiceScale: false,
     labels: {
-      show: false,
+      show: true,
+      maxWidth: 20,
+      style: {
+        fontSize: '9px',
+      },
       formatter: (value: any) => {
-        return value + '%';
+        return value.toFixed(0) + '%';
       },
     },
   },

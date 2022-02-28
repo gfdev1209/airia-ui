@@ -4,6 +4,8 @@ export const environment = {
   // Client
   timeZone: 'America/New_York',
   timeZoneOffsetUTC: -5,
+  // The ID of the region that encompasses all regions
+  entireRegionId: 21,
   // MapBox
   mapboxAccessToken:
     'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',

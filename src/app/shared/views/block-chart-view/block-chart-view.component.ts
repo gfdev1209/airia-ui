@@ -12,8 +12,6 @@ import {
 } from '@shared/constants/heatmap-chart-config';
 import { ChartComponent } from 'ng-apexcharts';
 import * as _ from 'lodash';
-import { Occupancy } from '@map/models';
-import { groupBy } from 'lodash';
 
 @Component({
   selector: 'app-block-chart-view',

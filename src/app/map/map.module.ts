@@ -31,6 +31,9 @@ import { BuildingDetailsAlertsComponent } from './components/building-details/bu
 import { BuildingDetailsAccessPointsComponent } from './components/building-details/building-details-access-points/building-details-access-points.component';
 import { FloorControlsComponent } from './components/floor-controls/floor-controls.component';
 import { FloorControlsViewComponent } from './views/floor-controls-view/floor-controls-view.component';
+import { AnalyticsPanelComponent } from './components/analytics-panel/analytics-panel.component';
+import { AnalyticsPanelViewComponent } from './views/analytics-panel-view/analytics-panel-view.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { MapControlsComponent } from './components/map-controls/map-controls.component';
 import { MapControlsViewComponent } from './views/map-controls-view/map-controls-view.component';
 import { BuildingDetailsOverviewComponent } from './components/building-details/building-details-overview/building-details-overview.component';
@@ -43,6 +46,7 @@ import { BuildingDetailsOverviewViewComponent } from './views/building-details/b
     FormsModule,
     RouterModule,
     SharedModule,
+    NgApexchartsModule,
     NgxMapboxGLModule.withConfig({
       accessToken:
         'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',
@@ -78,6 +82,8 @@ import { BuildingDetailsOverviewViewComponent } from './views/building-details/b
     AccessPointOverviewViewComponent,
     FloorControlsComponent,
     FloorControlsViewComponent,
+    AnalyticsPanelComponent,
+    AnalyticsPanelViewComponent,
     MapControlsComponent,
     MapControlsViewComponent,
   ],

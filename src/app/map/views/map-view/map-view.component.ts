@@ -290,10 +290,6 @@ export class MapViewComponent implements OnChanges {
   addDrawingTools(): void {
     this.draw = new MapboxDraw({
       displayControlsDefault: false,
-      controls: {
-        polygon: true,
-        trash: true,
-      },
     });
     this.map.addControl(this.draw);
     this.map.on('draw.create', (e) => {

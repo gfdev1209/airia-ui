@@ -1,0 +1,28 @@
+.analytics-panel-container {
+  display: flex;
+  flex: 1 1 20em;
+
+  .analytics-panel-view {
+    width: 100%;
+    align-self: end;
+    z-index: 2;
+    pointer-events: all;
+    padding: 1rem 1.5rem 0;
+    overflow: hidden;
+    background: var(--background-color);
+    @media screen and (max-width: $breakPoint-sm) {
+      margin-bottom: $left-nav-item-height-mobile;
+    }
+    .analytics-panel {
+      transition: height 0.5s;
+      transition-timing-function: ease-in-out;
+      height: $analytics-panel-height;
+      &.expanded {
+        height: $analytics-panel-height-expanded;
+        .menu-link span {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
