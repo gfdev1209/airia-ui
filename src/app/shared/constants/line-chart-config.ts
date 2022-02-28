@@ -64,7 +64,7 @@ export const chartOptionsConfig = {
         strokeDashArray: 2,
         borderColor: '#ee4057',
         label: {
-          offsetY: 0,
+          offsetY: -10,
           // offsetX: 12,
           textAnchor: 'middle',
           orientation: 'horizontal',
