@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MapService } from '@map/services/map.service';
 import { Store } from '@ngrx/store';
 import { RootState } from '@store/index';
 
 import * as LocationSelectors from '@store/location/location.selectors';
 import * as DeviceSelectors from '@store/device/device.selectors';
-import { tap } from 'rxjs/operators';
+import { startWith, takeUntil, tap } from 'rxjs/operators';
 import { Occupancy } from '@map/models';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, interval, Observable, Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { environment } from 'src/environments/environment';
 import { RegionService } from '@map/services/region.service';
@@ -17,7 +17,7 @@ import { RegionService } from '@map/services/region.service';
   templateUrl: './analytics-panel.component.html',
   styleUrls: ['./analytics-panel.component.scss'],
 })
-export class AnalyticsPanelComponent implements OnInit {
+export class AnalyticsPanelComponent implements OnInit, OnDestroy {
   isExpanded$ = this.mapService.isAnalyticsExpanded$;
   selectedLocation$ = this.store.select(
     LocationSelectors.selectSelectedLocation
@@ -27,6 +27,11 @@ export class AnalyticsPanelComponent implements OnInit {
 
   private loading = new BehaviorSubject<boolean>(false);
   loading$ = this.loading.asObservable();
+
+  analyticsPollingInterval$: Subscription = new Subscription();
+  // How often to poll for new devices when playback is live (in milliseconds)
+  pollingTimeMS = 300000;
+  isPollingForAnalytics = true;
 
   private regionId = environment.entireRegionId;
   private curDate: Date = new Date();
@@ -38,12 +43,26 @@ export class AnalyticsPanelComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getOccupancyData(
-      this.regionId,
-      moment(this.curDate).year(),
-      moment(this.curDate).month(),
-      moment(this.curDate).date()
-    );
+    this.pollForAnalytics();
+  }
+
+  pollForAnalytics(): void {
+    this.analyticsPollingInterval$?.unsubscribe();
+    this.analyticsPollingInterval$ = interval(this.pollingTimeMS)
+      .pipe(
+        startWith(0),
+        takeUntil(this.mapService.stopPlay$),
+        tap(() => this.mapService.updateMapDateTime(new Date())),
+        tap(() => {
+          this.getOccupancyData(
+            this.regionId,
+            moment(this.curDate).year(),
+            moment(this.curDate).month(),
+            moment(this.curDate).date()
+          );
+        })
+      )
+      .subscribe();
   }
 
   getOccupancyData(
@@ -76,5 +95,9 @@ export class AnalyticsPanelComponent implements OnInit {
 
   onToggleExpanded(isExpanded?: boolean): void {
     this.mapService.toggleAnalytics(isExpanded);
+  }
+
+  ngOnDestroy(): void {
+    this.analyticsPollingInterval$?.unsubscribe();
   }
 }
