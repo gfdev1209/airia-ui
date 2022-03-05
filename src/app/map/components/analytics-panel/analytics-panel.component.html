@@ -1,9 +1,10 @@
 <app-analytics-panel-view
   class="analytics-panel-view has-shadow"
   [selectedLocation]="selectedLocation$ | async"
-  [displayedMapDateTime]="displayedMapDateTime$ | async"
+  [date]="date$ | async"
   [isExpanded]="isExpanded$ | async"
-  (toggleExpanded)="onToggleExpanded($event)"
   [occupancy]="occupancy$ | async"
   [loading]="loading$ | async"
+  (toggleExpanded)="onToggleExpanded($event)"
+  (dateChanged)="onDateChanged($event)"
 ></app-analytics-panel-view>
