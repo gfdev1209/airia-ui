@@ -26,8 +26,6 @@ import {
   ApexTheme,
   ApexTooltip,
 } from 'ng-apexcharts';
-import { BehaviorSubject } from 'rxjs';
-import { OccupancyStat } from '@map/models/occupancy-stat.model';
 import * as _ from 'lodash';
 import {
   chartOptionsConfig,
@@ -60,13 +58,15 @@ export type ChartOptions = {
 })
 export class AnalyticsPanelViewComponent implements OnInit, OnChanges {
   @Input() isExpanded: boolean | null = true;
-  @Input() displayedMapDateTime?: string | null;
+  @Input() date?: Date | null;
   @Input() selectedLocation!: Location | null;
 
   @Input() occupancy?: Occupancy | null;
   @Input() loading?: boolean | null;
 
   @Output() toggleExpanded = new EventEmitter<boolean>();
+
+  @Output() dateChanged = new EventEmitter<Date>();
 
   @ViewChild('chart', { static: false }) chart?: ChartComponent;
   public chartOptions?: Partial<LineChartOptions>;
@@ -96,7 +96,7 @@ export class AnalyticsPanelViewComponent implements OnInit, OnChanges {
           lastStat.day,
           lastStat.hour
         );
-        for (let h = 0; h < 25; h++) {
+        for (let h = 0; h < 24; h++) {
           if (occupancyData.occupancyStats[h]) {
             labels.push(
               moment(
@@ -136,6 +136,10 @@ export class AnalyticsPanelViewComponent implements OnInit, OnChanges {
     }
   }
 
+  get isLive(): boolean {
+    return moment(this.date).isSame(new Date(), 'date');
+  }
+
   updateChart(data: any, liveTime: Date): void {
     if (this.chartData) {
       const chartOptions2 = _.cloneDeep(chartOptionsConfig);
@@ -146,17 +150,18 @@ export class AnalyticsPanelViewComponent implements OnInit, OnChanges {
       chartOptions2.chart.offsetY = -10;
       chartOptions2.chart.type = 'area';
       chartOptions2.chart.background = 'transparent';
-      chartOptions2.annotations.xaxis[0].x = liveTime.getTime();
+      if (!this.isLive) {
+        chartOptions2.annotations = undefined;
+      } else if (chartOptions2.annotations?.xaxis) {
+        chartOptions2.annotations.xaxis[0].x = liveTime.getTime();
+      }
       this.chartOptions = chartOptions2;
       this.chart?.updateOptions(chartOptions2, true);
-
-      // const chartOptions2 = chartOptionsConfig;
-      // chartOptions2.series[0].data = series.monthDataSeries1.prices;
-      // chartOptions2.labels = series.monthDataSeries1.dates;
-      // chartOptions2.chart.redrawOnParentResize = true;
-      // this.chartOptions = chartOptions2;
-      // this.chart?.updateOptions(chartOptions2, true);
     }
+  }
+
+  onAnalyticsCalendarSelect(newDate: any): void {
+    this.dateChanged.emit(newDate);
   }
 
   expandPanel(): void {

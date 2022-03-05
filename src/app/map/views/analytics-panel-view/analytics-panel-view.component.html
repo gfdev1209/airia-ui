@@ -10,8 +10,22 @@
         {{ selectedLocation?.name }}
       </h3>
       <h4 class="p-d-inline-block p-mb-0 p-mt-0 p-ml-3 color-text-medium">
-        {{ displayedMapDateTime | date }}
+        {{ date | date }}
       </h4>
+      <div class="p-ml-2 p-d-inline-block">
+        <p-calendar
+          [(ngModel)]="occupancyDate"
+          [showIcon]="true"
+          [maxDate]="maxDateValue"
+          (onSelect)="onAnalyticsCalendarSelect($event)"
+          icon="fas fa-clock"
+          inputId="icon"
+          appendTo="body"
+          class="only-icon"
+          panelStyleClass="small"
+          hourFormat="12"
+        ></p-calendar>
+      </div>
     </div>
     <div>
       <a class="menu-toggle p-d-flex p-align-center" (click)="toggleSize()">

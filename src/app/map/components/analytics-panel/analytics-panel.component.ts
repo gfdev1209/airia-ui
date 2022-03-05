@@ -22,11 +22,13 @@ export class AnalyticsPanelComponent implements OnInit, OnDestroy {
   selectedLocation$ = this.store.select(
     LocationSelectors.selectSelectedLocation
   );
-  displayedMapDateTime$ = this.mapService.displayedMapDateTime$;
   occupancy$?: Observable<Occupancy>;
 
   private loading = new BehaviorSubject<boolean>(false);
   loading$ = this.loading.asObservable();
+
+  private date = new BehaviorSubject<Date>(new Date());
+  date$ = this.date.asObservable();
 
   analyticsPollingInterval$: Subscription = new Subscription();
   // How often to poll for new devices when playback is live (in milliseconds)
@@ -34,7 +36,6 @@ export class AnalyticsPanelComponent implements OnInit, OnDestroy {
   isPollingForAnalytics = true;
 
   private regionId = environment.entireRegionId;
-  private curDate: Date = new Date();
 
   constructor(
     private mapService: MapService,
@@ -47,18 +48,17 @@ export class AnalyticsPanelComponent implements OnInit, OnDestroy {
   }
 
   pollForAnalytics(): void {
+    const date = this.date.value;
     this.analyticsPollingInterval$?.unsubscribe();
     this.analyticsPollingInterval$ = interval(this.pollingTimeMS)
       .pipe(
         startWith(0),
-        takeUntil(this.mapService.stopPlay$),
-        tap(() => this.mapService.updateMapDateTime(new Date())),
         tap(() => {
           this.getOccupancyData(
             this.regionId,
-            moment(this.curDate).year(),
-            moment(this.curDate).month(),
-            moment(this.curDate).date()
+            moment(date).year(),
+            moment(date).month(),
+            moment(date).date()
           );
         })
       )
@@ -95,6 +95,11 @@ export class AnalyticsPanelComponent implements OnInit, OnDestroy {
 
   onToggleExpanded(isExpanded?: boolean): void {
     this.mapService.toggleAnalytics(isExpanded);
+  }
+
+  onDateChanged(date: Date): void {
+    this.date.next(date);
+    this.pollForAnalytics();
   }
 
   ngOnDestroy(): void {

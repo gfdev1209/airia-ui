@@ -30,13 +30,13 @@ export type LineChartOptions = {
   subtitle: ApexTitleSubtitle;
   grid: ApexGrid;
   fill: ApexFill;
-  annotations: ApexAnnotations;
+  annotations?: ApexAnnotations;
   theme: ApexTheme;
   forecastDataPoints: any;
   tooltip: ApexTooltip;
 };
 
-export const chartOptionsConfig = {
+export const chartOptionsConfig: LineChartOptions = {
   series: [
     {
       name: 'Occupancy',
