@@ -70,6 +70,7 @@ import { SortByPipe } from './pipes/sort-by.pipe';
 import { HasAccessLevelPipe } from './pipes/has-access-level.pipe';
 // Components
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { LineChartViewComponent } from './views/line-chart-view/line-chart-view.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     FloorTableViewComponent,
     FloorFormComponent,
     FloorFormViewComponent,
+    LineChartViewComponent,
     // Pipes
     AlertIconByTypePipe,
     ColorByAlertSeverityPipe,
@@ -164,6 +166,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     BuildingSearchInputComponent,
     FloorTableComponent,
     FloorFormComponent,
+    LineChartViewComponent,
     // Vendors
     NgApexchartsModule,
     // Prime Modules

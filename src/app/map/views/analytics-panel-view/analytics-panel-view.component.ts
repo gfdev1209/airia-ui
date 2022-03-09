@@ -32,6 +32,7 @@ import {
   LineChartOptions,
 } from '@shared/constants/line-chart-config';
 import * as moment from 'moment';
+import Helpers from '@core/utils/helpers';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -136,12 +137,8 @@ export class AnalyticsPanelViewComponent implements OnInit, OnChanges {
     }
   }
 
-  get isLive(): boolean {
-    return moment(this.date).isSame(new Date(), 'date');
-  }
-
   updateChart(data: any, liveTime: Date): void {
-    if (this.chartData) {
+    if (this.chartData && this.date) {
       const chartOptions2 = _.cloneDeep(chartOptionsConfig);
       chartOptions2.series[0].data = this.chartData.stats;
       chartOptions2.labels = this.chartData.labels;
@@ -150,7 +147,7 @@ export class AnalyticsPanelViewComponent implements OnInit, OnChanges {
       chartOptions2.chart.offsetY = -10;
       chartOptions2.chart.type = 'area';
       chartOptions2.chart.background = 'transparent';
-      if (!this.isLive) {
+      if (!Helpers.isLive(this.date)) {
         chartOptions2.annotations = undefined;
       } else if (chartOptions2.annotations?.xaxis) {
         chartOptions2.annotations.xaxis[0].x = liveTime.getTime();

@@ -36,7 +36,7 @@ export type LineChartOptions = {
   tooltip: ApexTooltip;
 };
 
-export const chartOptionsConfig: LineChartOptions = {
+export const chartOptionsConfig: any = {
   series: [
     {
       name: 'Occupancy',
