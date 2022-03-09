@@ -28,6 +28,7 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
   private curDate: Date = new Date();
 
   analytics$ = this.store.select(BuildingSelectors.selectAnalytics);
+  historicData$?: Observable<Occupancy>;
   occupancy$?: Observable<Occupancy>;
   analytics24Hours$?: Observable<BuildingAnalytics>;
 
@@ -44,11 +45,18 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
     if (changes?.region) {
       this.regionId = changes.region.currentValue?.id;
       this.curDate = new Date();
-      this.getOccupancyData(
+      this.occupancy$ = this.getOccupancyData(
         changes.region.currentValue?.id,
-        moment(this.curDate).year(),
-        moment(this.curDate).month(),
-        moment(this.curDate).date()
+        moment(this.curDate)
+          .utc()
+          .startOf('day')
+          .subtract(environment.timeZoneOffsetUTC, 'hour')
+          .toDate(),
+        moment(this.curDate)
+          .utc()
+          .endOf('day')
+          .subtract(environment.timeZoneOffsetUTC, 'hour')
+          .toDate()
       );
     }
     if (changes?.building) {
@@ -65,25 +73,12 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
 
   getOccupancyData(
     regionId: number,
-    year: number,
-    month: number,
-    day?: number
-  ): void {
+    startDate: Date,
+    endDate: Date
+  ): Observable<Occupancy> {
     this.loading.next(true);
-    this.occupancy$ = this.regionService
-      .getOccupancyRange(
-        regionId,
-        moment(new Date(year, month, day))
-          .utc()
-          .startOf('day')
-          .subtract(environment.timeZoneOffsetUTC, 'hour')
-          .toDate(),
-        moment(new Date(year, month, day))
-          .utc()
-          .endOf('day')
-          .subtract(environment.timeZoneOffsetUTC, 'hour')
-          .toDate()
-      )
+    return this.regionService
+      .getOccupancyRange(regionId, startDate, endDate)
       .pipe(
         tap((response) => {
           this.loading.next(false);
@@ -91,20 +86,38 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
       );
   }
 
+  getHistoricData(date: Date[]): void {
+    console.log(date);
+    if (this.regionId) {
+      this.historicData$ = this.getOccupancyData(
+        this.regionId,
+        date[0],
+        date[1]
+      );
+    }
+  }
+
   onOccupancyDateChanged(date: Date): void {
     console.log(date);
     if (this.regionId) {
       this.curDate = date;
-      this.getOccupancyData(
+      this.occupancy$ = this.getOccupancyData(
         this.regionId,
-        moment(date).year(),
-        moment(date).month(),
-        moment(date).date()
+        moment(date)
+          .utc()
+          .startOf('day')
+          .subtract(environment.timeZoneOffsetUTC, 'hour')
+          .toDate(),
+        moment(date)
+          .utc()
+          .endOf('day')
+          .subtract(environment.timeZoneOffsetUTC, 'hour')
+          .toDate()
       );
     }
   }
 
   onHistoricDateRangeChanged(dateRange: Date[]): void {
-    console.log(dateRange);
+    this.getHistoricData(dateRange);
   }
 }

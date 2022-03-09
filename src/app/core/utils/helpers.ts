@@ -30,4 +30,8 @@ export default class Helpers {
       date.getTime() - date.getTimezoneOffset() * offset
     ).toJSON();
   }
+
+  static isLive(date: Date): boolean {
+    return moment(date).isSame(new Date(), 'date');
+  }
 }

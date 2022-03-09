@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 import { environment } from 'src/environments/environment';
 import Helpers from '@core/utils/helpers';
 import { OccupancyStat } from '@map/models/occupancy-stat.model';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root',
@@ -59,9 +60,13 @@ export class RegionService extends BaseService {
         tap((occupancyData: Occupancy) =>
           occupancyData.occupancyStats.filter((element) => element.day !== 0)
         ),
-        tap((occupancyData: Occupancy) =>
-          occupancyData.occupancyStats.sort((a, b) => a.hour - b.hour)
-        ),
+        tap((occupancyData: Occupancy) => {
+          occupancyData.occupancyStats.sort(
+            (a, b) =>
+              new Date(a.year, a.month, a.day, a.hour).valueOf() -
+              new Date(b.year, b.month, b.day, b.hour).valueOf()
+          );
+        }),
         catchError((error) => {
           return this.handleError(error);
         }),
@@ -75,9 +80,17 @@ export class RegionService extends BaseService {
       if (occupancy.hour < 0) {
         occupancy.hour += 24;
         occupancy.day -= 1;
-        // if (occupancy.day === 0) {
-        //   occupancyData.splice(index, 1);
-        // }
+        if (occupancy.day === 0) {
+          // Get previous month
+          occupancy.month = moment(
+            new Date(occupancy.year, occupancy.month, occupancy.day)
+          ).month();
+          occupancy.day = moment(
+            new Date(occupancy.year, occupancy.month, occupancy.day)
+          )
+            .endOf('month')
+            .date();
+        }
       }
     });
     return occupancyData;
