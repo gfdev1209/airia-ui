@@ -21,7 +21,6 @@ import { environment } from 'src/environments/environment';
 import { DeviceMapboxDetails } from '@map/models/device-mapbox-details.model';
 import { MapViewDataSource } from './map-view-data-source';
 import { ConfirmationService, ConfirmEventType } from 'primeng/api';
-import { Position } from 'ngx-mapbox-gl';
 
 @Component({
   selector: 'app-map-view',
@@ -66,7 +65,8 @@ export class MapViewComponent implements OnChanges {
   mapBuildingData!: MapViewDataSource;
   mapRegionData!: MapViewDataSource;
   mapAccessPointData!: MapViewDataSource;
-  mapDeviceData!: MapViewDataSource;
+  mapLiveDeviceData!: MapViewDataSource;
+  mapStaticDeviceData!: MapViewDataSource;
 
   // MapBox Drawing tools
   draw!: MapboxDraw;
@@ -103,12 +103,12 @@ export class MapViewComponent implements OnChanges {
   staticDeviceDetails: DeviceMapboxDetails = {
     id: 'staticDevices',
     layers: [
-      'static-devices',
-      'static-devices-unclustered-point',
-      'static-devices-clusters',
+      'static-unclustered-point',
+      'static-clusters',
+      'static-cluster-count',
     ],
-    sourceName: 'static-devices-source',
-    heatmapName: 'static-devices-heatmap',
+    sourceName: 'staticSource',
+    heatmapName: 'static-heatmap',
     circleColor: '#00c1ff',
     circleRadius: 2,
     circleOpacity: 0.5,
@@ -160,9 +160,9 @@ export class MapViewComponent implements OnChanges {
       // this.addCustomBuildings();
       this.draw?.trash();
     }
-    // if (changes.showStaticDevices?.firstChange === false) {
-    //   this.toggleIOT();
-    // }
+    if (changes.showStaticDevices?.firstChange === false) {
+      this.toggleIOT();
+    }
     if (changes.regionPolygon?.firstChange === false) {
       let regionCoordinates = [];
       if (changes.regionPolygon.currentValue) {
@@ -190,7 +190,14 @@ export class MapViewComponent implements OnChanges {
     // Add drawing tools
     this.addDrawingTools();
     // Create a data source for devices
-    this.addDeviceData(this.liveDeviceDetails);
+    this.mapLiveDeviceData = this.addDeviceData(
+      this.liveDeviceDetails,
+      this.mapLiveDeviceData
+    );
+    this.mapStaticDeviceData = this.addDeviceData(
+      this.staticDeviceDetails,
+      this.mapStaticDeviceData
+    );
     this.addDevices();
     // Create a data source for custom buildings
     this.addBuildingData();
@@ -482,23 +489,26 @@ export class MapViewComponent implements OnChanges {
     });
   }
 
-  addDeviceData(deviceDetails: DeviceMapboxDetails): void {
-    if (this.mapDeviceData !== undefined) {
+  addDeviceData(
+    deviceDetails: DeviceMapboxDetails,
+    existingDataSource?: MapViewDataSource
+  ): MapViewDataSource {
+    if (existingDataSource !== undefined) {
       this.map.removeLayer(deviceDetails.heatmapName);
       this.map.removeLayer(deviceDetails.layers[0]);
       this.map.removeLayer(deviceDetails.layers[1]);
       this.map.removeSource(deviceDetails.sourceName);
     }
-    this.mapDeviceData = new MapViewDataSource(
+    const dataSource = new MapViewDataSource(
       this.map,
       deviceDetails.sourceName
     );
-    this.mapDeviceData.addDataSource(
+    dataSource.addDataSource(
       this.showClusters ? this.showClusters : false,
       24,
       2
     );
-    this.mapDeviceData.addLayer(deviceDetails.heatmapName, 'heatmap', {
+    dataSource.addLayer(deviceDetails.heatmapName, 'heatmap', {
       // increase intensity as zoom level increases
       'heatmap-intensity': {
         stops: [
@@ -538,7 +548,7 @@ export class MapViewComponent implements OnChanges {
       },
     });
 
-    this.mapDeviceData.addLayer(
+    dataSource.addLayer(
       deviceDetails.layers[0],
       'circle',
       {
@@ -557,7 +567,7 @@ export class MapViewComponent implements OnChanges {
       ['!', ['has', 'point_count']]
     );
 
-    this.mapDeviceData.addLayer(
+    dataSource.addLayer(
       deviceDetails.layers[1],
       'circle',
       {
@@ -585,6 +595,7 @@ export class MapViewComponent implements OnChanges {
       null,
       ['has', 'point_count']
     );
+    return dataSource;
   }
 
   showRegionPreview(region: number[][]): void {
@@ -602,22 +613,54 @@ export class MapViewComponent implements OnChanges {
 
   toggleClusters(): void {
     // If the source already exists, update the data in it
+    const deviceLayers = [
+      { dataSource: this.mapLiveDeviceData, details: this.liveDeviceDetails },
+      {
+        dataSource: this.mapStaticDeviceData,
+        details: this.staticDeviceDetails,
+      },
+    ];
     const style = this.map.getStyle();
-    if (this.mapDeviceData.dataSource && style.sources) {
+
+    if (this.mapLiveDeviceData.dataSource && style.sources) {
       const clusterSource: any =
-        style.sources[this.mapDeviceData.dataSourceName];
+        style.sources[this.mapLiveDeviceData.dataSourceName];
       clusterSource.cluster = this.showClusters;
       this.map.setStyle(style);
     }
-    this.addDeviceData(this.liveDeviceDetails);
+    this.mapLiveDeviceData = this.addDeviceData(
+      this.liveDeviceDetails,
+      this.mapLiveDeviceData
+    );
+
+    if (this.mapStaticDeviceData.dataSource && style.sources) {
+      const clusterSource: any =
+        style.sources[this.mapStaticDeviceData.dataSourceName];
+      clusterSource.cluster = this.showClusters;
+      this.map.setStyle(style);
+    }
+    this.mapStaticDeviceData = this.addDeviceData(
+      this.staticDeviceDetails,
+      this.mapStaticDeviceData
+    );
+    // deviceLayers.forEach((deviceLayer) => {
+    //   if (deviceLayer.dataSource.dataSource && style.sources) {
+    //     const clusterSource: any =
+    //       style.sources[deviceLayer.dataSource.dataSourceName];
+    //     clusterSource.cluster = this.showClusters;
+    //     this.map.setStyle(style);
+    //   }
+    //   this.addDeviceData(deviceLayer.details, deviceLayer.dataSource);
+    // });
+
     this.addDevices();
     console.log(this.showClusters);
   }
   toggleDevices(): void {
     if (!this.showDevices) {
-      this.mapDeviceData.hideAllLayers();
+      this.mapLiveDeviceData.hideAllLayers();
     } else {
-      this.mapDeviceData.showAllLayers();
+      this.mapLiveDeviceData.showAllLayers();
     }
   }
   toggleAccessPoints(): void {
@@ -628,14 +671,13 @@ export class MapViewComponent implements OnChanges {
     }
     this.addAccessPointsToMap();
   }
-  // toggleIOT(): void {
-  //   const visibility = this.showStaticDevices ? 'visible' : 'none';
-  //   this.staticDeviceDetails.layers.forEach((layer) => {
-  //     if (this.map.getLayer(layer)) {
-  //       this.map.setLayoutProperty(layer, 'visibility', visibility);
-  //     }
-  //   });
-  // }
+  toggleIOT(): void {
+    if (!this.showStaticDevices) {
+      this.mapStaticDeviceData.hideAllLayers();
+    } else {
+      this.mapStaticDeviceData.showAllLayers();
+    }
+  }
 
   /** Zoom to a specific polygon's coordinates and fit within the viewport */
   zoomToPolygon(
@@ -694,66 +736,54 @@ export class MapViewComponent implements OnChanges {
   /** Add all devices to map */
   addDevices(): void {
     if (this.map && this.devices) {
-      // const staticDevices = Helpers.filterArrayBy<Device>(
-      //   this.devices,
-      //   'ssid',
-      //   'iot',
-      //   true
-      // );
-      // if (staticDevices) {
-      //   this.addDevicesToMap(staticDevices, this.staticDeviceDetails);
-      // }
-      // const liveDevices = this.devices.filter(
-      //   (d) => !staticDevices.includes(d)
-      // );
-      // if (liveDevices) {
-      //   this.addDevicesToMap(liveDevices, this.liveDeviceDetails);
-      // }
-      this.addDevicesToMap(this.devices, this.liveDeviceDetails);
+      const liveDevices = this.devices.filter((d) => !d.fixedPosition);
+      const staticDevices = this.devices.filter((d) => d.fixedPosition);
+      this.addDevicesToMap(
+        liveDevices,
+        this.liveDeviceDetails,
+        this.mapLiveDeviceData
+      );
+      this.addDevicesToMap(
+        staticDevices,
+        this.staticDeviceDetails,
+        this.mapStaticDeviceData
+      );
     }
   }
 
-  addDevicesToMap(devices: Device[], deviceDetails: DeviceMapboxDetails): void {
-    // this.mapDeviceData.resetFeatureArray();
-    // devices.forEach((device) => {
-    //   this.mapDeviceData.addFeature(
-    //     false,
-    //     device.deviceratId.toString(),
-    //     {
-    //       type: 'Point',
-    //       coordinates: [device.longitude, device.latitude],
-    //     },
-    //     {
-    //       id: device.deviceratId,
-    //     }
-    //   );
-    // });
-    // Add an image to use as a custom marker
-    const pointArr: any[] = [];
-    if (devices.length > 0) {
-      devices.forEach((device) => {
-        pointArr.push({
-          type: 'Feature',
-          id: device.deviceratId,
-          geometry: {
-            type: 'Point',
-            coordinates: [device.longitude, device.latitude],
-          },
-          properties: {
+  addDevicesToMap(
+    devices: Device[],
+    deviceDetails: DeviceMapboxDetails,
+    dataSource?: MapViewDataSource
+  ): void {
+    if (dataSource) {
+      // Add an image to use as a custom marker
+      const pointArr: any[] = [];
+      if (devices.length > 0) {
+        devices.forEach((device) => {
+          pointArr.push({
+            type: 'Feature',
             id: device.deviceratId,
-          },
+            geometry: {
+              type: 'Point',
+              coordinates: [device.longitude, device.latitude],
+            },
+            properties: {
+              id: device.deviceratId,
+            },
+          });
         });
-      });
-    }
-    this.mapDeviceData.updateData(pointArr);
+      }
+      dataSource.updateData(pointArr);
 
-    if (this.map.getLayer('accessPoints')) {
-      this.liveDeviceDetails.layers.forEach((layer) => {
-        if (this.map.getLayer(layer)) {
-          this.map.moveLayer(layer, 'accessPoints');
-        }
-      });
-      this.map.moveLayer(deviceDetails.heatmapName, 'accessPoints');
+      if (this.map.getLayer('accessPoints')) {
+        deviceDetails.layers.forEach((layer) => {
+          if (this.map.getLayer(layer)) {
+            this.map.moveLayer(layer, 'accessPoints');
+          }
+        });
+        this.map.moveLayer(deviceDetails.heatmapName, 'accessPoints');
+      }
     }
   }
 
