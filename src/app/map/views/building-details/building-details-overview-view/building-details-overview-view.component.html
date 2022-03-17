@@ -38,7 +38,7 @@
 <section>
   <div class="p-d-flex p-jc-between p-ai-center p-mb-3">
     <h3 class="p-m-0">
-      Occupancy &nbsp;
+      24 Hour Occupancy &nbsp;
       <small class="color-text-medium">{{ occupancyDate | date }}</small>
     </h3>
     <div>
@@ -70,30 +70,46 @@
 <hr />
 <section class="p-mb-0">
   <div class="p-d-flex p-jc-between p-ai-center p-mb-3">
-    <h3 class="p-m-0">Historic Data</h3>
     <div>
-      <small>
-        <p-dropdown
-          [options]="dateRange"
-          [(ngModel)]="historicDataRange"
-          optionLabel="name"
-          appendTo="body"
-          optionValue="range"
-          (onChange)="onHistoricDateSelected($event)"
-        ></p-dropdown>
-      </small>
+      <h3 class="p-d-inline-block p-m-0">Historic Data</h3>
+      <h4
+        *ngIf="historicRange"
+        class="p-d-inline-block p-mb-0 p-mt-0 p-ml-3 color-text-medium"
+      >
+        {{ historicRange[0] | date }} - {{ historicRange[1] | date }}
+      </h4>
+    </div>
+    <div>
+      <p-calendar
+        #historicRangeCalendar
+        [(ngModel)]="historicRange"
+        [showIcon]="true"
+        selectionMode="range"
+        [maxDate]="maxDateValue"
+        (onSelect)="onHistoricRangeSelected($event)"
+        icon="fas fa-clock"
+        inputId="range"
+        appendTo="body"
+        class="only-icon"
+        panelStyleClass="small"
+        hourFormat="12"
+      ></p-calendar>
     </div>
   </div>
   <div class="p-d-flex p-flex-column p-flex-md-row p-jc-between">
     <div class="width-100 p-mr-4">
-      <h4 class="p-mt-0">Average Occupancy</h4>
+      <h4 class="p-mt-0">Average Daily Occupancy</h4>
+      <i *ngIf="historicLoading" class="fas fa-spinner fa-spin"></i>
       <app-line-chart-view
+        *ngIf="!historicLoading"
         [chartData]="historicOccupancyChartData$ | async"
       ></app-line-chart-view>
     </div>
     <div class="width-100">
-      <h4 class="p-mt-0">Average Devices</h4>
+      <h4 class="p-mt-0">Average Daily Devices</h4>
+      <i *ngIf="historicLoading" class="fas fa-spinner fa-spin"></i>
       <app-line-chart-view
+        *ngIf="!historicLoading"
         [chartData]="historicDeviceChartData$ | async"
       ></app-line-chart-view>
     </div>

@@ -35,6 +35,9 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
   private loading = new BehaviorSubject<boolean>(false);
   loading$ = this.loading.asObservable();
 
+  private historicLoading = new BehaviorSubject<boolean>(false);
+  historicLoading$ = this.historicLoading.asObservable();
+
   constructor(
     private store: Store<RootState>,
     private regionService: RegionService,
@@ -45,16 +48,10 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
     if (changes?.region) {
       this.regionId = changes.region.currentValue?.id;
       this.curDate = new Date();
-      this.occupancy$ = this.getOccupancyData(
-        changes.region.currentValue?.id,
+      this.onOccupancyDateChanged(
         moment(this.curDate)
           .utc()
           .startOf('day')
-          .subtract(environment.timeZoneOffsetUTC, 'hour')
-          .toDate(),
-        moment(this.curDate)
-          .utc()
-          .endOf('day')
           .subtract(environment.timeZoneOffsetUTC, 'hour')
           .toDate()
       );
@@ -76,31 +73,28 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
     startDate: Date,
     endDate: Date
   ): Observable<Occupancy> {
-    this.loading.next(true);
-    return this.regionService
-      .getOccupancyRange(regionId, startDate, endDate)
-      .pipe(
-        tap((response) => {
-          this.loading.next(false);
-        })
-      );
+    return this.regionService.getOccupancyRange(regionId, startDate, endDate);
   }
 
   getHistoricData(date: Date[]): void {
-    console.log(date);
+    this.historicLoading.next(true);
     if (this.regionId) {
       this.historicData$ = this.getOccupancyData(
         this.regionId,
         date[0],
         date[1]
+      ).pipe(
+        tap((response) => {
+          this.historicLoading.next(false);
+        })
       );
     }
   }
 
   onOccupancyDateChanged(date: Date): void {
-    console.log(date);
     if (this.regionId) {
       this.curDate = date;
+      this.loading.next(true);
       this.occupancy$ = this.getOccupancyData(
         this.regionId,
         moment(date)
@@ -113,6 +107,10 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
           .endOf('day')
           .subtract(environment.timeZoneOffsetUTC, 'hour')
           .toDate()
+      ).pipe(
+        tap((response) => {
+          this.loading.next(false);
+        })
       );
     }
   }
