@@ -5,6 +5,7 @@ import {
   OnChanges,
   Output,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { BuildingAnalytics, Occupancy } from '@map/models';
@@ -24,6 +25,7 @@ export class BuildingDetailsOverviewViewComponent implements OnInit, OnChanges {
   @Input() analytics?: BuildingAnalytics | null;
   @Input() occupancy?: Occupancy | null;
   @Input() loading?: boolean | null;
+  @Input() historicLoading?: boolean | null;
   @Input() maximized!: boolean;
   @Input() analytics24Hours?: BuildingAnalytics | null;
   @Input() historicData?: Occupancy | null;
@@ -39,43 +41,13 @@ export class BuildingDetailsOverviewViewComponent implements OnInit, OnChanges {
   private historicDeviceChartData = new BehaviorSubject<any>(null);
   historicDeviceChartData$ = this.historicDeviceChartData.asObservable();
 
-  dateRange = [
-    // {
-    //   name: 'This Week',
-    //   range: [
-    //     moment
-    //       .utc()
-    //       .startOf('week')
-    //       .subtract(environment.timeZoneOffsetUTC, 'hour')
-    //       .toDate(),
-    //     moment
-    //       .utc()
-    //       .endOf('week')
-    //       .subtract(environment.timeZoneOffsetUTC, 'hour')
-    //       .toDate(),
-    //   ],
-    // },
-    {
-      name: 'Last Week',
-      range: [
-        moment
-          .utc()
-          .subtract(1, 'week')
-          .startOf('week')
-          .subtract(environment.timeZoneOffsetUTC, 'hour')
-          .toDate(),
-        moment
-          .utc()
-          .subtract(1, 'week')
-          .endOf('week')
-          .subtract(environment.timeZoneOffsetUTC, 'hour')
-          .toDate(),
-      ],
-    },
-  ];
+  @ViewChild('historicRangeCalendar')
+  historicRangeCalendar: any;
+
   historicDataRange: any;
   maxDateValue = new Date();
   occupancyDate: Date = new Date();
+  historicRange?: Date[];
 
   constructor() {}
 
@@ -93,7 +65,21 @@ export class BuildingDetailsOverviewViewComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.historicDateRangeChanged.emit(this.dateRange[0].range);
+    this.historicRange = [
+      moment
+        .utc()
+        .subtract(1, 'week')
+        .startOf('week')
+        .subtract(environment.timeZoneOffsetUTC, 'hour')
+        .toDate(),
+      moment
+        .utc()
+        .subtract(1, 'week')
+        .endOf('week')
+        .subtract(environment.timeZoneOffsetUTC, 'hour')
+        .toDate(),
+    ];
+    this.historicDateRangeChanged.emit(this.historicRange);
   }
 
   onOccupancyCalendarSelect(newDate: Date): void {
@@ -102,6 +88,13 @@ export class BuildingDetailsOverviewViewComponent implements OnInit, OnChanges {
   }
   onHistoricDateSelected(data: any): void {
     this.historicDateRangeChanged.emit(data.value);
+  }
+  onHistoricRangeSelected(data: any): void {
+    console.log(data);
+    if (this.historicRange?.length === 2 && this.historicRange[1]) {
+      this.historicRangeCalendar?.toggle();
+      this.historicDateRangeChanged.emit(this.historicRange);
+    }
   }
 
   parseOccupancyData(occupancyData: Occupancy): void {
