@@ -4,11 +4,9 @@ import { Store } from '@ngrx/store';
 import { RootState } from '@store/index';
 
 import * as BuildingSelectors from '@store/building/building.selectors';
-import * as RegionSelectors from '@store/region/region.selectors';
-import * as RegionActions from '@store/region/region.actions';
 
 import * as moment from 'moment';
-import { map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { RegionService } from '@map/services/region.service';
 import { BehaviorSubject, Observable } from 'rxjs';

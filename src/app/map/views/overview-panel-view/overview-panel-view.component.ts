@@ -33,6 +33,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   @Input() isPlaybackLive?: boolean | null;
   @Input() isPlaying?: boolean | null;
   @Input() isDevicesLoading?: boolean | null;
+  @Input() alertSliderValue?: number | null = 100;
 
   @Output() topPanelHeightChanged = new EventEmitter<number>();
   @Output() alertSortTypeChanged = new EventEmitter<AlertSortType>();
@@ -220,6 +221,9 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     // if (evt?.value && evt?.event?.type === 'click') {
     this.playbackSliderChanged.emit(evt?.value);
     // }
+  }
+  onAlertSliderChange(evt: any): void {
+    console.log(evt);
   }
   changeDate(newDate: Date): void {
     // this.resetPlaybackMeter();
