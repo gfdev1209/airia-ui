@@ -59,6 +59,8 @@ import { AccessPointFormComponent } from './components/access-point-form/access-
 import { AccessPointFormViewComponent } from './views/access-point-form-view/access-point-form-view.component';
 import { BuildingSearchInputComponent } from './components/building-search-input/building-search-input.component';
 import { BuildingSearchInputViewComponent } from './views/building-search-input-view/building-search-input-view.component';
+import { RegionSearchInputComponent } from './components/region-search-input/region-search-input.component';
+import { RegionSearchInputViewComponent } from './views/region-search-input-view/region-search-input-view.component';
 import { FloorTableComponent } from './components/floor-table/floor-table.component';
 import { FloorTableViewComponent } from './views/floor-table-view/floor-table-view.component';
 import { FloorFormComponent } from './components/floor-form/floor-form.component';
@@ -83,6 +85,8 @@ import { LineChartViewComponent } from './views/line-chart-view/line-chart-view.
     UserSearchInputViewComponent,
     BuildingSearchInputComponent,
     BuildingSearchInputViewComponent,
+    RegionSearchInputComponent,
+    RegionSearchInputViewComponent,
     BlockChartViewComponent,
     BlockChartItemViewComponent,
     AlertTableComponent,
@@ -164,6 +168,7 @@ import { LineChartViewComponent } from './views/line-chart-view/line-chart-view.
     AccessPointFormComponent,
     AccessPointSearchInputComponent,
     BuildingSearchInputComponent,
+    RegionSearchInputComponent,
     FloorTableComponent,
     FloorFormComponent,
     LineChartViewComponent,

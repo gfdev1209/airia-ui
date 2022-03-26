@@ -1,0 +1,5 @@
+<app-regions-table-view
+  [regions]="regions$ | async"
+  [self]="self$ | async"
+  (regionSelected)="regionSelected($event)"
+></app-regions-table-view>

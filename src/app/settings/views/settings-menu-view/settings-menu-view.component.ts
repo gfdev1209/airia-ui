@@ -28,6 +28,12 @@ export class SettingsMenuViewComponent implements OnInit {
       icon: 'fa-building',
     },
     {
+      label: 'Regions',
+      routerLink: '/settings/regions',
+      title: 'Edit Regions',
+      icon: 'fa-draw-polygon',
+    },
+    {
       label: 'Access Points',
       routerLink: '/settings/access-points',
       title: 'Edit Access Point Details',

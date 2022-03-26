@@ -22,9 +22,19 @@ export const selectByBuildingId = createSelector(
   }
 );
 
+export const selectSearchResults = createSelector(
+  selectFeature,
+  (state: RegionState) => state.searchResults
+);
+
 export const selectBuildingRegions = createSelector(
   selectFeature,
   (state: RegionState) => state.buildingRegions
+);
+
+export const selectActiveRegions = createSelector(
+  selectAll,
+  (state: Region[]) => state.filter((x: Region) => x.activeType === 'Active')
 );
 
 export const selectSelectedRegion = createSelector(

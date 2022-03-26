@@ -1,0 +1,56 @@
+<div *ngIf="regions && self">
+  <p-table
+    [value]="regions"
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [globalFilterFields]="['fullName']"
+    [responsive]="true"
+    selectionMode="single"
+    [(selection)]="selectedRegion"
+    (onRowSelect)="onRowSelect($event)"
+    dataKey="id"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="name">
+          Name <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="buildingName">
+          Building
+          <p-sortIcon field="buildingName"></p-sortIcon>
+        </th>
+        <th pSortableColumn="buildingFloor.floorId">
+          Floor <p-sortIcon field="buildingFloor.floorId"></p-sortIcon>
+        </th>
+        <th *ngIf="canEdit()" style="width: 100px">Action</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-region>
+      <tr [pSelectableRow]="region">
+        <td class="line-height-1-25">
+          {{ region.name }}
+        </td>
+        <td>
+          {{ region.buildingName }}
+        </td>
+        <td>
+          {{ region.buildingFloor?.floorId }}
+        </td>
+        <td *ngIf="canEdit()">
+          <button
+            pButton
+            pRipple
+            type="button"
+            label="Edit"
+            icon="fas fa-pencil-alt"
+            class="p-button-text p-button-sm p-pl-0"
+            (click)="onEdit(region)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

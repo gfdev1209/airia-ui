@@ -17,6 +17,9 @@ import { BuildingFormComponent } from './components/building-form/building-form.
 import { BuildingFormViewComponent } from './views/building-form-view/building-form-view.component';
 import { AccessPointPageComponent } from './pages/access-point-page/access-point-page.component';
 import { RoleGuard } from '@core/guards/role.guard';
+import { RegionPageComponent } from './pages/region-page/region-page.component';
+import { RegionsTableComponent } from './components/regions-table/regions-table.component';
+import { RegionsTableViewComponent } from './views/regions-table-view/regions-table-view.component';
 
 export const routes: Routes = [
   {
@@ -37,6 +40,7 @@ export const routes: Routes = [
         // canActivate: [RoleGuard],
         // data: { role: 'Owner' },
       },
+      { path: 'regions', component: RegionPageComponent },
       { path: 'access-points', component: AccessPointPageComponent },
     ],
   },
@@ -56,6 +60,9 @@ export const routes: Routes = [
     BuildingsTableViewComponent,
     BuildingFormComponent,
     BuildingFormViewComponent,
+    RegionPageComponent,
+    RegionsTableComponent,
+    RegionsTableViewComponent,
     AccessPointPageComponent,
   ],
   imports: [
