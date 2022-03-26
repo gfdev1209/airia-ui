@@ -10,6 +10,18 @@ export const getAllFailed = createAction(
   '[Region Effect] Get All Regions Failed'
 );
 
+export const search = createAction(
+  '[Region Search Bar] Search Regions',
+  props<{ term: string }>()
+);
+export const searchSuccess = createAction(
+  '[Region Effect] Search Regions Success',
+  props<{ searchResults: Region[] }>()
+);
+export const searchFailed = createAction(
+  '[Region Effect] Search Regions Failed'
+);
+
 export const getBuildingRegions = createAction('[Map] Get Building Regions');
 export const getBuildingRegionsSuccess = createAction(
   '[Region Effect] Get Building Regions Success',

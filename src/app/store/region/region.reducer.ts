@@ -21,6 +21,26 @@ export const regionReducer = createReducer(
       loading: false,
     };
   }),
+  on(Actions.search, (state) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+  on(Actions.searchSuccess, (state, { searchResults }) => {
+    return {
+      ...state,
+      searchResults,
+      loading: false,
+      loaded: true,
+    };
+  }),
+  on(Actions.searchFailed, (state) => {
+    return {
+      ...state,
+      loading: false,
+    };
+  }),
   on(Actions.getBuildingRegions, (state) => {
     return {
       ...state,

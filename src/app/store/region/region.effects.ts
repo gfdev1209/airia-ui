@@ -5,15 +5,17 @@ import {
   map,
   mergeMap,
   switchMap,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { Occupancy, Region } from '@map/models';
+import { Building, Occupancy, Region } from '@map/models';
 import { of } from 'rxjs';
 import * as RegionActions from './region.actions';
 import * as RegionSelectors from './region.selectors';
 import { RegionService } from '@map/services/region.service';
 import { RootState } from '..';
 import { Store } from '@ngrx/store';
+import { BuildingService } from '@map/services/building.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,18 +24,48 @@ export class RegionEffects {
   constructor(
     private actions$: Actions,
     private store: Store<RootState>,
-    private regionService: RegionService
+    private regionService: RegionService,
+    private buildingService: BuildingService
   ) {}
 
   getAll$ = createEffect(() =>
     this.actions$.pipe(
       ofType(RegionActions.getAll),
-      mergeMap(() =>
-        this.regionService.getAll<Region[]>().pipe(
+      switchMap(() => this.buildingService.getAll<Building[]>()),
+      switchMap((buildings) => {
+        return this.regionService.getAll<Region[]>('+BuildingFloor').pipe(
+          tap((regions) => {
+            const buildingDict = Object.assign(
+              {},
+              ...buildings.map((building) => ({ [building.id]: building }))
+            );
+            regions.forEach((region) => {
+              region.buildingName = region.buildingFloor?.buildingId
+                ? buildingDict[region.buildingFloor?.buildingId].buildingName
+                : 'n/a';
+            });
+          }),
           map((regions: Region[]) => RegionActions.getAllSuccess({ regions })),
           catchError(() => of(RegionActions.getAllFailed()))
-        )
-      )
+        );
+      })
+    )
+  );
+  search$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RegionActions.search),
+      withLatestFrom(this.store.select(RegionSelectors.selectActiveRegions)),
+      switchMap(([{ term }, regions]) => {
+        const searchResults = regions.filter((entity) =>
+          entity.name.toLowerCase().includes(term.toLowerCase())
+        );
+        return of(
+          RegionActions.searchSuccess({
+            searchResults,
+          })
+        );
+      }),
+      catchError(() => of(RegionActions.searchFailed()))
     )
   );
 

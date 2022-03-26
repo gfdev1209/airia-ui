@@ -1,0 +1,12 @@
+<span class="p-input-icon-left">
+  <i class="far fa-search"></i>
+  <p-autoComplete
+    [(ngModel)]="searchTerm"
+    [suggestions]="searchResults!"
+    field="name"
+    [minLength]="3"
+    placeholder="Search by region name, keyword, etc."
+    (completeMethod)="onSearch()"
+    (onSelect)="onSelect($event)"
+  ></p-autoComplete>
+</span>
