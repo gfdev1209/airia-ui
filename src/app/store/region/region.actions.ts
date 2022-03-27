@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Occupancy, Region } from '@map/models';
+import { Update } from '@ngrx/entity';
 
 export const getAll = createAction('[Map] Get All Regions');
 export const getAllSuccess = createAction(
@@ -32,7 +33,7 @@ export const getBuildingRegionsFailed = createAction(
 );
 
 export const getOccupancy = createAction(
-  '[Building Details] Get Occupancy',
+  '[Region Details] Get Occupancy',
   props<{ id: number; year: number; month: number; day?: number }>()
 );
 export const getOccupancySuccess = createAction(
@@ -44,7 +45,7 @@ export const getOccupancyFailed = createAction(
 );
 
 export const getOccupancyRange = createAction(
-  '[Building Details] Get Occupancy Range',
+  '[Region Details] Get Occupancy Range',
   props<{ id: number; from: Date; to: Date }>()
 );
 export const getOccupancyRangeSuccess = createAction(
@@ -65,4 +66,39 @@ export const selectSuccess = createAction(
 );
 export const selectFailed = createAction(
   '[Region Effect] Select Region Failed'
+);
+
+export const deselect = createAction('[Region Details] Deselect Region');
+
+export const update = createAction(
+  '[Region Form] Update Region',
+  props<{ region: Update<Region> }>()
+);
+export const updateSuccess = createAction(
+  '[Region Effect] Update Region Success',
+  props<{ region: Update<Region> }>()
+);
+export const updateFailed = createAction(
+  '[Region Effect] Update Region Failed'
+);
+
+export const updateRegionPolygon = createAction(
+  '[Region Form] Update Region Polygon',
+  props<{ id: number; polygon?: number[][] }>()
+);
+export const updateRegionPolygonMap = createAction(
+  '[Map] Update Region Polygon',
+  props<{ id: number; polygon?: number[][] }>()
+);
+export const updateRegionPolygonSuccess = createAction(
+  '[Region Effect] Update Region Polygon Success',
+  props<{ region: Region }>()
+);
+export const updateRegionPolygonFailed = createAction(
+  '[Region Effect] Update Region Polygon Failed'
+);
+
+export const editRegionShape = createAction('[Region Form] Edit Region Shape');
+export const cancelEditRegionShape = createAction(
+  '[Map] Cancel Edit Region Shape'
 );

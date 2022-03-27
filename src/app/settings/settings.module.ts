@@ -20,6 +20,8 @@ import { RoleGuard } from '@core/guards/role.guard';
 import { RegionPageComponent } from './pages/region-page/region-page.component';
 import { RegionsTableComponent } from './components/regions-table/regions-table.component';
 import { RegionsTableViewComponent } from './views/regions-table-view/regions-table-view.component';
+import { RegionFormComponent } from './components/region-form/region-form.component';
+import { RegionFormViewComponent } from './views/region-form-view/region-form-view.component';
 
 export const routes: Routes = [
   {
@@ -41,6 +43,12 @@ export const routes: Routes = [
         // data: { role: 'Owner' },
       },
       { path: 'regions', component: RegionPageComponent },
+      {
+        path: 'regions/:id',
+        component: RegionFormComponent,
+        // canActivate: [RoleGuard],
+        // data: { role: 'Owner' },
+      },
       { path: 'access-points', component: AccessPointPageComponent },
     ],
   },
@@ -63,6 +71,8 @@ export const routes: Routes = [
     RegionPageComponent,
     RegionsTableComponent,
     RegionsTableViewComponent,
+    RegionFormComponent,
+    RegionFormViewComponent,
     AccessPointPageComponent,
   ],
   imports: [
