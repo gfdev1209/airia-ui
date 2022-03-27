@@ -1,0 +1,11 @@
+<app-region-form-view
+  [region]="region$ | async"
+  [floors]="(floors$ | async) || []"
+  [buildings]="(buildings$ | async) || []"
+  [loading]="loading$ | async"
+  (changeBuilding)="onChangeBuilding($event)"
+  (updateRegion)="updateRegion($event)"
+  (addFloor)="addFloor($event)"
+  (editShape)="onEditShape($event)"
+  (removeShape)="onRemoveShape($event)"
+></app-region-form-view>

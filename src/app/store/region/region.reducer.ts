@@ -76,6 +76,14 @@ export const regionReducer = createReducer(
       loading: false,
     };
   }),
+  on(Actions.deselect, (state) => {
+    return {
+      ...state,
+      selected: null,
+      showOverview: false,
+      showDetails: false,
+    };
+  }),
   on(Actions.getOccupancy, (state) => {
     return {
       ...state,
@@ -109,6 +117,60 @@ export const regionReducer = createReducer(
   on(Actions.getOccupancyRangeFailed, (state) => {
     return {
       ...state,
+      loading: false,
+    };
+  }),
+  on(Actions.update, (state) => {
+    return {
+      ...state,
+      loading: true,
+      showOverview: false,
+    };
+  }),
+  on(Actions.updateSuccess, (state, { region }) => {
+    return adapter.updateOne(region, {
+      ...state,
+      loading: false,
+      loaded: true,
+    });
+  }),
+  on(Actions.updateFailed, (state) => {
+    return {
+      ...state,
+      loading: false,
+    };
+  }),
+  on(Actions.editRegionShape, (state) => {
+    return {
+      ...state,
+      loading: true,
+      editRegionShape: true,
+    };
+  }),
+  on(Actions.cancelEditRegionShape, (state) => {
+    return {
+      ...state,
+      editRegionShape: false,
+    };
+  }),
+  on(Actions.updateRegionPolygon, Actions.updateRegionPolygonMap, (state) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+  on(Actions.updateRegionPolygonSuccess, (state, { region }) => {
+    return adapter.upsertOne(region, {
+      ...state,
+      editRegionShape: false,
+      loading: false,
+      loaded: true,
+    });
+  }),
+  on(Actions.updateRegionPolygonFailed, (state) => {
+    return {
+      ...state,
+      editRegionShape: false,
       loading: false,
     };
   })

@@ -7,9 +7,9 @@ export class Region {
   name!: string;
   modelRegion!: string;
   locationId?: string;
-  buildingId!: number;
+  buildingId?: number;
   buildingName?: string;
-  buildingFloorId!: number;
+  buildingFloorId?: number;
   regionPolygon?: number[][];
   buildingFloor?: Floor;
   buildingFloorNumber?: number;
@@ -18,19 +18,19 @@ export class Region {
 
   constructor(args: {
     $id: string;
+    activeType: string;
+    alerts?: ResponseList<Alert>;
+    buildingFloor?: Floor;
+    buildingFloorId?: number;
+    buildingId?: number;
+    location?: Location;
+    locationId: string;
+    modelRegion: string;
     regionId: number;
     regionName: string;
-    modelRegion: string;
-    locationId: string;
-    buildingId: number;
-    buildingName?: string;
-    buildingFloorId: number;
     regionPolygonJson: any;
-    buildingFloor: Floor;
+    buildingName?: string;
     buildingFloorNumber: number;
-    location: Location;
-    alerts: ResponseList<Alert>;
-    activeType: string;
   }) {
     this.id = args.regionId;
     this.name = args.regionName;

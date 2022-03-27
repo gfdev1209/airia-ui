@@ -8,7 +8,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { Building, Occupancy, Region } from '@map/models';
+import { Region, Occupancy, Building } from '@map/models';
 import { of } from 'rxjs';
 import * as RegionActions from './region.actions';
 import * as RegionSelectors from './region.selectors';
@@ -51,6 +51,7 @@ export class RegionEffects {
       })
     )
   );
+
   search$ = createEffect(() =>
     this.actions$.pipe(
       ofType(RegionActions.search),
@@ -116,7 +117,7 @@ export class RegionEffects {
       ofType(RegionActions.select),
       withLatestFrom(this.store.select(RegionSelectors.selectAll)),
       switchMap(([{ id }, regions]) => {
-        const region = regions.filter((x: Region) => x.id === id)[0];
+        const region = regions[id];
         if (region) {
           return of(
             RegionActions.selectSuccess({
@@ -124,8 +125,54 @@ export class RegionEffects {
             })
           );
         } else {
-          return of(RegionActions.selectFailed());
+          return this.regionService
+            .get<Region>(id, '+BuildingFloor')
+            .pipe(
+              map((region2) => RegionActions.selectSuccess({ region: region2 }))
+            );
         }
+      }),
+      catchError(() => of(RegionActions.selectFailed()))
+    )
+  );
+
+  update$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RegionActions.update),
+      mergeMap(({ region }) =>
+        this.regionService.update<Region>(region.id, region.changes).pipe(
+          map((updatedRegion: Region) =>
+            RegionActions.updateSuccess({ region })
+          ),
+          catchError((error) => of(RegionActions.updateFailed()))
+        )
+      )
+    )
+  );
+
+  updatePolygon$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        RegionActions.updateRegionPolygon,
+        RegionActions.updateRegionPolygonMap
+      ),
+      withLatestFrom(this.store.select(RegionSelectors.selectEntities)),
+      switchMap(([{ id, polygon }, regions]) => {
+        const region = regions[id];
+        if (!region) {
+          throw new Error(`Unable to find region with ID of ${id}`);
+        }
+        return of({ region, polygon });
+      }),
+      mergeMap(({ region, polygon }) => {
+        return this.regionService.updatePolygon(region.id, polygon).pipe(
+          map(() => {
+            region.regionPolygon = polygon;
+            return RegionActions.updateRegionPolygonSuccess({
+              region,
+            });
+          })
+        );
       }),
       catchError(() => of(RegionActions.selectFailed()))
     )
