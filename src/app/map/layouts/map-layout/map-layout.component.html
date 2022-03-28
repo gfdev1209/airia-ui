@@ -6,7 +6,7 @@
   <app-building-details></app-building-details>
   <!-- <router-outlet></router-outlet> -->
 </div>
-<div class="map-interface-container">
+<div class="map-interface-container" *ngIf="isDrawing === false">
   <app-analytics-panel class="analytics-panel-container"></app-analytics-panel>
   <app-overview-panel></app-overview-panel>
 </div>

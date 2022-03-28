@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { RootState } from 'src/app/store';
 import * as BuildingSelectors from '@store/building/building.selectors';
 import * as BuildingActions from '@store/building/building.actions';
+import * as RegionSelectors from '@store/region/region.selectors';
 import * as RegionActions from '@store/region/region.actions';
 import * as LocationActions from '@store/location/location.actions';
 import * as LocationSelectors from '@store/location/location.selectors';
@@ -18,7 +19,7 @@ import { MapService } from '@map/services/map.service';
 import { MapViewComponent } from '@map/views/map-view/map-view.component';
 import { interval, Subscription } from 'rxjs';
 import * as moment from 'moment';
-import { AccessPoint, Building, Device, Floor } from '@map/models';
+import { AccessPoint, Building, Device, Floor, Region } from '@map/models';
 import * as _ from 'lodash';
 import { environment } from 'src/environments/environment';
 
@@ -62,9 +63,16 @@ export class MapComponent implements OnInit, OnDestroy {
     .subscribe();
   selectedBuilding?: Building | null;
 
+  selectedRegion$ = this.store
+    .select(RegionSelectors.selectSelectedRegion)
+    .pipe(tap((region) => (this.selectedRegion = region)))
+    .subscribe();
+  selectedRegion?: Region | null;
+
   isEditingBuildingShape$ = this.store.select(
     BuildingSelectors.selectEditingShape
   );
+  isEditingRegionShape$ = this.store.select(RegionSelectors.selectEditingShape);
   floors: Floor[] = [];
   floors$ = this.store
     .select(FloorSelectors.selectAll)
@@ -324,6 +332,16 @@ export class MapComponent implements OnInit, OnDestroy {
       );
     }
   }
+  onUpdateRegionShape(coordinates: number[][]): void {
+    if (this.selectedRegion) {
+      this.store.dispatch(
+        RegionActions.updateRegionPolygon({
+          id: this.selectedRegion.id,
+          polygon: coordinates,
+        })
+      );
+    }
+  }
 
   ngOnDestroy(): void {
     this.selectedFloorNumber$?.unsubscribe();
@@ -338,5 +356,7 @@ export class MapComponent implements OnInit, OnDestroy {
     this.isPlaybackLive$.unsubscribe();
     this.devicePollingInterval$?.unsubscribe();
     this.mapDateTimeSubscription$?.unsubscribe();
+    this.selectedBuilding$.unsubscribe();
+    this.selectedRegion$.unsubscribe();
   }
 }

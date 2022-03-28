@@ -6,4 +6,17 @@ mgl-map {
     padding-left: 0;
     padding-right: 0;
   }
+  &.drawing {
+    .mapboxgl-canvas {
+      cursor: crosshair;
+    }
+  }
+}
+.building-draw-overlay {
+  z-index: 2;
+  width: 100%;
+  background: #1d1522c9;
+  position: absolute;
+  top: 0;
+  padding: 2rem;
 }

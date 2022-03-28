@@ -16,6 +16,7 @@ import {
   Device,
   Floor,
   Location,
+  Region,
 } from '../../models';
 import { environment } from 'src/environments/environment';
 import { DeviceMapboxDetails } from '@map/models/device-mapbox-details.model';
@@ -34,6 +35,8 @@ export class MapViewComponent implements OnChanges {
   @Input() buildings: Building[] | null = [];
   @Input() selectedBuilding?: Building | null;
   @Input() isEditingBuildingShape?: boolean | null = false;
+  @Input() selectedRegion?: Region | null;
+  @Input() isEditingRegionShape?: boolean | null = false;
   @Input() selectedFloor?: Floor | null;
   @Input() accessPoints: AccessPoint[] | null = [];
   @Input() devices: Device[] | null = [];
@@ -58,6 +61,7 @@ export class MapViewComponent implements OnChanges {
   @Output() clickedAccessPoint = new EventEmitter<number>();
   @Output() drawingComplete = new EventEmitter();
   @Output() updateBuildingShape = new EventEmitter<number[][]>();
+  @Output() updateRegionShape = new EventEmitter<number[][]>();
 
   // MapBox Map
   map!: Map;
@@ -144,22 +148,19 @@ export class MapViewComponent implements OnChanges {
     if (changes.showDevices?.firstChange === false) {
       this.toggleDevices();
     }
-    if (changes.isDrawing?.firstChange === false) {
-      if (changes.isDrawing.currentValue === true) {
-        this.draw?.changeMode('draw_polygon');
-      }
-    }
     if (changes.showClusters?.firstChange === false) {
       this.toggleClusters();
     }
-    if (changes.isEditingBuildingShape?.currentValue === true) {
-      console.log('editing building', this.selectedBuilding);
+    if (
+      changes.isEditingBuildingShape?.currentValue === true ||
+      changes.isEditingRegionShape?.currentValue === true
+    ) {
       this.startDrawing();
     }
-    if (changes.isEditingBuildingShape?.currentValue === false) {
-      console.log('done editing');
-      // this.draw?.changeMode('static');
-      // this.addCustomBuildings();
+    if (
+      changes.isEditingBuildingShape?.currentValue === false ||
+      changes.isEditingRegionShape?.currentValue === false
+    ) {
       this.draw?.trash();
     }
     if (changes.showStaticDevices?.firstChange === false) {
@@ -174,6 +175,7 @@ export class MapViewComponent implements OnChanges {
     }
     if (changes.isDrawing?.firstChange === false) {
       if (changes.isDrawing.currentValue === true) {
+        this.draw?.changeMode('draw_polygon');
         this.startDrawing();
       }
     }
@@ -313,7 +315,7 @@ export class MapViewComponent implements OnChanges {
       const polygon = x.features[0].geometry as GeoJSON.Polygon;
       if (polygon?.coordinates) {
         this.currentPolygon = polygon;
-        this.drawingComplete.emit();
+        // this.drawingComplete.emit();
       }
     });
     this.map.on('draw.update', (e) => {
@@ -321,10 +323,11 @@ export class MapViewComponent implements OnChanges {
       const polygon = x.features[0].geometry as GeoJSON.Polygon;
       if (polygon?.coordinates) {
         this.currentPolygon = polygon;
-        this.drawingComplete.emit();
+        // this.drawingComplete.emit();
+        // this.isDrawing = false;
       }
     });
-    if (this.isEditingBuildingShape) {
+    if (this.isEditingBuildingShape || this.isEditingRegionShape) {
       this.startDrawing();
     }
   }
@@ -336,6 +339,7 @@ export class MapViewComponent implements OnChanges {
     }
   }
   startDrawing(): void {
+    this.isDrawing = true;
     this.draw?.changeMode('draw_polygon');
   }
   onEditBuildingSave(): void {
@@ -367,6 +371,44 @@ export class MapViewComponent implements OnChanges {
         });
       }
     }
+  }
+
+  onEditRegionSave(): void {
+    if (this.selectedRegion) {
+      const shapeCoordinates: number[][] = this.currentPolygon
+        ?.coordinates as any;
+      if (shapeCoordinates) {
+        this.confirmationService.confirm({
+          key: 'buildingShapeConfirmation',
+          message: `Are you sure that you want to update ${this.selectedRegion.name}'s shape?`,
+          header: 'Confirmation',
+          acceptButtonStyleClass: 'p-mr-0',
+          acceptIcon: 'fal fa-check',
+          rejectIcon: 'fal fa-times',
+          accept: () => {
+            this.updateRegionShape.emit(shapeCoordinates);
+            this.drawingComplete.emit();
+          },
+          reject: (type: ConfirmEventType) => {
+            switch (type) {
+              case ConfirmEventType.REJECT:
+                console.log('rejected');
+                break;
+              case ConfirmEventType.CANCEL:
+                console.log('cancelled');
+                break;
+            }
+          },
+        });
+      }
+    }
+  }
+  onCancelDrawing(): void {
+    this.drawingComplete.emit();
+    this.isDrawing = false;
+    this.isEditingBuildingShape = false;
+    this.isEditingRegionShape = false;
+    this.draw?.trash();
   }
 
   addBuildingData(): void {

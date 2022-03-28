@@ -111,20 +111,18 @@
         Use our drawing tool to define the shape of this region on the map.
       </p>
     </div>
-  </div>
-  <div class="p-mt-5 p-d-flex p-jc-between">
-    <button
-      pButton
-      pRipple
-      type="button"
-      [label]="
-        !region.regionPolygon ? 'Add Region Shape' : 'Update Region Shape'
-      "
-      class="p-button-rounded"
-      (click)="onEditShape()"
-      [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
-      [disabled]="!regionForm.valid || loading === true"
-    ></button>
+    <div class="p-d-flex p-jc-between">
+      <button
+        pButton
+        pRipple
+        type="button"
+        [label]="!region.regionPolygon ? 'Add Shape' : 'Update Shape'"
+        class="p-button-rounded"
+        (click)="onEditShape()"
+        [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
+        [disabled]="!regionForm.valid || loading === true"
+      ></button>
+    </div>
   </div>
 </div>
 <p-confirmDialog

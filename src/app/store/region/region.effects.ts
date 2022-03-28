@@ -16,6 +16,7 @@ import { RegionService } from '@map/services/region.service';
 import { RootState } from '..';
 import { Store } from '@ngrx/store';
 import { BuildingService } from '@map/services/building.service';
+import { MapService } from '@map/services/map.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,8 @@ export class RegionEffects {
     private actions$: Actions,
     private store: Store<RootState>,
     private regionService: RegionService,
-    private buildingService: BuildingService
+    private buildingService: BuildingService,
+    private mapService: MapService
   ) {}
 
   getAll$ = createEffect(() =>
@@ -148,6 +150,15 @@ export class RegionEffects {
         )
       )
     )
+  );
+
+  editShape$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(RegionActions.editRegionShape),
+        tap(() => this.mapService.setDrawing(true))
+      ),
+    { dispatch: false }
   );
 
   updatePolygon$ = createEffect(() =>
