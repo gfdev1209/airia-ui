@@ -21,6 +21,10 @@ export const selectByBuildingId = createSelector(
     )[0];
   }
 );
+export const selectEditingShape = createSelector(
+  selectFeature,
+  (state: RegionState) => state.editShape
+);
 
 export const selectSearchResults = createSelector(
   selectFeature,

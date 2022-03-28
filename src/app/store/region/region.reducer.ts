@@ -144,13 +144,13 @@ export const regionReducer = createReducer(
     return {
       ...state,
       loading: true,
-      editRegionShape: true,
+      editShape: true,
     };
   }),
   on(Actions.cancelEditRegionShape, (state) => {
     return {
       ...state,
-      editRegionShape: false,
+      editShape: false,
     };
   }),
   on(Actions.updateRegionPolygon, Actions.updateRegionPolygonMap, (state) => {
@@ -162,7 +162,7 @@ export const regionReducer = createReducer(
   on(Actions.updateRegionPolygonSuccess, (state, { region }) => {
     return adapter.upsertOne(region, {
       ...state,
-      editRegionShape: false,
+      editShape: false,
       loading: false,
       loaded: true,
     });
@@ -170,7 +170,7 @@ export const regionReducer = createReducer(
   on(Actions.updateRegionPolygonFailed, (state) => {
     return {
       ...state,
-      editRegionShape: false,
+      editShape: false,
       loading: false,
     };
   })

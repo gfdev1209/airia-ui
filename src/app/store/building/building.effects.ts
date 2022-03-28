@@ -5,6 +5,7 @@ import {
   map,
   mergeMap,
   switchMap,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { Building, BuildingAnalytics } from '@map/models';
@@ -14,7 +15,7 @@ import * as BuildingSelectors from './building.selectors';
 import { BuildingService } from '@map/services/building.service';
 import { RootState } from '..';
 import { Store } from '@ngrx/store';
-import { Update } from '@ngrx/entity';
+import { MapService } from '@map/services/map.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,8 @@ export class BuildingEffects {
   constructor(
     private actions$: Actions,
     private store: Store<RootState>,
-    private buildingService: BuildingService
+    private buildingService: BuildingService,
+    private mapService: MapService
   ) {}
 
   getAll$ = createEffect(() =>
@@ -147,6 +149,15 @@ export class BuildingEffects {
       }),
       catchError(() => of(BuildingActions.selectByMapboxIdFailed()))
     )
+  );
+
+  editShape$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(BuildingActions.editBuildingShape),
+        tap(() => this.mapService.setDrawing(true))
+      ),
+    { dispatch: false }
   );
 
   update$ = createEffect(() =>

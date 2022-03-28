@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MapService } from '@map/services/map.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-map-layout',
@@ -6,5 +8,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./map-layout.component.scss'],
 })
 export class MapLayoutComponent {
-  constructor() {}
+  isDrawing$ = this.mapService.isDrawing$
+    .pipe(tap((isDrawing) => (this.isDrawing = isDrawing)))
+    .subscribe();
+  isDrawing?: boolean | null;
+  constructor(private mapService: MapService) {}
 }
