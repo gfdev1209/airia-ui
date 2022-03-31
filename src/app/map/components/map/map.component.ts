@@ -20,6 +20,7 @@ import { interval, Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { AccessPoint, Building, Device, Floor } from '@map/models';
 import * as _ from 'lodash';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-map',
@@ -163,7 +164,9 @@ export class MapComponent implements OnInit, OnDestroy {
   @ViewChild('mapView') mapView!: MapViewComponent;
 
   constructor(private store: Store<RootState>, private mapService: MapService) {
-    this.store.dispatch(LocationActions.getAll());
+    this.store.dispatch(
+      LocationActions.get({ id: environment.defaultLocationId })
+    );
   }
 
   ngOnInit(): void {

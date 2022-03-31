@@ -244,8 +244,14 @@ export class MapViewComponent implements OnChanges {
       // Fit the map's boundaries on the screen with a zoom effect
       this.map.fitBounds(
         [
-          [-83.34165235885479, 36.11044852874939], // Southwest coordinates
-          [-83.3353866629937, 36.11546892827034], // Northeast coordinates
+          [
+            this.selectedLocation.mapSWLongitude,
+            this.selectedLocation.mapSWLatitude,
+          ], // Southwest coordinates
+          [
+            this.selectedLocation.mapNELongitude,
+            this.selectedLocation.mapNELatitude,
+          ], // Northeast coordinates
         ],
         {
           padding: this.boundsPadding,
