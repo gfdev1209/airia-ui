@@ -104,6 +104,9 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     }
     if (changes.isExpanded?.currentValue) {
       setTimeout(() => this.getTopPanelHeight(), 600);
+      if (changes.isExpanded?.currentValue === true) {
+        this.expandPanel();
+      }
     }
     if (changes.isPlaying?.currentValue) {
       if (changes.isPlaying.currentValue === true) {
@@ -118,6 +121,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
 
   expandPanel(): void {
     this.toggleExpanded.emit(true);
+    this.isExpanded = true;
   }
   toggleSize(): void {
     this.toggleExpanded.emit();

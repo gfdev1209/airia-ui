@@ -81,9 +81,9 @@ export class AnalyticsPanelViewComponent implements OnInit, OnChanges {
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.selectedLocation?.currentValue) {
-      this.expandPanel();
-    }
+    // if (changes.selectedLocation?.currentValue) {
+    //   this.expandPanel();
+    // }
     if (changes.occupancy && changes.occupancy.currentValue) {
       const occupancyData: Occupancy = changes.occupancy.currentValue;
       if (occupancyData?.occupancyStats?.length > 0) {

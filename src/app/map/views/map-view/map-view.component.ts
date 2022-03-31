@@ -21,6 +21,7 @@ import { environment } from 'src/environments/environment';
 import { DeviceMapboxDetails } from '@map/models/device-mapbox-details.model';
 import { MapViewDataSource } from './map-view-data-source';
 import { ConfirmationService, ConfirmEventType } from 'primeng/api';
+import { MapService } from '@map/services/map.service';
 
 @Component({
   selector: 'app-map-view',
@@ -61,6 +62,7 @@ export class MapViewComponent implements OnChanges {
 
   // MapBox Map
   map!: Map;
+  mapLoaded = false;
   // Custom data sources
   mapBuildingData!: MapViewDataSource;
   mapRegionData!: MapViewDataSource;
@@ -85,6 +87,17 @@ export class MapViewComponent implements OnChanges {
   initialZoomLevel: number = environment.zoomLevel ? environment.zoomLevel : 20;
   // Width of the overview panel on the right of the screen
   overviewPanelWidth = 310;
+  analyticsPanelHeight = 150;
+  // Padding amount when constraining map to bounds
+  restrictBounds = true;
+  boundsPaddingAmt = 250;
+  boundsPadding = {
+    top: this.boundsPaddingAmt,
+    right: this.boundsPaddingAmt + this.overviewPanelWidth,
+    bottom: this.boundsPaddingAmt + this.analyticsPanelHeight,
+    left: this.boundsPaddingAmt,
+  };
+  boundsSet = false;
   // Device display settings for mapbox
   liveDeviceDetails: DeviceMapboxDetails = {
     id: 'devices',
@@ -115,9 +128,17 @@ export class MapViewComponent implements OnChanges {
     heatmapColorRGB: '2, 185, 251',
   };
 
-  constructor(private confirmationService: ConfirmationService) {}
+  constructor(
+    private confirmationService: ConfirmationService,
+    private mapService: MapService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes.selectedLocation?.firstChange === false) {
+      if (changes.selectedLocation.currentValue) {
+        this.setMapBounds();
+      }
+    }
     if (changes.buildings?.firstChange === false) {
       if (changes.buildings.currentValue) {
         this.addCustomBuildings();
@@ -185,6 +206,8 @@ export class MapViewComponent implements OnChanges {
 
   mapLoad(map: Map): void {
     this.map = map;
+    // Set the map's boundaries
+    this.setMapBounds();
     // Don't allow user to rotate the map
     this.disableRotate();
     // Add drawing tools
@@ -211,6 +234,42 @@ export class MapViewComponent implements OnChanges {
     }
     if (environment.hideStreetLabels === true) {
       map.setLayoutProperty('road-label-simple', 'visibility', 'none');
+    }
+  }
+  setMapBounds(): void {
+    if (this.restrictBounds && this.map && this.selectedLocation) {
+      // Disable user map interaction until intial zoom effect is completed
+      this.map.scrollZoom.disable();
+      this.map.dragPan.disable();
+      // Fit the map's boundaries on the screen with a zoom effect
+      this.map.fitBounds(
+        [
+          [-83.34165235885479, 36.11044852874939], // Southwest coordinates
+          [-83.3353866629937, 36.11546892827034], // Northeast coordinates
+        ],
+        {
+          padding: this.boundsPadding,
+          duration: 5000,
+          animate: true,
+          essential: false,
+          minZoom: 15.5,
+          pitch: 0,
+          bearing: 0,
+        }
+      );
+      // Restrict user movement to set boundaries
+      this.map.setMaxBounds(this.map.getBounds());
+      this.mapLoaded = true;
+      // Allow user interaction when zoom effect completes
+      this.map.on('moveend', (event) => {
+        if (this.restrictBounds && !this.boundsSet) {
+          this.mapService.toggleAnalytics(true);
+          this.boundsSet = true;
+          this.map.setMaxBounds(this.map.getBounds());
+          this.map.scrollZoom.enable();
+          this.map.dragPan.enable();
+        }
+      });
     }
   }
 
@@ -252,12 +311,7 @@ export class MapViewComponent implements OnChanges {
         speed: 0.475,
         curve: 2.0,
         zoom: 19,
-        padding: {
-          top: 0,
-          right: this.overviewPanelWidth,
-          bottom: 0,
-          left: 0,
-        },
+        padding: this.boundsPadding,
       });
     }
   }
@@ -269,18 +323,18 @@ export class MapViewComponent implements OnChanges {
     this.map?.zoomOut();
   }
   onCenterMap(): void {
-    if (this.locations && this.locations?.length > 0) {
+    if (this.selectedLocation) {
       this.map.flyTo({
         center: [
-          this.locations[0].coordLongitude,
-          this.locations[0].coordLatitude,
+          this.selectedLocation.coordLongitude,
+          this.selectedLocation.coordLatitude,
         ],
+        curve: 0,
         essential: true,
-        zoom: 16,
         padding: {
           top: 0,
           right: this.overviewPanelWidth,
-          bottom: 0,
+          bottom: this.analyticsPanelHeight,
           left: 0,
         },
       });
@@ -682,7 +736,7 @@ export class MapViewComponent implements OnChanges {
   /** Zoom to a specific polygon's coordinates and fit within the viewport */
   zoomToPolygon(
     polygon: number[][],
-    padding: number = 300,
+    padding: number = this.boundsPaddingAmt,
     offset: mapboxgl.PointLike = [0, 0]
   ): void {
     const firstCoord = new mapboxgl.LngLat(polygon[0][0], polygon[0][1]);
