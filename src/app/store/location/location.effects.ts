@@ -39,18 +39,6 @@ export class LocationEffects {
     )
   );
 
-  get$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(LocationActions.get),
-      mergeMap(({ id }) =>
-        this.locationService.get<Location>(id).pipe(
-          map((location: Location) => LocationActions.getSuccess({ location })),
-          catchError(() => of(LocationActions.getFailed()))
-        )
-      )
-    )
-  );
-
   select$ = createEffect(() =>
     this.actions$.pipe(
       ofType(LocationActions.select),

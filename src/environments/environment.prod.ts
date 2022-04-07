@@ -4,8 +4,6 @@ export const environment = {
   // Client
   timeZone: 'America/Chicago',
   timeZoneOffsetUTC: -5,
-  // The ID of the default Location to display
-  defaultLocationId: 1,
   // The ID of the region that encompasses all regions
   entireRegionId: 21,
   // MapBox
