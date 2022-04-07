@@ -1,54 +1,59 @@
-<mgl-map
-  *ngIf="selectedLocation"
-  [style]="'mapbox://styles/mikeairia/ckothwa8k17hn18lngdslao64'"
-  localIdeographFontFamily="'Roboto', 'Helvetica Neue', 'sans-serif'"
-  [fadeDuration]="0"
-  [zoom]="[initialZoomLevel]"
-  [minZoom]="15.5"
-  [pitch]="[0]"
-  [bearing]="[0]"
-  [center]="[selectedLocation.coordLongitude, selectedLocation.coordLatitude]"
-  (mapClick)="mapClick($event)"
-  (mapMouseMove)="mapMouseMove($event)"
-  (mapLoad)="mapLoad($event)"
->
-  <mgl-popup
-    *ngIf="selectedBuilding && showBuildingOverview"
-    [lngLat]="[selectedBuilding.coordLongitude, selectedBuilding.coordLatitude]"
-    [closeOnClick]="false"
-    maxWidth="500px"
-    [offset]="[0, -30]"
-    className="building-overview-popup"
+<div [class.opacity-0]="!centeredCoordinates">
+  <mgl-map
+    *ngIf="selectedLocation"
+    [style]="'mapbox://styles/mikeairia/ckothwa8k17hn18lngdslao64'"
+    localIdeographFontFamily="'Roboto', 'Helvetica Neue', 'sans-serif'"
+    [fadeDuration]="0"
+    [zoom]="[initialZoomLevel]"
+    [minZoom]="15.5"
+    [pitch]="[0]"
+    [bearing]="[0]"
+    [center]="[selectedLocation.coordLongitude, selectedLocation.coordLatitude]"
+    (mapClick)="mapClick($event)"
+    (mapMouseMove)="mapMouseMove($event)"
+    (mapLoad)="mapLoad($event)"
   >
-    <app-building-overview></app-building-overview>
-  </mgl-popup>
-  <mgl-popup
-    *ngIf="
-      hoveredDevice &&
-      hoveredDevice.properties?.cluster === true &&
-      selectedPosition
-    "
-    [lngLat]="[selectedPosition[0], selectedPosition[1]]"
-    [closeOnClick]="false"
-    maxWidth="400px"
-    className="device-count-popup"
-    [offset]="[0, -5]"
-  >
-    <strong>{{ hoveredDevice.properties?.point_count?.toString() }}</strong>
-  </mgl-popup>
-  <mgl-popup
-    *ngIf="selectedAccessPoint && selectedPosition"
-    [lngLat]="[selectedPosition[0], selectedPosition[1]]"
-    [closeOnClick]="false"
-    maxWidth="400px"
-    [offset]="[0, -30]"
-    className="building-overview-popup"
-  >
-    <app-access-point-overview
-      [id]="selectedAccessPoint.id"
-    ></app-access-point-overview>
-  </mgl-popup>
-</mgl-map>
+    <mgl-popup
+      *ngIf="selectedBuilding && showBuildingOverview"
+      [lngLat]="[
+        selectedBuilding.coordLongitude,
+        selectedBuilding.coordLatitude
+      ]"
+      [closeOnClick]="false"
+      maxWidth="500px"
+      [offset]="[0, -30]"
+      className="building-overview-popup"
+    >
+      <app-building-overview></app-building-overview>
+    </mgl-popup>
+    <mgl-popup
+      *ngIf="
+        hoveredDevice &&
+        hoveredDevice.properties?.cluster === true &&
+        selectedPosition
+      "
+      [lngLat]="[selectedPosition[0], selectedPosition[1]]"
+      [closeOnClick]="false"
+      maxWidth="400px"
+      className="device-count-popup"
+      [offset]="[0, -5]"
+    >
+      <strong>{{ hoveredDevice.properties?.point_count?.toString() }}</strong>
+    </mgl-popup>
+    <mgl-popup
+      *ngIf="selectedAccessPoint && selectedPosition"
+      [lngLat]="[selectedPosition[0], selectedPosition[1]]"
+      [closeOnClick]="false"
+      maxWidth="400px"
+      [offset]="[0, -30]"
+      className="building-overview-popup"
+    >
+      <app-access-point-overview
+        [id]="selectedAccessPoint.id"
+      ></app-access-point-overview>
+    </mgl-popup>
+  </mgl-map>
+</div>
 <div
   *ngIf="isEditingBuildingShape === true"
   class="building-draw-overlay"

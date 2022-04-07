@@ -86,6 +86,7 @@ export class MapViewComponent implements OnChanges {
   // Width of the overview panel on the right of the screen
   overviewPanelWidth = 310;
   analyticsPanelHeight = 150;
+  centeredCoordinates?: mapboxgl.LngLat;
   // Device display settings for mapbox
   liveDeviceDetails: DeviceMapboxDetails = {
     id: 'devices',
@@ -186,6 +187,10 @@ export class MapViewComponent implements OnChanges {
 
   mapLoad(map: Map): void {
     this.map = map;
+    // Set the map's centered location with an offset for the panels in the UI
+    if (this.selectedLocation) {
+      this.onCenterMap();
+    }
     // Don't allow user to rotate the map
     this.disableRotate();
     // Add drawing tools
@@ -271,20 +276,23 @@ export class MapViewComponent implements OnChanges {
   }
   onCenterMap(): void {
     if (this.selectedLocation) {
-      this.map.flyTo({
-        center: [
-          this.selectedLocation.coordLongitude,
-          this.selectedLocation.coordLatitude,
-        ],
-        essential: true,
-        zoom: 16,
-        padding: {
-          top: 0,
-          right: this.overviewPanelWidth,
-          bottom: this.analyticsPanelHeight,
-          left: 0,
-        },
-      });
+      const lat = this.selectedLocation.coordLongitude;
+      const lng = this.selectedLocation.coordLatitude;
+      const coordinates = this.map.project([lat, lng]);
+      this.centeredCoordinates = this.map.unproject([
+        coordinates.x + this.overviewPanelWidth,
+        coordinates.y + this.analyticsPanelHeight,
+      ]);
+
+      this.map.setCenter([
+        this.centeredCoordinates.lng,
+        this.centeredCoordinates.lat,
+      ]);
+      // this.map.flyTo({
+      //   center: this.centeredCoordinates,
+      //   essential: true,
+      //   zoom: 16,
+      // });
     }
   }
 
