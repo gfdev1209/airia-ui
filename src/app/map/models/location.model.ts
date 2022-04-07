@@ -10,10 +10,6 @@ export class Location implements IHasCoordinates, IBase {
   coordLatitude!: number;
   coordLongitude!: number;
   createdAt!: Date;
-  mapNELatitude!: number;
-  mapNELongitude!: number;
-  mapSWLatitude!: number;
-  mapSWLongitude!: number;
   // buildings?: ResponseList<Building>;
   // tenant?: any;
   // tenantUsers?: ResponseList<any>;
@@ -26,10 +22,6 @@ export class Location implements IHasCoordinates, IBase {
     coordLatitude: number;
     coordLongitude: number;
     createdAt: Date;
-    mapNELatitude: number;
-    mapNELongitude: number;
-    mapSWLatitude: number;
-    mapSWLongitude: number;
   }) {
     this.id = args.locationId;
     this.locationId = args.locationId;
@@ -38,9 +30,5 @@ export class Location implements IHasCoordinates, IBase {
     this.coordLatitude = args.coordLatitude;
     this.coordLongitude = args.coordLongitude;
     this.createdAt = args.createdAt;
-    this.mapNELatitude = args.mapNELatitude;
-    this.mapNELongitude = args.mapNELongitude;
-    this.mapSWLatitude = args.mapSWLatitude;
-    this.mapSWLongitude = args.mapSWLongitude;
   }
 }
