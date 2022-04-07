@@ -23,6 +23,8 @@ export const environment = {
     'https://airiaschooldemo.b2clogin.com/schooldemo.airia20.com/B2C_1_airiasignupin',
   b2cAuthorityEditProfile:
     'https://airiaschooldemo.b2clogin.com/schooldemo.airia20.com/B2C_1_airiaprofile',
+  b2cAuthorityForgotPassword:
+    'https://airiaschooldemo.b2clogin.com/schooldemo.airia20.com/b2c_1_airiapwreset',
   b2cScopes: ['https://schooldemo.airia20.com/api/demo.read'],
   b2cApiUrl: 'https://school-api.demo.airia20.com',
 };

@@ -23,6 +23,8 @@ export const environment = {
     'https://airia20develop.b2clogin.com/airia20develop.onmicrosoft.com/B2C_1_airiasignupin',
   b2cAuthorityEditProfile:
     'https://airia20develop.b2clogin.com/airia20develop.onmicrosoft.com/B2C_1_airiaprofile',
+  b2cAuthorityForgotPassword:
+    'https://airia20develop.b2clogin.com/airia20develop.airia20.com/b2c_1_airiapwreset',
   b2cScopes: ['https://airia20develop.onmicrosoft.com/api/demo.read'],
   b2cApiUrl: 'https://api.dev.airia20.com',
 };

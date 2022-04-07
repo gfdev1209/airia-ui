@@ -23,6 +23,8 @@ export const environment = {
     'https://airialakewaydevelop.b2clogin.com/lakewaydev.airia20.com/B2C_1_airiasignupin',
   b2cAuthorityEditProfile:
     'https://airialakewaydevelop.b2clogin.com/lakewaydev.airia20.com/B2C_1_airiaprofile',
+  b2cAuthorityForgotPassword:
+    'https://airialakewaydevelop.b2clogin.com/lakewaydev.airia20.com/b2c_1_airiapwreset',
   b2cScopes: ['https://lakewaydev.airia20.com/api/demo.read'],
   b2cApiUrl: 'https://lakeway-api.dev.airia20.com',
 };

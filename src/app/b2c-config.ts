@@ -9,6 +9,7 @@ export const b2cPolicies = {
   names: {
     signUpSignIn: environment.b2cNameSignUpSignIn,
     editProfile: environment.b2cNameEditProfile,
+    resetPassword: environment.b2cAuthorityForgotPassword,
   },
   authorities: {
     signUpSignIn: {
@@ -16,6 +17,9 @@ export const b2cPolicies = {
     },
     editProfile: {
       authority: environment.b2cAuthorityEditProfile,
+    },
+    resetPassword: {
+      authority: environment.b2cAuthorityForgotPassword,
     },
   },
   authorityDomain: environment.b2cAuthorityDomain,

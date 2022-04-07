@@ -23,6 +23,8 @@ export const environment = {
     'https://airiaharringtondr.b2clogin.com/harringtondr.airia20.com/B2C_1_airiasignupin',
   b2cAuthorityEditProfile:
     'https://airiaharringtondr.b2clogin.com/harringtondr.airia20.com/B2C_1_airiaprofile',
+  b2cAuthorityForgotPassword:
+    'https://airiaharringtondr.b2clogin.com/harringtondr.airia20.com/b2c_1_airiapwreset',
   b2cScopes: ['https://harringtondr.airia20.com/api/demo.read'],
   b2cApiUrl: 'https://harringtondr-api.dev.airia20.com',
 };

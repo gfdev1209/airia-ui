@@ -14,6 +14,7 @@ import {
   InteractionType,
   PopupRequest,
   RedirectRequest,
+  AuthError,
 } from '@azure/msal-browser';
 import { Store } from '@ngrx/store';
 import { RootState } from '@store/index';
@@ -82,9 +83,34 @@ export class LoginComponent implements OnInit, OnDestroy {
         ),
         takeUntil(this.destroying$)
       )
-      .subscribe(() => {
-        this.setLoginDisplay();
+      .subscribe((result) => {
+        // this.setLoginDisplay();
         this.checkAndSetActiveAccount();
+      });
+    this.msalBroadcastService.msalSubject$
+      .pipe(
+        filter(
+          (msg: EventMessage) =>
+            msg.eventType !== EventType.LOGIN_SUCCESS &&
+            msg.eventType !== EventType.ACQUIRE_TOKEN_SUCCESS
+        ),
+        takeUntil(this.destroying$)
+      )
+      .subscribe((result: EventMessage) => {
+        this.loginDisplay = false;
+        const error: AuthError = result.error as AuthError;
+        if (error?.errorMessage.indexOf('AADB2C90118') > -1) {
+          const resetPasswordFlowRequest = {
+            scopes: ['openid', 'profile'],
+            authority: b2cPolicies.authorities.resetPassword.authority,
+          };
+          this.authService.loginRedirect(resetPasswordFlowRequest);
+        } else if (error?.errorMessage.indexOf('AADB2C90091') > -1) {
+          // Return to Login screen
+          this.authService.loginRedirect();
+        } else if (error) {
+          console.log('error unaccounted for', result);
+        }
       });
 
     this.msalBroadcastService.msalSubject$
@@ -133,12 +159,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     ) {
       const accounts = this.authService.instance.getAllAccounts();
       this.authService.instance.setActiveAccount(accounts[0]);
-    } else if (
-      activeAccount &&
-      activeAccount.environment !== environment.b2cAuthorityDomain
-    ) {
-      console.log('logged in with another environemnt');
-      this.authService.logoutRedirect();
     }
   }
 
