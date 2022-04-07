@@ -22,7 +22,7 @@ export class MapService {
   displayedMapDateTime$ = this.displayedMapDateTime.asObservable();
 
   private isOverviewExpanded: BehaviorSubject<boolean> =
-    new BehaviorSubject<boolean>(false);
+    new BehaviorSubject<boolean>(true);
   isOverviewExpanded$ = this.isOverviewExpanded.asObservable();
 
   private isAnalyticsExpanded: BehaviorSubject<boolean> =
