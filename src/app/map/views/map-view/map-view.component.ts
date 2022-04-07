@@ -85,6 +85,7 @@ export class MapViewComponent implements OnChanges {
   initialZoomLevel: number = environment.zoomLevel ? environment.zoomLevel : 20;
   // Width of the overview panel on the right of the screen
   overviewPanelWidth = 310;
+  analyticsPanelHeight = 150;
   // Device display settings for mapbox
   liveDeviceDetails: DeviceMapboxDetails = {
     id: 'devices',
@@ -255,7 +256,7 @@ export class MapViewComponent implements OnChanges {
         padding: {
           top: 0,
           right: this.overviewPanelWidth,
-          bottom: 0,
+          bottom: this.analyticsPanelHeight,
           left: 0,
         },
       });
@@ -269,18 +270,18 @@ export class MapViewComponent implements OnChanges {
     this.map?.zoomOut();
   }
   onCenterMap(): void {
-    if (this.locations && this.locations?.length > 0) {
+    if (this.selectedLocation) {
       this.map.flyTo({
         center: [
-          this.locations[0].coordLongitude,
-          this.locations[0].coordLatitude,
+          this.selectedLocation.coordLongitude,
+          this.selectedLocation.coordLatitude,
         ],
         essential: true,
         zoom: 16,
         padding: {
           top: 0,
           right: this.overviewPanelWidth,
-          bottom: 0,
+          bottom: this.analyticsPanelHeight,
           left: 0,
         },
       });
