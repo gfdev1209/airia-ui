@@ -20,16 +20,23 @@
   </p>
   <div class="p-fluid p-formgrid p-grid p-mt-5">
     <div class="p-field p-col-12">
-      <label for="name">Name</label>
-      <input id="name" formControlName="name" type="text" pInputText />
+      <label for="regionName">Name</label>
+      <input
+        id="regionName"
+        formControlName="regionName"
+        type="text"
+        pInputText
+      />
       <small
         class="p-error"
         *ngIf="
-          !regionForm.controls['name'].valid &&
-          regionForm.controls['name'].dirty
+          !regionForm.controls['regionName'].valid &&
+          regionForm.controls['regionName'].dirty
         "
         [innerText]="
-          regionForm.controls['name'].errors?.required ? 'Name is required' : ''
+          regionForm.controls['regionName'].errors?.required
+            ? 'Name is required'
+            : ''
         "
       ></small>
     </div>
@@ -59,24 +66,24 @@
       ></small>
     </div>
     <div class="p-field p-col-12">
-      <label for="floor">Floor</label>
+      <label for="buildingFloorId">Floor</label>
       <p-dropdown
         [options]="floorList"
-        formControlName="floor"
+        formControlName="buildingFloorId"
         optionLabel="label"
         optionValue="value"
-        placeholder="Select a floor"
+        placeholder="Select a Floor"
         appendTo="body"
         [disabled]="!floorList"
       ></p-dropdown>
       <small
         class="p-error"
         *ngIf="
-          !regionForm.controls['floor'].valid &&
-          regionForm.controls['floor'].dirty
+          !regionForm.controls['buildingFloorId'].valid &&
+          regionForm.controls['buildingFloorId'].dirty
         "
         [innerText]="
-          regionForm.controls['floor'].errors?.required
+          regionForm.controls['buildingFloorId'].errors?.required
             ? 'Floor is required'
             : ''
         "

@@ -46,10 +46,10 @@ export class RegionFormViewComponent implements OnInit, OnChanges {
     }
     if (changes.floors?.currentValue) {
       this.floorList = [];
-      changes.floors.currentValue.forEach((floor: Floor) => {
+      changes.floors.currentValue.forEach((buildingFloorId: Floor) => {
         this.floorList.push({
-          label: floor.floorId,
-          value: floor.id,
+          label: buildingFloorId.floorId,
+          value: buildingFloorId.id,
         });
       });
       this.floorList = this.floorList.sort((a, b) => a.floorId - b.floorId);
@@ -60,7 +60,7 @@ export class RegionFormViewComponent implements OnInit, OnChanges {
         buildingId: changes.region.currentValue?.buildingFloor?.buildingId,
       });
       this.regionForm.patchValue({
-        floor: changes.region.currentValue?.buildingFloorId,
+        buildingFloorId: changes.region.currentValue?.buildingFloorId,
       });
     }
   }
@@ -68,16 +68,16 @@ export class RegionFormViewComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.regionForm = this.fb.group({
       id: [this.region?.id, Validators.required],
-      name: [this.region?.name, Validators.required],
+      regionName: [this.region?.regionName, Validators.required],
       buildingId: [this.region?.buildingFloor?.buildingId, Validators.required],
-      floor: [this.region?.buildingFloorId, Validators.required],
+      buildingFloorId: [this.region?.buildingFloorId, Validators.required],
     });
   }
 
   onChangeBuilding(event: any): void {
     this.changeBuilding.emit(event?.value);
-    // Reset the floor
-    this.regionForm.controls.floor.setValue(null);
+    // Reset the buildingFloorId
+    this.regionForm.controls.buildingFloorId.setValue(null);
   }
 
   onUpdate(): void {

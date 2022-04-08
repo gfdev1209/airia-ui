@@ -17,10 +17,13 @@ import * as FloorSelectors from '@store/floor/floor.selectors';
 import { startWith, takeUntil, tap } from 'rxjs/operators';
 import { MapService } from '@map/services/map.service';
 import { MapViewComponent } from '@map/views/map-view/map-view.component';
-import { interval, Subscription } from 'rxjs';
+import { interval, Subject, Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { AccessPoint, Building, Device, Floor, Region } from '@map/models';
 import * as _ from 'lodash';
+import { Router } from '@angular/router';
+import { Actions, ofType } from '@ngrx/effects';
+import { NotificationService } from '@shared/services/notification.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -68,6 +71,14 @@ export class MapComponent implements OnInit, OnDestroy {
     .pipe(tap((region) => (this.selectedRegion = region)))
     .subscribe();
   selectedRegion?: Region | null;
+  updateRegionSuccess$ = this.actions$
+    .pipe(ofType(RegionActions.updateRegionPolygonSuccess))
+    .subscribe((data: any) => {
+      this.notificationService.displaySuccess(
+        'Successfully updated Region shape'
+      );
+      this.router.navigate([`/settings/regions/${this.selectedRegion?.id}`]);
+    });
 
   isEditingBuildingShape$ = this.store.select(
     BuildingSelectors.selectEditingShape
@@ -171,7 +182,13 @@ export class MapComponent implements OnInit, OnDestroy {
 
   @ViewChild('mapView') mapView!: MapViewComponent;
 
-  constructor(private store: Store<RootState>, private mapService: MapService) {
+  constructor(
+    private actions$: Actions,
+    private store: Store<RootState>,
+    private mapService: MapService,
+    private notificationService: NotificationService,
+    private router: Router
+  ) {
     this.store.dispatch(
       LocationActions.get({ id: environment.defaultLocationId })
     );
@@ -358,5 +375,6 @@ export class MapComponent implements OnInit, OnDestroy {
     this.mapDateTimeSubscription$?.unsubscribe();
     this.selectedBuilding$.unsubscribe();
     this.selectedRegion$.unsubscribe();
+    this.updateRegionSuccess$.unsubscribe();
   }
 }
