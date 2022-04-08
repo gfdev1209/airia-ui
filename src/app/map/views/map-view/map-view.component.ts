@@ -151,12 +151,12 @@ export class MapViewComponent implements OnChanges {
     if (changes.showClusters?.firstChange === false) {
       this.toggleClusters();
     }
-    if (
-      changes.isEditingBuildingShape?.currentValue === true ||
-      changes.isEditingRegionShape?.currentValue === true
-    ) {
-      this.startDrawing();
-    }
+    // if (
+    //   changes.isEditingBuildingShape?.currentValue === true ||
+    //   changes.isEditingRegionShape?.currentValue === true
+    // ) {
+    //   this.startDrawing();
+    // }
     if (
       changes.isEditingBuildingShape?.currentValue === false ||
       changes.isEditingRegionShape?.currentValue === false
@@ -173,12 +173,12 @@ export class MapViewComponent implements OnChanges {
       }
       this.showRegionPreview(regionCoordinates);
     }
-    if (changes.isDrawing?.firstChange === false) {
-      if (changes.isDrawing.currentValue === true) {
-        this.draw?.changeMode('draw_polygon');
-        this.startDrawing();
-      }
-    }
+    // if (changes.isDrawing?.firstChange === false) {
+    //   if (changes.isDrawing.currentValue === true) {
+    //     this.draw?.changeMode('draw_polygon');
+    //     this.startDrawing();
+    //   }
+    // }
     if (changes.selectedBuilding?.currentValue) {
       this.flyToLocation(
         changes.selectedBuilding.currentValue.coordLatitude,
@@ -213,8 +213,13 @@ export class MapViewComponent implements OnChanges {
     this.addRegionData();
     // Create a data source for access points
     this.addAccessPointData();
-    // Hide map data if required
+    if (this.isEditingRegionShape || this.isEditingBuildingShape) {
+      console.log('add drawing');
+      this.draw?.changeMode('draw_polygon');
+      this.startDrawing();
+    }
     if (environment.hidePOIs === true) {
+      // Hide map data if required
       map.setLayoutProperty('poi-label', 'visibility', 'none');
     }
     if (environment.hideStreetLabels === true) {
@@ -341,6 +346,17 @@ export class MapViewComponent implements OnChanges {
   startDrawing(): void {
     this.isDrawing = true;
     this.draw?.changeMode('draw_polygon');
+    if (this.map && this.mapRegionData) {
+      if (this.isEditingRegionShape && this.selectedRegion?.regionPolygon) {
+        // const region = this.draw.add({
+        //   type: 'Polygon',
+        //   coordinates: [this.selectedRegion.regionPolygon],
+        // });
+        // const regionFeature = this.draw.getAll().features[0];
+        // this.draw.changeMode('simple_select', { featureIds: region });
+        this.showRegionPreview(this.selectedRegion.regionPolygon);
+      }
+    }
   }
   onEditBuildingSave(): void {
     if (this.selectedBuilding) {
@@ -375,18 +391,18 @@ export class MapViewComponent implements OnChanges {
 
   onEditRegionSave(): void {
     if (this.selectedRegion) {
-      const shapeCoordinates: number[][] = this.currentPolygon
+      const shapeCoordinates: number[][][] = this.currentPolygon
         ?.coordinates as any;
       if (shapeCoordinates) {
         this.confirmationService.confirm({
           key: 'buildingShapeConfirmation',
-          message: `Are you sure that you want to update ${this.selectedRegion.name}'s shape?`,
+          message: `Are you sure that you want to update ${this.selectedRegion.regionName}'s shape?`,
           header: 'Confirmation',
           acceptButtonStyleClass: 'p-mr-0',
           acceptIcon: 'fal fa-check',
           rejectIcon: 'fal fa-times',
           accept: () => {
-            this.updateRegionShape.emit(shapeCoordinates);
+            this.updateRegionShape.emit(shapeCoordinates[0]);
             this.drawingComplete.emit();
           },
           reject: (type: ConfirmEventType) => {

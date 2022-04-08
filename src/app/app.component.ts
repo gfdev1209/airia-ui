@@ -39,6 +39,15 @@ export class AppComponent implements OnInit, OnDestroy {
       })
     )
     .subscribe();
+  successMessage$ = this.notificationService.successMessage$
+    .pipe(
+      tap((successMessage) => {
+        if (successMessage !== null) {
+          this.displaySuccessMessage(successMessage);
+        }
+      })
+    )
+    .subscribe();
 
   constructor(
     private store: Store<RootState>,
@@ -52,17 +61,25 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   displayError(error: HttpErrorResponse): void {
-    this.addMessageToService(error.message);
+    this.addMessageToService(error.message, 'error', 'Error');
   }
 
   displayErrorMessage(error: string): void {
-    this.addMessageToService(error);
+    this.addMessageToService(error, 'error', 'Error');
   }
 
-  private addMessageToService(message: string): void {
+  displaySuccessMessage(message: string): void {
+    this.addMessageToService(message, 'success', 'Success');
+  }
+
+  private addMessageToService(
+    message: string,
+    severity: string,
+    summary: string
+  ): void {
     this.messageService.add({
-      severity: 'error',
-      summary: 'Error',
+      severity,
+      summary,
       detail: message,
       sticky: false,
     });

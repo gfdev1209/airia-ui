@@ -162,6 +162,7 @@ export const regionReducer = createReducer(
   on(Actions.updateRegionPolygonSuccess, (state, { region }) => {
     return adapter.upsertOne(region, {
       ...state,
+      selected: region,
       editShape: false,
       loading: false,
       loaded: true,

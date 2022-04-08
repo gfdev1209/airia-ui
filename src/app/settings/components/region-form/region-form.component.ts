@@ -55,19 +55,22 @@ export class RegionFormComponent implements OnInit {
   }
 
   updateRegion(region: Region): void {
-    // const regionUpdate: Update<Region> = {
-    //   id: region.id,
-    //   changes: {
-    //     regionClassification: region.regionClassification,
-    //     // tslint:disable-next-line:quotemark
-    //     // prettier-ignore
-    //     regionDescription: region.regionDescription,
-    //     // tslint:disable-next-line:quotemark
-    //     // prettier-ignore
-    //     regionName: region.regionName,
-    //   },
-    // };
-    // this.store.dispatch(RegionActions.update({ region: regionUpdate }));
+    const regionUpdate: Update<Region> = {
+      id: region.id,
+      changes: {
+        regionId: region.id,
+        regionName: region.regionName,
+        buildingFloorId: region.buildingFloorId,
+        buildingId: region.buildingId,
+        // tslint:disable-next-line:quotemark
+        // prettier-ignore
+        // regionDescription: region.regionDescription,
+        // // tslint:disable-next-line:quotemark
+        // // prettier-ignore
+        // regionName: region.regionName,
+      },
+    };
+    this.store.dispatch(RegionActions.update({ region: regionUpdate }));
   }
   addFloor(region: Region): void {
     if (region) {

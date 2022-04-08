@@ -4,7 +4,8 @@ import { Floor } from './floor.model';
 
 export class Region {
   id!: number;
-  name!: string;
+  regionId!: number;
+  regionName!: string;
   modelRegion!: string;
   locationId?: string;
   buildingId?: number;
@@ -33,7 +34,8 @@ export class Region {
     buildingFloorNumber: number;
   }) {
     this.id = args.regionId;
-    this.name = args.regionName;
+    this.regionId = args.regionId;
+    this.regionName = args.regionName;
     this.modelRegion = args.modelRegion;
     this.locationId = args.locationId;
     this.buildingId = args.buildingId;
@@ -50,6 +52,8 @@ export class Region {
           [position[0], position[1]] = [position[1], position[0]];
         });
         this.regionPolygon.push(this.regionPolygon[0]);
+      } else {
+        this.regionPolygon = JSON.parse(args.regionPolygonJson);
       }
     }
 

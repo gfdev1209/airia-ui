@@ -60,7 +60,7 @@ export class RegionEffects {
       withLatestFrom(this.store.select(RegionSelectors.selectActiveRegions)),
       switchMap(([{ term }, regions]) => {
         const searchResults = regions.filter((entity) =>
-          entity.name.toLowerCase().includes(term.toLowerCase())
+          entity.regionName.toLowerCase().includes(term.toLowerCase())
         );
         return of(
           RegionActions.searchSuccess({
@@ -118,22 +118,12 @@ export class RegionEffects {
     this.actions$.pipe(
       ofType(RegionActions.select),
       withLatestFrom(this.store.select(RegionSelectors.selectAll)),
-      switchMap(([{ id }, regions]) => {
-        const region = regions[id];
-        if (region) {
-          return of(
-            RegionActions.selectSuccess({
-              region,
-            })
-          );
-        } else {
-          return this.regionService
-            .get<Region>(id, '+BuildingFloor')
-            .pipe(
-              map((region2) => RegionActions.selectSuccess({ region: region2 }))
-            );
-        }
-      }),
+      mergeMap(([{ id }]) =>
+        this.regionService.get<Region>(id, '+BuildingFloor').pipe(
+          tap((region) => console.log(region)),
+          map((region) => RegionActions.selectSuccess({ region }))
+        )
+      ),
       catchError(() => of(RegionActions.selectFailed()))
     )
   );
@@ -179,6 +169,7 @@ export class RegionEffects {
         return this.regionService.updatePolygon(region.id, polygon).pipe(
           map(() => {
             region.regionPolygon = polygon;
+            // region.regionPolygon = polygon[0] as number[][];
             return RegionActions.updateRegionPolygonSuccess({
               region,
             });

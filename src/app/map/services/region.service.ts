@@ -99,7 +99,7 @@ export class RegionService extends BaseService {
   updatePolygon(id: number, polygon?: number[][]): Observable<void> {
     let data = '""';
     if (polygon) {
-      data = `"${JSON.stringify(polygon[0])}"`;
+      data = `"${JSON.stringify(polygon)}"`;
     }
     return this.http
       .put(`${this.apiUrl}/${id}/PolygonJson`, data, { headers: this.headers })
