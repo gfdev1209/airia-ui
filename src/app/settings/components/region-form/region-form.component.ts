@@ -13,6 +13,8 @@ import { Region } from '@map/models';
 import { Update } from '@ngrx/entity';
 import { DialogService } from 'primeng/dynamicdialog';
 import { FloorFormComponent } from '@shared/components/floor-form/floor-form.component';
+import { Actions, ofType } from '@ngrx/effects';
+import { NotificationService } from '@shared/services/notification.service';
 
 @Component({
   selector: 'app-region-form',
@@ -39,14 +41,21 @@ export class RegionFormComponent implements OnInit {
     })
   );
   loading$ = this.store.select(RegionSelectors.selectLoading);
+  updateRegionSuccess$ = this.actions$
+    .pipe(ofType(RegionActions.updateSuccess))
+    .subscribe((data: any) => {
+      this.notificationService.displaySuccess('Successfully updated Region');
+    });
 
   regionId?: string | null;
 
   constructor(
+    private actions$: Actions,
     private store: Store<RootState>,
     private route: ActivatedRoute,
     private router: Router,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -62,12 +71,6 @@ export class RegionFormComponent implements OnInit {
         regionName: region.regionName,
         buildingFloorId: region.buildingFloorId,
         buildingId: region.buildingId,
-        // tslint:disable-next-line:quotemark
-        // prettier-ignore
-        // regionDescription: region.regionDescription,
-        // // tslint:disable-next-line:quotemark
-        // // prettier-ignore
-        // regionName: region.regionName,
       },
     };
     this.store.dispatch(RegionActions.update({ region: regionUpdate }));
