@@ -33,7 +33,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   @Input() isPlaybackLive?: boolean | null;
   @Input() isPlaying?: boolean | null;
   @Input() isDevicesLoading?: boolean | null;
-  @Input() alertSliderValue?: number | null = 100;
+  @Input() alertSliderValue?: number | null = 10;
 
   @Output() topPanelHeightChanged = new EventEmitter<number>();
   @Output() alertSortTypeChanged = new EventEmitter<AlertSortType>();
@@ -52,6 +52,8 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
   @Output() toggleDevices = new EventEmitter<boolean>();
   @Output() toggledStaticDevices = new EventEmitter<boolean>();
   @Output() toggledClusters = new EventEmitter<boolean>();
+
+  @Output() alertSliderChanged = new EventEmitter<number>();
 
   @ViewChild('topPanel') topPanel!: ElementRef;
   @ViewChild('alertPanel') private alertPanel!: AlertPanelComponent;
@@ -223,7 +225,9 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     // }
   }
   onAlertSliderChange(evt: any): void {
-    console.log(evt);
+    if (evt?.value) {
+      this.alertSliderChanged.emit(evt.value);
+    }
   }
   changeDate(newDate: Date): void {
     // this.resetPlaybackMeter();
