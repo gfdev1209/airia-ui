@@ -356,14 +356,14 @@
                         [(ngModel)]="alertSliderValue"
                         [animate]="false"
                         [min]="0"
-                        [max]="100"
+                        [max]="10"
                         [disabled]="isDevicesLoading === true"
-                        (onChange)="onAlertSliderChange($event)"
+                        (onSlideEnd)="onAlertSliderChange($event)"
                       ></p-slider>
                     </div>
                     <div>
                       <small class="color-text-medium">
-                        {{ alertSliderValue }}/100
+                        {{ alertSliderValue }}/10
                       </small>
                     </div>
                   </div>

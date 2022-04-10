@@ -26,6 +26,7 @@ export class Alert implements IBase {
   accessPoint?: AccessPoint;
   alertSeverity!: AlertSeverity;
   alertSeverityLevel!: number;
+  score!: number;
   alertType!: AlertType;
   region?: Region;
   buildingId!: number;
@@ -48,6 +49,7 @@ export class Alert implements IBase {
     region: any;
     alertSeverity: string;
     alertSeverityLevel: number;
+    score: number;
     alertType: string;
     buildingId: number;
     visualizationUrl: string;
@@ -109,6 +111,7 @@ export class Alert implements IBase {
     this.region = new Region(args.region);
     this.alertSeverity = AlertSeverity[args.alertSeverity] as AlertSeverity;
     this.alertSeverityLevel = args.alertSeverityLevel;
+    this.score = args.score;
     this.alertType = args.alertType as AlertType;
     this.visualizationUrl = args.visualizationUrl;
   }
