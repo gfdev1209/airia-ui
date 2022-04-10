@@ -179,10 +179,12 @@ export class OverviewPanelComponent implements OnInit, OnDestroy {
                 skipTakeInput: {
                     skip: 0,
                     take: 100,
-                    filters: { noise: {
-  value,
-  matchMode: 'LT',
-}}  ,
+                    filters: {
+                        noise: {
+                            value,
+                            matchMode: 'LT',
+                        },
+                    },
                 },
             })
         );
