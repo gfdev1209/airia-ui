@@ -75,19 +75,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this.authService.logoutRedirect().subscribe();
-    this.msalBroadcastService.inProgress$
-      .pipe(
-        filter(
-          (status: InteractionStatus) => status === InteractionStatus.None
-        ),
-        takeUntil(this.destroying$)
-      )
-      .subscribe((result) => {
-        // this.setLoginDisplay();
-        this.checkAndSetActiveAccount();
-      });
-    this.msalBroadcastService.msalSubject$
+    this.getLoginStatus();
+  }
+
+  async getLoginStatus(): Promise<void> {
+    await this.msalBroadcastService.msalSubject$
       .pipe(
         filter(
           (msg: EventMessage) =>
@@ -99,7 +91,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe((result: EventMessage) => {
         this.loginDisplay = false;
         const error: AuthError = result.error as AuthError;
-        if (error?.errorMessage.indexOf('AADB2C90118') > -1) {
+        if (error?.errorCode === 'no_tokens_found') {
+          this.authService.logoutRedirect().subscribe();
+        } else if (error?.errorMessage.indexOf('AADB2C90118') > -1) {
           const resetPasswordFlowRequest = {
             scopes: ['openid', 'profile'],
             authority: b2cPolicies.authorities.resetPassword.authority,
@@ -113,7 +107,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.msalBroadcastService.msalSubject$
+    await this.msalBroadcastService.msalSubject$
       .pipe(
         filter(
           (msg: EventMessage) =>
@@ -138,6 +132,17 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
 
         return result;
+      });
+    await this.msalBroadcastService.inProgress$
+      .pipe(
+        filter(
+          (status: InteractionStatus) => status === InteractionStatus.None
+        ),
+        takeUntil(this.destroying$)
+      )
+      .subscribe((result) => {
+        // this.setLoginDisplay();
+        this.checkAndSetActiveAccount();
       });
   }
 
