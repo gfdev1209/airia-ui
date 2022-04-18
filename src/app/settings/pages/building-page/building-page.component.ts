@@ -8,6 +8,7 @@ import { tap } from 'rxjs/operators';
 
 import * as BuildingSelectors from '@store/building/building.selectors';
 import * as BuildingActions from '@store/building/building.actions';
+import * as RegionActions from '@store/region/region.actions';
 
 @Component({
   selector: 'app-building-page',
@@ -24,6 +25,7 @@ export class BuildingPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.store.dispatch(RegionActions.deselect());
     this.store.dispatch(BuildingActions.deselect());
     this.buildingSelected$ = this.store
       .select(BuildingSelectors.selectSelectedBuilding)

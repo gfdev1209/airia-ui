@@ -14,6 +14,8 @@ export class Region {
   regionPolygon?: number[][];
   buildingFloor?: Floor;
   buildingFloorNumber?: number;
+  buildingLatitude?: number;
+  buildingLongitude?: number;
   alerts?: Alert[];
   activeType!: string;
 
@@ -32,6 +34,8 @@ export class Region {
     regionPolygonJson: any;
     buildingName?: string;
     buildingFloorNumber: number;
+    buildingLatitude?: number;
+    buildingLongitude?: number;
   }) {
     this.id = args.regionId;
     this.regionId = args.regionId;
@@ -40,6 +44,8 @@ export class Region {
     this.locationId = args.locationId;
     this.buildingId = args.buildingId;
     this.buildingName = args.buildingName;
+    this.buildingLatitude = args.buildingLatitude;
+    this.buildingLongitude = args.buildingLongitude;
     this.buildingFloorId = args.buildingFloorId;
     this.buildingFloorNumber = args.buildingFloorNumber;
     this.buildingFloor = args.buildingFloor;

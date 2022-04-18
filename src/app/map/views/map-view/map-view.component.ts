@@ -172,6 +172,10 @@ export class MapViewComponent implements OnChanges {
         regionCoordinates = changes.regionPolygon.currentValue;
       }
       this.showRegionPreview(regionCoordinates);
+      // Display the region within the viewport
+      if (regionCoordinates?.length > 0) {
+        this.zoomToPolygon(regionCoordinates, 300, [40, 0]);
+      }
     }
     // if (changes.isDrawing?.firstChange === false) {
     //   if (changes.isDrawing.currentValue === true) {
@@ -354,7 +358,19 @@ export class MapViewComponent implements OnChanges {
         // });
         // const regionFeature = this.draw.getAll().features[0];
         // this.draw.changeMode('simple_select', { featureIds: region });
-        this.showRegionPreview(this.selectedRegion.regionPolygon);
+        // Display the region within the viewport
+        if (this.selectedRegion.regionPolygon?.length > 0) {
+          this.showRegionPreview(this.selectedRegion.regionPolygon);
+          this.zoomToPolygon(this.selectedRegion.regionPolygon, 300, [40, 0]);
+        } else if (
+          this.selectedRegion.buildingLatitude &&
+          this.selectedRegion.buildingLongitude
+        ) {
+          this.flyToLocation(
+            this.selectedRegion.buildingLatitude,
+            this.selectedRegion.buildingLongitude
+          );
+        }
       }
     }
   }
@@ -671,10 +687,6 @@ export class MapViewComponent implements OnChanges {
         type: 'Polygon',
         coordinates: [region],
       });
-      // Display the region within the viewport
-      if (region?.length > 0) {
-        this.zoomToPolygon(region, 300, [40, 0]);
-      }
     }
   }
 

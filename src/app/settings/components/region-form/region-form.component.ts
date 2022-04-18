@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as RegionSelectors from '@store/region/region.selectors';
 import * as RegionActions from '@store/region/region.actions';
 import * as FloorSelectors from '@store/floor/floor.selectors';
@@ -22,7 +22,7 @@ import { NotificationService } from '@shared/services/notification.service';
   styleUrls: ['./region-form.component.scss'],
   providers: [DialogService],
 })
-export class RegionFormComponent implements OnInit {
+export class RegionFormComponent implements OnInit, OnDestroy {
   region$ = this.store.select(RegionSelectors.selectSelectedRegion).pipe(
     tap((region) => {
       if (!region && this.regionId) {
@@ -102,5 +102,8 @@ export class RegionFormComponent implements OnInit {
         polygon: undefined,
       })
     );
+  }
+  ngOnDestroy(): void {
+    this.updateRegionSuccess$?.unsubscribe();
   }
 }

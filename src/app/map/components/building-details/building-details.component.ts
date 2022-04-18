@@ -19,15 +19,14 @@ export class BuildingDetailsComponent implements OnInit {
   building$ = this.store.select(BuildingSelectors.selectSelectedBuilding).pipe(
     tap((building) => {
       if (building) {
-        this.region$ = this.store
-          .select(RegionSelectors.selectByBuildingId, {
-            buildingId: building.id,
-          })
-          .pipe(
-            tap((region) => {
-              this.store.dispatch(RegionActions.select({ id: region?.id }));
-            })
-          );
+        this.region$ = this.store.select(RegionSelectors.selectByBuildingId, {
+          buildingId: building.id,
+        });
+        // .pipe(
+        //   tap((region) => {
+        //     this.store.dispatch(RegionActions.select({ id: region?.id }));
+        //   })
+        // );
       }
     })
   );

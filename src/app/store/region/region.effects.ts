@@ -12,6 +12,7 @@ import { Region, Occupancy, Building } from '@map/models';
 import { of } from 'rxjs';
 import * as RegionActions from './region.actions';
 import * as RegionSelectors from './region.selectors';
+import * as BuildingSelectors from './../building/building.selectors';
 import { RegionService } from '@map/services/region.service';
 import { RootState } from '..';
 import { Store } from '@ngrx/store';
@@ -37,14 +38,8 @@ export class RegionEffects {
       switchMap((buildings) => {
         return this.regionService.getAll<Region[]>('+BuildingFloor').pipe(
           tap((regions) => {
-            const buildingDict = Object.assign(
-              {},
-              ...buildings.map((building) => ({ [building.id]: building }))
-            );
             regions.forEach((region) => {
-              region.buildingName = region.buildingFloor?.buildingId
-                ? buildingDict[region.buildingFloor?.buildingId].buildingName
-                : 'n/a';
+              this.assignBuildingDetailsToRegion(buildings, region);
             });
           }),
           map((regions: Region[]) => RegionActions.getAllSuccess({ regions })),
@@ -117,13 +112,23 @@ export class RegionEffects {
   select$ = createEffect(() =>
     this.actions$.pipe(
       ofType(RegionActions.select),
-      withLatestFrom(this.store.select(RegionSelectors.selectAll)),
-      mergeMap(([{ id }]) =>
-        this.regionService.get<Region>(id, '+BuildingFloor').pipe(
-          tap((region) => console.log(region)),
+      withLatestFrom(this.store.select(BuildingSelectors.selectAll)),
+      mergeMap(([{ id }, buildings]) => {
+        if (buildings?.length === 0) {
+          return this.buildingService
+            .getAll<Building[]>()
+            .pipe(map((buildings2) => ({ id, buildings: buildings2 })));
+        }
+        return of({ id, buildings });
+      }),
+      switchMap(({ id, buildings }) => {
+        return this.regionService.get<Region>(id, '+BuildingFloor').pipe(
+          tap((region) =>
+            this.assignBuildingDetailsToRegion(buildings, region)
+          ),
           map((region) => RegionActions.selectSuccess({ region }))
-        )
-      ),
+        );
+      }),
       catchError(() => of(RegionActions.selectFailed()))
     )
   );
@@ -179,4 +184,21 @@ export class RegionEffects {
       catchError(() => of(RegionActions.selectFailed()))
     )
   );
+
+  assignBuildingDetailsToRegion(buildings: Building[], region: Region): Region {
+    if (region.buildingFloor?.buildingId) {
+      const buildingDict = Object.assign(
+        {},
+        ...buildings.map((building) => ({ [building.id]: building }))
+      );
+      region.buildingLatitude =
+        buildingDict[region.buildingFloor?.buildingId].coordLatitude;
+      region.buildingLongitude =
+        buildingDict[region.buildingFloor?.buildingId].coordLongitude;
+      region.buildingName = region.buildingFloor?.buildingId
+        ? buildingDict[region.buildingFloor?.buildingId].buildingName
+        : 'n/a';
+    }
+    return region;
+  }
 }

@@ -55,8 +55,13 @@
   </mgl-map>
 </div>
 
-<div *ngIf="isEditingBuildingShape === true" class="building-draw-overlay">
-  <h2 class="p-mb-1 p-mt-0">Editing Building</h2>
+<div
+  *ngIf="isEditingBuildingShape === true && selectedBuilding"
+  class="building-draw-overlay"
+>
+  <h2 class="p-mb-1 p-mt-0">
+    Editing Building - {{ selectedBuilding.buildingName }}
+  </h2>
   <p class="p-mt-0">
     Click on the map to begin plotting the shape of your building.
   </p>
@@ -82,8 +87,13 @@
   </div>
 </div>
 
-<div *ngIf="isEditingRegionShape === true" class="building-draw-overlay">
-  <h2 class="p-mb-1 p-mt-0">Editing Region</h2>
+<div
+  *ngIf="isEditingRegionShape === true && selectedRegion"
+  class="building-draw-overlay"
+>
+  <h2 class="p-mb-1 p-mt-0">
+    Editing Region - {{ selectedRegion.regionName }}
+  </h2>
   <p class="p-mt-0">
     Click on the map to begin plotting the shape of the region.
   </p>
