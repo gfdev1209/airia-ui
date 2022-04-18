@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 
 import * as RegionSelectors from '@store/region/region.selectors';
 import * as RegionActions from '@store/region/region.actions';
+import * as BuildingActions from '@store/building/building.actions';
 
 @Component({
   selector: 'app-region-page',
@@ -32,6 +33,7 @@ export class RegionPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(RegionActions.deselect());
+    this.store.dispatch(BuildingActions.deselect());
     this.regionSelected$ = this.store
       .select(RegionSelectors.selectSelectedRegion)
       .pipe(tap((region) => this.regionSelected(region)))
