@@ -26,6 +26,7 @@ export class Alert implements IBase {
   accessPoint?: AccessPoint;
   alertSeverity!: AlertSeverity;
   alertSeverityLevel!: number;
+  noise!: number;
   score!: number;
   alertType!: AlertType;
   region?: Region;
@@ -50,6 +51,7 @@ export class Alert implements IBase {
     alertSeverity: string;
     alertSeverityLevel: number;
     score: number;
+  noise: number;
     alertType: string;
     buildingId: number;
     visualizationUrl: string;
@@ -112,6 +114,7 @@ export class Alert implements IBase {
     this.alertSeverity = AlertSeverity[args.alertSeverity] as AlertSeverity;
     this.alertSeverityLevel = args.alertSeverityLevel;
     this.score = args.score;
+    this.noise = args.noise;
     this.alertType = args.alertType as AlertType;
     this.visualizationUrl = args.visualizationUrl;
   }

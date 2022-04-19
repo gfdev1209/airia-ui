@@ -1,460 +1,393 @@
-<div
-  class="overview-panel has-shadow position-relative"
-  [class.expanded]="isExpanded === true"
->
-  <div class="map-controls p-d-sm-block">
-    <app-map-controls></app-map-controls>
-    <div class="p-mt-3 p-d-sm-block">
-      <app-floor-controls></app-floor-controls>
-    </div>
-  </div>
-  <div class="p-d-flex p-flex-column overflow-hidden">
-    <div class="p-d-flex p-flex-column">
-      <a class="menu-toggle p-d-flex p-align-center" (click)="toggleSize()">
-        <i
-          class="fas fa-border"
-          [class.fa-arrow-to-left]="isExpanded === false"
-          [class.fa-arrow-to-right]="isExpanded === true"
-        ></i>
-      </a>
-      <ng-container *ngIf="isExpanded">
-        <div #topPanel>
-          <div class="p-d-flex p-align-top p-mt-4">
-            <div class="p-flex-column p-mr-2">
-              <i class="fas fa-graduation-cap fa-fw color-grey"></i>
-            </div>
-            <div class="p-flex-column flex-grow-1">
-              <h3 class="p-m-0">{{ selectedLocation?.name }}</h3>
-              <div class="p-d-flex p-jc-between color-text-medium">
-                <div class="p-flex-column">
-                  <small class="font-size-small">
-                    {{ displayedMapDateTime }}
-                    <!-- {{ displayedMapDateTime | date: "EEEE, MMM d, y" }}<br />
-                    {{ displayedMapDateTime | date: "h:mm a zzzz" }} -->
-                    <div
-                      *ngIf="isPlaybackLive"
-                      class="playback-live-indicator p-ml-2"
-                    >
-                      <strong>LIVE</strong>
-                    </div>
-                  </small>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="p-mt-3">
-            <p-accordion
-              (onOpen)="onAccordionToggle($event)"
-              (onClose)="onAccordionToggle($event)"
-              expandIcon=""
-            >
-              <p-accordionTab
-                transitionOptions="0ms"
-                [(selected)]="activeState[0]"
-              >
-                <ng-template pTemplate="header">
-                  <div class="p-flex-column flex-grow-1">
-                    <i class="icon fas fa-play-circle fa-fw p-mr-2"></i>
-                    Playback
-                  </div>
-                  <div class="p-flex-column">
-                    <p-calendar
-                      [(ngModel)]="currentDateTime"
-                      [showIcon]="true"
-                      [maxDate]="currentDateTime"
-                      icon="fas fa-clock"
-                      inputId="icon"
-                      appendTo="body"
-                      class="only-icon"
-                      (click)="stopPropagation($event)"
-                      (onShow)="onCalendarOpen($event)"
-                      (onSelect)="onPlaybackCalendarSelect($event)"
-                      panelStyleClass="small"
-                      [showTime]="true"
-                      hourFormat="12"
-                      [disabled]="isDevicesLoading === true"
-                    ></p-calendar>
-                  </div>
-                </ng-template>
-                <ng-template pTemplate="content">
-                  <div class="p-d-flex p-ai-center p-jc-between">
-                    <button
-                      pButton
-                      pRipple
-                      type="button"
-                      label="1d"
-                      icon="fak fa-skip-time-back"
-                      class="btn-skip-time p-button-secondary p-button-sm p-button-xs p-button-outlined"
-                      [disabled]="isDevicesLoading === true"
-                      (click)="onPlaybackIntervalChange(-1, 'day')"
-                    ></button>
-                    <button
-                      pButton
-                      pRipple
-                      type="button"
-                      label="1hr"
-                      icon="fak fa-skip-time-back"
-                      class="btn-skip-time p-button-secondary p-button-sm p-button-xs p-button-outlined"
-                      [disabled]="isDevicesLoading === true"
-                      (click)="onPlaybackIntervalChange(-1, 'hour')"
-                    ></button>
-                    <button
-                      pButton
-                      pRipple
-                      type="button"
-                      label="1m"
-                      icon="fak fa-skip-time-back"
-                      class="btn-skip-time p-button-secondary p-button-sm p-button-xs p-button-outlined"
-                      [disabled]="isDevicesLoading === true"
-                      (click)="onPlaybackIntervalChange(-1, 'minute')"
-                    ></button>
-                    <button
-                      pButton
-                      pRipple
-                      type="button"
-                      [icon]="
-                        isDevicesLoading === true
-                          ? 'fal fa-sync fa-spin'
-                          : isPlaying || isPlaybackLive
-                          ? 'fas fa-pause'
-                          : 'fas fa-play'
-                      "
-                      class="btn-playback p-button-outlined"
-                      [ngClass]="{
-                        'is-active': isPlaying === true,
-                        'opacity-100': isDevicesLoading === true
-                      }"
-                      [disabled]="isDevicesLoading === true"
-                      (click)="onTogglePlayback()"
-                    ></button>
-                    <button
-                      pButton
-                      pRipple
-                      type="button"
-                      label="1d"
-                      icon="fak fa-skip-time-forward"
-                      class="btn-skip-time p-button-secondary p-button-sm p-button-xs p-button-outlined"
-                      (click)="onPlaybackIntervalChange(1, 'day')"
-                      [disabled]="
-                        isPlaybackLive ||
-                        isDateInFuture(1, 'day') ||
-                        isDevicesLoading === true
-                      "
-                    ></button>
-                    <button
-                      pButton
-                      pRipple
-                      type="button"
-                      label="1hr"
-                      icon="fak fa-skip-time-forward"
-                      class="btn-skip-time p-button-secondary p-button-sm p-button-xs p-button-outlined"
-                      (click)="onPlaybackIntervalChange(1, 'hour')"
-                      [disabled]="
-                        isPlaybackLive ||
-                        isDateInFuture(1, 'hour') ||
-                        isDevicesLoading === true
-                      "
-                    ></button>
-                    <button
-                      pButton
-                      pRipple
-                      type="button"
-                      label="1m"
-                      icon="fak fa-skip-time-forward"
-                      class="btn-skip-time p-button-secondary p-button-sm p-button-xs p-button-outlined"
-                      (click)="onPlaybackIntervalChange(1, 'minute')"
-                      [disabled]="
-                        isPlaybackLive ||
-                        isDateInFuture(1, 'minute') ||
-                        isDevicesLoading === true
-                      "
-                    ></button>
-                  </div>
-                  <div class="p-d-flex p-ai-center p-jc-between p-mt-2">
-                    <div class="p-ml-2 p-mr-3 flex-grow-1">
-                      <p-slider
-                        [(ngModel)]="playbackSliderValue"
-                        [animate]="false"
-                        [min]="0"
-                        [max]="playbackSliderMax!"
-                        [disabled]="
-                          isPlaybackLive === null ||
-                          isPlaybackLive === true ||
-                          isDevicesLoading === true
-                        "
-                        (onChange)="onPlaybackSliderChange($event)"
-                      ></p-slider>
-                    </div>
-                    <div class="p-mr-2">
-                      <small>
-                        <button
-                          pButton
-                          pRipple
-                          type="button"
-                          label="LIVE"
-                          class="p-button-secondary p-button-sm"
-                          (click)="onToggleLive()"
-                          [disabled]="
-                            isPlaybackLive || isDevicesLoading === true
-                          "
-                        ></button>
-                      </small>
-                    </div>
-                    <div>
-                      <small>
-                        <p-dropdown
-                          [(ngModel)]="playbackSpeed"
-                          [options]="playbackOptions"
-                          (click)="stopPropagation($event)"
-                          (onChange)="onPlaybackSpeedChange($event)"
-                          appendTo="body"
-                          placeholder="1.5x"
-                          optionLabel="name"
-                          optionValue="value"
-                          value="2"
-                          styleClass="dd-playback-speed tiny no-arrow"
-                          dropdownIcon="fas fa-chevron-down"
-                          [disabled]="
-                            isPlaybackLive || isDevicesLoading === true
-                          "
-                        ></p-dropdown>
-                      </small>
-                    </div>
-                  </div>
-                </ng-template>
-              </p-accordionTab>
-              <p-accordionTab
-                transitionOptions="0ms"
-                [(selected)]="activeState[1]"
-              >
-                <ng-template pTemplate="header">
-                  <i class="icon fas fa-eye fa-fw p-mr-2"></i> Map View
-                </ng-template>
-                <ng-template pTemplate="content">
-                  <div class="p-d-flex p-align-center p-mt-2">
-                    <div class="p-flex-column flex-grow-1">
-                      <label for="staticDevices">
-                        <div class="icoDevice"></div>
-                        <small class="color-text-medium">Devices</small>
-                      </label>
-                    </div>
-                    <div class="p-flex-column">
-                      <small>
-                        <p-inputSwitch
-                          inputId="staticDevices"
-                          [(ngModel)]="staticDevices"
-                          (onChange)="onToggleDevices($event)"
-                        ></p-inputSwitch
-                      ></small>
-                    </div>
-                  </div>
-                  <div class="p-d-flex p-align-center p-mt-2">
-                    <div class="p-flex-column flex-grow-1">
-                      <label for="iotDevices">
-                        <div class="icoIOT"></div>
-                        <small class="color-text-medium">Static</small>
-                      </label>
-                    </div>
-                    <div class="p-flex-column">
-                      <small>
-                        <p-inputSwitch
-                          inputId="iotDevices"
-                          [(ngModel)]="iotDevices"
-                          (onChange)="onToggleIOT($event)"
-                        ></p-inputSwitch
-                      ></small>
-                    </div>
-                  </div>
-                  <div class="p-d-flex p-align-center p-mt-2">
-                    <div class="p-flex-column flex-grow-1">
-                      <label for="staticDevices">
-                        <div class="icoCluster"></div>
-                        <small class="color-text-medium">Clusters</small>
-                      </label>
-                    </div>
-                    <div class="p-flex-column">
-                      <small>
-                        <p-inputSwitch
-                          inputId="clusters"
-                          [(ngModel)]="clusters"
-                          (onChange)="onToggleClusters($event)"
-                        ></p-inputSwitch
-                      ></small>
-                    </div>
-                  </div>
-                  <div class="p-d-flex p-align-center p-mt-2">
-                    <div class="p-flex-column flex-grow-1">
-                      <label for="accessPoints">
-                        <img
-                          src="./assets/img/access-point.png"
-                          class="icoAccessPoint"
-                        />
-                        <small class="color-text-medium">Access Points</small>
-                      </label>
-                    </div>
-                    <div class="p-flex-column">
-                      <small>
-                        <p-inputSwitch
-                          inputId="accessPoints"
-                          [(ngModel)]="accessPoints"
-                          (onChange)="onToggleAccessPoints($event)"
-                        ></p-inputSwitch
-                      ></small>
-                    </div>
-                  </div>
-                </ng-template>
-              </p-accordionTab>
-              <p-accordionTab
-                transitionOptions="0ms"
-                [(selected)]="activeState[2]"
-              >
-                <ng-template pTemplate="header">
-                  <div class="p-d-flex p-align-center p-jc-between flex-grow-1">
-                    <div class="p-flex-column flex-grow-1">
-                      <i
-                        class="icon fas fa-exclamation-triangle fa-fw p-mr-2"
-                      ></i>
-                      Alerts
-                    </div>
-                    <div class="p-flex-column">
-                      <small>
-                        <p-dropdown
-                          [options]="alertSortOptions"
-                          (click)="stopPropagation($event)"
-                          (onChange)="onSortChange($event)"
-                          [(ngModel)]="selectedAlertSortOption"
-                          placeholder="Sort By"
-                          optionLabel="name"
-                          optionValue="value"
-                          value="2"
-                          dropdownIcon="fas fa-chevron-down"
-                        ></p-dropdown>
-                        <button
-                          pButton
-                          pRipple
-                          type="button"
-                          [icon]="
-                            sortDirection > 0
-                              ? 'fas fa-sort-amount-up'
-                              : 'fas fa-sort-amount-down'
-                          "
-                          class="p-button-secondary p-button-sm p-ml-1"
-                          (click)="stopPropagation($event)"
-                          (click)="onSortDirectionChange($event)"
-                        ></button>
-                      </small>
-                    </div>
-                  </div>
-                </ng-template>
-                <ng-template pTemplate="content">
-                  <div class="p-d-flex p-jc-between p-ai-center">
-                    <div>
-                      <small class="p-pr-1"><strong>Severity</strong></small>
-                    </div>
-                    <div class="flex-grow-1 p-mt-1 p-mb-1 p-ml-2 p-mr-2 p-pr-1">
-                      <p-slider
-                        [(ngModel)]="alertSliderValue"
-                        [animate]="false"
-                        [min]="0"
-                        [max]="10"
-                        [disabled]="isDevicesLoading === true"
-                        (onSlideEnd)="onAlertSliderChange($event)"
-                      ></p-slider>
-                    </div>
-                    <div>
-                      <small class="color-text-medium">
-                        {{ alertSliderValue }}/10
-                      </small>
-                    </div>
-                  </div>
-                  <!-- <div class="flex-grow-1 p-mt-1 p-mb-1 p-mr-2 p-pr-1">
-                    <div class="p-mt-2">
-                      <small>
-                        <p-checkbox
-                          name="acknowledged"
-                          [(ngModel)]="acknowledged"
-                          (onChange)="onToggleAcknowledged($event)"
-                          [binary]="true"
-                          checkboxIcon="fas fa-check"
-                          label="Acknowledged"
-                        ></p-checkbox>
-                      </small>
-                    </div>
-                  </div> -->
-                  <!-- <div class="flex-grow-1">
-                      <div>
-                        <small>
-                          <p-checkbox
-                            name="severeUrgency"
-                            [(ngModel)]="severeUrgency"
-                            (onChange)="onToggleSevereUrgency($event)"
-                            [binary]="true"
-                            checkboxIcon="fas fa-check"
-                            label="Severe severity"
-                          ></p-checkbox>
-                        </small>
-                      </div>
-                      <div class="p-mt-2">
-                        <small>
-                          <p-checkbox
-                            name="highUrgency"
-                            [(ngModel)]="highUrgency"
-                            (onChange)="onToggleHighUrgency($event)"
-                            [binary]="true"
-                            checkboxIcon="fas fa-check"
-                            label="High severity"
-                          ></p-checkbox>
-                        </small>
-                      </div>
-                      <div class="p-mt-2">
-                        <small>
-                          <p-checkbox
-                            name="acknowledged"
-                            [(ngModel)]="acknowledged"
-                            (onChange)="onToggleAcknowledged($event)"
-                            [binary]="true"
-                            checkboxIcon="fas fa-check"
-                            label="Acknowledged"
-                          ></p-checkbox>
-                        </small>
-                      </div>
-                    </div>
-                    <div class="flex-grow-1">
-                      <div>
-                        <small>
-                          <p-checkbox
-                            name="medUrgency"
-                            [(ngModel)]="medUrgency"
-                            (onChange)="onToggleMediumUrgency($event)"
-                            [binary]="true"
-                            checkboxIcon="fas fa-check"
-                            label="Med. severity"
-                          ></p-checkbox>
-                        </small>
-                      </div>
-                      <div class="p-mt-2">
-                        <small>
-                          <p-checkbox
-                            name="lowUrgency"
-                            [(ngModel)]="lowUrgency"
-                            (onChange)="onToggleLowUrgency($event)"
-                            [binary]="true"
-                            checkboxIcon="fas fa-check"
-                            label="Low severity"
-                          ></p-checkbox>
-                        </small>
-                      </div>
-                    </div> -->
-                </ng-template>
-              </p-accordionTab>
-            </p-accordion>
-          </div>
+<div class="overview-panel has-shadow position-relative" [class.expanded]="isExpanded === true">
+    <div class="map-controls p-d-sm-block">
+        <app-map-controls></app-map-controls>
+        <div class="p-mt-3 p-d-sm-block">
+            <app-floor-controls></app-floor-controls>
         </div>
-        <app-alert-panel
-          #alertPanel
-          class="alert-panel-container"
-        ></app-alert-panel>
-      </ng-container>
     </div>
-  </div>
+    <div class="p-d-flex p-flex-column overflow-hidden">
+        <div class="p-d-flex p-flex-column">
+            <a class="menu-toggle p-d-flex p-align-center" (click)="toggleSize()">
+                <i
+                    class="fas fa-border"
+                    [class.fa-arrow-to-left]="isExpanded === false"
+                    [class.fa-arrow-to-right]="isExpanded === true"
+                ></i>
+            </a>
+            <ng-container *ngIf="isExpanded">
+                <div #topPanel>
+                    <div class="p-d-flex p-align-top p-mt-4">
+                        <div class="p-flex-column p-mr-2">
+                            <i class="fas fa-graduation-cap fa-fw color-grey"></i>
+                        </div>
+                        <div class="p-flex-column flex-grow-1">
+                            <h3 class="p-m-0">{{ selectedLocation?.name }}</h3>
+                            <div class="p-d-flex p-jc-between color-text-medium">
+                                <div class="p-flex-column">
+                                    <small class="font-size-small">
+                                        {{ displayedMapDateTime }}
+                                        <!-- {{ displayedMapDateTime | date: "EEEE, MMM d, y" }}<br />
+                    {{ displayedMapDateTime | date: "h:mm a zzzz" }} -->
+                                        <div *ngIf="isPlaybackLive" class="playback-live-indicator p-ml-2">
+                                            <strong>LIVE</strong>
+                                        </div>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-mt-3">
+                        <p-accordion (onOpen)="onAccordionToggle($event)" (onClose)="onAccordionToggle($event)" expandIcon="">
+                            <p-accordionTab transitionOptions="0ms" [(selected)]="activeState[0]">
+                                <ng-template pTemplate="header">
+                                    <div class="p-flex-column flex-grow-1">
+                                        <i class="icon fas fa-play-circle fa-fw p-mr-2"></i>
+                                        Playback
+                                    </div>
+                                    <div class="p-flex-column">
+                                        <p-calendar
+                                            [(ngModel)]="currentDateTime"
+                                            [showIcon]="true"
+                                            [maxDate]="currentDateTime"
+                                            icon="fas fa-clock"
+                                            inputId="icon"
+                                            appendTo="body"
+                                            class="only-icon"
+                                            (click)="stopPropagation($event)"
+                                            (onShow)="onCalendarOpen($event)"
+                                            (onSelect)="onPlaybackCalendarSelect($event)"
+                                            panelStyleClass="small"
+                                            [showTime]="true"
+                                            hourFormat="12"
+                                            [disabled]="isDevicesLoading === true"
+                                        ></p-calendar>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="content">
+                                    <div class="p-d-flex p-ai-center p-jc-between">
+                                        <button
+                                            pButton
+                                            pRipple
+                                            type="button"
+                                            label="1d"
+                                            icon="fak fa-skip-time-back"
+                                            class="btn-skip-time p-button-secondary p-button-sm p-button-xs p-button-outlined"
+                                            [disabled]="isDevicesLoading === true"
+                                            (click)="onPlaybackIntervalChange(-1, 'day')"
+                                        ></button>
+                                        <button
+                                            pButton
+                                            pRipple
+                                            type="button"
+                                            label="1hr"
+                                            icon="fak fa-skip-time-back"
+                                            class="btn-skip-time p-button-secondary p-button-sm p-button-xs p-button-outlined"
+                                            [disabled]="isDevicesLoading === true"
+                                            (click)="onPlaybackIntervalChange(-1, 'hour')"
+                                        ></button>
+                                        <button
+                                            pButton
+                                            pRipple
+                                            type="button"
+                                            label="1m"
+                                            icon="fak fa-skip-time-back"
+                                            class="btn-skip-time p-button-secondary p-button-sm p-button-xs p-button-outlined"
+                                            [disabled]="isDevicesLoading === true"
+                                            (click)="onPlaybackIntervalChange(-1, 'minute')"
+                                        ></button>
+                                        <button
+                                            pButton
+                                            pRipple
+                                            type="button"
+                                            [icon]="
+                                                isDevicesLoading === true
+                                                    ? 'fal fa-sync fa-spin'
+                                                    : isPlaying || isPlaybackLive
+                                                    ? 'fas fa-pause'
+                                                    : 'fas fa-play'
+                                            "
+                                            class="btn-playback p-button-outlined"
+                                            [ngClass]="{
+                                                'is-active': isPlaying === true,
+                                                'opacity-100': isDevicesLoading === true
+                                            }"
+                                            [disabled]="isDevicesLoading === true"
+                                            (click)="onTogglePlayback()"
+                                        ></button>
+                                        <button
+                                            pButton
+                                            pRipple
+                                            type="button"
+                                            label="1d"
+                                            icon="fak fa-skip-time-forward"
+                                            class="btn-skip-time p-button-secondary p-button-sm p-button-xs p-button-outlined"
+                                            (click)="onPlaybackIntervalChange(1, 'day')"
+                                            [disabled]="isPlaybackLive || isDateInFuture(1, 'day') || isDevicesLoading === true"
+                                        ></button>
+                                        <button
+                                            pButton
+                                            pRipple
+                                            type="button"
+                                            label="1hr"
+                                            icon="fak fa-skip-time-forward"
+                                            class="btn-skip-time p-button-secondary p-button-sm p-button-xs p-button-outlined"
+                                            (click)="onPlaybackIntervalChange(1, 'hour')"
+                                            [disabled]="isPlaybackLive || isDateInFuture(1, 'hour') || isDevicesLoading === true"
+                                        ></button>
+                                        <button
+                                            pButton
+                                            pRipple
+                                            type="button"
+                                            label="1m"
+                                            icon="fak fa-skip-time-forward"
+                                            class="btn-skip-time p-button-secondary p-button-sm p-button-xs p-button-outlined"
+                                            (click)="onPlaybackIntervalChange(1, 'minute')"
+                                            [disabled]="isPlaybackLive || isDateInFuture(1, 'minute') || isDevicesLoading === true"
+                                        ></button>
+                                    </div>
+                                    <div class="p-d-flex p-ai-center p-jc-between p-mt-2">
+                                        <div class="p-ml-2 p-mr-3 flex-grow-1">
+                                            <p-slider
+                                                [(ngModel)]="playbackSliderValue"
+                                                [animate]="false"
+                                                [min]="0"
+                                                [max]="playbackSliderMax!"
+                                                [disabled]="isPlaybackLive === null || isPlaybackLive === true || isDevicesLoading === true"
+                                                (onChange)="onPlaybackSliderChange($event)"
+                                            ></p-slider>
+                                        </div>
+                                        <div class="p-mr-2">
+                                            <small>
+                                                <button
+                                                    pButton
+                                                    pRipple
+                                                    type="button"
+                                                    label="LIVE"
+                                                    class="p-button-secondary p-button-sm"
+                                                    (click)="onToggleLive()"
+                                                    [disabled]="isPlaybackLive || isDevicesLoading === true"
+                                                ></button>
+                                            </small>
+                                        </div>
+                                        <div>
+                                            <small>
+                                                <p-dropdown
+                                                    [(ngModel)]="playbackSpeed"
+                                                    [options]="playbackOptions"
+                                                    (click)="stopPropagation($event)"
+                                                    (onChange)="onPlaybackSpeedChange($event)"
+                                                    appendTo="body"
+                                                    placeholder="1.5x"
+                                                    optionLabel="name"
+                                                    optionValue="value"
+                                                    value="2"
+                                                    styleClass="dd-playback-speed tiny no-arrow"
+                                                    dropdownIcon="fas fa-chevron-down"
+                                                    [disabled]="isPlaybackLive || isDevicesLoading === true"
+                                                ></p-dropdown>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </p-accordionTab>
+                            <p-accordionTab transitionOptions="0ms" [(selected)]="activeState[1]">
+                                <ng-template pTemplate="header"> <i class="icon fas fa-eye fa-fw p-mr-2"></i> Map View </ng-template>
+                                <ng-template pTemplate="content">
+                                    <div class="p-d-flex p-align-center p-mt-2">
+                                        <div class="p-flex-column flex-grow-1">
+                                            <label for="staticDevices">
+                                                <div class="icoDevice"></div>
+                                                <small class="color-text-medium">Devices</small>
+                                            </label>
+                                        </div>
+                                        <div class="p-flex-column">
+                                            <small>
+                                                <p-inputSwitch
+                                                    inputId="staticDevices"
+                                                    [(ngModel)]="staticDevices"
+                                                    (onChange)="onToggleDevices($event)"
+                                                ></p-inputSwitch
+                                            ></small>
+                                        </div>
+                                    </div>
+                                    <div class="p-d-flex p-align-center p-mt-2">
+                                        <div class="p-flex-column flex-grow-1">
+                                            <label for="iotDevices">
+                                                <div class="icoIOT"></div>
+                                                <small class="color-text-medium">Static</small>
+                                            </label>
+                                        </div>
+                                        <div class="p-flex-column">
+                                            <small>
+                                                <p-inputSwitch
+                                                    inputId="iotDevices"
+                                                    [(ngModel)]="iotDevices"
+                                                    (onChange)="onToggleIOT($event)"
+                                                ></p-inputSwitch
+                                            ></small>
+                                        </div>
+                                    </div>
+                                    <div class="p-d-flex p-align-center p-mt-2">
+                                        <div class="p-flex-column flex-grow-1">
+                                            <label for="staticDevices">
+                                                <div class="icoCluster"></div>
+                                                <small class="color-text-medium">Clusters</small>
+                                            </label>
+                                        </div>
+                                        <div class="p-flex-column">
+                                            <small>
+                                                <p-inputSwitch
+                                                    inputId="clusters"
+                                                    [(ngModel)]="clusters"
+                                                    (onChange)="onToggleClusters($event)"
+                                                ></p-inputSwitch
+                                            ></small>
+                                        </div>
+                                    </div>
+                                    <div class="p-d-flex p-align-center p-mt-2">
+                                        <div class="p-flex-column flex-grow-1">
+                                            <label for="accessPoints">
+                                                <img src="./assets/img/access-point.png" class="icoAccessPoint" />
+                                                <small class="color-text-medium">Access Points</small>
+                                            </label>
+                                        </div>
+                                        <div class="p-flex-column">
+                                            <small>
+                                                <p-inputSwitch
+                                                    inputId="accessPoints"
+                                                    [(ngModel)]="accessPoints"
+                                                    (onChange)="onToggleAccessPoints($event)"
+                                                ></p-inputSwitch
+                                            ></small>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </p-accordionTab>
+                            <p-accordionTab transitionOptions="0ms" [(selected)]="activeState[2]">
+                                <ng-template pTemplate="header">
+                                    <div class="p-d-flex p-align-center p-jc-between flex-grow-1">
+                                        <div class="p-flex-column flex-grow-1">
+                                            <i class="icon fas fa-exclamation-triangle fa-fw p-mr-2"></i>
+                                            Alerts
+                                        </div>
+                                        <div class="p-flex-column">
+                                            <small>
+                                                <p-dropdown
+                                                    [options]="alertSortOptions"
+                                                    (click)="stopPropagation($event)"
+                                                    (onChange)="onSortChange($event)"
+                                                    [(ngModel)]="selectedAlertSortOption"
+                                                    placeholder="Sort By"
+                                                    optionLabel="name"
+                                                    optionValue="value"
+                                                    value="2"
+                                                    dropdownIcon="fas fa-chevron-down"
+                                                ></p-dropdown>
+                                                <button
+                                                    pButton
+                                                    pRipple
+                                                    type="button"
+                                                    [icon]="sortDirection > 0 ? 'fas fa-sort-amount-up' : 'fas fa-sort-amount-down'"
+                                                    class="p-button-secondary p-button-sm p-ml-1"
+                                                    (click)="stopPropagation($event)"
+                                                    (click)="onSortDirectionChange($event)"
+                                                ></button>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="content">
+                                    <div class="p-d-flex p-jc-between p-ai-center">
+                                        <div>
+                                            <small class="p-pr-1"><strong>Noise</strong></small>
+                                        </div>
+                                        <div class="flex-grow-1 p-mt-1 p-mb-1 p-ml-2 p-mr-2 p-pr-1">
+                                            <p-slider
+                                                [(ngModel)]="alertSliderValue"
+                                                [animate]="false"
+                                                [min]="1"
+                                                [max]="100"
+                                                [disabled]="isDevicesLoading === true"
+                                                (onSlideEnd)="onAlertSliderChange($event)"
+                                            ></p-slider>
+                                        </div>
+                                        <div>
+                                            <small class="color-text-medium"> {{ alertSliderValue }}/100 </small>
+                                        </div>
+                                    </div>
+                                    <div class="p-d-flex p-jc-between p-mt-2">
+                                        <div class="flex-grow-1">
+                                            <div>
+                                                <small>
+                                                    <p-checkbox
+                                                        name="severeUrgency"
+                                                        [(ngModel)]="severeUrgency"
+                                                        (onChange)="onToggleSevereUrgency($event)"
+                                                        [binary]="true"
+                                                        checkboxIcon="fas fa-check"
+                                                        label="Severe severity"
+                                                    ></p-checkbox>
+                                                </small>
+                                            </div>
+                                            <div class="p-mt-2">
+                                                <small>
+                                                    <p-checkbox
+                                                        name="highUrgency"
+                                                        [(ngModel)]="highUrgency"
+                                                        (onChange)="onToggleHighUrgency($event)"
+                                                        [binary]="true"
+                                                        checkboxIcon="fas fa-check"
+                                                        label="High severity"
+                                                    ></p-checkbox>
+                                                </small>
+                                            </div>
+                                            <div class="p-mt-2">
+                                                <small>
+                                                    <p-checkbox
+                                                        name="acknowledged"
+                                                        [(ngModel)]="acknowledged"
+                                                        (onChange)="onToggleAcknowledged($event)"
+                                                        [binary]="true"
+                                                        checkboxIcon="fas fa-check"
+                                                        label="Acknowledged"
+                                                    ></p-checkbox>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div>
+                                                <small>
+                                                    <p-checkbox
+                                                        name="medUrgency"
+                                                        [(ngModel)]="medUrgency"
+                                                        (onChange)="onToggleMediumUrgency($event)"
+                                                        [binary]="true"
+                                                        checkboxIcon="fas fa-check"
+                                                        label="Med. severity"
+                                                    ></p-checkbox>
+                                                </small>
+                                            </div>
+                                            <div class="p-mt-2">
+                                                <small>
+                                                    <p-checkbox
+                                                        name="lowUrgency"
+                                                        [(ngModel)]="lowUrgency"
+                                                        (onChange)="onToggleLowUrgency($event)"
+                                                        [binary]="true"
+                                                        checkboxIcon="fas fa-check"
+                                                        label="Low severity"
+                                                    ></p-checkbox>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </div>
+                </div>
+                <app-alert-panel #alertPanel class="alert-panel-container"></app-alert-panel>
+            </ng-container>
+        </div>
+    </div>
 </div>
