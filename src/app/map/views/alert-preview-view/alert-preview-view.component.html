@@ -1,30 +1,16 @@
-<div
-  *ngIf="alert"
-  class="p-d-flex alert-preview p-align-center p-mb-2"
-  [class.selected]="isSelected"
-  (click)="onClick()"
->
-  <div class="p-flex-column p-mr-3">
-    <i
-      class="{{ alert.alertType | alertIconByType }} {{
-        alert.alertSeverity | colorByAlertSeverity
-      }}"
-    ></i>
-  </div>
-  <div class="p-flex-column flex-grow-1">
-    <span
-      class="display-block line-height-1-25 font-size-90-percent {{
-        alert.alertSeverity | colorByAlertSeverity
-      }}"
-      >{{ alert.alertType }}</span
-    >
-    <small>{{ alert.region?.regionName }}</small
-    ><br />
-    <small class="color-text-medium">{{
-      alert.alertEndTime | date: "dd MMM h:mm a"
-    }}</small>
-  </div>
-  <div *ngIf="alert.acknowledgedAt" class="p-flex-column p-ml-3 acknowledged">
-    <i class="far fa-check-circle icon color-green"></i>
-  </div>
+<div *ngIf="alert" class="p-d-flex alert-preview p-align-center p-mb-2" [class.selected]="isSelected" (click)="onClick()">
+    <div class="p-flex-column p-mr-3">
+        <i class="{{ alert.alertType | alertIconByType }} {{ alert.alertSeverity | colorByAlertSeverity }}"></i>
+    </div>
+    <div class="p-flex-column flex-grow-1">
+        <span class="display-block line-height-1-25 font-size-90-percent {{ alert.alertSeverity | colorByAlertSeverity }}">{{
+            alert.alertType
+        }}</span>
+        <small>{{ alert.region?.regionName }}</small
+        ><br />
+        <small class="color-text-medium">{{ alert.alertEndTime | date: 'dd MMM h:mm a' }}</small>
+    </div>
+    <div *ngIf="alert.acknowledgedAt" class="p-flex-column p-ml-3 acknowledged">
+        <i class="far fa-check-circle icon color-green"></i>
+    </div>
 </div>

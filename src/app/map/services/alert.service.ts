@@ -96,6 +96,14 @@ export class AlertService extends BaseService {
         'AlertMessage'
       );
     }
+    if (skipTakeInput.filters?.noise) {
+      params += this.createFilterQueryString(
+        skipTakeInput,
+        'noise',
+        'Noise',
+        'LT'
+      );
+    }
     if (skipTakeInput.filters?.alertEndTime) {
       params += this.createFilterQueryString(
         skipTakeInput,
@@ -154,7 +162,7 @@ export class AlertService extends BaseService {
     } else if (
       skipTakeInput.filters[parameterName].value.toString().length > 0
     ) {
-      queryString += `&${queryName}.Value=${skipTakeInput.filters[parameterName].value}`;
+      queryString += `&${queryName}.DoubleValue=${skipTakeInput.filters[parameterName].value}`;
       matchMode = matchModeOverride ? matchModeOverride : 'is';
       queryString += `&${queryName}.MatchMode=${matchMode}`;
     }
