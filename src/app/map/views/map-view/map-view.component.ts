@@ -47,10 +47,7 @@ export class MapViewComponent implements OnChanges {
     @Output() drawingComplete = new EventEmitter();
     @Output() updateBuildingShape = new EventEmitter<number[][]>();
     @Output() updateRegionShape = new EventEmitter<number[][]>();
-<<<<<<< HEAD
     @Output() cancelUpdateRegionShape = new EventEmitter();
-=======
->>>>>>> Initial ai generated alert graphs
 
     // MapBox Map
     map!: Map;
@@ -186,10 +183,6 @@ export class MapViewComponent implements OnChanges {
         // Create a data source for access points
         this.addAccessPointData();
         if (this.isEditingRegionShape || this.isEditingBuildingShape) {
-<<<<<<< HEAD
-=======
-            console.log('add drawing');
->>>>>>> Initial ai generated alert graphs
             this.draw?.changeMode('draw_polygon');
             this.startDrawing();
         }

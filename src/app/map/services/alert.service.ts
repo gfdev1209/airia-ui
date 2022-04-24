@@ -3,10 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { BaseService } from '@shared/services/base.service';
 import { Alert } from '@map/models';
 import { Observable } from 'rxjs';
-import { retry, map, catchError, share } from 'rxjs/operators';
+import { retry, map, catchError, share, tap } from 'rxjs/operators';
 import { LazyLoadEvent } from 'primeng/api';
 import { SkipTakeInput } from '@shared/models/skip-take-input.model';
 import Helpers from '@core/utils/helpers';
+import { AlertSeverity } from '@map/enums';
 import { OccupancyAlertGraph } from '@map/models/occupancy-alert-graph.model';
 
 @Injectable({
