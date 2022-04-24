@@ -183,6 +183,7 @@ export class MapViewComponent implements OnChanges {
         // Create a data source for access points
         this.addAccessPointData();
         if (this.isEditingRegionShape || this.isEditingBuildingShape) {
+            console.log('add drawing');
             this.draw?.changeMode('draw_polygon');
             this.startDrawing();
         }
