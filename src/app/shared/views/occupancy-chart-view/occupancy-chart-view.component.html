@@ -1,0 +1,17 @@
+<ng-container *ngIf="occupancyAlertGraph && chartOptions">
+    <div #myChart style="width: 100%; height: 350px; background-color: green"></div>
+    <apx-chart
+        *ngIf="occupancyAlertGraph && chartOptions"
+        [series]="chartOptions?.series!"
+        [chart]="chartOptions?.chart!"
+        [xaxis]="chartOptions?.xaxis!"
+        [dataLabels]="chartOptions?.dataLabels!"
+        [yaxis]="chartOptions?.yaxis!"
+        [colors]="chartOptions?.colors!"
+        [grid]="chartOptions?.grid!"
+        [theme]="chartOptions?.theme!"
+        [legend]="chartOptions?.legend!"
+        [fill]="chartOptions?.fill!"
+        [annotations]="chartOptions?.annotations!"
+    ></apx-chart>
+</ng-container>

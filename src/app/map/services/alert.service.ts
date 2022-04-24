@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { BaseService } from '@shared/services/base.service';
 import { Alert } from '@map/models';
 import { Observable } from 'rxjs';
-import { retry, map, catchError, share } from 'rxjs/operators';
+import { retry, map, catchError, share, tap } from 'rxjs/operators';
 import { LazyLoadEvent } from 'primeng/api';
 import { SkipTakeInput } from '@shared/models/skip-take-input.model';
 import Helpers from '@core/utils/helpers';
 import { AlertSeverity } from '@map/enums';
+import { OccupancyAlertGraph } from '@map/models/occupancy-alert-graph.model';
 
 @Injectable({
     providedIn: 'root',
@@ -15,6 +16,15 @@ import { AlertSeverity } from '@map/enums';
 export class AlertService extends BaseService {
     constructor(private httpClient: HttpClient) {
         super('Alerts', httpClient);
+    }
+
+    getAlertGraphFromUrl(visualizationJsonUrl: string): Observable<OccupancyAlertGraph> {
+        return this.httpClient.get(visualizationJsonUrl).pipe(
+            map((response: any) => {
+                console.log(response);
+                return new OccupancyAlertGraph(response) as any;
+            })
+        );
     }
 
     createSkipTakeInput(event: LazyLoadEvent, rows: number, buildingId?: number): SkipTakeInput {

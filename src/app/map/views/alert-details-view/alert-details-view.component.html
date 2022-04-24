@@ -1,94 +1,80 @@
 <p-dialog
-  [(visible)]="alert"
-  [maximizable]="true"
-  [dismissableMask]="true"
-  [closable]="true"
-  [responsive]="true"
-  styleClass="alert-details-container"
-  position="top-left"
-  (onHide)="onClose($event)"
+    [(visible)]="alert"
+    [maximizable]="true"
+    [dismissableMask]="true"
+    [closable]="true"
+    [responsive]="true"
+    styleClass="alert-details-container"
+    position="top-left"
+    (onHide)="onClose($event)"
 >
-  <ng-template pTemplate="header">
-    <div *ngIf="alert">
-      <i
-        class="font-size-1-rem fa-fw {{ alert.alertType | alertIconByType }} {{
-          alert.alertSeverity | colorByAlertSeverity
-        }} p-mr-2"
-      ></i>
-      <h2
-        class="display-inline-block p-m-0 capitalize {{
-          alert.alertSeverity | colorByAlertSeverity
-        }}"
-      >
-        {{ alert.alertType }}
-      </h2>
+    <ng-template pTemplate="header">
+        <div *ngIf="alert">
+            <i
+                class="font-size-1-rem fa-fw {{ alert.alertType | alertIconByType }} {{
+                    alert.alertSeverity | colorByAlertSeverity
+                }} p-mr-2"
+            ></i>
+            <h2 class="display-inline-block p-m-0 capitalize {{ alert.alertSeverity | colorByAlertSeverity }}">
+                {{ alert.alertType }}
+            </h2>
+        </div>
+    </ng-template>
+    <div class="alert-details" *ngIf="alert">
+        <table>
+            <tbody>
+                <tr>
+                    <td width="33%">
+                        <h4 class="font-weight-medium p-m-0 p-pr-3">ID</h4>
+                    </td>
+                    <td>#{{ alert.id }}</td>
+                </tr>
+                <tr>
+                    <td><h4 class="font-weight-medium p-m-0 p-pr-3">Start Time</h4></td>
+                    <td>{{ alert.alertStartTime | date: 'MMM dd h:mm a' }}</td>
+                </tr>
+                <tr>
+                    <td><h4 class="font-weight-medium p-m-0 p-pr-3">End Time</h4></td>
+                    <td>{{ alert.alertEndTime | date: 'MMM dd h:mm a' }}</td>
+                </tr>
+                <tr>
+                    <td><h4 class="font-weight-medium p-m-0 p-pr-3">Region</h4></td>
+                    <td>{{ alert.region?.regionName }}</td>
+                </tr>
+                <tr>
+                    <td><h4 class="font-weight-medium p-m-0 p-pr-3">Message</h4></td>
+                    <td>{{ alert.alertMessage }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr *ngIf="alert.alertGraph" class="p-mb-4" />
+        <app-occupancy-chart-view *ngIf="alert.alertGraph" [occupancyAlertGraph]="alert.alertGraph"></app-occupancy-chart-view>
+        <img [src]="alert.visualizationUrl" width="100%" />
     </div>
-  </ng-template>
-  <div class="alert-details" *ngIf="alert">
-    <table>
-      <tbody>
-        <tr>
-          <td width="33%">
-            <h4 class="font-weight-medium p-m-0 p-pr-3">ID</h4>
-          </td>
-          <td>#{{ alert.id }}</td>
-        </tr>
-        <tr>
-          <td><h4 class="font-weight-medium p-m-0 p-pr-3">Start Time</h4></td>
-          <td>{{ alert.alertStartTime | date: "MMM dd h:mm a" }}</td>
-        </tr>
-        <tr>
-          <td><h4 class="font-weight-medium p-m-0 p-pr-3">End Time</h4></td>
-          <td>{{ alert.alertEndTime | date: "MMM dd h:mm a" }}</td>
-        </tr>
-        <tr>
-          <td><h4 class="font-weight-medium p-m-0 p-pr-3">Region</h4></td>
-          <td>{{ alert.region?.regionName }}</td>
-        </tr>
-        <tr>
-          <td><h4 class="font-weight-medium p-m-0 p-pr-3">Message</h4></td>
-          <td>{{ alert.alertMessage }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- <hr class="p-mb-4" />
-    <button
-      pButton
-      pRipple
-      type="button"
-      label="View Alert Playback"
-      icon="fas fa-play-circle"
-      [disabled]="loading === true || !isPlaybackLive"
-      (click)="onViewAlertPlayback()"
-      class="p-button-rounded p-button-sm p-d-block p-mb-4"
-    ></button> -->
-    <hr *ngIf="alert.visualizationUrl" class="p-mb-4" />
-    <img [src]="alert.visualizationUrl" width="100%" />
-  </div>
-  <p-footer *ngIf="alert">
-    <button
-      *ngIf="!alert.acknowledgedBy && canAcknowledgeAlert()"
-      pButton
-      pRipple
-      type="button"
-      label="Acknowledge Alert"
-      icon="fas fa-check-circle"
-      (click)="onAcknowledge()"
-      [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
-      [disabled]="loading === true || alert.acknowledgedAt"
-      class="p-button-rounded width-100 p-d-block p-mt-2 p-mb-2"
-    ></button>
-    <div class="p-text-center" *ngIf="alert.acknowledgedBy">
-      <i class="far fa-check-circle icon color-green p-mr-2"></i>
-      <small
-        >Acknowledged by
-        <strong>
-          {{ alert.acknowledgedBy.firstName }}
-          {{ alert.acknowledgedBy.lastName }}
-        </strong>
-        at
-        {{ acknowledgedAt | date: "MMM dd h:mm a" }}
-      </small>
-    </div>
-  </p-footer>
+    <p-footer *ngIf="alert">
+        <button
+            *ngIf="!alert.acknowledgedBy && canAcknowledgeAlert()"
+            pButton
+            pRipple
+            type="button"
+            label="Acknowledge Alert"
+            icon="fas fa-check-circle"
+            (click)="onAcknowledge()"
+            [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
+            [disabled]="loading === true || alert.acknowledgedAt"
+            class="p-button-rounded width-100 p-d-block p-mt-2 p-mb-2"
+        ></button>
+        <div class="p-text-center" *ngIf="alert.acknowledgedBy">
+            <i class="far fa-check-circle icon color-green p-mr-2"></i>
+            <small
+                >Acknowledged by
+                <strong>
+                    {{ alert.acknowledgedBy.firstName }}
+                    {{ alert.acknowledgedBy.lastName }}
+                </strong>
+                at
+                {{ acknowledgedAt | date: 'MMM dd h:mm a' }}
+            </small>
+        </div>
+    </p-footer>
 </p-dialog>
