@@ -5,6 +5,7 @@ import { AccessPoint } from './access-point.model';
 import { Region } from './region.model';
 import * as moment from 'moment-timezone';
 import { environment } from 'src/environments/environment';
+import { OccupancyAlertGraph } from './occupancy-alert-graph.model';
 
 export class Alert implements IBase {
     id!: number;
@@ -32,6 +33,8 @@ export class Alert implements IBase {
     region?: Region;
     buildingId!: number;
     visualizationUrl?: string;
+    visualizationJsonUrl?: string;
+    alertGraph?: OccupancyAlertGraph;
 
     constructor(args: {
         alertId: number;
@@ -55,6 +58,7 @@ export class Alert implements IBase {
         alertType: string;
         buildingId: number;
         visualizationUrl: string;
+        visualizationJsonUrl: string;
     }) {
         this.id = args.alertId;
         this.accessPointId = args.accessPointId;
@@ -85,5 +89,6 @@ export class Alert implements IBase {
         this.noise = args.noise;
         this.alertType = args.alertType as AlertType;
         this.visualizationUrl = args.visualizationUrl;
+        this.visualizationJsonUrl = args.visualizationJsonUrl;
     }
 }

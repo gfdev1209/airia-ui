@@ -1,125 +1,98 @@
 <div [class.opacity-0]="!centeredCoordinates">
-  <mgl-map
-    *ngIf="selectedLocation"
-    [style]="'mapbox://styles/mikeairia/ckothwa8k17hn18lngdslao64'"
-    localIdeographFontFamily="'Roboto', 'Helvetica Neue', 'sans-serif'"
-    [fadeDuration]="0"
-    [zoom]="[initialZoomLevel]"
-    [minZoom]="15.5"
-    [pitch]="[0]"
-    [bearing]="[0]"
-    [center]="[selectedLocation.coordLongitude, selectedLocation.coordLatitude]"
-    (mapClick)="mapClick($event)"
-    (mapMouseMove)="mapMouseMove($event)"
-    (mapLoad)="mapLoad($event)"
-  >
-    <mgl-popup
-      *ngIf="selectedBuilding && showBuildingOverview"
-      [lngLat]="[
-        selectedBuilding.coordLongitude,
-        selectedBuilding.coordLatitude
-      ]"
-      [closeOnClick]="false"
-      maxWidth="500px"
-      [offset]="[0, -30]"
-      className="building-overview-popup"
+    <mgl-map
+        *ngIf="selectedLocation"
+        [style]="'mapbox://styles/mikeairia/ckothwa8k17hn18lngdslao64'"
+        localIdeographFontFamily="'Roboto', 'Helvetica Neue', 'sans-serif'"
+        [fadeDuration]="0"
+        [zoom]="[initialZoomLevel]"
+        [minZoom]="15.5"
+        [pitch]="[0]"
+        [bearing]="[0]"
+        [center]="[selectedLocation.coordLongitude, selectedLocation.coordLatitude]"
+        (mapClick)="mapClick($event)"
+        (mapMouseMove)="mapMouseMove($event)"
+        (mapLoad)="mapLoad($event)"
     >
-      <app-building-overview></app-building-overview>
-    </mgl-popup>
-    <mgl-popup
-      *ngIf="
-        hoveredDevice &&
-        hoveredDevice.properties?.cluster === true &&
-        selectedPosition
-      "
-      [lngLat]="[selectedPosition[0], selectedPosition[1]]"
-      [closeOnClick]="false"
-      maxWidth="400px"
-      className="device-count-popup"
-      [offset]="[0, -5]"
-    >
-      <strong>{{ hoveredDevice.properties?.point_count?.toString() }}</strong>
-    </mgl-popup>
-    <mgl-popup
-      *ngIf="selectedAccessPoint && selectedPosition"
-      [lngLat]="[selectedPosition[0], selectedPosition[1]]"
-      [closeOnClick]="false"
-      maxWidth="400px"
-      [offset]="[0, -30]"
-      className="building-overview-popup"
-    >
-      <app-access-point-overview
-        [id]="selectedAccessPoint.id"
-      ></app-access-point-overview>
-    </mgl-popup>
-  </mgl-map>
+        <mgl-popup
+            *ngIf="selectedBuilding && showBuildingOverview"
+            [lngLat]="[selectedBuilding.coordLongitude, selectedBuilding.coordLatitude]"
+            [closeOnClick]="false"
+            maxWidth="500px"
+            [offset]="[0, -30]"
+            className="building-overview-popup"
+        >
+            <app-building-overview></app-building-overview>
+        </mgl-popup>
+        <mgl-popup
+            *ngIf="hoveredDevice && hoveredDevice.properties?.cluster === true && selectedPosition"
+            [lngLat]="[selectedPosition[0], selectedPosition[1]]"
+            [closeOnClick]="false"
+            maxWidth="400px"
+            className="device-count-popup"
+            [offset]="[0, -5]"
+        >
+            <strong>{{ hoveredDevice.properties?.point_count?.toString() }}</strong>
+        </mgl-popup>
+        <mgl-popup
+            *ngIf="selectedAccessPoint && selectedPosition"
+            [lngLat]="[selectedPosition[0], selectedPosition[1]]"
+            [closeOnClick]="false"
+            maxWidth="400px"
+            [offset]="[0, -30]"
+            className="building-overview-popup"
+        >
+            <app-access-point-overview [id]="selectedAccessPoint.id"></app-access-point-overview>
+        </mgl-popup>
+    </mgl-map>
 </div>
 
-<div
-  *ngIf="isEditingBuildingShape === true && selectedBuilding"
-  class="building-draw-overlay"
->
-  <h2 class="p-mb-1 p-mt-0">
-    Editing Building - {{ selectedBuilding.buildingName }}
-  </h2>
-  <p class="p-mt-0">
-    Click on the map to begin plotting the shape of your building.
-  </p>
-  <hr />
-  <div class="p-mt-4 p-d-flex">
-    <button
-      pButton
-      pRipple
-      type="button"
-      label="Cancel"
-      class="p-button-rounded p-button-secondary p-mr-4"
-      (click)="onCancelDrawing()"
-    ></button>
-    <button
-      pButton
-      pRipple
-      type="button"
-      label="Save Changes"
-      (click)="onEditBuildingSave()"
-      [disabled]="!currentPolygon"
-      class="p-button-rounded"
-    ></button>
-  </div>
+<div *ngIf="isEditingBuildingShape === true && selectedBuilding" class="building-draw-overlay">
+    <h2 class="p-mb-1 p-mt-0">Editing Building - {{ selectedBuilding.buildingName }}</h2>
+    <p class="p-mt-0">Click on the map to begin plotting the shape of your building.</p>
+    <hr />
+    <div class="p-mt-4 p-d-flex">
+        <button
+            pButton
+            pRipple
+            type="button"
+            label="Cancel"
+            class="p-button-rounded p-button-secondary p-mr-4"
+            (click)="onCancelDrawing()"
+        ></button>
+        <button
+            pButton
+            pRipple
+            type="button"
+            label="Save Changes"
+            (click)="onEditBuildingSave()"
+            [disabled]="!currentPolygon"
+            class="p-button-rounded"
+        ></button>
+    </div>
 </div>
 
-<div
-  *ngIf="isEditingRegionShape === true && selectedRegion"
-  class="building-draw-overlay"
->
-  <h2 class="p-mb-1 p-mt-0">
-    Editing Region - {{ selectedRegion.regionName }}
-  </h2>
-  <p class="p-mt-0">
-    Click on the map to begin plotting the shape of the region.
-  </p>
-  <hr />
-  <div class="p-mt-4 p-d-flex">
-    <button
-      pButton
-      pRipple
-      type="button"
-      label="Cancel"
-      class="p-button-rounded p-button-secondary p-mr-4"
-      (click)="onCancelDrawing()"
-    ></button>
-    <button
-      pButton
-      pRipple
-      type="button"
-      label="Save Changes"
-      (click)="onEditRegionSave()"
-      [disabled]="!currentPolygon"
-      class="p-button-rounded"
-    ></button>
-  </div>
+<div *ngIf="isEditingRegionShape === true && selectedRegion" class="building-draw-overlay">
+    <h2 class="p-mb-1 p-mt-0">Editing Region - {{ selectedRegion.regionName }}</h2>
+    <p class="p-mt-0">Click on the map to begin plotting the shape of the region.</p>
+    <hr />
+    <div class="p-mt-4 p-d-flex">
+        <button
+            pButton
+            pRipple
+            type="button"
+            label="Cancel"
+            class="p-button-rounded p-button-secondary p-mr-4"
+            (click)="onCancelDrawing()"
+        ></button>
+        <button
+            pButton
+            pRipple
+            type="button"
+            label="Save Changes"
+            (click)="onEditRegionSave()"
+            [disabled]="!currentPolygon"
+            class="p-button-rounded"
+        ></button>
+    </div>
 </div>
-<p-confirmDialog
-  key="buildingShapeConfirmation"
-  header="Confirmation"
-  rejectButtonStyleClass="p-button-text"
-></p-confirmDialog>
+<p-confirmDialog key="buildingShapeConfirmation" header="Confirmation" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
