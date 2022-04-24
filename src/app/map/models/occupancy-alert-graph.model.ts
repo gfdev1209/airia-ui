@@ -1,5 +1,4 @@
 import Helpers from '@core/utils/helpers';
-
 export class OccupancyAlertGraph {
     alertStartTime!: Date;
     alertEndTime!: Date;
