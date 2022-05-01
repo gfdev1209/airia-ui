@@ -53,10 +53,13 @@ export class Region {
 
         if (args.regionPolygonJson) {
             this.regionPolygon = JSON.parse(args.regionPolygonJson)?.area_polygon;
-            if (this.regionPolygon) {
-                this.regionPolygon.forEach((position) => {
-                    [position[0], position[1]] = [position[0], position[1]];
-                });
+            if (this.regionPolygon && this.regionPolygon.length > 0) {
+                // Swap lat/long since we do not want to store this as geojson format
+                if (this.regionPolygon[0][1] < 0) {
+                    this.regionPolygon.forEach((position) => {
+                        [position[0], position[1]] = [position[1], position[0]];
+                    });
+                }
                 this.regionPolygon.push(this.regionPolygon[0]);
             } else {
                 this.regionPolygon = JSON.parse(args.regionPolygonJson);
