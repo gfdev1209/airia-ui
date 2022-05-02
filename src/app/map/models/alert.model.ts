@@ -6,6 +6,7 @@ import { Region } from './region.model';
 import * as moment from 'moment-timezone';
 import { environment } from 'src/environments/environment';
 import { OccupancyAlertGraph } from './occupancy-alert-graph.model';
+import Helpers from '@core/utils/helpers';
 
 export class Alert implements IBase {
     id!: number;
@@ -66,20 +67,20 @@ export class Alert implements IBase {
         this.regionId = args.regionId;
         this.alertMessage = args.alertMessage;
         this.buildingId = args.buildingId;
-        this.createdAt = new Date(moment.tz(args.createdAt, 'UTC').tz(environment.timeZone).format('YYYY/MM/DD HH:mm:ss'));
+        this.createdAt = Helpers.utcDateToEnvironmentDate(args.createdAt);
         this.alertStartTimeUTC = new Date(args.alertStartTime);
-        this.alertStartTimeLocal = new Date(moment.tz(args.alertStartTime, 'UTC').tz(moment.tz.guess()).format('YYYY/MM/DD HH:mm:ss'));
-        this.alertStartTime = new Date(moment.tz(args.alertStartTime, 'UTC').tz(environment.timeZone).format('YYYY/MM/DD HH:mm:ss'));
+        this.alertStartTimeLocal = Helpers.utcDateToLocalDate(args.alertStartTime);
+        this.alertStartTime = Helpers.utcDateToEnvironmentDate(args.alertStartTime);
         this.alertEndTimeUTC = new Date(args.alertEndTime);
-        this.alertEndTimeLocal = new Date(moment.tz(args.alertEndTime, 'UTC').tz(moment.tz.guess()).format('YYYY/MM/DD HH:mm:ss'));
-        this.alertEndTime = new Date(moment.tz(args.alertEndTime, 'UTC').tz(environment.timeZone).format('YYYY/MM/DD HH:mm:ss'));
+        this.alertEndTimeLocal = Helpers.utcDateToLocalDate(args.alertEndTime);
+        this.alertEndTime = Helpers.utcDateToEnvironmentDate(args.alertEndTime);
         this.acknowledgedBy = args.acknowledgedBy;
 
         this.hasPagination = args.hasPagination;
         this.count = args.count;
 
         if (args.acknowledgedAt) {
-            this.acknowledgedAt = new Date(moment.tz(args.acknowledgedAt, 'UTC').tz(environment.timeZone).format('YYYY/MM/DD HH:mm:ss'));
+            this.acknowledgedAt = Helpers.utcDateToEnvironmentDate(args.acknowledgedAt);
         }
         this.accessPoint = args.accessPoint ? new AccessPoint(args.accessPoint) : undefined;
         this.region = new Region(args.region);

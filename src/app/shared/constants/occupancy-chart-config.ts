@@ -1,4 +1,4 @@
-import {} from 'ng-apexcharts';
+import { ApexStroke } from 'ng-apexcharts';
 
 import {
     ApexAxisChartSeries,
@@ -27,6 +27,7 @@ export type OccupancyChartOptions = {
     tooltip: ApexTooltip;
     fill: ApexFill;
     annotations: ApexAnnotations;
+    stroke: ApexStroke;
 };
 
 export const occupancyChartOptionsConfig: any = {
@@ -89,13 +90,16 @@ export const occupancyChartOptionsConfig: any = {
             {
                 x: 1644540600000,
                 x2: 1644542400000,
-                borderColor: '#000',
+                borderColor: '#ff0000',
                 fillColor: '#ff0000',
+                opacity: 0.5,
                 label: {
-                    text: 'a',
+                    text: 'Alert Zone',
                     borderColor: 'transparent',
+                    offsetX: -2,
+                    offsetY: 6,
                     style: {
-                        color: 'transparent',
+                        color: '#ffffff',
                         background: 'transparent',
                     },
                 },
@@ -103,7 +107,7 @@ export const occupancyChartOptionsConfig: any = {
         ],
     },
     dataLabels: {
-        enabled: true,
+        enabled: false,
         enabledOnSeries: [2],
         formatter: (val: any, opts: any) => {
             return val;
@@ -115,9 +119,9 @@ export const occupancyChartOptionsConfig: any = {
             colors: ['#000'],
         },
     },
-    colors: ['rgba(255, 0, 0, .5)', 'rgba(103, 64, 230, .75)', '#ffffff'],
+    colors: ['rgba(255, 0, 0, 0.4)', 'rgba(103, 64, 230, 0.75)', '#ffffff'],
     fill: {
-        colors: ['rgba(255, 0, 0, .1)', 'rgba(103, 64, 230, 0.5)', '#ffffff'],
+        colors: ['rgba(255, 0, 0, 0.2)', 'rgba(103, 64, 230, 0.5)', '#ffffff'],
         opacity: 1,
         type: 'solid',
         gradient: {
@@ -128,11 +132,22 @@ export const occupancyChartOptionsConfig: any = {
         },
     },
     legend: {
-        position: 'top',
+        position: 'bottom',
         horizontalAlign: 'left',
+        offsetY: 10,
     },
     xaxis: {
         type: 'datetime',
+        labels: {
+            datetimeUTC: false,
+            format: 'h:mm tt',
+        },
+    },
+    yaxis: {
+        decimalsInFloat: 0,
+        title: {
+            text: 'Number of Devices',
+        },
     },
     grid: {
         borderColor: '#aaaaaaab',
@@ -148,13 +163,26 @@ export const occupancyChartOptionsConfig: any = {
     tooltip: {
         shared: true,
         intersect: false,
+        followCursor: true,
+        inverseOrder: true,
         y: {
             formatter: (y: any) => {
                 if (typeof y !== 'undefined') {
-                    return y.toFixed(0) + ' points';
+                    return y.toFixed(0);
                 }
                 return y;
             },
         },
+        x: {
+            show: true,
+            format: 'MMM dd h:mm tt',
+        },
+    },
+    stroke: {
+        show: true,
+        curve: 'smooth',
+        lineCap: 'butt',
+        width: 2,
+        dashArray: 0,
     },
 };

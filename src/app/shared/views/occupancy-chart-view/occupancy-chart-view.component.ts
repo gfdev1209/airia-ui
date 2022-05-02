@@ -46,17 +46,15 @@ export class OccupancyChartViewComponent implements OnInit, OnChanges, AfterView
         if (this.occupancyAlertGraph) {
             const chartOptions2 = _.cloneDeep(occupancyChartOptionsConfig);
             chartOptions2.series[0].data = this.generateTimeSeries(
-                this.occupancyAlertGraph.lowOccupancyThreshold,
+                this.occupancyAlertGraph.highOccupancyThreshold,
                 this.occupancyAlertGraph.time
             );
             chartOptions2.series[1].data = this.generateTimeSeries(
-                this.occupancyAlertGraph.highOccupancyThreshold,
+                this.occupancyAlertGraph.lowOccupancyThreshold,
                 this.occupancyAlertGraph.time
             );
             chartOptions2.series[2].data = this.generateTimeSeries(this.occupancyAlertGraph.occupancy, this.occupancyAlertGraph.time);
             chartOptions2.chart.redrawOnParentResize = true;
-            // chartOptions2.chart.type = 'area';
-            // chartOptions2.chart.background = 'transparent';
             chartOptions2.annotations.xaxis[0].x = this.occupancyAlertGraph.alertStartTime.getTime();
             chartOptions2.annotations.xaxis[0].x2 = this.occupancyAlertGraph.alertEndTime.getTime();
 

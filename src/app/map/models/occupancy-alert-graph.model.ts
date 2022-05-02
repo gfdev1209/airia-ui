@@ -1,3 +1,5 @@
+import Helpers from '@core/utils/helpers';
+
 export class OccupancyAlertGraph {
     alertStartTime!: Date;
     alertEndTime!: Date;
@@ -24,12 +26,12 @@ export class OccupancyAlertGraph {
             };
         };
     }) {
-        this.alertStartTime = new Date(args['v1.0'].occupancy_and_threshold_time_series.alert_start_time);
-        this.alertEndTime = new Date(args['v1.0'].occupancy_and_threshold_time_series.alert_end_time);
+        this.alertStartTime = Helpers.utcDateToEnvironmentDate(args['v1.0'].occupancy_and_threshold_time_series.alert_start_time);
+        this.alertEndTime = Helpers.utcDateToEnvironmentDate(args['v1.0'].occupancy_and_threshold_time_series.alert_end_time);
         this.alertSeverity = args['v1.0'].occupancy_and_threshold_time_series.alert_severity;
         this.alertType = args['v1.0'].occupancy_and_threshold_time_series.alert_type;
         this.alertMessage = args['v1.0'].occupancy_and_threshold_time_series.alert_message;
-        this.time = args['v1.0'].occupancy_and_threshold_time_series.time.map((t) => new Date(t));
+        this.time = args['v1.0'].occupancy_and_threshold_time_series.time.map((t) => Helpers.utcDateToEnvironmentDate(t));
         this.occupancy = args['v1.0'].occupancy_and_threshold_time_series.occupancy.map((t) => +t);
         this.highOccupancyThreshold = args['v1.0'].occupancy_and_threshold_time_series.high_occupancy_threshold.map((t) => +t);
         this.lowOccupancyThreshold = args['v1.0'].occupancy_and_threshold_time_series.low_occupancy_threshold.map((t) => +t);
