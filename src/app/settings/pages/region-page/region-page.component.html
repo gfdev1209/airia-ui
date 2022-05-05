@@ -1,22 +1,14 @@
-<div
-  class="p-d-flex p-flex-column p-flex-sm-row p-jc-between p-ai-start p-ai-sm-center"
->
-  <h2 class="p-p-0 p-mt-0 p-mb-2 p-mb-sm-0">Regions</h2>
-  <div class="flex-grow-1 p-ml-0 p-ml-sm-5 width-100-sm">
-    <div class="p-fluid">
-      <app-region-search-input></app-region-search-input>
+<div class="p-d-flex p-flex-column p-flex-sm-row p-jc-between p-ai-start p-ai-sm-center">
+    <h2 class="p-p-0 p-mt-0 p-mb-2 p-mb-sm-0">Regions</h2>
+    <div class="flex-grow-1 p-ml-0 p-ml-sm-5 width-100-sm">
+        <div class="p-fluid">
+            <app-region-search-input></app-region-search-input>
+        </div>
     </div>
-  </div>
-  <div *ngIf="canEdit()">
-    <button
-      pButton
-      pRipple
-      type="button"
-      label="Add Region"
-      class="p-button-rounded"
-    ></button>
-  </div>
+    <div class="p-ml-5" *ngIf="canEdit()">
+        <button pButton pRipple type="button" label="Add Region" class="p-button-rounded" routerLink="/settings/region"></button>
+    </div>
 </div>
 <div class="buildings-table p-mt-4">
-  <app-regions-table></app-regions-table>
+    <app-regions-table></app-regions-table>
 </div>

@@ -13,52 +13,45 @@ import * as RegionActions from '@store/region/region.actions';
 import * as BuildingActions from '@store/building/building.actions';
 
 @Component({
-  selector: 'app-region-page',
-  templateUrl: './region-page.component.html',
-  styleUrls: ['./region-page.component.scss'],
+    selector: 'app-region-page',
+    templateUrl: './region-page.component.html',
+    styleUrls: ['./region-page.component.scss'],
 })
 export class RegionPageComponent implements OnInit, OnDestroy {
-  self$ = this.store
-    .select(UserSelectors.selectSelf)
-    .pipe(tap((user) => (this.self = user)))
-    .subscribe();
-  self?: User | null;
-  regionSelected$?: Subscription;
+    self$ = this.store
+        .select(UserSelectors.selectSelf)
+        .pipe(tap((user) => (this.self = user)))
+        .subscribe();
+    self?: User | null;
+    regionSelected$?: Subscription;
 
-  constructor(
-    private store: Store<RootState>,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+    constructor(private store: Store<RootState>, private router: Router, private route: ActivatedRoute) {}
 
-  ngOnInit(): void {
-    this.store.dispatch(RegionActions.deselect());
-    this.store.dispatch(BuildingActions.deselect());
-    this.regionSelected$ = this.store
-      .select(RegionSelectors.selectSelectedRegion)
-      .pipe(tap((region) => this.regionSelected(region)))
-      .subscribe();
-  }
-
-  regionSelected(region: Region | null): void {
-    if (region) {
-      this.router.navigate([`${region.id}`], {
-        relativeTo: this.route,
-      });
+    ngOnInit(): void {
+        this.store.dispatch(RegionActions.deselect());
+        this.store.dispatch(BuildingActions.deselect());
+        this.regionSelected$ = this.store
+            .select(RegionSelectors.selectSelectedRegion)
+            .pipe(tap((region) => this.regionSelected(region)))
+            .subscribe();
     }
-  }
 
-  canEdit(): boolean {
-    if (this.self?.role) {
-      return AccessLevels.roleHasAccessLevel(
-        this.self.role.name,
-        AccessLevels.CanEdit
-      );
+    regionSelected(region: Region | null): void {
+        if (region) {
+            this.router.navigate([`/settings/region/${region.id}`], {
+                relativeTo: this.route,
+            });
+        }
     }
-    return false;
-  }
-  ngOnDestroy(): void {
-    this.self$?.unsubscribe();
-    this.regionSelected$?.unsubscribe();
-  }
+
+    canEdit(): boolean {
+        if (this.self?.role) {
+            return AccessLevels.roleHasAccessLevel(this.self.role.name, AccessLevels.CanEdit);
+        }
+        return false;
+    }
+    ngOnDestroy(): void {
+        this.self$?.unsubscribe();
+        this.regionSelected$?.unsubscribe();
+    }
 }

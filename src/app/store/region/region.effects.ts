@@ -114,6 +114,35 @@ export class RegionEffects {
         )
     );
 
+    add$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(RegionActions.add),
+            mergeMap(({ region }) =>
+                this.regionService.create<Region>(region).pipe(
+                    map((addedRegion: Region) => {
+                        console.log(addedRegion);
+                        return RegionActions.addSuccess({ region: addedRegion });
+                    }),
+                    catchError((error) => of(RegionActions.addFailed()))
+                )
+            )
+        )
+    );
+
+    remove$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(RegionActions.remove),
+            mergeMap(({ id }) =>
+                this.regionService.delete(id).pipe(
+                    map(() => {
+                        return RegionActions.removeSuccess({ id });
+                    }),
+                    catchError((error) => of(RegionActions.removeFailed()))
+                )
+            )
+        )
+    );
+
     update$ = createEffect(() =>
         this.actions$.pipe(
             ofType(RegionActions.update),

@@ -1,5 +1,7 @@
 <app-regions-table-view
-  [regions]="regions$ | async"
-  [self]="self$ | async"
-  (regionSelected)="regionSelected($event)"
+    [regions]="regions$ | async"
+    [self]="self$ | async"
+    [loading]="loading$ | async"
+    (regionSelected)="regionSelected($event)"
+    (deleteRegion)="onDeleteRegion($event)"
 ></app-regions-table-view>
