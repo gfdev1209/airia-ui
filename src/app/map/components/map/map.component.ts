@@ -69,7 +69,7 @@ export class MapComponent implements OnInit, OnDestroy {
     selectedRegion?: Region | null;
     updateRegionSuccess$ = this.actions$.pipe(ofType(RegionActions.updateRegionPolygonSuccess)).subscribe((data: any) => {
         this.notificationService.displaySuccess('Successfully updated Region shape');
-        this.router.navigate([`/settings/regions/${this.selectedRegion?.id}`]);
+        this.router.navigate([`/settings/region/${this.selectedRegion?.id}`]);
     });
 
     isEditingBuildingShape$ = this.store.select(BuildingSelectors.selectEditingShape);

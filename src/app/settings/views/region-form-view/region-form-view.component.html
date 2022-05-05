@@ -1,138 +1,111 @@
 <ng-template #loadingDiv>
-  <strong>Loading...</strong>
+    <strong>Loading...</strong>
 </ng-template>
-<div *ngIf="region; else loadingDiv" [formGroup]="regionForm">
-  <div class="p-d-flex p-mt-2">
-    <button
-      pButton
-      pRipple
-      type="button"
-      icon="far fa-chevron-left"
-      class="p-button-rounded p-button-text color-light-grey p-mr-2 p-pl-0"
-      routerLink="../"
-    ></button>
-    <h2 class="p-p-0 p-m-0">Edit Region</h2>
-  </div>
-  <hr class="p-mt-4 p-mb-4" />
-  <h3 class="p-m-0">Region Details</h3>
-  <p class="p-m-0 p-pt-1">
-    Complete the form below to add or update details about this Region.
-  </p>
-  <div class="p-fluid p-formgrid p-grid p-mt-5">
-    <div class="p-field p-col-12">
-      <label for="regionName">Name</label>
-      <input
-        id="regionName"
-        formControlName="regionName"
-        type="text"
-        pInputText
-      />
-      <small
-        class="p-error"
-        *ngIf="
-          !regionForm.controls['regionName'].valid &&
-          regionForm.controls['regionName'].dirty
-        "
-        [innerText]="
-          regionForm.controls['regionName'].errors?.required
-            ? 'Name is required'
-            : ''
-        "
-      ></small>
+<div *ngIf="region || !loading; else loadingDiv" [formGroup]="regionForm">
+    <div class="p-d-flex p-mt-2">
+        <button
+            pButton
+            pRipple
+            type="button"
+            icon="far fa-chevron-left"
+            class="p-button-rounded p-button-text color-light-grey p-mr-2 p-pl-0"
+            routerLink="/settings/regions"
+        ></button>
+        <h2 *ngIf="regionId" class="p-p-0 p-m-0">Edit Region</h2>
+        <h2 *ngIf="!regionId" class="p-p-0 p-m-0">Add Region</h2>
     </div>
-    <div class="p-field p-col-12">
-      <label for="buildingId">Building</label>
-      <p-dropdown
-        [options]="buildingList"
-        formControlName="buildingId"
-        optionLabel="label"
-        optionValue="value"
-        placeholder="Select a building"
-        appendTo="body"
-        [disabled]="!buildingList"
-        (onChange)="onChangeBuilding($event)"
-      ></p-dropdown>
-      <small
-        class="p-error"
-        *ngIf="
-          !regionForm.controls['buildingId'].valid &&
-          regionForm.controls['buildingId'].dirty
-        "
-        [innerText]="
-          regionForm.controls['buildingId'].errors?.required
-            ? 'Building is required'
-            : ''
-        "
-      ></small>
+    <hr class="p-mt-4 p-mb-4" />
+    <h3 class="p-m-0">Region Details</h3>
+    <p class="p-m-0 p-pt-1">Complete the form below to add or update details about this Region.</p>
+    <div class="p-fluid p-formgrid p-grid p-mt-5">
+        <div class="p-field p-col-12">
+            <label for="regionName">Name</label>
+            <input id="regionName" formControlName="regionName" type="text" pInputText />
+            <small
+                class="p-error"
+                *ngIf="!regionForm.controls['regionName'].valid && regionForm.controls['regionName'].dirty"
+                [innerText]="regionForm.controls['regionName'].errors?.required ? 'Name is required' : ''"
+            ></small>
+        </div>
+        <div class="p-field p-col-12">
+            <label for="buildingId">Building</label>
+            <p-dropdown
+                [options]="buildingList"
+                formControlName="buildingId"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select a building"
+                appendTo="body"
+                [disabled]="!buildingList"
+                (onChange)="onChangeBuilding($event)"
+            ></p-dropdown>
+            <small
+                class="p-error"
+                *ngIf="!regionForm.controls['buildingId'].valid && regionForm.controls['buildingId'].dirty"
+                [innerText]="regionForm.controls['buildingId'].errors?.required ? 'Building is required' : ''"
+            ></small>
+        </div>
+        <div class="p-field p-col-12">
+            <label for="buildingFloorId">Floor</label>
+            <p-dropdown
+                [options]="floorList"
+                formControlName="buildingFloorId"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Select a Floor"
+                appendTo="body"
+                [disabled]="!floorList"
+            ></p-dropdown>
+            <small
+                class="p-error"
+                *ngIf="!regionForm.controls['buildingFloorId'].valid && regionForm.controls['buildingFloorId'].dirty"
+                [innerText]="regionForm.controls['buildingFloorId'].errors?.required ? 'Floor is required' : ''"
+            ></small>
+        </div>
     </div>
-    <div class="p-field p-col-12">
-      <label for="buildingFloorId">Floor</label>
-      <p-dropdown
-        [options]="floorList"
-        formControlName="buildingFloorId"
-        optionLabel="label"
-        optionValue="value"
-        placeholder="Select a Floor"
-        appendTo="body"
-        [disabled]="!floorList"
-      ></p-dropdown>
-      <small
-        class="p-error"
-        *ngIf="
-          !regionForm.controls['buildingFloorId'].valid &&
-          regionForm.controls['buildingFloorId'].dirty
-        "
-        [innerText]="
-          regionForm.controls['buildingFloorId'].errors?.required
-            ? 'Floor is required'
-            : ''
-        "
-      ></small>
+    <div class="p-mt-5 p-d-flex p-jc-between">
+        <button pButton pRipple type="button" label="Discard Changes" class="p-button-rounded p-button-secondary" routerLink="../"></button>
+        <button
+            *ngIf="!regionId"
+            pButton
+            pRipple
+            type="button"
+            label="Add Region"
+            class="p-button-rounded"
+            (click)="onAdd()"
+            [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
+            [disabled]="!regionForm.valid || loading === true"
+        ></button>
+        <button
+            *ngIf="regionId"
+            pButton
+            pRipple
+            type="button"
+            label="Update Region"
+            class="p-button-rounded"
+            (click)="onUpdate()"
+            [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
+            [disabled]="!regionForm.valid || loading === true"
+        ></button>
     </div>
-  </div>
-  <div class="p-mt-5 p-d-flex p-jc-between">
-    <button
-      pButton
-      pRipple
-      type="button"
-      label="Discard Changes"
-      class="p-button-rounded p-button-secondary"
-      routerLink="../"
-    ></button>
-    <button
-      pButton
-      pRipple
-      type="button"
-      label="Update Region"
-      class="p-button-rounded"
-      (click)="onUpdate()"
-      [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
-      [disabled]="!regionForm.valid || loading === true"
-    ></button>
-  </div>
-  <hr class="p-mt-4 p-mb-4" />
-  <div class="p-d-flex p-jc-between p-ai-center">
-    <div>
-      <h3 class="p-m-0">Region Shape</h3>
-      <p class="p-m-0 p-pt-1">
-        Use our drawing tool to define the shape of this region on the map.
-      </p>
+    <hr class="p-mt-4 p-mb-4" />
+    <div *ngIf="region" class="p-d-flex p-jc-between p-ai-center">
+        <div>
+            <h3 class="p-m-0">Region Shape</h3>
+            <p class="p-m-0 p-pt-1">Use our drawing tool to define the shape of this region on the map.</p>
+        </div>
+        <div class="p-d-flex p-jc-between">
+            <button
+                pButton
+                pRipple
+                type="button"
+                [label]="!region?.regionPolygon ? 'Add Shape' : 'Update Shape'"
+                class="p-button-rounded"
+                (click)="onEditShape()"
+                [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
+                [disabled]="!regionForm.valid || loading === true"
+            ></button>
+        </div>
     </div>
-    <div class="p-d-flex p-jc-between">
-      <button
-        pButton
-        pRipple
-        type="button"
-        [label]="!region.regionPolygon ? 'Add Shape' : 'Update Shape'"
-        class="p-button-rounded"
-        (click)="onEditShape()"
-        [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
-        [disabled]="!regionForm.valid || loading === true"
-      ></button>
-    </div>
-  </div>
 </div>
-<p-confirmDialog
-  header="Confirmation"
-  rejectButtonStyleClass="p-button-text"
-></p-confirmDialog>
+<p-confirmDialog header="Confirmation" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
