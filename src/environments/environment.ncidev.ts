@@ -7,7 +7,7 @@ export const environment = {
   // The ID of the default Location to display
   defaultLocationId: 1,
   // The ID of the region that encompasses all regions
-  entireRegionId: 21,
+  entireRegionId: 11,
   // MapBox
   mapboxAccessToken:
     'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',
