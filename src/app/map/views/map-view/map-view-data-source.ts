@@ -110,6 +110,7 @@ export class MapViewDataSource {
       this.map.setLayoutProperty(layer.id, 'visibility', 'none');
     });
   }
+  
   showAllLayers(): void {
     this.layers.forEach((layer) => {
       this.map.setLayoutProperty(layer.id, 'visibility', 'visible');

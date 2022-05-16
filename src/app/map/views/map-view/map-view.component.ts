@@ -102,6 +102,8 @@ export class MapViewComponent implements OnChanges {
     constructor(private confirmationService: ConfirmationService) {}
 
     ngOnChanges(changes: SimpleChanges): void {
+       
+        
         if (changes.buildings?.firstChange === false) {
             if (changes.buildings.currentValue) {
                 this.addCustomBuildings();
@@ -114,6 +116,7 @@ export class MapViewComponent implements OnChanges {
             this.addAccessPointsToMap();
         }
         if (changes.devices?.firstChange === false) {
+            
             this.addDevices();
         }
         if (changes.zoomIn?.firstChange === false) {
@@ -672,6 +675,7 @@ export class MapViewComponent implements OnChanges {
         if (!this.showStaticDevices) {
             this.mapStaticDeviceData.hideAllLayers();
         } else {
+            this.addDevices();
             this.mapStaticDeviceData.showAllLayers();
         }
     }
@@ -722,9 +726,16 @@ export class MapViewComponent implements OnChanges {
     addDevices(): void {
         if (this.map && this.devices) {
             const liveDevices = this.devices.filter((d) => !d.fixedPosition);
-            const staticDevices = this.devices.filter((d) => d.fixedPosition);
-            this.addDevicesToMap(liveDevices, this.liveDeviceDetails, this.mapLiveDeviceData);
-            this.addDevicesToMap(staticDevices, this.staticDeviceDetails, this.mapStaticDeviceData);
+           
+            if(this.showDevices){
+             this.addDevicesToMap(liveDevices, this.liveDeviceDetails, this.mapLiveDeviceData);
+            }
+          
+            if(this.showStaticDevices){
+                const staticDevices = this.devices.filter((d) => d.fixedPosition);
+                this.addDevicesToMap(staticDevices, this.staticDeviceDetails, this.mapStaticDeviceData);
+            }
+           
         }
     }
 
