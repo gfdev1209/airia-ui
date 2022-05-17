@@ -263,18 +263,21 @@
                                     </div>
                                     <div class="p-mt-2">
                                        
-                                        <div class="">
+                                        <div class="ssid-dropdown">
                                             
-                                               
+                                               <small>
                                                 <p-multiSelect 
-                                                    [options]="SSIDList"
-                                                    [(ngModel)]="selectedSSID"
-                                                    display="chip"
-                                                    optionLabel="ssid" optionValue="ssid"
-                                                    placeholder="Select SSID"
-                                                    [filter]="false"
-                                                    (onChange)="onChangeSSIDFilter($event)"
-                                                  ></p-multiSelect>
+                                                [options]="SSIDList"
+                                                [(ngModel)]="selectedSSID"
+                                                display="chip"
+                                                optionLabel="ssid" optionValue="ssid"
+                                                placeholder="Select SSID"
+                                                [filter]="false"
+                                                class=" p-button-sm p-ml-1"
+                                                (onChange)="onChangeSSIDFilter($event)"
+                                              ></p-multiSelect>
+                                               </small>
+                                              
                                             
                                         </div>
                                     </div>

@@ -36,7 +36,27 @@
       padding: 0 1rem !important;
   }
 } 
+::ng-deep .p-multiselect{
+  width: 98%;
+  font-size: smaller;
+  text-align: left;
+}
+::ng-deep .p-multiselect-header{
+   display: none !important;
+}
+.ssid-dropdown{
+  text-align: right;
 
-.p-multiselect-close{
-    height: 16px;
+  .p-multiselect{
+    font-size: smaller;
+  }
+}
+::ng-deep .p-multiselect-item{
+  font-size: smaller;
+}
+::ng-deep .p-multiselect-token{
+  font-size: smaller;
+}
+::ng-deep .p-multiselect .p-multiselect-label{
+  padding: 0.5rem;
 }

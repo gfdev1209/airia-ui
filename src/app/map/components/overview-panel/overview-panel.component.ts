@@ -152,6 +152,9 @@ export class OverviewPanelComponent implements OnInit, OnDestroy {
     onToggledClusters(checked: boolean): void {
         this.mapService.setShowClusters(checked);
     }
+    onToggledSSID(value: any): void {
+        this.mapService.filterBySSID(value);
+    }
 
     onToggleExpanded(isExpanded?: boolean): void {
         this.mapService.toggleOverview(isExpanded);
