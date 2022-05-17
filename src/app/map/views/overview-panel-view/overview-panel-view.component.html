@@ -261,6 +261,23 @@
                                             ></small>
                                         </div>
                                     </div>
+                                    <div class="p-mt-2">
+                                       
+                                        <div class="">
+                                            
+                                               
+                                                <p-multiSelect 
+                                                    [options]="SSIDList"
+                                                    [(ngModel)]="selectedSSID"
+                                                    display="chip"
+                                                    optionLabel="ssid" optionValue="ssid"
+                                                    placeholder="Select SSID"
+                                                    [filter]="false"
+                                                    (onChange)="onChangeSSIDFilter($event)"
+                                                  ></p-multiSelect>
+                                            
+                                        </div>
+                                    </div>
                                 </ng-template>
                             </p-accordionTab>
                             <p-accordionTab transitionOptions="0ms" [(selected)]="activeState[2]">

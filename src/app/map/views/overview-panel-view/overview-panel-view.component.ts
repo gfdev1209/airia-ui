@@ -15,6 +15,10 @@ import { AlertSortType } from '../../enums';
 import { Location } from '../../models';
 
 import * as moment from 'moment';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as DeviceSelectors from '@store/device/device.selectors';
+import { RootState } from 'src/app/store';
 
 @Component({
     selector: 'app-overview-panel-view',
@@ -52,6 +56,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     @Output() toggleDevices = new EventEmitter<boolean>();
     @Output() toggledStaticDevices = new EventEmitter<boolean>();
     @Output() toggledClusters = new EventEmitter<boolean>();
+    @Output() toggledSSID = new EventEmitter<boolean>();
 
     @Output() alertSliderChanged = new EventEmitter<number>();
 
@@ -67,6 +72,8 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     iotDevices = true;
     accessPoints = false;
     clusters = false;
+    SSIDList :any[]=[];
+    selectedSSID:string = '';
 
     severeUrgency = true;
     highUrgency = true;
@@ -97,7 +104,30 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
         { name: '10x', value: 0.125 },
     ];
 
-    constructor() {}
+    
+    devicesList$: Observable<any>;
+   
+    constructor(private store:Store<RootState>) {
+        
+         this.devicesList$ =  this.store.select(DeviceSelectors.selectAll);
+         this.devicesList$.subscribe((data:any)=>{
+        
+            let list = [...new Set(data.map((item:any) =>item['ssid']))];
+
+            if(list.length){
+                list.map((data:any) => {
+                    if(data){
+                        this.SSIDList.push({ssid:data});
+                    }
+                });
+                console.log("this.SSIDList", this.SSIDList);
+            }
+            
+
+           
+            });
+          
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.selectedLocation?.currentValue) {
@@ -156,6 +186,9 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     }
     onToggleClusters(event: any): void {
         this.toggledClusters.emit(event.checked);
+    }
+    onChangeSSIDFilter(event:any):void {
+        console.log("SSID Filter", event);
     }
     onSortChange(event: any): void {
         this.alertSortTypeChanged.emit(event?.value);
