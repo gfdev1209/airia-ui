@@ -56,7 +56,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     @Output() toggleDevices = new EventEmitter<boolean>();
     @Output() toggledStaticDevices = new EventEmitter<boolean>();
     @Output() toggledClusters = new EventEmitter<boolean>();
-    @Output() toggledSSID = new EventEmitter<boolean>();
+    @Output() toggleSSID = new EventEmitter<boolean>();
 
     @Output() alertSliderChanged = new EventEmitter<number>();
 
@@ -109,24 +109,18 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
    
     constructor(private store:Store<RootState>) {
         
-         this.devicesList$ =  this.store.select(DeviceSelectors.selectAll);
-         this.devicesList$.subscribe((data:any)=>{
-        
-            let list = [...new Set(data.map((item:any) =>item['ssid']))];
-
-            if(list.length){
-                list.map((data:any) => {
-                    if(data){
-                        this.SSIDList.push({ssid:data});
-                    }
-                });
-                console.log("this.SSIDList", this.SSIDList);
-            }
-            
-
-           
+        this.devicesList$ =  this.store.select(DeviceSelectors.selectAll);
+        this.devicesList$.subscribe((data:any)=>{
+        let list = [...new Set(data.map((item:any) =>item['ssid']))];
+        if(list.length){
+            this.SSIDList = [];
+            list.map((data:any) => {
+                if(data){
+                    this.SSIDList.push({ssid:data});
+                }
             });
-          
+        }
+        });
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -188,7 +182,12 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
         this.toggledClusters.emit(event.checked);
     }
     onChangeSSIDFilter(event:any):void {
-        console.log("SSID Filter", event);
+       
+        this.toggleSSID.emit(event.value);
+        if(!event.value.length){
+            this.toggleDevices.emit(false);
+            this.staticDevices = false;
+        }
     }
     onSortChange(event: any): void {
         this.alertSortTypeChanged.emit(event?.value);

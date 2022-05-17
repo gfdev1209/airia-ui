@@ -68,6 +68,9 @@ export class MapService {
   );
   showClusters$ = this.showClusters.asObservable();
 
+  private filterSSID: BehaviorSubject<[]> = new BehaviorSubject([]);
+  filterBySSID$ = this.filterSSID.asObservable();
+
   private showStaticDevices: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
   showStaticDevices$ = this.showStaticDevices.asObservable();
@@ -201,5 +204,10 @@ export class MapService {
         .tz(environment.timeZone)
         .format('ddd MMM DD, yy hh:mm A zz')
     );
+  }
+
+  filterBySSID(ssid:[]){
+    console.log("ssid map servcie", ssid);
+    this.filterSSID.next(ssid);
   }
 }

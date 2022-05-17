@@ -139,6 +139,7 @@ export class MapComponent implements OnInit, OnDestroy {
     showStaticDevices$ = this.mapService.showStaticDevices$;
     showAccessPoints$ = this.mapService.showAccessPoints$;
     showClusters$ = this.mapService.showClusters$;
+    filterBySSID$ = this.mapService.filterBySSID$;
     mapDateTime$ = this.mapService.mapDateTime$;
     mapDateTimeSubscription$: Subscription = new Subscription();
     mapDateTime: Date = new Date();

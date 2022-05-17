@@ -31,6 +31,7 @@ export class MapViewComponent implements OnChanges {
     @Input() showStaticDevices?: boolean | null = true;
     @Input() showAccessPoints?: boolean | null = false;
     @Input() showClusters?: boolean | null = false;
+    @Input() filterBySSID?: any[] | null = [];
 
     @Input() selectedAlert?: Alert | null;
     @Input() regionPolygon?: number[][] | null;
@@ -102,7 +103,7 @@ export class MapViewComponent implements OnChanges {
     constructor(private confirmationService: ConfirmationService) {}
 
     ngOnChanges(changes: SimpleChanges): void {
-       
+       console.log("fitlerBySSID", this.filterBySSID);
         
         if (changes.buildings?.firstChange === false) {
             if (changes.buildings.currentValue) {
@@ -118,6 +119,10 @@ export class MapViewComponent implements OnChanges {
         if (changes.devices?.firstChange === false) {
             
             this.addDevices();
+        }
+        if (changes.filterBySSID?.firstChange === false) {
+           
+            this.addSSIDFilterDevices();
         }
         if (changes.zoomIn?.firstChange === false) {
             this.onZoomIn();
@@ -631,6 +636,7 @@ export class MapViewComponent implements OnChanges {
         const style = this.map.getStyle();
 
         if (this.mapLiveDeviceData.dataSource && style.sources) {
+            console.log("this.mapLiveDeviceData", this.mapLiveDeviceData);
             const clusterSource: any = style.sources[this.mapLiveDeviceData.dataSourceName];
             clusterSource.cluster = this.showClusters;
             this.map.setStyle(style);
@@ -661,8 +667,9 @@ export class MapViewComponent implements OnChanges {
             this.mapLiveDeviceData.hideAllLayers();
         } else {
             this.mapLiveDeviceData.showAllLayers();
+            this.addDevices();
         }
-    }
+    } 
     toggleAccessPoints(): void {
         if (!this.showAccessPoints) {
             this.mapAccessPointData.hideAllLayers();
@@ -736,6 +743,26 @@ export class MapViewComponent implements OnChanges {
                 this.addDevicesToMap(staticDevices, this.staticDeviceDetails, this.mapStaticDeviceData);
             }
            
+        }
+    }
+
+    /** Add SSID filtered devices to map */
+    addSSIDFilterDevices(): void {
+       
+        if (this.map && this.devices) {
+            const liveDevices = this.devices.filter((d) => !d.fixedPosition);
+          
+           const filteredLiveDevices = liveDevices.filter((el:any) => {
+            return this.filterBySSID?.some((f) => {
+              return f === el.ssid;
+            });
+          });
+
+           console.log("filteredLiveDevices", filteredLiveDevices);
+
+           
+             this.addDevicesToMap(filteredLiveDevices, this.liveDeviceDetails, this.mapLiveDeviceData);
+
         }
     }
 
