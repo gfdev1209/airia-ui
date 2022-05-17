@@ -38,7 +38,7 @@ import { MapControlsComponent } from './components/map-controls/map-controls.com
 import { MapControlsViewComponent } from './views/map-controls-view/map-controls-view.component';
 import { BuildingDetailsOverviewComponent } from './components/building-details/building-details-overview/building-details-overview.component';
 import { BuildingDetailsOverviewViewComponent } from './views/building-details/building-details-overview-view/building-details-overview-view.component';
-
+import {MultiSelectModule} from 'primeng/multiselect';
 @NgModule({
   imports: [
     // Angular Modules
@@ -47,6 +47,7 @@ import { BuildingDetailsOverviewViewComponent } from './views/building-details/b
     RouterModule,
     SharedModule,
     NgApexchartsModule,
+    MultiSelectModule,
     NgxMapboxGLModule.withConfig({
       accessToken:
         'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',

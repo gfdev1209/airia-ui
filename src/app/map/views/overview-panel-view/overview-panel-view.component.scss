@@ -31,3 +31,12 @@
   background: #00c1ff;
   box-shadow: 0 0 6px 5px #02b9fb63;
 }
+.p-multiselect .p-multiselect-panel{
+  .p-multiselect-header{
+      padding: 0 1rem !important;
+  }
+} 
+
+.p-multiselect-close{
+    height: 16px;
+}
