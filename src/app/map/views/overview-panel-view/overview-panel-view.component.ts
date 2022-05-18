@@ -73,7 +73,6 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     accessPoints = false;
     clusters = false;
     SSIDList :any[]=[];
-    selectedSSID:string = '';
 
     severeUrgency = true;
     highUrgency = true;
@@ -106,7 +105,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
 
     
     devicesList$: Observable<any>;
-   
+    selectedSSID:any[]=[];
     constructor(private store:Store<RootState>) {
         
         this.devicesList$ =  this.store.select(DeviceSelectors.selectAll);
@@ -114,9 +113,11 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
         let list = [...new Set(data.map((item:any) =>item['ssid']))];
         if(list.length){
             this.SSIDList = [];
+            this.selectedSSID = [];
             list.map((data:any) => {
                 if(data){
                     this.SSIDList.push({ssid:data});
+                    this.selectedSSID.push(data);
                 }
             });
         }
@@ -174,6 +175,13 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     }
     onToggleDevices(event: any): void {
         this.toggleDevices.emit(event.checked);
+
+        if(event.checked){
+            this.SSIDList.map(item=> this.selectedSSID.push(item.ssid));
+        }else{
+            this.selectedSSID = [];
+        }
+       
     }
     onToggleIOT(event: any): void {
         this.toggledStaticDevices.emit(event.checked);
@@ -185,8 +193,9 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
        
         this.toggleSSID.emit(event.value);
         if(!event.value.length){
-            this.toggleDevices.emit(false);
-            this.staticDevices = false;
+            this.toggleDevices.emit(true);
+            this.staticDevices = true;
+            this.SSIDList.map(item=> this.selectedSSID.push(item.ssid));
         }
     }
     onSortChange(event: any): void {
