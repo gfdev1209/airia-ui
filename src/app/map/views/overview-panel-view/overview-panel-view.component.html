@@ -261,12 +261,31 @@
                                             ></small>
                                         </div>
                                     </div>
-                                    <div class="p-mt-2">
+                                    <div class="p-d-flex p-align-center p-mt-2">
+                                        <div class="p-flex-column flex-grow-1">
+                                            <label for="ssidToggle">
+                                                <img src="./assets/img/access-point.png" class="icoAccessPoint" />
+                                                <small class="color-text-medium">SSID</small>
+                                            </label>
+                                        </div>
+                                        <div class="p-flex-column">
+                                            <small>
+                                                <p-inputSwitch
+                                                    
+                                                    inputId="ssidToggle"
+                                                    [(ngModel)]="ssidDevices"
+                                                    (onChange)="onToggleSSID($event)"
+                                                ></p-inputSwitch
+                                            ></small>
+                                        </div>
+                                    </div>
+                                    <div class="p-mt-2" *ngIf="ssidDevices">
                                        
                                         <div class="ssid-dropdown">
                                             
                                                <small>
                                                 <p-multiSelect 
+                                               
                                                 [disabled]="!staticDevices"
                                                 [options]="SSIDList"
                                                 [(ngModel)]="selectedSSID"
@@ -274,7 +293,7 @@
                                                 optionLabel="ssid" optionValue="ssid"
                                                 placeholder="Select SSID"
                                                 [filter]="false"
-                                                class=" p-button-sm p-ml-1"
+                                                class="p-button-sm p-ml-1"
                                                 (onChange)="onChangeSSIDFilter($event)"
                                                 [maxSelectedLabels]="100"
                                               ></p-multiSelect>

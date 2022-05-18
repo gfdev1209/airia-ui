@@ -64,3 +64,11 @@
   padding: 0px 15px;
   background-color: #353131;
 }
+
+::ng-deep .p-multiselect-header .p-checkbox-box::after{
+  position: absolute;
+  content: "ALL";
+  right: -35px;
+  top: 0;
+
+}

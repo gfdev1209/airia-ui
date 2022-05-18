@@ -19,6 +19,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as DeviceSelectors from '@store/device/device.selectors';
 import { RootState } from 'src/app/store';
+import { MultiSelect } from 'primeng/multiselect';
 
 @Component({
     selector: 'app-overview-panel-view',
@@ -72,6 +73,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     iotDevices = true;
     accessPoints = false;
     clusters = false;
+    ssidDevices = false;
     SSIDList :any[]=[];
 
     severeUrgency = true;
@@ -188,6 +190,11 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     }
     onToggleClusters(event: any): void {
         this.toggledClusters.emit(event.checked);
+    }
+
+   
+    onToggleSSID(event: any): void {
+            this.ssidDevices = event.checked;
     }
     onChangeSSIDFilter(event:any):void {
        
