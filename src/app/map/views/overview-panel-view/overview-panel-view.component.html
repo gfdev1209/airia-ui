@@ -229,7 +229,7 @@
                                     </div>
                                     <div class="p-d-flex p-align-center p-mt-2">
                                         <div class="p-flex-column flex-grow-1">
-                                            <label for="staticDevices">
+                                            <label for="clusters">
                                                 <div class="icoCluster"></div>
                                                 <small class="color-text-medium">Clusters</small>
                                             </label>
@@ -267,6 +267,7 @@
                                             
                                                <small>
                                                 <p-multiSelect 
+                                                [disabled]="!staticDevices"
                                                 [options]="SSIDList"
                                                 [(ngModel)]="selectedSSID"
                                                 display="chip"
@@ -275,10 +276,9 @@
                                                 [filter]="false"
                                                 class=" p-button-sm p-ml-1"
                                                 (onChange)="onChangeSSIDFilter($event)"
+                                                [maxSelectedLabels]="100"
                                               ></p-multiSelect>
                                                </small>
-                                              
-                                            
                                         </div>
                                     </div>
                                 </ng-template>
