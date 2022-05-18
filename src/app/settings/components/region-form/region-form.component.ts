@@ -43,7 +43,7 @@ export class RegionFormComponent implements OnInit, OnDestroy {
     loading$ = this.store.select(RegionSelectors.selectLoading);
     addRegionSuccess$ = this.actions$.pipe(ofType(RegionActions.addSuccess)).subscribe((data: any) => {
         this.notificationService.displaySuccess('Successfully created Region');
-        this.router.navigate(['/settings/region/' + data.id]);
+        this.router.navigate(['/settings/region/' + data.region.regionId]);
     });
     updateRegionSuccess$ = this.actions$.pipe(ofType(RegionActions.updateSuccess)).subscribe((data: any) => {
         this.notificationService.displaySuccess('Successfully updated Region');
@@ -66,6 +66,7 @@ export class RegionFormComponent implements OnInit, OnDestroy {
     }
 
     addRegion(region: Region): void {
+        region.activeType = 'Active';
         this.store.dispatch(RegionActions.add({ region }));
     }
 
