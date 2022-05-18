@@ -12,7 +12,7 @@ import { RootState } from '@store/index';
     styleUrls: ['./regions-table.component.scss'],
 })
 export class RegionsTableComponent implements OnInit {
-    regions$ = this.store.select(RegionSelectors.selectAll);
+    regions$ = this.store.select(RegionSelectors.selectActiveRegions);
     self$ = this.store.select(UserSelectors.selectSelf);
     loading$ = this.store.select(RegionSelectors.selectLoading);
 
