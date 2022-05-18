@@ -117,15 +117,16 @@ export class RegionEffects {
     add$ = createEffect(() =>
         this.actions$.pipe(
             ofType(RegionActions.add),
-            mergeMap(({ region }) =>
-                this.regionService.create<Region>(region).pipe(
-                    map((addedRegion: Region) => {
-                        console.log(addedRegion);
-                        return RegionActions.addSuccess({ region: addedRegion });
-                    }),
-                    catchError((error) => of(RegionActions.addFailed()))
-                )
-            )
+            mergeMap(({ region }) => {
+                return this.regionService.create<Region>(region).pipe(
+                    map((id: any) => {
+                        region.id = id;
+                        region.regionId = id;
+                        return RegionActions.addSuccess({ region });
+                    })
+                );
+            }),
+            catchError(() => of(RegionActions.addFailed()))
         )
     );
 
