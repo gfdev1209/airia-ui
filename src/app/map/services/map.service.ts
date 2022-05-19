@@ -207,7 +207,7 @@ export class MapService {
   }
 
   filterBySSID(ssid:[]){
-    console.log("ssid map servcie", ssid);
+   
     this.filterSSID.next(ssid);
   }
 }

@@ -98,7 +98,7 @@ export class AnalyticsPanelViewComponent implements OnInit, OnChanges {
           lastStat.hour
         );
 
-        console.log("liveTime", liveTime);
+       
         for (let h = 0; h < 24; h++) {
           if (occupancyData.occupancyStats[h]) {
             labels.push(
