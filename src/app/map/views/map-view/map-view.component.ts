@@ -103,7 +103,6 @@ export class MapViewComponent implements OnChanges {
     constructor(private confirmationService: ConfirmationService) {}
 
     ngOnChanges(changes: SimpleChanges): void {
-       console.log("fitlerBySSID", this.filterBySSID);
         
         if (changes.buildings?.firstChange === false) {
             if (changes.buildings.currentValue) {
@@ -636,7 +635,7 @@ export class MapViewComponent implements OnChanges {
         const style = this.map.getStyle();
 
         if (this.mapLiveDeviceData.dataSource && style.sources) {
-            console.log("this.mapLiveDeviceData", this.mapLiveDeviceData);
+          
             const clusterSource: any = style.sources[this.mapLiveDeviceData.dataSourceName];
             clusterSource.cluster = this.showClusters;
             this.map.setStyle(style);
@@ -757,9 +756,6 @@ export class MapViewComponent implements OnChanges {
               return f === el.ssid;
             });
           });
-
-           console.log("filteredLiveDevices", filteredLiveDevices);
-
            
              this.addDevicesToMap(filteredLiveDevices, this.liveDeviceDetails, this.mapLiveDeviceData);
 

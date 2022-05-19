@@ -15,7 +15,7 @@ import { AlertSortType } from '../../enums';
 import { Location } from '../../models';
 
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as DeviceSelectors from '@store/device/device.selectors';
 import { RootState } from 'src/app/store';
@@ -108,10 +108,11 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     
     devicesList$: Observable<any>;
     selectedSSID:any[]=[];
+    private _deviceListSubscription = new Subscription();;
     constructor(private store:Store<RootState>) {
         
         this.devicesList$ =  this.store.select(DeviceSelectors.selectAll);
-        this.devicesList$.subscribe((data:any)=>{
+        this._deviceListSubscription = this.devicesList$.subscribe((data:any)=>{
         let list = [...new Set(data.map((item:any) =>item['ssid']))];
         if(list.length){
             this.SSIDList = [];
@@ -284,5 +285,9 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     }
     isDateInFuture(amount: number, unit: moment.unitOfTime.DurationConstructor): boolean {
         return moment(this.mapDateTime).add(amount, unit).toDate() >= new Date() ? true : false;
+    }
+
+    ngOnDestroy(){
+        this._deviceListSubscription?.unsubscribe();
     }
 }
