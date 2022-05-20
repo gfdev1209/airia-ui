@@ -28,6 +28,8 @@ export class BuildingDetailsOccupancyViewComponent implements OnInit, OnChanges 
     public chartOptions?: Partial<LineChartOptions>;
 
     chartData: any;
+    currentDate: Date = new Date();
+    selectedDateRange:any;
 
     series: any[] = [];
 
@@ -205,7 +207,15 @@ export class BuildingDetailsOccupancyViewComponent implements OnInit, OnChanges 
         this.occupancyDateChanged.emit(newDate);
     }
     onHistoricDateSelected(data: any): void {
-        console.log('range changed', data);
-        this.historicDateRangeChanged.emit(data.value);
+        if(!this.selectedDateRange?.some((date:any)=>date==null)){
+            this.historicDateRangeChanged.emit(this.selectedDateRange);
+          }
+    }
+    onCalendarOpen(event: any): void {
+        this.currentDate = new Date();
+    }
+
+    stopPropagation($event: MouseEvent): void {
+        $event.stopPropagation();
     }
 }
