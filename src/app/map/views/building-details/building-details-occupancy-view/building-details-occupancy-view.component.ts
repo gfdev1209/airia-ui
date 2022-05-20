@@ -53,23 +53,57 @@ export class BuildingDetailsOccupancyViewComponent implements OnInit, OnChanges 
                 moment.utc().subtract(1, 'week').endOf('week').subtract(environment.timeZoneOffsetUTC, 'hour').toDate(),
             ],
         },
-        // {
-        //   name: '2 Weeks Ago',
-        //   range: [
-        //     moment
-        //       .utc()
-        //       .subtract(2, 'week')
-        //       .startOf('week')
-        //       .subtract(environment.timeZoneOffsetUTC, 'hour')
-        //       .toDate(),
-        //     moment
-        //       .utc()
-        //       .subtract(2, 'week')
-        //       .endOf('week')
-        //       .subtract(environment.timeZoneOffsetUTC, 'hour')
-        //       .toDate(),
-        //   ],
-        // },
+        {
+          name: '2 Weeks Ago',
+          range: [
+            moment
+              .utc()
+              .subtract(2, 'week')
+              .startOf('week')
+              .subtract(environment.timeZoneOffsetUTC, 'hour')
+              .toDate(),
+            moment
+              .utc()
+              .subtract(2, 'week')
+              .endOf('week')
+              .subtract(environment.timeZoneOffsetUTC, 'hour')
+              .toDate(),
+          ],
+        },
+        {
+          name: '3 Weeks Ago',
+          range: [
+            moment
+              .utc()
+              .subtract(3, 'week')
+              .startOf('week')
+              .subtract(environment.timeZoneOffsetUTC, 'hour')
+              .toDate(),
+            moment
+              .utc()
+              .subtract(3, 'week')
+              .endOf('week')
+              .subtract(environment.timeZoneOffsetUTC, 'hour')
+              .toDate(),
+          ],
+        },
+        {
+          name: '4 Weeks Ago',
+          range: [
+            moment
+              .utc()
+              .subtract(4, 'week')
+              .startOf('week')
+              .subtract(environment.timeZoneOffsetUTC, 'hour')
+              .toDate(),
+            moment
+              .utc()
+              .subtract(4, 'week')
+              .endOf('week')
+              .subtract(environment.timeZoneOffsetUTC, 'hour')
+              .toDate(),
+          ],
+        },
         // {
         //   name: 'This Week',
         //   range: [
