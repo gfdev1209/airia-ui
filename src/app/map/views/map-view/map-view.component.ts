@@ -736,7 +736,7 @@ export class MapViewComponent implements OnChanges {
             if(this.showDevices){
              this.addDevicesToMap(liveDevices, this.liveDeviceDetails, this.mapLiveDeviceData);
             }
-          
+            
             if(this.showStaticDevices){
                 const staticDevices = this.devices.filter((d) => d.fixedPosition);
                 this.addDevicesToMap(staticDevices, this.staticDeviceDetails, this.mapStaticDeviceData);
@@ -806,6 +806,9 @@ export class MapViewComponent implements OnChanges {
     isFeatureDeviceCluster(feature: MapboxGeoJSONFeature): boolean {
         return feature.layer.id.toString() === 'device-clusters';
     }
+    isFeatureStaticDeviceCluster(feature: MapboxGeoJSONFeature): boolean {
+        return feature.layer.id.toString() === 'static-clusters';
+    }
 
     mapMouseMove(event: any): void {
         if (this.map) {
@@ -839,6 +842,13 @@ export class MapViewComponent implements OnChanges {
                 });
                 this.hoveredDevice = undefined;
             }
+            if (this.hoveredDevice) {
+                this.map.removeFeatureState({
+                    source: this.staticDeviceDetails.sourceName,
+                    id: this.hoveredDevice['id'],
+                });
+                this.hoveredDevice = undefined;
+            }
             if (features) {
                 features.some((feature) => {
                     if (feature) {
@@ -848,6 +858,22 @@ export class MapViewComponent implements OnChanges {
                             this.map.setFeatureState(
                                 {
                                     source: this.liveDeviceDetails.sourceName,
+                                    id: feature.id,
+                                },
+                                {
+                                    hover: true,
+                                }
+                            );
+                            if (feature.geometry.type === 'Point') {
+                                this.selectedPosition = feature.geometry.coordinates;
+                            }
+                            return true;
+                        }else if (this.isFeatureStaticDeviceCluster(feature)) {
+                            this.map.getCanvasContainer().style.cursor = 'pointer';
+                            this.hoveredDevice = feature;
+                            this.map.setFeatureState(
+                                {
+                                    source: this.staticDeviceDetails.sourceName,
                                     id: feature.id,
                                 },
                                 {
@@ -914,6 +940,7 @@ export class MapViewComponent implements OnChanges {
                             });
                         }
                     });
+
                 } else if (this.isFeatureAccessPoint(feature)) {
                     // Check if this is a cluster of access points
                     if (feature.properties?.cluster && this.mapAccessPointData.dataSource) {
