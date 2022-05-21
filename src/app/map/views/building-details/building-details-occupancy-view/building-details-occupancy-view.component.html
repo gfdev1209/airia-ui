@@ -8,22 +8,29 @@
         </div>
         <div>
             <small>
-
-        <p-calendar
-        [showIcon]="true"
-        [(ngModel)]="selectedDateRange"
-        [maxDate]="currentDate"
-        icon="fas fa-clock"
-        inputId="range"
-        appendTo="body"
-        (click)="stopPropagation($event)"
-        (onShow)="onCalendarOpen($event)"
-        (onSelect)="onHistoricDateSelected($event)"
-        panelStyleClass="small"
-        hourFormat="12"
-        selectionMode="range" 
-    ></p-calendar>
-      </small>
+                <p-calendar
+                    [showIcon]="true"
+                    [(ngModel)]="selectedDateRange"
+                    [maxDate]="currentDate"
+                    icon="fas fa-clock"
+                    inputId="range"
+                    appendTo="body"
+                    (click)="stopPropagation($event)"
+                    (onShow)="onCalendarOpen($event)"
+                    (onSelect)="onHistoricDateSelected($event)"
+                    panelStyleClass="small"
+                    hourFormat="12"
+                    selectionMode="range" 
+                ></p-calendar>
+                <p-dropdown
+                    [options]="dateRange"
+                    [(ngModel)]="historicDataRange"
+                    optionLabel="name"
+                    appendTo="body"
+                    optionValue="range"
+                    (onChange)="onHistoricDateSelected($event)"
+                ></p-dropdown>
+            </small>
         </div>
     </div>
 </section>

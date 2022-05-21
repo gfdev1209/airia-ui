@@ -1,4 +1,12 @@
-::ng-deep .p-calendar-w-btn .p-datepicker-trigger.p-button{
+::ng-deep .p-calendar-w-btn .p-datepicker-trigger.p-button {
     padding: 12px;
-    height: 36px;
+    height: 30px;
+}
+
+::ng-deep .p-calendar-w-btn .p-inputtext.p-component {
+    padding: 5px;
+}
+
+::ng-deep p-dropdown {
+    margin-left: 12px;
 }
