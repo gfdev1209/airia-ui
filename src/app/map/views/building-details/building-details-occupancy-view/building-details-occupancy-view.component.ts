@@ -198,7 +198,9 @@ export class BuildingDetailsOccupancyViewComponent implements OnInit, OnChanges 
         return occupancyData;
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.currentDate = new Date();
+    }
 
     updateChartData(): void {}
 
@@ -210,6 +212,9 @@ export class BuildingDetailsOccupancyViewComponent implements OnInit, OnChanges 
         if(!this.selectedDateRange?.some((date:any)=>date==null)){
             this.historicDateRangeChanged.emit(this.selectedDateRange);
           }
+    }
+    onHistoricWeekSelected(data: any): void {
+        this.historicDateRangeChanged.emit(data.value);
     }
     onCalendarOpen(event: any): void {
         this.currentDate = new Date();
