@@ -64,6 +64,23 @@ export class RegionService extends BaseService {
                     occupancy.month = moment(new Date(occupancy.year, occupancy.month, occupancy.day)).month();
                     occupancy.day = moment(new Date(occupancy.year, occupancy.month, occupancy.day)).endOf('month').date();
                 }
+            } 
+            if (occupancy.hour >= 24) {
+                const days = moment(new Date(occupancy.year, occupancy.month, occupancy.day)).endOf('month').date();
+                if (occupancy.day === days) {
+                    const currentDate = moment(new Date(occupancy.year, occupancy.month, occupancy.day));
+                    let futureMonth = moment(currentDate).add(1, 'M');
+                    const futureMonthEnd = moment(futureMonth).endOf('month');
+
+                    if(currentDate.date() != futureMonth.date() && futureMonth.isSame(futureMonthEnd.format('YYYY-MM-DD'))) {
+                        futureMonth = futureMonth.add(1, 'd');
+                    }
+                    occupancy.month = parseInt(futureMonth.toString());
+                    occupancy.day = 1;
+                } else {
+                    occupancy.day += 1;
+                }
+                occupancy.hour -= 24;
             }
         });
         return occupancyData;

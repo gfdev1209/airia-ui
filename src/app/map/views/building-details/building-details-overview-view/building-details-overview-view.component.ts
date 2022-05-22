@@ -66,17 +66,15 @@ export class BuildingDetailsOverviewViewComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.historicRange = [
-      moment
-        .utc()
+      moment(new Date())
         .subtract(1, 'week')
         .startOf('week')
-        .subtract(environment.timeZoneOffsetUTC, 'hour')
-        .toDate(),
-      moment
         .utc()
+        .toDate(),
+      moment(new Date())
         .subtract(1, 'week')
         .endOf('week')
-        .subtract(environment.timeZoneOffsetUTC, 'hour')
+        .utc()
         .toDate(),
     ];
     this.historicDateRangeChanged.emit(this.historicRange);
