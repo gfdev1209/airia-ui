@@ -48,9 +48,8 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
       this.curDate = new Date();
       this.onOccupancyDateChanged(
         moment(this.curDate)
-          .utc()
           .startOf('day')
-          .subtract(environment.timeZoneOffsetUTC, 'hour')
+          .utc()
           .toDate()
       );
     }
@@ -79,8 +78,14 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
     if (this.regionId) {
       this.historicData$ = this.getOccupancyData(
         this.regionId,
-        date[0],
-        date[1]
+        moment(date[0])
+          .startOf('day')
+          .utc()
+          .toDate(),
+        moment(date[1])
+          .endOf('day')
+          .utc()
+          .toDate()
       ).pipe(
         tap((response) => {
           this.historicLoading.next(false);
@@ -96,14 +101,12 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
       this.occupancy$ = this.getOccupancyData(
         this.regionId,
         moment(date)
-          .utc()
           .startOf('day')
-          .subtract(environment.timeZoneOffsetUTC, 'hour')
+          .utc()
           .toDate(),
         moment(date)
-          .utc()
           .endOf('day')
-          .subtract(environment.timeZoneOffsetUTC, 'hour')
+          .utc()
           .toDate()
       ).pipe(
         tap((response) => {

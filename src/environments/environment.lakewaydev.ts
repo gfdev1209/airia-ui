@@ -3,7 +3,7 @@ export const environment = {
   apiUrl: 'https://lakeway-api.dev.airia20.com/api/',
   // Client
   timeZone: 'America/New_York',
-  timeZoneOffsetUTC: -5,
+  timeZoneOffsetUTC: -(new Date().getTimezoneOffset() / 60),
   // The ID of the default Location to display
   defaultLocationId: 1,
   // The ID of the region that encompasses all regions

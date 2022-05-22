@@ -76,14 +76,12 @@ export class AnalyticsPanelComponent implements OnInit, OnDestroy {
       .getOccupancyRange(
         regionId,
         moment(new Date(year, month, day))
-          .utc()
           .startOf('day')
-          .subtract(environment.timeZoneOffsetUTC, 'hour')
+          .utc()
           .toDate(),
         moment(new Date(year, month, day))
-          .utc()
           .endOf('day')
-          .subtract(environment.timeZoneOffsetUTC, 'hour')
+          .utc()
           .toDate()
       )
       .pipe(

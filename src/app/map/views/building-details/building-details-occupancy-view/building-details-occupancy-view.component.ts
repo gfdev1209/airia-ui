@@ -51,76 +51,55 @@ export class BuildingDetailsOccupancyViewComponent implements OnInit, OnChanges 
         {
             name: 'Last Week',
             range: [
-                moment.utc().subtract(1, 'week').startOf('week').subtract(environment.timeZoneOffsetUTC, 'hour').toDate(),
-                moment.utc().subtract(1, 'week').endOf('week').subtract(environment.timeZoneOffsetUTC, 'hour').toDate(),
+                moment(new Date()).subtract(1, 'week').startOf('week').utc().toDate(),
+                moment(new Date()).subtract(1, 'week').endOf('week').utc().toDate(),
             ],
         },
         {
             name: '2 Weeks Ago',
             range: [
-              moment
-                .utc()
+              moment(new Date())
                 .subtract(2, 'week')
                 .startOf('week')
-                .subtract(environment.timeZoneOffsetUTC, 'hour')
-                .toDate(),
-              moment
                 .utc()
+                .toDate(),
+              moment(new Date())
                 .subtract(2, 'week')
                 .endOf('week')
-                .subtract(environment.timeZoneOffsetUTC, 'hour')
+                .utc()
                 .toDate(),
             ],
-          },
-          {
+        },
+        {
             name: '3 Weeks Ago',
             range: [
-              moment
-                .utc()
+               moment(new Date())
                 .subtract(3, 'week')
                 .startOf('week')
-                .subtract(environment.timeZoneOffsetUTC, 'hour')
-                .toDate(),
-              moment
                 .utc()
+                .toDate(),
+               moment(new Date())
                 .subtract(3, 'week')
                 .endOf('week')
-                .subtract(environment.timeZoneOffsetUTC, 'hour')
+                .utc()
                 .toDate(),
             ],
-          },
-          {
+        },
+        {
             name: '4 Weeks Ago',
             range: [
-              moment
-                .utc()
+               moment(new Date())
                 .subtract(4, 'week')
                 .startOf('week')
-                .subtract(environment.timeZoneOffsetUTC, 'hour')
-                .toDate(),
-              moment
                 .utc()
+                .toDate(),
+               moment(new Date())
                 .subtract(4, 'week')
                 .endOf('week')
-                .subtract(environment.timeZoneOffsetUTC, 'hour')
+                .utc()
                 .toDate(),
             ],
-          },
-        // {
-        //   name: 'This Week',
-        //   range: [
-        //     moment
-        //       .utc()
-        //       .startOf('week')
-        //       .subtract(environment.timeZoneOffsetUTC, 'hour')
-        //       .toDate(),
-        //     moment
-        //       .utc()
-        //       .endOf('week')
-        //       .subtract(environment.timeZoneOffsetUTC, 'hour')
-        //       .toDate(),
-        //   ],
-        // },
+        },
     ];
     historicDataRange: any;
     maxDateValue = new Date();
