@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { RootState } from 'src/app/store';
 import { Alert } from '../../models';
 import * as AlertActions from '@store/alert/alert.actions';
+import * as BuildingActions from '@store/building/building.actions';
 import { MapService } from '@map/services/map.service';
 
 @Component({
@@ -24,5 +25,11 @@ export class AlertPreviewComponent {
     this.mapService.resetPlaybackSlider();
     this.mapService.stopPlayback();
     this.store.dispatch(AlertActions.select({ id: alert.id }));
+      this.onClosed();
+  }
+
+  onClosed(): void {
+    this.store.dispatch(BuildingActions.deselect());
+    this.store.dispatch(BuildingActions.hideDetails());
   }
 }
