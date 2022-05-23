@@ -7,6 +7,12 @@ import { environment } from 'src/environments/environment';
 import { DeviceMapboxDetails } from '@map/models/device-mapbox-details.model';
 import { MapViewDataSource } from './map-view-data-source';
 import { ConfirmationService, ConfirmEventType } from 'primeng/api';
+import { Store } from '@ngrx/store';
+import { RootState } from '@store/index';
+import { AlertEffects } from '@store/alert/alert.effects';
+import { alertReducer } from '@store/alert/alert.reducer';
+import { selectLoading } from '@store/alert/alert.selectors';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-map-view',
@@ -100,7 +106,11 @@ export class MapViewComponent implements OnChanges {
         heatmapColorRGB: '2, 185, 251',
     };
 
-    constructor(private confirmationService: ConfirmationService) {}
+
+    loadingAlert$:Observable<any>;
+    constructor(private confirmationService: ConfirmationService, private store:Store<RootState>) {
+      this.loadingAlert$ = this.store.select(selectLoading);
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
         
