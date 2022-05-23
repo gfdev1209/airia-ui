@@ -19,3 +19,10 @@ mgl-map {
   right: 10px;
   bottom: $left-nav-item-height-mobile + 10px;
 }
+.progressSpinner{
+  position: absolute;
+  top: 50%;
+  left: 41%;
+  z-index: 99999;
+  transform: translate(-50% , -50%);
+}

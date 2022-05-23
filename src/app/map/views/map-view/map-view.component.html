@@ -1,4 +1,12 @@
 <div [class.opacity-0]="!centeredCoordinates">
+   
+        <div class="progressSpinner" *ngIf="loadingAlert$ | async">
+          <p-progressSpinner
+            [style]="{ width: '45px', height: '45px', stroke: 'red' }"
+            strokeWidth="4"
+          ></p-progressSpinner>
+        </div>
+     
     <mgl-map
         *ngIf="selectedLocation"
         [style]="'mapbox://styles/mikeairia/ckothwa8k17hn18lngdslao64'"
@@ -51,7 +59,7 @@
     <p class="p-mt-0">Click on the map to begin plotting the shape of your building.</p>
     <hr />
     <div class="p-mt-4 p-d-flex">
-        <button
+        <button 
             pButton
             pRipple
             type="button"
