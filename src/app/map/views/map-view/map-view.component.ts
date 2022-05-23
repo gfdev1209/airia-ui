@@ -266,7 +266,7 @@ export class MapViewComponent implements OnChanges {
             this.map.flyTo({
               center: this.centeredCoordinates,
               essential: true,
-              zoom: 14,
+              zoom: this.initialZoomLevel,
             });
         }
     }
