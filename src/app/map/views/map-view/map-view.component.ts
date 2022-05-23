@@ -263,11 +263,11 @@ export class MapViewComponent implements OnChanges {
             ]);
 
             this.map.setCenter([this.centeredCoordinates.lng, this.centeredCoordinates.lat]);
-            // this.map.flyTo({
-            //   center: this.centeredCoordinates,
-            //   essential: true,
-            //   zoom: 16,
-            // });
+            this.map.flyTo({
+              center: this.centeredCoordinates,
+              essential: true,
+              zoom: 14,
+            });
         }
     }
 
