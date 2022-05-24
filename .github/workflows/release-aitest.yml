@@ -1,12 +1,12 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - ncidev-app-eus2-ui
+name: Build and deploy UI to AI Test
 
 on:
   push:
     branches:
-      - release/ncidev
+      - release/aitest
   workflow_dispatch:
 
 jobs:
@@ -15,15 +15,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Set up Node.js version
         uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: '14.x'
 
       - name: npm install and build
         run: |
           npm install
-          npm run build -- --outputHashing=all --prod --configuration=ncidev
+          npm run build -- --outputHashing=all --prod --configuration=aitest
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
@@ -48,7 +49,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'ncidev-app-eus2-ui'
+          app-name: 'aitest-app-eus2-ui'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1451927D5CA54864B3E76BD14CFC204E }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4A3929CC63A64CC09DFE5ADB6B442003 }}
           package: .
