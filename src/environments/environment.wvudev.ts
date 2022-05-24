@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://wvudev-api.dev.airia20.com/api/',
+  apiUrl: 'https://wvu-api.dev.airia20.com/api/',
   // Client
   timeZone: 'America/New_York',
   timeZoneOffsetUTC: -(new Date().getTimezoneOffset() / 60),
@@ -26,5 +26,5 @@ export const environment = {
   b2cAuthorityForgotPassword:
     'https://airiawvudev.b2clogin.com/wvudev.airia20.com/b2c_1_airiapwreset',
   b2cScopes: ['https://wvudev.airia20.com/api/demo.read'],
-  b2cApiUrl: 'https://wvudev-api.dev.airia20.com',
+  b2cApiUrl: 'https://wvu-api.dev.airia20.com',
 };
