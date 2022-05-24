@@ -18,13 +18,13 @@ export const environment = {
   b2cClientId: '70778b4b-053f-434c-9d86-d91faced2b30',
   b2cNameSignUpSignIn: 'B2C_1_airiasignupin',
   b2cNameEditProfile: 'B2C_1_airiaprofile',
-  b2cAuthorityDomain: 'airiawvudev.b2clogin.com',
+  b2cAuthorityDomain: 'airiawvudevelop.b2clogin.com',
   b2cAuthoritySignUpSignIn:
-    'https://airiawvudev.b2clogin.com/wvudev.airia20.com/B2C_1_airiasignupin',
+    'https://airiawvudevelop.b2clogin.com/wvudev.airia20.com/B2C_1_airiasignupin',
   b2cAuthorityEditProfile:
-    'https://airiawvudev.b2clogin.com/wvudev.airia20.com/B2C_1_airiaprofile',
+    'https://airiawvudevelop.b2clogin.com/wvudev.airia20.com/B2C_1_airiaprofile',
   b2cAuthorityForgotPassword:
-    'https://airiawvudev.b2clogin.com/wvudev.airia20.com/b2c_1_airiapwreset',
+    'https://airiawvudevelop.b2clogin.com/wvudev.airia20.com/b2c_1_airiapwreset',
   b2cScopes: ['https://wvudev.airia20.com/api/demo.read'],
   b2cApiUrl: 'https://wvu-api.dev.airia20.com',
 };
