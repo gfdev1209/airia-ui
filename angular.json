@@ -57,6 +57,14 @@
                 }
               ]
             },
+            "aitest": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.aitest.ts"
+                }
+              ]
+            },
             "devtest": {
               "fileReplacements": [
                 {
@@ -94,6 +102,14 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.stuartshome.ts"
+                }
+              ]
+            },
+            "wvudev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.wvudev.ts"
                 }
               ]
             },
@@ -138,6 +154,9 @@
             "schooldemo": {
               "browserTarget": "airia:build:schooldemo"
             },
+            "aitest": {
+              "browserTarget": "airia:build:aitest"
+            },
             "devtest": {
               "browserTarget": "airia:build:devtest"
             },
@@ -146,6 +165,9 @@
             },
             "ncidev": {
               "browserTarget": "airia:build:ncidev"
+            },
+            "wvudev": {
+              "browserTarget": "airia:build:wvudev"
             },
             "harringtondr": {
               "browserTarget": "airia:build:harringtondr"
