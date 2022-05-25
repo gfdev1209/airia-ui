@@ -140,6 +140,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
         if (changes.isPlaying?.currentValue) {
             if (changes.isPlaying.currentValue === true) {
                 this.activeState[0] = true;
+                setTimeout(() => this.getTopPanelHeight(), 10);
             }
         }
     }
@@ -166,7 +167,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     getTopPanelHeight(): void {
         if (this.topPanel) {
             const rect: any = this.topPanel.nativeElement.getBoundingClientRect();
-            const height = rect.height + 32;
+            const height = rect.height + 55;
             this.topPanelHeightChanged.emit(height);
         }
     }
