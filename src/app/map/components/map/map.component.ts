@@ -44,6 +44,7 @@ export class MapComponent implements OnInit, OnDestroy {
             }
         })
     );
+    
     selectedLocation$ = this.store.select(LocationSelectors.selectSelectedLocation);
     selectedAlert$ = this.store.select(AlertSelectors.selectSelectedAlert).pipe(
         tap((alert) => {
@@ -127,6 +128,7 @@ export class MapComponent implements OnInit, OnDestroy {
         })
     );
 
+
     playbackSliderValue$ = this.mapService.playbackSliderValue$
         .pipe(
             tap((value) => {
@@ -177,6 +179,7 @@ export class MapComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+       
         this.zoomIn$ = this.mapService.zoomIn$.subscribe(() => this.mapView?.onZoomIn());
         this.zoomOut$ = this.mapService.zoomOut$.subscribe(() => this.mapView?.onZoomOut());
         this.centerMap$ = this.mapService.centerMap$.subscribe(() => this.mapView?.onCenterMap());
@@ -201,7 +204,7 @@ export class MapComponent implements OnInit, OnDestroy {
                     this.mapDateTime = mapTime;
                 })
             )
-            .subscribe();
+            .subscribe(); 
     }
 
     /** Display Devices on map based on the index of an array of Devices */
@@ -246,8 +249,9 @@ export class MapComponent implements OnInit, OnDestroy {
             const buildingFloorsWithFloorNumber = this.floors.filter((floor) => floor.floorId === this.selectedFloorNumber);
             this.devicesFiltered = devices.filter((device) => buildingFloorsWithFloorNumber.find((f) => f.id === device.buildingFloorId));
         } else {
-            this.devicesFiltered = devices;
+            this.devicesFiltered = devices?.length ? devices : this.devices;
         }
+       
         this.mapView?.addDevices();
     }
 
