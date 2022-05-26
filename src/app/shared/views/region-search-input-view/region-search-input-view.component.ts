@@ -15,10 +15,13 @@ export class RegionSearchInputViewComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+   
+  }
 
   onSearch(): void {
     this.search.emit(this.searchTerm);
+    console.log("searchResults", this.searchResults);
   }
   onSelect(region: Region): void {
     this.selectRegion.emit(region);
