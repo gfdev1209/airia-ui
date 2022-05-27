@@ -27,7 +27,7 @@ export class BuildingDetailsOccupancyViewComponent implements OnInit, OnChanges 
     @ViewChild('chart', { static: false }) chart?: ChartComponent;
     public chartOptions?: Partial<LineChartOptions>;
 
-    chartData: any;
+    chartData: {data:{hour:string,x:string,y:number}[]}[] = [];
     currentDate: Date = new Date();
     selectedDateRange:any;
 
@@ -121,6 +121,37 @@ export class BuildingDetailsOccupancyViewComponent implements OnInit, OnChanges 
             const occupancyData = this.mapOccupancyData(changes.occupancy.currentValue);
             // console.log(occupancyData);
             this.chartData = Object.values(occupancyData).reverse();
+            this.chartData.forEach(entry=>{
+              const tranformedData=  entry.data.reduce((prev,curr,index)=>{
+                   const dayEntry = prev.find(pre=>pre.x===curr.x);
+                   if(dayEntry){
+                       dayEntry.y = dayEntry.y + curr.y
+                   }else{
+                       prev.push(curr)
+                   }
+                    return prev
+                },[] as {  hour: string;
+                    x: string;
+                    y: number;}[])
+
+                   
+
+                    tranformedData.map(t_data=>{
+                        const totalDay = entry.data.reduce((prev,curr,index)=>{
+                            if(curr.x===t_data.x){
+                                prev = prev + 1;
+                            
+                            }
+                            return prev
+                        },0)
+
+                        t_data.y = t_data.y/totalDay
+                    })
+
+
+                    entry.data = tranformedData;
+
+            })
         }
         if ((changes.maximized && !changes.maximized?.firstChange) || changes.tabChange) {
             window.dispatchEvent(new Event('resize'));
