@@ -136,6 +136,14 @@ export class AnalyticsPanelViewComponent implements OnInit, OnChanges {
         };
         this.updateChart(this.chartData, liveTime);
       }
+    }else{
+      const stats: number[] = [];
+        const labels: string[] = [];
+        this.chartData = {
+          stats,
+          labels,
+        };
+      this.updateChart(null, this.occupancyDate);
     }
   }
 
