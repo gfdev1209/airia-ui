@@ -1,0 +1,42 @@
+::ng-deep .minimizeDialog{
+
+    .p-dialog{
+        position: fixed !important;
+    bottom: 80px !important;
+    left: 0 !important;
+    height: 0;
+    top: unset !important;
+    }
+  
+}
+::ng-deep .maximizeDialog{
+
+    // .p-dialog{
+    // position: absolute !important;
+    // bottom: unset !important;
+    // left: unset !important;
+    // height: unset;
+    // top: 200px !important;
+    // }
+  
+}
+
+.minimize-icon{
+   
+    cursor: pointer;
+
+    a{
+        color: #a29aa9;
+    }
+
+    .pin-icon{
+        
+        i{
+            font-size: 18px;
+        }
+        .pinned{
+            transform: rotate(45deg);
+            color: #fff;
+        }
+    }
+}

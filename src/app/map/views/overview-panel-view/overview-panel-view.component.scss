@@ -72,3 +72,15 @@
   top: 0;
 
 }
+
+::ng-deep .p-knob-text {
+  font-size: 15px;
+  fill: #fff !important;
+}
+::ng-deep .p-knob-range{
+  fill: #c702fb36 !important;
+}
+
+.border-left{
+  border-right: 1px solid #3b3143;
+}

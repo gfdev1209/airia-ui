@@ -163,4 +163,8 @@ export class AlertService extends BaseService {
     mapArrayResponseToObject<T>(response: any): T {
         return response.map((responseJson: any) => new Alert(responseJson));
     }
+
+   
+
+
 }

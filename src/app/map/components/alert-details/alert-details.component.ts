@@ -39,6 +39,10 @@ export class AlertDetailsComponent implements OnInit {
     this.store.dispatch(AlertActions.acknowledgeAlert({ alert }));
   }
 
+  onPinAlert(alert: Alert): void {
+    this.store.dispatch(AlertActions.pinAlert({ alert }));
+  }
+
   onViewAlertPlayback(alert: Alert): void {
     this.mapService.stopPlayback();
     this.mapService.updatePlaybackSlider(0);

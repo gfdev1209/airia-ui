@@ -71,8 +71,8 @@ export class Region {
             }
         }
 
-        if (args.alerts?.$values) {
-            this.alerts = args.alerts.$values.map((responseJson: any) => new Alert(responseJson));
-        }
+        // if (args.alerts?.$values) {
+        //     this.alerts = args.alerts.$values.map((responseJson: any) => new Alert(responseJson));
+        // }
     }
 }

@@ -74,6 +74,7 @@ import { HasAccessLevelPipe } from './pipes/has-access-level.pipe';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { LineChartViewComponent } from './views/line-chart-view/line-chart-view.component';
 import { OccupancyChartViewComponent } from './views/occupancy-chart-view/occupancy-chart-view.component';
+import { KnobModule as PrimeKnobModule} from "primeng/knob";
 
 @NgModule({
     declarations: [
@@ -155,6 +156,7 @@ import { OccupancyChartViewComponent } from './views/occupancy-chart-view/occupa
         PrimeChipsModule,
         PrimeTabMenuModule,
         PrimeSliderModule,
+        PrimeKnobModule,
     ],
     exports: [
         // Components
@@ -219,6 +221,7 @@ import { OccupancyChartViewComponent } from './views/occupancy-chart-view/occupa
         EnumToArrayPipe,
         SortByPipe,
         HasAccessLevelPipe,
+        PrimeKnobModule
     ],
     providers: [],
     entryComponents: [AccessPointFormComponent, FloorFormComponent],

@@ -7,6 +7,7 @@
     styleClass="alert-details-container"
     position="top-left"
     (onHide)="onClose($event)"
+    [class.minimizeDialog]="!isMinimized"
 >
     <ng-template pTemplate="header">
         <div *ngIf="alert">
@@ -19,39 +20,54 @@
                 {{ alert.alertType }}
             </h2>
         </div>
+
+        <div *ngIf="alert" class="minimize-icon">
+               
+                <a (click)="pinAlert(alert)" class="pin-icon p-mr-3">
+                    <i *ngIf="!pinnedAlerts.includes(alert?.id!)" class="fa fa-thumbtack pin"></i>
+                    <i *ngIf="pinnedAlerts.includes(alert?.id!)" class="fa fa-thumbtack pinned"></i>
+                    
+                </a>
+                <a (click)="minimizeDialog()" class="pi pi-minus"></a>
+        </div>
     </ng-template>
-    <div class="alert-details" *ngIf="alert">
-        <table>
-            <tbody>
-                <tr>
-                    <td width="33%">
-                        <h4 class="font-weight-medium p-m-0 p-pr-3">ID</h4>
-                    </td>
-                    <td>#{{ alert.id }}</td>
-                </tr>
-                <tr>
-                    <td><h4 class="font-weight-medium p-m-0 p-pr-3">Start Time</h4></td>
-                    <td>{{ alert.alertStartTime | date: 'MMM dd h:mm a' }}</td>
-                </tr>
-                <tr>
-                    <td><h4 class="font-weight-medium p-m-0 p-pr-3">End Time</h4></td>
-                    <td>{{ alert.alertEndTime | date: 'MMM dd h:mm a' }}</td>
-                </tr>
-                <tr>
-                    <td><h4 class="font-weight-medium p-m-0 p-pr-3">Region</h4></td>
-                    <td>{{ alert.region?.regionName }}</td>
-                </tr>
-                <tr>
-                    <td><h4 class="font-weight-medium p-m-0 p-pr-3">Message</h4></td>
-                    <td>{{ alert.alertMessage }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <hr *ngIf="alert.alertGraph" class="p-mb-4" />
-        <app-occupancy-chart-view *ngIf="alert.alertGraph" [occupancyAlertGraph]="alert.alertGraph"></app-occupancy-chart-view>
-        <!-- <img [src]="alert.visualizationUrl" width="100%" /> -->
+    
+    <div *ngIf="isMinimized">
+        <div class="alert-details" *ngIf="alert">
+            <table>
+                <tbody>
+                    <tr>
+                        <td width="33%">
+                            <h4 class="font-weight-medium p-m-0 p-pr-3">ID</h4>
+                        </td>
+                        <td>#{{ alert.id }}</td>
+                    </tr>
+                    <tr>
+                        <td><h4 class="font-weight-medium p-m-0 p-pr-3">Start Time</h4></td>
+                        <td>{{ alert.alertStartTime | date: 'MMM dd h:mm a' }}</td>
+                    </tr>
+                    <tr>
+                        <td><h4 class="font-weight-medium p-m-0 p-pr-3">End Time</h4></td>
+                        <td>{{ alert.alertEndTime | date: 'MMM dd h:mm a' }}</td>
+                    </tr>
+                    <tr>
+                        <td><h4 class="font-weight-medium p-m-0 p-pr-3">Region</h4></td>
+                        <td>{{ alert.region?.regionName }}</td>
+                    </tr>
+                    <tr>
+                        <td><h4 class="font-weight-medium p-m-0 p-pr-3">Message</h4></td>
+                        <td>{{ alert.alertMessage }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr *ngIf="alert.alertGraph" class="p-mb-4" />
+            <app-occupancy-chart-view *ngIf="alert.alertGraph" [occupancyAlertGraph]="alert.alertGraph"></app-occupancy-chart-view>
+            <!-- <img [src]="alert.visualizationUrl" width="100%" /> -->
+        </div>
+       
+        
     </div>
-    <p-footer *ngIf="alert">
+    <p-footer *ngIf="alert && isMinimized">
         <button
             *ngIf="!alert.acknowledgedBy && canAcknowledgeAlert()"
             pButton

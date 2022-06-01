@@ -16,6 +16,7 @@ export class User implements IBase {
   role?: UserRole;
   b2cGuid!: string;
   createdAt!: Date;
+  pinnedALerts:number[];
 
   constructor(args: {
     $id: string;
@@ -31,6 +32,7 @@ export class User implements IBase {
     createdAt: Date;
     department?: Department;
     role?: UserRole;
+    pinnedALerts:number[];
   }) {
     this.id = args.userId;
     this.firstName = args.firstName;
@@ -49,5 +51,6 @@ export class User implements IBase {
     }
     this.b2cGuid = args.b2cGuid;
     this.createdAt = args.createdAt;
+    this.pinnedALerts = args.pinnedALerts
   }
 }

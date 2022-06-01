@@ -98,3 +98,15 @@ export const acknowledgeAlertSuccess = createAction(
 export const acknowledgeAlertFailed = createAction(
   '[Alert Effect] Acknowledge Alert Failed'
 );
+
+export const pinAlert = createAction(
+  '[Alert Details] Pin Alert',
+  props<{ alert: Alert }>()
+);
+export const pinAlertSuccess = createAction(
+  '[Alert Effect] Pin Alert Success',
+  props<{ alert: Alert | null }>()
+);
+export const pinAlertFailed = createAction(
+  '[Alert Effect] Pin Alert Failed'
+);
