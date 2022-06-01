@@ -20,6 +20,7 @@ import { Store } from '@ngrx/store';
 import * as DeviceSelectors from '@store/device/device.selectors';
 import { RootState } from 'src/app/store';
 import { MultiSelect } from 'primeng/multiselect';
+import { reduce } from 'lodash';
 
 @Component({
     selector: 'app-overview-panel-view',
@@ -38,7 +39,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     @Input() isPlaybackLive?: boolean | null;
     @Input() isPlaying?: boolean | null;
     @Input() isDevicesLoading?: boolean | null;
-    @Input() alertSliderValue?: number | null = 100;
+    @Input() alertSliderValue?: number | null = 10;
 
     @Output() topPanelHeightChanged = new EventEmitter<number>();
     @Output() alertSortTypeChanged = new EventEmitter<AlertSortType>();
@@ -84,6 +85,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     capacity = true;
     apStatus = true;
     networkHealth = true;
+    knobColor = '#ee4057';
 
     alertSortOptions = [
         { name: 'Sort by Date', value: AlertSortType.Date },
@@ -231,6 +233,14 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
         this.alertPanel.onToggleMediumUrgency(event);
     }
     onToggleLowUrgency(event: any): void {
+        if(this.alertSliderValue! <= 3){
+            this.knobColor = '#faca00';
+        }else if(this.alertSliderValue! > 3 && this.alertSliderValue! < 7){
+            this.knobColor = '#fa7000';
+        }
+        else if(this.alertSliderValue! > 7 ){
+            this.knobColor = '#ee4057';
+        }
         this.alertPanel.onToggleLowUrgency(event);
     }
     onToggleAcknowledged(event: any): void {

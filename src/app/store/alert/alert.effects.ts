@@ -6,12 +6,13 @@ import { of } from 'rxjs';
 import * as AlertActions from './alert.actions';
 import { AlertService } from '@map/services/alert.service';
 import { OccupancyAlertGraph } from '@map/models/occupancy-alert-graph.model';
+import { UserService } from '@map/services/user.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AlertEffects {
-    constructor(private actions$: Actions, private alertService: AlertService) {}
+    constructor(private actions$: Actions, private alertService: AlertService, private userService:UserService) {}
 
     getAll$ = createEffect(() =>
         this.actions$.pipe(
@@ -115,6 +116,23 @@ export class AlertEffects {
                     ),
                     catchError(() => of(AlertActions.selectFailed()))
                 )
+            )
+        )
+    );
+
+    pinAlert$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(AlertActions.pinAlert),
+            mergeMap(({ alert }) =>
+                this.userService.pinAlert(alert).pipe(map((_) => AlertActions.selectSuccess({alert})))
+                // .pipe(
+                //     mergeMap(() =>
+                //         this.userService
+                //             .getUserPreference()
+                //             .pipe(map((updatedAlert: Alert) => AlertActions.pinAlertSuccess({ alert: updatedAlert })))
+                //     ),
+                //     catchError(() => of(AlertActions.pinAlertFailed()))
+                // )
             )
         )
     );

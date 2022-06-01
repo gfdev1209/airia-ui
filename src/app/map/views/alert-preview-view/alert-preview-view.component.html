@@ -6,7 +6,7 @@
         <span class="display-block line-height-1-25 font-size-90-percent {{ alert.alertSeverity | colorByAlertSeverity }}">{{
             alert.alertType
         }}</span>
-        <small>{{ alert.region?.regionName }}</small
+        <small>{{ alert.region?.regionName }} </small
         ><br />
         <small class="color-text-medium">{{ alert.alertEndTime | date: 'dd MMM h:mm a' }}</small>
     </div>

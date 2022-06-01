@@ -22,8 +22,9 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
 
     @Output() closeAlert = new EventEmitter();
     @Output() acknowledgeAlert = new EventEmitter<Alert>();
+    @Output() pinalert = new EventEmitter<Alert>();
     @Output() viewAlertPlayback = new EventEmitter<Alert>();
-
+    isMinimized =true;
     AlertSeverityEnum = AlertSeverity;
 
     messages: Message[] = [
@@ -33,11 +34,12 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
         },
     ];
     acknowledgedAt?: Date;
-
+    pinnedAlerts:number[]=[];
     constructor() {}
 
     ngOnInit(): void {
-        
+        this.isMinimized = true;
+        this.pinnedAlerts = JSON.parse(localStorage.getItem('pinnedAlerts') || '');
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -70,5 +72,25 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
 
     onClose($event: any): void {
         this.closeAlert.emit();
+    }
+
+   
+    minimizeDialog(){
+        this.isMinimized = !this.isMinimized;
+    }
+
+    
+    pinAlert(alert:Alert){
+        if (this.alert) {
+            this.pinalert.emit(this.alert);
+        }
+        if(this.pinnedAlerts.includes(alert?.id)){           
+            this.pinnedAlerts.splice(this.pinnedAlerts.indexOf(alert.id), 1);
+            localStorage.setItem("pinnedAlerts", JSON.stringify(this.pinnedAlerts));
+        }else{
+            this.pinnedAlerts.push(alert.id);
+            localStorage.setItem("pinnedAlerts", JSON.stringify(this.pinnedAlerts));
+        }
+      
     }
 }
