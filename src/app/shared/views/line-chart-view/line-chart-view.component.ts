@@ -47,11 +47,11 @@ export class LineChartViewComponent implements OnInit, OnChanges {
       chartOptions2.annotations = undefined;
 
       if (!this.chartData.usePercentage) {
-        chartOptions2.dataLabels.formatter = (val: any) => val.toFixed(0);
+        chartOptions2.dataLabels.formatter = (val: any) => val?.toFixed(0);
         if (chartOptions2.yaxis.labels?.formatter) {
-          chartOptions2.yaxis.labels.formatter = (val: any) => val.toFixed(0);
+          chartOptions2.yaxis.labels.formatter = (val: any) => val?.toFixed(0);
         }
-        chartOptions2.tooltip.y.formatter = (val: any) => val.toFixed(0);
+        chartOptions2.tooltip.y.formatter = (val: any) => val?.toFixed(0);
       }
       if (this.chartData.tooltipTitle) {
         chartOptions2.tooltip.y.title.formatter = (val: any) =>
