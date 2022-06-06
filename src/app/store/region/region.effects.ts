@@ -63,7 +63,11 @@ export class RegionEffects {
             ofType(RegionActions.getBuildingRegions),
             mergeMap(() =>
                 this.regionService.getAll<Region[]>('?buildingsOnly=true').pipe(
-                    map((regions: Region[]) => RegionActions.getBuildingRegionsSuccess({ regions })),
+                    map((regions: Region[]) =>
+                      RegionActions.getBuildingRegionsSuccess({ regions: regions.filter(
+                        (x: Region) => x.activeType === 'Active'
+                      )})
+                    ),
                     catchError(() => of(RegionActions.getBuildingRegionsFailed()))
                 )
             )
