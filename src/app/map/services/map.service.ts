@@ -64,7 +64,7 @@ export class MapService {
   showDevices$ = this.showDevices.asObservable();
 
   private showClusters: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
+    true
   );
   showClusters$ = this.showClusters.asObservable();
 
@@ -72,7 +72,7 @@ export class MapService {
   filterBySSID$ = this.filterSSID.asObservable();
 
   private showStaticDevices: BehaviorSubject<boolean> =
-    new BehaviorSubject<boolean>(true);
+    new BehaviorSubject<boolean>(false);
   showStaticDevices$ = this.showStaticDevices.asObservable();
   private showAccessPoints: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
