@@ -1,4 +1,4 @@
-import { Region } from '@map/models';
+import { Region, ActiveType } from '@map/models';
 import { createSelector } from '@ngrx/store';
 import { RootState } from '..';
 import { adapter, RegionState } from './region.state';
@@ -19,7 +19,7 @@ export const selectByBuildingId = createSelector(
     return state.buildingRegions.filter(
       (x: Region) =>
         x.buildingId === props.buildingId &&
-        x.activeType === 'Active'
+        x.activeType === ActiveType.Active
     )[0];
   }
 );
@@ -40,7 +40,9 @@ export const selectBuildingRegions = createSelector(
 
 export const selectActiveRegions = createSelector(
   selectAll,
-  (state: Region[]) => state.filter((x: Region) => x.activeType === 'Active')
+  (state: Region[]) => state.filter((x: Region) =>
+    x.activeType === ActiveType.Active
+  )
 );
 
 export const selectSelectedRegion = createSelector(

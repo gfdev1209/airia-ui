@@ -2,6 +2,11 @@ import { ResponseList } from '@shared/models';
 import { Alert } from './alert.model';
 import { Floor } from './floor.model';
 
+export enum ActiveType {
+  Active = 'Active',
+  Inactive = 'Inactive',
+}
+
 export class Region {
     id!: number;
     regionId!: number;
