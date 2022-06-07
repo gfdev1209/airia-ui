@@ -17,6 +17,14 @@ export const selectByBuildingId = createSelector(
   selectFeature,
   (state: RegionState, props: any) => {
     return state.buildingRegions.filter(
+      (x: Region) => x.buildingId === props.buildingId
+    )[0];
+  }
+);
+export const selectActiveByBuildingId = createSelector(
+  selectFeature,
+  (state: RegionState, props: any) => {
+    return state.buildingRegions.filter(
       (x: Region) =>
         x.buildingId === props.buildingId &&
         x.activeType === ActiveType.Active
