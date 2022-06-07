@@ -70,9 +70,9 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
 
     footTraffic = true;
     staticDevices = true;
-    iotDevices = true;
+    iotDevices = false;
     accessPoints = false;
-    clusters = false;
+    clusters = true;
     ssidDevices = false;
     SSIDList :any[]=[];
 
