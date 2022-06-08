@@ -4,7 +4,8 @@ import { occupancyChartOptionsConfig, OccupancyChartOptions } from '@shared/cons
 import * as ApexCharts from 'apexcharts';
 import * as _ from 'lodash';
 import { ChartComponent } from 'ng-apexcharts';
-
+import { from } from 'rxjs';
+import { max } from 'rxjs/operators'; 
 @Component({
     selector: 'app-occupancy-chart-view',
     templateUrl: './occupancy-chart-view.component.html',
@@ -58,8 +59,12 @@ export class OccupancyChartViewComponent implements OnInit, OnChanges, AfterView
             chartOptions2.annotations.xaxis[0].x = this.occupancyAlertGraph.alertStartTime.getTime();
             chartOptions2.annotations.xaxis[0].x2 = this.occupancyAlertGraph.alertEndTime.getTime();
 
+            const maxOccupancy =  Math.max( ...this.occupancyAlertGraph.occupancy )
+            console.log("maxOccupancy",maxOccupancy)
+            chartOptions2.yaxis.max = maxOccupancy + 5;
+
             this.chartOptions = chartOptions2;
-            this.chart?.updateOptions(chartOptions2, true);
+            this.chart?.updateOptions(this.chartOptions, true);
         }
     }
     generateTimeSeries(values: number[], time: Date[]): any[] {
