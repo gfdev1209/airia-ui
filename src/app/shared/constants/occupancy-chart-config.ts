@@ -148,6 +148,11 @@ export const occupancyChartOptionsConfig: any = {
         title: {
             text: 'Number of Devices',
         },
+        labels: {
+            formatter: function (val:any) {
+              return parseInt(val) === val ? val : ''
+            }
+        }
     },
     grid: {
         borderColor: '#aaaaaaab',
