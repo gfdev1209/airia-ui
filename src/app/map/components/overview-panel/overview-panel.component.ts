@@ -23,6 +23,7 @@ export class OverviewPanelComponent implements OnInit, OnDestroy {
     playbackSliderValue$ = this.mapService.playbackSliderValue$.pipe(
         tap((playbackSliderValue: number) => (this.playbackSliderValue = playbackSliderValue))
     );
+    
     playbackSliderMax$ = this.mapService.playbackSliderMax$.pipe(
         tap((playbackSliderMax: number) => (this.playbackSliderMax = playbackSliderMax))
     );

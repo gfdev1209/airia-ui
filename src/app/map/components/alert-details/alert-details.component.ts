@@ -73,4 +73,6 @@ export class AlertDetailsComponent implements OnInit {
     this.mapService.toggleLive();
     this.store.dispatch(AlertActions.deselect());
   }
+
+
 }
