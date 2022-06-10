@@ -4,6 +4,7 @@ import { occupancyChartOptionsConfig, OccupancyChartOptions } from '@shared/cons
 import * as ApexCharts from 'apexcharts';
 import * as _ from 'lodash';
 import { ChartComponent } from 'ng-apexcharts';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-occupancy-chart-view',
@@ -32,7 +33,9 @@ export class OccupancyChartViewComponent implements OnInit, OnChanges, AfterView
         }
     }
 
-    ngOnInit(): void { }
+    ngOnInit(): void { 
+       
+    }
 
    
     ngOnChanges(changes: SimpleChanges): void {

@@ -7,8 +7,8 @@ import { environment } from 'src/environments/environment';
 
 import * as moment from 'moment-timezone';
 import AccessLevels from '@core/utils/access-levels';
-import { BehaviorSubject } from 'rxjs';
 import { MapService } from '@map/services/map.service';
+import { throttleTime} from 'rxjs/operators';
 
 @Component({
     selector: 'app-alert-details-view',
@@ -28,7 +28,7 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
     @Output() viewAlertPlayback = new EventEmitter<Alert>();
     isMinimized =true;
 
-    playbackSliderValue$ = this.mapService.playbackSliderValue$;
+    playbackSliderValue$ = this.mapService.playbackSliderValue$.pipe(throttleTime(3000));
 
     AlertSeverityEnum = AlertSeverity;
 
