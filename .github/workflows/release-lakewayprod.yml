@@ -6,7 +6,6 @@ name: Build and deploy UI to Lakeway Prod
 on:
   push:
     branches:
-      - feature/prodenv
       - release/lakewayprod
   workflow_dispatch:
 

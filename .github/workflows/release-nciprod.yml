@@ -6,7 +6,6 @@ name: Build and deploy UI to NCI Prod
 on:
   push:
     branches:
-      - feature/prodenv
       - release/nciprod
   workflow_dispatch:
 
