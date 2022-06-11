@@ -1,12 +1,13 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: name: Build and deploy UI to NCI Prod
+name: Build and deploy UI to NCI Prod
 
 on:
   push:
     branches:
       - feature/prodenv
+      - release/nciprod
   workflow_dispatch:
 
 jobs:
