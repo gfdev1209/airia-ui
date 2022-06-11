@@ -58,6 +58,22 @@
                 }
               ]
             },
+            "lakeway": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.lakeway.ts"
+                }
+              ]
+            },
+            "nci": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.nci.ts"
+                }
+              ]
+            },
             "aitest": {
               "fileReplacements": [
                 {
@@ -87,22 +103,6 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.ncidev.ts"
-                }
-              ]
-            },
-            "harringtondr": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.harringtondr.ts"
-                }
-              ]
-            },
-            "stuartshome": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.stuartshome.ts"
                 }
               ]
             },
@@ -155,6 +155,12 @@
             "schooldemo": {
               "browserTarget": "airia:build:schooldemo"
             },
+            "lakeway": {
+              "browserTarget": "airia:build:lakeway"
+            },
+            "nci": {
+              "browserTarget": "airia:build:nci"
+            },
             "aitest": {
               "browserTarget": "airia:build:aitest"
             },
@@ -169,12 +175,6 @@
             },
             "wvudev": {
               "browserTarget": "airia:build:wvudev"
-            },
-            "harringtondr": {
-              "browserTarget": "airia:build:harringtondr"
-            },
-            "stuartshome": {
-              "browserTarget": "airia:build:stuartshome"
             }
           }
         },
