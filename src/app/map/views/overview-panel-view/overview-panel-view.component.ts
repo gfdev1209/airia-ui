@@ -283,8 +283,10 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
         // }
     }
     onAlertSliderChange(evt: any): void {
-        if (evt?.value) {
-            this.alertSliderChanged.emit(evt.value);
+        
+        console.log("onAlertSliderChange", evt);
+        if (evt) {
+            this.alertSliderChanged.emit(evt* 10);
         }
     }
     changeDate(newDate: Date): void {
