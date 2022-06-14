@@ -108,7 +108,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
         { name: '10x', value: 0.125 },
     ];
 
-    
+    knobPreviousValue = -1
     devicesList$: Observable<any>;
     selectedSSID:any[]=[];
     private _deviceListSubscription = new Subscription();;
@@ -277,7 +277,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
         // }
     }
 
-     prev= -1;
+
     onAlertSliderChange(evt: any): void {
 
         if(this.alertSliderValue! <= 3){
@@ -289,8 +289,8 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
             this.knobColor = '#ee4057';
         }       
        
-        if(this.prev != evt){
-            this.prev = evt
+        if(this.knobPreviousValue != evt){
+            this.knobPreviousValue = evt
             this.alertSliderChanged.emit(evt* 10);
         }
         
