@@ -7,6 +7,7 @@ import {
     Input,
     OnChanges,
     Output,
+    SimpleChange,
     SimpleChanges,
     ViewChild,
 } from '@angular/core';
@@ -15,7 +16,7 @@ import { AlertSortType } from '../../enums';
 import { Location } from '../../models';
 
 import * as moment from 'moment';
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as DeviceSelectors from '@store/device/device.selectors';
 import { RootState } from 'src/app/store';
@@ -86,7 +87,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     apStatus = true;
     networkHealth = true;
     knobColor = '#ee4057';
-
+    
     alertSortOptions = [
         { name: 'Sort by Date', value: AlertSortType.Date },
         { name: 'Sort by Severity', value: AlertSortType.Severity },
@@ -233,14 +234,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
         this.alertPanel.onToggleMediumUrgency(event);
     }
     onToggleLowUrgency(event: any): void {
-        if(this.alertSliderValue! <= 3){
-            this.knobColor = '#faca00';
-        }else if(this.alertSliderValue! > 3 && this.alertSliderValue! < 7){
-            this.knobColor = '#fa7000';
-        }
-        else if(this.alertSliderValue! > 7 ){
-            this.knobColor = '#ee4057';
-        }
+       
         this.alertPanel.onToggleLowUrgency(event);
     }
     onToggleAcknowledged(event: any): void {
@@ -282,12 +276,24 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
         this.playbackSliderChanged.emit(evt?.value);
         // }
     }
+
+     prev= -1;
     onAlertSliderChange(evt: any): void {
-        
-        console.log("onAlertSliderChange", evt);
-        if (evt) {
+
+        if(this.alertSliderValue! <= 3){
+            this.knobColor = '#faca00';
+        }else if(this.alertSliderValue! > 3 && this.alertSliderValue! < 7){
+            this.knobColor = '#fa7000';
+        }
+        else if(this.alertSliderValue! > 7 ){
+            this.knobColor = '#ee4057';
+        }       
+       
+        if(this.prev != evt){
+            this.prev = evt
             this.alertSliderChanged.emit(evt* 10);
         }
+        
     }
     changeDate(newDate: Date): void {
         // this.resetPlaybackMeter();
