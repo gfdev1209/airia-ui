@@ -2,6 +2,7 @@
   [alert]="selectedAlert$ | async"
   [self]="self$ | async"
   [loading]="loading$ | async"
+  [playbackSliderValue$]="playbackSliderValue$"
   [isPlaybackLive]="isPlaybackLive$ | async"
   (viewAlertPlayback)="onViewAlertPlayback($event)"
   (acknowledgeAlert)="onAcknowledgeAlert($event)"
