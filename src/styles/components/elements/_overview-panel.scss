@@ -4,7 +4,7 @@
   pointer-events: all;
   // position: fixed;
   right: 0;
-  height: 100vh;
+  height: calc(100vh - 20px);
   width: $overview-panel-width;
   padding: 14px 9px 18px;
   transition: width 0.5s;

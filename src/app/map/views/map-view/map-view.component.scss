@@ -26,3 +26,6 @@ mgl-map {
   z-index: 99999;
   transform: translate(-50% , -50%);
 }
+::ng-deep .mapboxgl-ctrl-bottom-left{
+  display: none !important;
+}
