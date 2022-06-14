@@ -9,7 +9,7 @@ import { Alert } from '@map/models';
 import * as UserSelectors from '@store/user/user.selectors';
 import { MapService } from '@map/services/map.service';
 import * as moment from 'moment-timezone';
-import { tap } from 'rxjs/operators';
+import { tap, throttleTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-alert-details',
@@ -27,6 +27,7 @@ export class AlertDetailsComponent implements OnInit {
   self$ = this.store.select(UserSelectors.selectSelf);
   loading$ = this.store.select(AlertSelectors.selectLoading);
   isPlaybackLive$ = this.mapService.isPlaybackLive$;
+  playbackSliderValue$ = this.mapService.playbackSliderValue$.pipe(throttleTime(3000));
 
   constructor(
     private store: Store<RootState>,
