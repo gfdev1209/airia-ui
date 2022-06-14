@@ -40,3 +40,6 @@
         }
     }
 }
+::ng-deep .alert-details-container .alert-details{
+    overflow-y: hidden !important;
+}
