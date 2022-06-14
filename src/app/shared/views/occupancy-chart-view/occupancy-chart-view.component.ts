@@ -44,7 +44,7 @@ export class OccupancyChartViewComponent implements OnInit, OnChanges, AfterView
             this.updateChart();
         }
 
-        if (changes.playbackSliderValue.currentValue) {
+        if (changes.playbackSliderValue?.currentValue) {
             this.updateChart();
            
         }
@@ -65,6 +65,7 @@ export class OccupancyChartViewComponent implements OnInit, OnChanges, AfterView
                 this.occupancyAlertGraph.time
             );
             
+            console.log("this.playbackSliderValue", this.playbackSliderValue);
             chartOptions2.series[2].data = this.generateTimeSeries(this.occupancyAlertGraph?.occupancy.slice(0, this.playbackSliderValue!), this.occupancyAlertGraph?.time.slice(0, this.playbackSliderValue!));
             chartOptions2.chart.redrawOnParentResize = false;
             chartOptions2.annotations.xaxis[0].x = this.occupancyAlertGraph.alertStartTime.getTime();
