@@ -1,0 +1,17 @@
+::ng-deep .p-toast .p-toast-message .p-toast-message-content{
+    padding: 1rem !important;
+}
+
+::ng-deep .p-toast .p-toast-message .p-toast-message-content .p-toast-message-text {
+  margin: 0 1rem 0 1rem !important;
+}
+::ng-deep .p-toast .p-toast-message .p-toast-icon-close{
+    margin-top: -15px;
+    margin-right: -10px;
+}
+::ng-deep .p-toast .p-toast-message .p-toast-message-content .p-toast-message-icon{
+    align-self: center !important;
+}
+::ng-deep .p-toast-icon-close-icon.pi{
+    font-size: 0.7rem !important;
+}
