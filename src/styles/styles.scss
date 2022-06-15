@@ -46,6 +46,25 @@ body {
   flex-grow: 1;
   background: green;
 }
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius:10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
 p-virtualScroller,
 ::ng-deep .ui-virtualscroller,
 ::ng-deep .ui-virtualscroller-content,
