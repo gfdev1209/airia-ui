@@ -107,7 +107,7 @@ export const occupancyChartOptionsConfig: any = {
         ],
     },
     dataLabels: {
-        enabled: false,
+        enabled: true,
         enabledOnSeries: [2],
         formatter: (val: any, opts: any) => {
             return val;
@@ -134,7 +134,7 @@ export const occupancyChartOptionsConfig: any = {
     legend: {
         position: 'bottom',
         horizontalAlign: 'left',
-        offsetY: 10,
+        offsetY: 0,
     },
     xaxis: {
         type: 'datetime',
@@ -144,14 +144,20 @@ export const occupancyChartOptionsConfig: any = {
         },
     },
     yaxis: {
+        forceNiceScale: true,
         decimalsInFloat: 0,
         title: {
-            text: 'Number of Devices',
+            text: '',
         },
         labels: {
+            show: true,
+            
             formatter: function (val:any) {
               return parseInt(val) === val ? val : ''
             }
+            ,
+            minWidth: 10,
+          maxWidth: 20,
         }
     },
     grid: {
@@ -164,8 +170,11 @@ export const occupancyChartOptionsConfig: any = {
                 show: false,
             },
         },
+       
+        
     },
     tooltip: {
+        show:true,
         shared: true,
         intersect: false,
         followCursor: true,
@@ -190,4 +199,5 @@ export const occupancyChartOptionsConfig: any = {
         width: 2,
         dashArray: 0,
     },
+   
 };
