@@ -61,7 +61,7 @@
                 </tbody>
             </table>
             <hr *ngIf="alert.alertGraph" class="p-mb-4" />
-            <app-occupancy-chart-view *ngIf="alert.alertGraph" [occupancyAlertGraph]="alert.alertGraph" [playbackSliderValue]="playbackSliderValue$ | async"></app-occupancy-chart-view>
+            <app-occupancy-chart-view *ngIf="alert.alertGraph" [occupancyAlertGraph]="alert.alertGraph"></app-occupancy-chart-view>
             <!-- <img [src]="alert.visualizationUrl" width="100%" /> -->
         </div>
     </div>

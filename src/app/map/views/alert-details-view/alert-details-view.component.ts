@@ -26,9 +26,10 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
     @Output() acknowledgeAlert = new EventEmitter<Alert>();
     @Output() pinalert = new EventEmitter<Alert>();
     @Output() viewAlertPlayback = new EventEmitter<Alert>();
+    isMinimized =true;
 
     playbackSliderValue$ = this.mapService.playbackSliderValue$.pipe(throttleTime(3000));
-    isMinimized =true;
+
     AlertSeverityEnum = AlertSeverity;
 
     messages: Message[] = [
@@ -44,10 +45,6 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
     ngOnInit(): void {
         this.isMinimized = true;
         this.pinnedAlerts = JSON.parse(localStorage.getItem('pinnedAlerts') || '');
-
-        this.playbackSliderValue$.subscribe(res=>{
-            // console.log("playbackSliderValue$",res);
-        })
     }
 
     ngOnChanges(changes: SimpleChanges): void {
