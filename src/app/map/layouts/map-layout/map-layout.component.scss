@@ -12,6 +12,7 @@
   position: absolute;
   width: 100%;
   pointer-events: none;
+  height: 100vh;
 }
 :host(app-map-layout) {
   display: flex;
