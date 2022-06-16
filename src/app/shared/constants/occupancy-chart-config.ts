@@ -155,9 +155,7 @@ export const occupancyChartOptionsConfig: any = {
             formatter: function (val:any) {
               return parseInt(val) === val ? val : ''
             }
-            ,
-            minWidth: 10,
-          maxWidth: 20,
+            ,maxWidth:30
         }
     },
     grid: {
