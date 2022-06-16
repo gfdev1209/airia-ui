@@ -50,10 +50,9 @@ export class OccupancyChartViewComponent implements OnInit, OnChanges, AfterView
         }
     }
 
-    occupancy:any[]=[];
+    ocupancy:any[]=[];
     time:any[]=[];
     updateChart(): void {
-        
         if (this.occupancyAlertGraph) {
             const chartOptions2 = _.cloneDeep(occupancyChartOptionsConfig);
             chartOptions2.series[0].data = this.generateTimeSeries(
@@ -65,16 +64,20 @@ export class OccupancyChartViewComponent implements OnInit, OnChanges, AfterView
                 this.occupancyAlertGraph.time
             );
             
-            chartOptions2.series[2].data = this.generateTimeSeries(this.occupancyAlertGraph?.occupancy.slice(0, this.playbackSliderValue!), this.occupancyAlertGraph?.time.slice(0, this.playbackSliderValue!));
-            chartOptions2.chart.redrawOnParentResize = false;
+
+            this.ocupancy.push(...new Set(this.occupancyAlertGraph?.occupancy.slice(0, this.playbackSliderValue!)));
+            this.time.push(...new Set(this.occupancyAlertGraph?.time.slice(0, this.playbackSliderValue!)));
+
+            chartOptions2.series[2].data = this.generateTimeSeries(this.ocupancy, this.time);
+            chartOptions2.chart.redrawOnParentResize = true;
             chartOptions2.annotations.xaxis[0].x = this.occupancyAlertGraph.alertStartTime.getTime();
             chartOptions2.annotations.xaxis[0].x2 = this.occupancyAlertGraph.alertEndTime.getTime();
-        
+
             const maxOccupancy =  Math.max( ...this.occupancyAlertGraph.occupancy )
             chartOptions2.yaxis.max = maxOccupancy + 5;
 
             this.chartOptions = chartOptions2;
-            this.chart?.updateOptions(chartOptions2);
+            this.chart?.updateOptions(chartOptions2, true);
         }
     }
 
