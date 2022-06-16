@@ -96,7 +96,7 @@ export const chartOptionsConfig: any = {
       title: {
         formatter: (seriesName: any) => seriesName,
       },
-      formatter: (value: any) => (value >= 0 ? value.toFixed(2) + '%' : 'n/a'),
+      formatter: (value: any) => (value >= 0 ? value.toFixed(2) + '%' : ''),
     },
     // y: {
     //   formatter: (value: any, options: FormatterOptions) => {
@@ -199,7 +199,7 @@ export const chartOptionsConfig: any = {
     forceNiceScale: false,
     labels: {
       show: true,
-      maxWidth: 20,
+      maxWidth: 30,
       style: {
         fontSize: '9px',
       },
