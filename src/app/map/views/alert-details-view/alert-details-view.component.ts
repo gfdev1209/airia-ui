@@ -7,8 +7,6 @@ import { environment } from 'src/environments/environment';
 
 import * as moment from 'moment-timezone';
 import AccessLevels from '@core/utils/access-levels';
-import { BehaviorSubject } from 'rxjs';
-import { MapService } from '@map/services/map.service';
 
 @Component({
     selector: 'app-alert-details-view',
@@ -27,9 +25,6 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
     @Output() pinalert = new EventEmitter<Alert>();
     @Output() viewAlertPlayback = new EventEmitter<Alert>();
     isMinimized =true;
-
-    playbackSliderValue$ = this.mapService.playbackSliderValue$;
-
     AlertSeverityEnum = AlertSeverity;
 
     messages: Message[] = [
@@ -40,7 +35,7 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
     ];
     acknowledgedAt?: Date;
     pinnedAlerts:number[]=[];
-    constructor(private mapService:MapService) {}
+    constructor() {}
 
     ngOnInit(): void {
         this.isMinimized = true;
