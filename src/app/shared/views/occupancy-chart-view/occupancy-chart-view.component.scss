@@ -1,6 +1,6 @@
 ::ng-deep .apexcharts-canvas {
     overflow: hidden !important;
 }
-// ::ng-deep .apexcharts-line-series.apexcharts-plot-series{
-//     display: none;
-// }
+::ng-deep .apexcharts-datalabels{
+    display: none;
+}
