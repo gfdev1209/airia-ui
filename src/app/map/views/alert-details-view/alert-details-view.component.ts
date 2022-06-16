@@ -9,7 +9,6 @@ import * as moment from 'moment-timezone';
 import AccessLevels from '@core/utils/access-levels';
 import { MapService } from '@map/services/map.service';
 import { throttleTime} from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-alert-details-view',
@@ -22,13 +21,13 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
     @Input() self?: User | null;
     @Input() loading: boolean | null = false;
     @Input() isPlaybackLive: boolean | null = false;
-    @Input() playbackSliderValue$: Observable<any> | undefined;
 
     @Output() closeAlert = new EventEmitter();
     @Output() acknowledgeAlert = new EventEmitter<Alert>();
     @Output() pinalert = new EventEmitter<Alert>();
     @Output() viewAlertPlayback = new EventEmitter<Alert>();
 
+    playbackSliderValue$ = this.mapService.playbackSliderValue$.pipe(throttleTime(3000));
     isMinimized =true;
     AlertSeverityEnum = AlertSeverity;
 
@@ -40,12 +39,15 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
     ];
     acknowledgedAt?: Date;
     pinnedAlerts:number[]=[];
-    constructor() {}
+    constructor(private mapService:MapService) {}
 
     ngOnInit(): void {
         this.isMinimized = true;
         this.pinnedAlerts = JSON.parse(localStorage.getItem('pinnedAlerts') || '');
 
+        this.playbackSliderValue$.subscribe(res=>{
+            // console.log("playbackSliderValue$",res);
+        })
     }
 
     ngOnChanges(changes: SimpleChanges): void {
