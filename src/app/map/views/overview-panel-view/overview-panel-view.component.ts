@@ -131,7 +131,6 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        
         if (changes.selectedLocation?.currentValue) {
             if (window.screen.width > 400) {
                 this.expandPanel();
@@ -273,7 +272,6 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
         this.changeDate(newDate);
     }
     onPlaybackSliderChange(evt: any): void {
-       
         // if (evt?.value && evt?.event?.type === 'click') {
         this.playbackSliderChanged.emit(evt?.value);
         // }
