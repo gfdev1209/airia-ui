@@ -81,7 +81,7 @@ export class AppComponent implements OnInit, OnDestroy {
       severity,
       summary,
       detail: message,
-      sticky: false,
+      sticky: true,
     });
   }
 
