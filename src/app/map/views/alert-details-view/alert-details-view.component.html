@@ -21,14 +21,16 @@
             </h2>
         </div>
 
-        <div *ngIf="alert" class="minimize-icon">
-               
-                <a (click)="pinAlert(alert)" class="pin-icon p-mr-3">
-                    <i *ngIf="!pinnedAlerts.includes(alert?.id!)" class="fa fa-thumbtack pin"></i>
-                    <i *ngIf="pinnedAlerts.includes(alert?.id!)" class="fa fa-thumbtack pinned"></i>
-                    
-                </a>
-                <a (click)="minimizeDialog()" class="pi pi-minus"></a>
+        <div *ngIf="alert" class="minimize-icon p-dialog-header-icons">
+            <button (click)="pinAlert(alert)" type="button" tabindex="-1" pripple="" class="p-dialog-header-icon p-link p-ripple pin-icon"> 
+                <i *ngIf="!pinnedAlerts.includes(alert?.id!)" class="fa fa-thumbtack pin"></i>
+                <i *ngIf="pinnedAlerts.includes(alert?.id!)" class="fa fa-thumbtack pinned"></i>
+            </button>
+
+            <button (click)="minimizeDialog()" type="button" tabindex="-1" pripple="" class="p-dialog-header-icon p-link p-ripple pin-icon"> 
+                <i class="pi pi-minus"></i>
+                
+            </button>
         </div>
     </ng-template>
     
