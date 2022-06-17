@@ -146,8 +146,13 @@ export const occupancyChartOptionsConfig: any = {
     yaxis: {
         forceNiceScale: true,
         decimalsInFloat: 0,
+        showAlways: true,
         title: {
-            text: '',
+            showAlways: true,
+            text: 'Number of Devices',
+            rotate: -90,
+          offsetX: 20,
+          offsetY: 0,
         },
         labels: {
             show: true,
@@ -155,7 +160,7 @@ export const occupancyChartOptionsConfig: any = {
             formatter: function (val:any) {
               return parseInt(val) === val ? val : ''
             }
-            ,maxWidth:30
+            ,maxWidth:50
         }
     },
     grid: {
