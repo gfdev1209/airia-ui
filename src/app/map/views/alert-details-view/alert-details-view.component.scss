@@ -23,10 +23,11 @@
 
 .minimize-icon{
    
-    cursor: pointer;
+    // cursor: pointer;
 
     a{
         color: #a29aa9;
+        cursor: pointer;
     }
 
     .pin-icon{
@@ -37,6 +38,7 @@
         .pinned{
             transform: rotate(45deg);
             color: #fff;
+            width: 15px;
         }
     }
 }
