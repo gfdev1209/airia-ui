@@ -107,7 +107,7 @@ export const occupancyChartOptionsConfig: any = {
         ],
     },
     dataLabels: {
-        enabled: true,
+        enabled: false,
         enabledOnSeries: [2],
         formatter: (val: any, opts: any) => {
             return val;
