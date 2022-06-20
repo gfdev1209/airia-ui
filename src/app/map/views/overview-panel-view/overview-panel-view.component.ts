@@ -133,9 +133,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if(changes.self?.currentValue){
-            console.log("self----", changes.self);
-        }
+        
         if (changes.selectedLocation?.currentValue) {
             if (window.screen.width > 400) {
                 this.expandPanel();
@@ -312,7 +310,6 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     }
 
     canChangeKnob(): boolean {
-        console.log("this.self?.role", this.self);
         if (this.self?.role) {
             return AccessLevels.roleHasAccessLevel(this.self.role.name, AccessLevels.CanChangeKnob);
         }
