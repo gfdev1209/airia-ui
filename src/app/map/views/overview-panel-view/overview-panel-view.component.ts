@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { AlertPanelComponent } from '../../components/alert-panel/alert-panel.component';
 import { AlertSortType } from '../../enums';
-import { Location } from '../../models';
+import { Location, User } from '../../models';
 
 import * as moment from 'moment';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
@@ -22,6 +22,7 @@ import * as DeviceSelectors from '@store/device/device.selectors';
 import { RootState } from 'src/app/store';
 import { MultiSelect } from 'primeng/multiselect';
 import { reduce } from 'lodash';
+import AccessLevels from '@core/utils/access-levels';
 
 @Component({
     selector: 'app-overview-panel-view',
@@ -40,7 +41,8 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     @Input() isPlaybackLive?: boolean | null;
     @Input() isPlaying?: boolean | null;
     @Input() isDevicesLoading?: boolean | null;
-    @Input() alertSliderValue?: number | null = 10;
+    @Input() alertSliderValue?: number | null = 0;
+    @Input() self?: User | null;
 
     @Output() topPanelHeightChanged = new EventEmitter<number>();
     @Output() alertSortTypeChanged = new EventEmitter<AlertSortType>();
@@ -69,7 +71,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     activeState: boolean[] = [false, false, false];
 
     currentDateTime = new Date();
-
+   
     footTraffic = true;
     staticDevices = true;
     iotDevices = false;
@@ -131,6 +133,9 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
+        if(changes.self?.currentValue){
+            console.log("self----", changes.self);
+        }
         if (changes.selectedLocation?.currentValue) {
             if (window.screen.width > 400) {
                 this.expandPanel();
@@ -304,6 +309,14 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     }
     isDateInFuture(amount: number, unit: moment.unitOfTime.DurationConstructor): boolean {
         return moment(this.mapDateTime).add(amount, unit).toDate() >= new Date() ? true : false;
+    }
+
+    canChangeKnob(): boolean {
+        console.log("this.self?.role", this.self);
+        if (this.self?.role) {
+            return AccessLevels.roleHasAccessLevel(this.self.role.name, AccessLevels.CanChangeKnob);
+        }
+        return false;
     }
 
     ngOnDestroy(){

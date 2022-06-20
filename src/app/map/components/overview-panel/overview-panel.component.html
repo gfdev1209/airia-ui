@@ -27,4 +27,5 @@
   (zoomOut)="onZoomOut()"
   (toggleExpanded)="onToggleExpanded($event)"
   (alertSliderChanged)="onAlertSliderChanged($event)"
+  [self]="self$ | async"
 ></app-overview-panel-view>
