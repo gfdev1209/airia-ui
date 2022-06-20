@@ -7,6 +7,7 @@ import * as AlertActions from '@store/alert/alert.actions';
 import * as LocationSelectors from '@store/location/location.selectors';
 import * as DeviceActions from '@store/device/device.actions';
 import * as DeviceSelectors from '@store/device/device.selectors';
+import * as UserSelectors from '@store/user/user.selectors';
 import { interval, Subject, Subscription } from 'rxjs';
 import { debounceTime, startWith, takeUntil, tap } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -67,7 +68,7 @@ export class OverviewPanelComponent implements OnInit, OnDestroy {
     playbackSpeed = 0;
     playbackSliderValue = 0;
     playbackSliderMax = this.mapService.playbackSliderMaxAmt;
-
+    self$ = this.store.select(UserSelectors.selectSelf);
     constructor(private mapService: MapService, private store: Store<RootState>) {
         this.mapTimeChangedDebouncer$.pipe(debounceTime(500)).subscribe((value) => this.getDevices(value));
     }

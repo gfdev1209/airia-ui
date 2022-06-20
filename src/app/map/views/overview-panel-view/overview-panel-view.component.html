@@ -311,6 +311,7 @@
                                                     [min]="0" [max]="10" 
                                                     styleClass="customKnobClass"
                                                     (onChange)="onAlertSliderChange($event)"
+                                                    [disabled]="!canChangeKnob()"
                                                 ></p-knob>
                                             </div>
                                             
