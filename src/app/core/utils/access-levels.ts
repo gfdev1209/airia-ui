@@ -4,7 +4,7 @@ export default class AccessLevels {
   static CanEdit = [Role.Owner];
   static CanDelete = [Role.Owner];
   static CanAcknowledgeAlert = [Role.Owner, Role.Admin];
-  static CanChangeKnob = [Role.Owner, Role.Admin];
+  static CanChangeKnob = [Role.Owner];
 
   static roleHasAccessLevel(roleName: any, role: Role[]): boolean {
     const typedRoleString: keyof typeof Role = roleName;

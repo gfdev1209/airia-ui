@@ -313,7 +313,8 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
 
     canChangeKnob(): boolean {
         if (this.self?.role) {
-            return AccessLevels.roleHasAccessLevel(this.self.role.name, AccessLevels.CanChangeKnob);
+            
+            return AccessLevels.roleHasAccessLevel(this.self.role.name, (AccessLevels.CanChangeKnob));
         }
         return false;
     }
