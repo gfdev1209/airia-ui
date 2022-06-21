@@ -6,6 +6,7 @@
     [dropdown]="true"
     field="buildingName"
     [minLength]="3"
+    [panelStyleClass]="'panelStyleCustom'"
     placeholder="Search by building name, keyword, etc."
     (completeMethod)="onSearch()"
     (onSelect)="onSelect($event)"
