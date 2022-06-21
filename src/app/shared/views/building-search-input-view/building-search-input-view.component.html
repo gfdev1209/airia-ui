@@ -1,6 +1,7 @@
 <span class="p-input-icon-left">
   <i class="far fa-search"></i>
   <p-autoComplete
+  #autoComplete
     [(ngModel)]="searchTerm"
     [suggestions]="searchResults!"
     [dropdown]="true"
@@ -10,5 +11,6 @@
     placeholder="Search by building name, keyword, etc."
     (completeMethod)="onSearch()"
     (onSelect)="onSelect($event)"
+    (onDropdownClick)="handleDropdown($event)"
   ></p-autoComplete>
 </span>
