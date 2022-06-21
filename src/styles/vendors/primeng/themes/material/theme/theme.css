@@ -5511,4 +5511,9 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   border-color: #d9d8d9;
 }
 
+.p-button.p-button-icon-only {
+  height: 2.3rem!important;
+  width: 2.3rem !important;
+}
+
 /* Customizations to the designer theme should be defined here */
