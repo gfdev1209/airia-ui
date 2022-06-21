@@ -60,7 +60,9 @@ export class BlockChartViewComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log("data", this.data);
+  }
 }
 
 export class BlockChartData {
