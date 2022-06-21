@@ -312,9 +312,10 @@
                                                     styleClass="customKnobClass"
                                                     (onChange)="onAlertSliderChange($event)"
                                                     [disabled]="!canChangeKnob()"
+
                                                 ></p-knob>
                                             </div>
-                                            
+                                          
                                             <!-- <div class="p-mt-2">
                                                 <small>
                                                     <p-checkbox
@@ -334,7 +335,7 @@
                         </p-accordion>
                     </div>
                 </div>
-                <app-alert-panel #alertPanel class="alert-panel-container"></app-alert-panel>
+                <app-alert-panel #alertPanel class="alert-panel-container" [knobValue]="knobAlertValue"></app-alert-panel>
             </ng-container>
         </div>
     </div>
