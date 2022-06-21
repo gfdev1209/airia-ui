@@ -16,7 +16,7 @@ import { AlertSortType } from '../../enums';
 import { Location, User } from '../../models';
 
 import * as moment from 'moment';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as DeviceSelectors from '@store/device/device.selectors';
 import { RootState } from 'src/app/store';
@@ -89,6 +89,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     apStatus = true;
     networkHealth = true;
     knobColor = '#ee4057';
+    knobAlertValue = 0;
     
     alertSortOptions = [
         { name: 'Sort by Date', value: AlertSortType.Date },
@@ -295,6 +296,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
         if(this.knobPreviousValue != evt){
             this.knobPreviousValue = evt
             this.alertSliderChanged.emit(evt* 10);
+            this.knobAlertValue = evt;
         }
         
     }

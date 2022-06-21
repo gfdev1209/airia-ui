@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { RootState } from 'src/app/store';
 import { MapService } from '@map/services/map.service';
 import * as AlertSelectors from '@store/alert/alert.selectors';
 import * as AlertActions from '@store/alert/alert.actions';
 import * as BuildingSelectors from '@store/building/building.selectors';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-alert-panel',
@@ -12,6 +13,7 @@ import * as BuildingSelectors from '@store/building/building.selectors';
   styleUrls: ['./alert-panel.component.scss'],
 })
 export class AlertPanelComponent implements OnInit {
+  @Input("knobValue") knobValue!: number;
   overviewPanelHeight$ = this.mapService.overviewPanelHeight$;
   alerts$ = this.store.select(AlertSelectors.selectAll);
   selectedBuilding$ = this.store.select(

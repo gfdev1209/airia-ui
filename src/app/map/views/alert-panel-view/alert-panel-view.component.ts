@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api';
+import { Observable } from 'rxjs';
 import { AlertSeverity, AlertSortType, AlertType } from '../../enums';
 import { Alert, Building } from '../../models';
 
@@ -23,6 +24,7 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
     @Input() showNetworkHealth!: boolean;
     @Input() showAPStatus!: boolean;
     @Input() showCapacity!: boolean;
+    @Input() knobValue!: number | unknown;
     // List of alerts for lazy loading
     virtualAlerts: Alert[] = [];
     // Amount of alerts displayed in panel at one time
@@ -36,44 +38,53 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
         setTimeout(() => (this.visible = true), 500);
     }
     ngOnChanges(changes: SimpleChanges): void {
+       
         const currentAlerts: SimpleChange = changes.alerts;
         const sortType: SimpleChange = changes.sortType;
         const sortDirection: SimpleChange = changes.sortDirection;
-        if (currentAlerts && this.selectedBuilding === null) {
-            if (currentAlerts.currentValue) {
-                this.loadAlertsLazy({
-                    first: 0,
-                    rows: currentAlerts.currentValue.length,
-                });
-                if (currentAlerts.currentValue?.length > 0) {
-                    if (this.sortType) {
-                        this.sort(this.sortType);
-                    } else {
-                        this.sort(AlertSortType.Date);
+        if(!this.knobValue){
+           
+            this.virtualAlerts = [];
+        }else{
+            
+            if (currentAlerts && this.selectedBuilding === null) {
+                if (currentAlerts.currentValue) {
+                    this.loadAlertsLazy({
+                        first: 0,
+                        rows: currentAlerts.currentValue.length,
+                    });
+                    if (currentAlerts.currentValue?.length > 0) {
+                        if (this.sortType) {
+                            this.sort(this.sortType);
+                        } else {
+                            this.sort(AlertSortType.Date);
+                        }
                     }
                 }
             }
+            if (sortType) {
+                this.sortType = sortType.currentValue;
+                this.sort(sortType.currentValue);
+            }
+            if (sortDirection && this.sortType) {
+                this.sort(this.sortType);
+            }
+            if (
+                changes.showSevereUrgency ||
+                changes.showHighUrgency ||
+                changes.showMediumUrgency ||
+                changes.showLowUrgency ||
+                changes.showAcknowledged ||
+                changes.showNetworkHealth ||
+                changes.showAPStatus ||
+                changes.showCapacity
+            ) {
+                const filteredAlerts = this.filterAlerts();
+                this.virtualAlerts = [...filteredAlerts];
+            }
+
         }
-        if (sortType) {
-            this.sortType = sortType.currentValue;
-            this.sort(sortType.currentValue);
-        }
-        if (sortDirection && this.sortType) {
-            this.sort(this.sortType);
-        }
-        if (
-            changes.showSevereUrgency ||
-            changes.showHighUrgency ||
-            changes.showMediumUrgency ||
-            changes.showLowUrgency ||
-            changes.showAcknowledged ||
-            changes.showNetworkHealth ||
-            changes.showAPStatus ||
-            changes.showCapacity
-        ) {
-            const filteredAlerts = this.filterAlerts();
-            this.virtualAlerts = [...filteredAlerts];
-        }
+     
     }
 
     loadAlertsLazy(event: LazyLoadEvent): void {
@@ -125,6 +136,23 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
     filterAcknowledged = (alert: Alert) => {
         return this.showAcknowledged ? true : alert?.acknowledgedAt === undefined;
     };
+
+    filterNoAlerts = (alert: Alert) => {
+        return [];
+    };
+
+    filterNoAlertsByDefault(): Alert[] {
+        let alerts: Alert[] = [];
+        if (this.alerts) {
+            alerts = this.alerts.filter(
+                this.combineFilters(
+                    this.filterNoAlerts
+                   
+                )
+            );
+        }
+        return alerts;
+    }
     // filterCapacity = (alert: Alert) => {
     //   return this.showCapacity
     //     ? true
