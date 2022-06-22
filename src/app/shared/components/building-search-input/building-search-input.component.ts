@@ -5,6 +5,7 @@ import { RootState } from '@store/index';
 
 import * as BuildingSelectors from '@store/building/building.selectors';
 import * as BuildingActions from '@store/building/building.actions';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-building-search-input',
@@ -16,7 +17,9 @@ export class BuildingSearchInputComponent implements OnInit {
 
   constructor(private store: Store<RootState>) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.searchResults$.subscribe(console.log)
+  }
 
   search(term: string): void {
     this.store.dispatch(BuildingActions.search({ term }));

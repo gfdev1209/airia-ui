@@ -75,20 +75,25 @@ export class BuildingEffects {
   );
 
   search$ = createEffect(() =>
+  
     this.actions$.pipe(
+      
       ofType(BuildingActions.search),
       withLatestFrom(this.store.select(BuildingSelectors.selectAll)),
+      
       switchMap(([{ term }, buildings]) => {
+       console.log("Effects------", term);
         const searchResults = buildings.filter((entity) =>
           entity.buildingName.toLowerCase().includes(term.toLowerCase())
         );
+        console.log("searchResultsEffects",searchResults);
         return of(
           BuildingActions.searchSuccess({
             searchResults,
           })
         );
       }),
-      catchError(() => of(BuildingActions.searchFailed()))
+      catchError(() =>{  console.log("Effects failed"); return of(BuildingActions.searchFailed()); })
     )
   );
 
