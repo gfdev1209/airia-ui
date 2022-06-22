@@ -82,5 +82,45 @@ export const userReducer = createReducer(
       ...state,
       loading: false,
     };
-  })
+  }),
+  on(Actions.updateRole, (state) => {
+    return {
+        ...state,
+        loading: true,
+        showOverview: false,
+    };
+  }),
+  on(Actions.updateRoleSuccess, (state, { role }) => {
+    return {
+      ...state,
+      loading: true,
+      showOverview: false,
+  };
+  }),
+  on(Actions.updateRoleFailed, (state) => {
+    return {
+        ...state,
+        loading: false,
+    };
+  }),
+  on(Actions.update, (state) => {
+    return {
+        ...state,
+        loading: true,
+        showOverview: false,
+    };
+  }),
+  on(Actions.updateSuccess, (state, { user }) => {
+    return {
+      ...state,
+      loading: true,
+      showOverview: false,
+  };
+  }),
+  on(Actions.updateFailed, (state) => {
+    return {
+        ...state,
+        loading: false,
+    };
+  }),
 );

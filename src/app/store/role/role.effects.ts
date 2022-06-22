@@ -7,7 +7,7 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { UserRole } from '@map/models';
+import { User, UserRole } from '@map/models';
 import { of } from 'rxjs';
 import * as RoleActions from './role.actions';
 import * as RoleSelectors from './role.selectors';
@@ -56,4 +56,5 @@ export class RoleEffects {
       catchError(() => of(RoleActions.selectFailed()))
     )
   );
+
 }

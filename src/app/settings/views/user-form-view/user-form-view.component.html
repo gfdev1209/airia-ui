@@ -151,9 +151,10 @@
       <p-dropdown
         [options]="locations"
         formControlName="defaultLocation"
-        defaultLabel="Select a default Location"
+        placeholder="Select a default Location"
         optionLabel="name"
         optionValue="id"
+       
       ></p-dropdown>
       <small
         class="p-error"
@@ -177,6 +178,7 @@
         optionValue="id"
         placeholder="Select a role"
         dataKey="id"
+        (onChange)="changeRole($event)"
       ></p-dropdown>
       <small
         class="p-error"
@@ -229,6 +231,7 @@
       label="Save Changes"
       class="p-button-rounded"
       [disabled]="!userForm.valid"
+      (click)="saveUser()"
     ></button>
   </div>
 </div>
