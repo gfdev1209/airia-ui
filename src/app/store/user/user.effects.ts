@@ -7,7 +7,7 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { User } from '@map/models';
+import { User, UserRole } from '@map/models';
 import { of } from 'rxjs';
 import * as UserActions from './user.actions';
 import * as UserSelectors from './user.selectors';
@@ -78,4 +78,27 @@ export class UserEffects {
       catchError(() => of(UserActions.selectFailed()))
     )
   );
+
+  updateUserRole$ = createEffect(() =>
+  this.actions$.pipe(
+      ofType(UserActions.updateRole),
+      mergeMap(({ role }) =>
+          this.userService.update<UserRole>(`${role?.userId}/Role/${role?.name}`,{}).pipe(
+              map((updatedUser: UserRole) => UserActions.updateRoleSuccess({ role })),
+              catchError((error) => of(UserActions.updateRoleFailed()))
+          )
+      )
+  )
+);
+
+// updateUser$ = createEffect(() =>
+// this.actions$.pipe(
+//     ofType(UserActions.update),
+//     mergeMap(({ user }) =>
+//         this.userService.update<User>(`${user?.userId}/Role/${user?.name}`,{}).pipe(
+//             map((updatedUser: User) => UserActions.updateSuccess({ user })),
+//             catchError((error) => of(UserActions.updateFailed()))
+//         )
+//     )
+// ));
 }

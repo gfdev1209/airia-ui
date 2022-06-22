@@ -39,5 +39,6 @@ export const roleReducer = createReducer(
       ...state,
       loading: false,
     };
-  })
-);
+  }),
+
+)

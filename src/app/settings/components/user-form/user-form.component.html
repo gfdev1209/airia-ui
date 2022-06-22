@@ -3,4 +3,5 @@
   [locations]="(locations$ | async) || []"
   [departments]="(departments$ | async) || []"
   [roles]="(roles$ | async) || []"
+  (roleUpdate)="updateUserRole($event)"
 ></app-user-form-view>
