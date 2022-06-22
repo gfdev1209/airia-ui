@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Building } from '@map/models';
 
 @Component({
@@ -13,30 +13,38 @@ export class BuildingSearchInputViewComponent implements OnInit {
   @Output() selectBuilding = new EventEmitter<Building>();
 
   searchTerm = '';
+  isSelected = false;
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  onSearch(): void {
-    this.search.emit(this.searchTerm);
-  }
-  onSelect(building: Building): void {
-    this.selectBuilding.emit(building);
+  ngOnChanges(changes:SimpleChanges){
+      console.log("changes.searchResults",changes?.searchResults)
   }
 
-  onClear(event:any){
-    console.log("onClear", event);
+  onSearch(): void {
+    console.log("on search", this.searchTerm);
+    // const results = this.searchResults?.map((_arrayElement) => Object.assign({}, _arrayElement));
+    // this.searchResults = [];
+    // this.searchResults = results;
+    this.search.emit(this.searchTerm);
+
+  }
+  onSelect(building: Building): void {
+    this.isSelected = true;
+    this.selectBuilding.emit(building);
+    this.searchTerm = '';
   }
 
   handleDropdown(event:any){
+    event.originalEvent.preventDefault();
+    event.originalEvent.stopPropagation();
+    this.searchTerm = '';
     const results = this.searchResults?.map((_arrayElement) => Object.assign({}, _arrayElement));
-    console.log("searchResults", this.searchResults);
     this.searchResults = [];
     this.searchResults = results;
 
-    event.originalEvent.preventDefault();
-    event.originalEvent.stopPropagation();
     if (this.autoComplete?.nativeElement?.panelVisible) {
       this.autoComplete?.nativeElement?.onDropdownBlur();
       this.autoComplete.nativeElement?.hide();
