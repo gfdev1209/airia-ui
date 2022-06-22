@@ -13,26 +13,16 @@ export class BuildingSearchInputViewComponent implements OnInit {
   @Output() selectBuilding = new EventEmitter<Building>();
 
   searchTerm = '';
-  isSelected = false;
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  ngOnChanges(changes:SimpleChanges){
-      console.log("changes.searchResults",changes?.searchResults)
-  }
 
   onSearch(): void {
-    console.log("on search", this.searchTerm);
-    // const results = this.searchResults?.map((_arrayElement) => Object.assign({}, _arrayElement));
-    // this.searchResults = [];
-    // this.searchResults = results;
     this.search.emit(this.searchTerm);
-
   }
   onSelect(building: Building): void {
-    this.isSelected = true;
     this.selectBuilding.emit(building);
     this.searchTerm = '';
   }
