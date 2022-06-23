@@ -17,3 +17,21 @@
 ::ng-deep .alert-panel .p-virtualscroller-content {
   padding-bottom: 0;
 }
+.alert-panel {
+  position: relative;
+}
+.alerts-lock{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50% , -50%);
+  i{
+    font-size: 100px;
+    color: #A020F0;
+  }
+  p{
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+  }
+}
