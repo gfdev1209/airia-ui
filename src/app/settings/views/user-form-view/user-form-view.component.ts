@@ -26,22 +26,25 @@ export class UserFormViewComponent implements OnInit, OnChanges {
   @Output() roleUpdate = new EventEmitter();
 
   userForm!: FormGroup;
-
+  roleId:any;
   constructor(private fb: FormBuilder) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.user && !changes.user.firstChange) {
       this.userForm.patchValue(changes.user.currentValue);
-
-     
       // this.userForm.controls.roles.patchValue(
       //   changes.user.currentValue.roles.id
       // );
     }
+    if (changes.roles && !changes.roles.firstChange) {
+      let selected = this.user?.roleId || 0;
+      let removed =  this.roles.splice((selected - 1),1);
+      this.roles.unshift(removed[0]);
+    }
   }
-
+  isReady =false;
   ngOnInit(): void {
-    console.log("user", this.user)
+  
     this.userForm = this.fb.group({
       firstName: [this.user?.firstName, Validators.required],
       lastName: [this.user?.lastName, Validators.required],
