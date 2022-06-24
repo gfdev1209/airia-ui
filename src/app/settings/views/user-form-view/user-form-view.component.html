@@ -171,14 +171,18 @@
     </div>
     <div class="p-field p-col-12">
       <label for="roles">Role</label>
-      <p-dropdown
+      <p-dropdown 
+     
         [options]="roles"
+        name="roleId"
         formControlName="roleId"
         optionLabel="name"
         optionValue="id"
-        placeholder="Select a role"
+        [autoDisplayFirst]="true"
         dataKey="id"
+        placeholder="select Role"
         (onChange)="changeRole($event)"
+        
       ></p-dropdown>
       <small
         class="p-error"
@@ -235,6 +239,6 @@
     ></button>
   </div>
 </div>
-<pre
+<!-- <pre
   >{{ userForm.value | json }}
-</pre>
+</pre> -->
