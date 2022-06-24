@@ -11,6 +11,8 @@ import { environment } from 'src/environments/environment';
 import { RegionService } from '@map/services/region.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { BuildingService } from '@map/services/building.service';
+import { NotificationService } from '@shared/services/notification.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-building-details-overview',
@@ -39,12 +41,23 @@ export class BuildingDetailsOverviewComponent implements OnChanges {
   constructor(
     private store: Store<RootState>,
     private regionService: RegionService,
-    private buildingService: BuildingService
+    private buildingService: BuildingService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.region) {
       this.regionId = changes.region.currentValue?.id;
+      let buildingId = changes.region.currentValue?.buildingId;
+      if(changes?.region.firstChange){
+          if(!this.regionId && !buildingId){
+            let error ={message: "This building does not have a properly defined and active region"} as HttpErrorResponse;
+            this.notificationService.displayError(error);
+          }
+        
+      }
+      
+
       this.curDate = new Date();
       this.onOccupancyDateChanged(
         moment(this.curDate)
