@@ -38,7 +38,6 @@ export class BlockChartViewComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.data) {
-      console.log(changes.data);
       this.data = changes.data.currentValue;
       this.updateChart();
     }
