@@ -29,7 +29,7 @@ export class LineChartViewComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.chartData?.currentValue) {
-      console.log('update graph', changes.chartData.currentValue);
+      console.log('update graph line---', changes.chartData.currentValue);
       this.updateChart();
     }
   }
