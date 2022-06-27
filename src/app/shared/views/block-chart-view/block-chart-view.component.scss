@@ -1,3 +1,6 @@
 :host-context {
   width: 100%;
 }
+::ng-deep .apexcharts-heatmap-rect[val='0']{
+  fill: yellow !important;
+}

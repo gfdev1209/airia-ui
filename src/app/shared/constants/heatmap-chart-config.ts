@@ -59,6 +59,11 @@ export const heatMapChartConfig = {
         ranges: [
           {
             from: 0,
+            to: 0.1,
+            color: '#dddddd',
+          },
+          {
+            from: 0.1,
             to: 16,
             color: '#2a1d32',
           },
@@ -176,7 +181,8 @@ export const heatMapChartConfig = {
       fontWeight: 'normal',
     },
     formatter: (val: any) => {
-      return val > -1 ? val.toFixed(0) + '%' : '';
+      console.log("value", val)
+      return val < 0.1 ? 'no data': val.toFixed(0) + '%';
     },
   },
 };
