@@ -62,6 +62,10 @@ export class LineChartViewComponent implements OnInit, OnChanges {
       // } else if (chartOptions2.annotations?.xaxis) {
       //   chartOptions2.annotations.xaxis[0].x = this.chartData.liveTime.getTime();
       // }
+
+      const maxOccupancy =  Math.max( ...this.chartData.series )
+      chartOptions2.yaxis.max = maxOccupancy + 10;
+
       this.chartOptions = chartOptions2;
       this.chart?.updateOptions(chartOptions2, true);
     }
