@@ -26,7 +26,8 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
     @Output() viewAlertPlayback = new EventEmitter<Alert>();
     isMinimized =true;
     AlertSeverityEnum = AlertSeverity;
-
+    reloadGraph=false;
+    isMaximized= false;
     messages: Message[] = [
         {
             severity: 'custom',
@@ -77,6 +78,14 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
    
     minimizeDialog(){
         this.isMinimized = !this.isMinimized;
+
+    }
+
+  
+    onMaximize(event:any){
+        console.log("event", event);
+       this.reloadGraph = !this.reloadGraph;
+       this.isMinimized = true;
     }
 
     

@@ -7,6 +7,10 @@
     height: 0;
     top: unset !important;
     }
+
+    .p-dialog-maximized{
+        width: 400px !important;
+    }
   
 }
 ::ng-deep .maximizeDialog{
@@ -45,4 +49,10 @@
 }
 ::ng-deep .p-dialog .p-dialog-content{
     padding: 1rem !important;
+}
+.acknowledgeBtn{
+    max-width: 400px;
+    margin: auto !important;
+    margin-bottom: 10px !important;
+
 }

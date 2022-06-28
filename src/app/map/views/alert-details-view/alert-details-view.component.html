@@ -7,6 +7,7 @@
     styleClass="alert-details-container"
     position="top-left"
     (onHide)="onClose($event)"
+    (onMaximize)="onMaximize($event)"
     [class.minimizeDialog]="!isMinimized"
 >
     <ng-template pTemplate="header">
@@ -62,7 +63,7 @@
                 </tbody>
             </table>
             <hr *ngIf="alert.alertGraph" class="p-mb-4" />
-            <app-occupancy-chart-view *ngIf="alert.alertGraph" [occupancyAlertGraph]="alert.alertGraph"></app-occupancy-chart-view>
+            <app-occupancy-chart-view *ngIf="alert.alertGraph" [reloadGraph]="reloadGraph" [occupancyAlertGraph]="alert.alertGraph"></app-occupancy-chart-view>
             <!-- <img [src]="alert.visualizationUrl" width="100%" /> -->
         </div>
     </div>
@@ -77,7 +78,7 @@
             (click)="onAcknowledge()"
             [icon]="loading === true ? 'fas fa-spinner fa-spin' : ''"
             [disabled]="loading === true || alert.acknowledgedAt"
-            class="p-button-rounded width-100 p-d-block p-mt-2 p-mb-2"
+            class="p-button-rounded width-100 p-d-block p-mt-2 p-mb-2 acknowledgeBtn"
         ></button>
         <div class="p-text-center" *ngIf="alert.acknowledgedBy">
             <i class="far fa-check-circle icon color-green p-mr-2"></i>
