@@ -224,10 +224,18 @@ export class BuildingDetailsOccupancyViewComponent implements OnInit, OnChanges 
           }
     }
     onHistoricWeekSelected(data: any): void {
+        console.log("data", data.value);
         this.historicDateRangeChanged.emit(data.value);
     }
     onCalendarOpen(event: any): void {
         this.currentDate = new Date();
+    }
+
+    onRefresh(){
+        this.historicDataRange = this.dateRange[0];
+        console.log("historicDataRange",this.historicDataRange);
+        this.historicDateRangeChanged.emit(this.historicDataRange['range']);
+        this.selectedDateRange = null;
     }
 
     stopPropagation($event: MouseEvent): void {

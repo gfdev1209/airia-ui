@@ -9,7 +9,19 @@
                 Percentage is calculated based on the maximum occupancy reading for the building over the last 6 months.
             </p>
         </div>
-        <div>
+        <div class="text-align-end">
+           
+                <button
+                pButton
+                pRipple
+                type="button"
+                label="Refresh"
+                (click)="onRefresh()"
+                class="p-button-rounded p-button-sm p-mb-3"
+              ></button>
+          
+           
+
             <small class="p-d-flex p-align-center">
                 <p-calendar
                     [showIcon]="true"
