@@ -23,8 +23,7 @@
 
         <div *ngIf="alert" class="minimize-icon p-dialog-header-icons p-mr-3">
             <button (click)="pinAlert(alert)" type="button" tabindex="-1" pripple="" class="p-dialog-header-icon p-link p-ripple pin-icon"> 
-                <i *ngIf="!pinnedAlerts.includes(alert?.id!)" class="fa fa-thumbtack pin"></i>
-                <i *ngIf="pinnedAlerts.includes(alert?.id!)" class="fa fa-thumbtack pinned"></i>
+                <i [ngClass]="pinnedAlerts.includes(alert?.id!)? 'pinned':'pin'" class="fa fa-thumbtack"></i>
             </button>
 
             <button (click)="minimizeDialog()" type="button" tabindex="-1" pripple="" class="p-dialog-header-icon p-link p-ripple pin-icon"> 
