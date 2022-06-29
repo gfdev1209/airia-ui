@@ -2,5 +2,9 @@
   width: 100%;
 }
 ::ng-deep .apexcharts-heatmap-rect[val='0']{
-  fill: #a5a50c  !important;
+  fill: transparent  !important;
+
+}
+::ng-deep .apexcharts-heatmap-rect[val='0'] + .apexcharts-data-labels text{
+  fill: #ddd !important;
 }
