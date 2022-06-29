@@ -17,9 +17,7 @@ export class BuildingSearchInputComponent implements OnInit {
 
   constructor(private store: Store<RootState>) {}
 
-  ngOnInit(): void {
-    this.searchResults$.subscribe(console.log)
-  }
+  ngOnInit(): void {}
 
   search(term: string): void {
     this.store.dispatch(BuildingActions.search({ term }));
