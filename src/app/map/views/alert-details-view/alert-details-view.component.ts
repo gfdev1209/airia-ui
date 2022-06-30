@@ -45,6 +45,7 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes: SimpleChanges): void {
        
+        console.log("alert", this.alert);
         if (changes.alert && !changes.alert.firstChange) {
             if (changes.alert.currentValue?.acknowledgedAt) {
                 this.acknowledgedAt = moment(changes.alert.currentValue?.acknowledgedAt).tz(environment.timeZone).toDate();

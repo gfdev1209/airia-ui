@@ -2,10 +2,14 @@
 
     .p-dialog{
         position: fixed !important;
-    bottom: 80px !important;
-    left: 0 !important;
+        bottom: 246px !important;
+        left: 64px !important;
     height: 0;
     top: unset !important;
+
+        .p-dialog-content{
+            padding: 0 !important;
+        }
     }
 
     .p-dialog-maximized{
@@ -49,6 +53,13 @@
 }
 ::ng-deep .p-dialog .p-dialog-content{
     padding: 1rem !important;
+}
+.timeIdHeader{
+    padding-left: 17px;
+
+    span{
+        padding-left: 10px;
+    }
 }
 .acknowledgeBtn{
     max-width: 400px;
