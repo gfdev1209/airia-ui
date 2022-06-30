@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./alert-panel.component.scss'],
 })
 export class AlertPanelComponent implements OnInit {
-  @Input("knobValue") knobValue!: number;
+  @Input() knobValue!: number;
   overviewPanelHeight$ = this.mapService.overviewPanelHeight$;
   alerts$ = this.store.select(AlertSelectors.selectAll);
   selectedBuilding$ = this.store.select(
