@@ -8,7 +8,7 @@
     position="top-left"
     (onHide)="onClose($event)"
     (onMaximize)="onMaximize($event)"
-    [class.minimizeDialog]="!isMinimized"
+    [class.minimizeDialog]="isMinimized"
 >
     <ng-template pTemplate="header">
         <div *ngIf="alert">
@@ -34,7 +34,7 @@
         </div>
     </ng-template>
     
-    <div *ngIf="isMinimized">
+    <div *ngIf="!isMinimized">
         <div class="alert-details" *ngIf="alert">
             <table>
                 <tbody>
@@ -67,7 +67,7 @@
             <!-- <img [src]="alert.visualizationUrl" width="100%" /> -->
         </div>
     </div>
-    <p-footer *ngIf="alert && isMinimized">
+    <p-footer *ngIf="alert && !isMinimized">
         <button
             *ngIf="!alert.acknowledgedBy && canAcknowledgeAlert()"
             pButton
