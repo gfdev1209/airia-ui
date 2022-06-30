@@ -38,16 +38,7 @@ export class OccupancyChartViewComponent implements OnInit, OnChanges, AfterView
     ngOnInit(): void {}
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.occupancyAlertGraph?.currentValue) {
-            console.log('update graph', changes.occupancyAlertGraph.currentValue);
-            this.updateChart();
-        }
-
-        if(changes.reloadGraph.currentValue){
-            this.updateChart();
-        }else{
-            this.updateChart();
-        }
+        this.updateChart();
     }
 
     updateChart(): void {

@@ -24,7 +24,7 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
     @Output() acknowledgeAlert = new EventEmitter<Alert>();
     @Output() pinalert = new EventEmitter<Alert>();
     @Output() viewAlertPlayback = new EventEmitter<Alert>();
-    isMinimized =true;
+    isMinimized =false;
     AlertSeverityEnum = AlertSeverity;
     reloadGraph=false;
     isMaximized= false;
@@ -39,7 +39,7 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
     constructor() {}
 
     ngOnInit(): void {
-        this.isMinimized = true;
+        this.isMinimized = false;
         this.pinnedAlerts = JSON.parse(localStorage.getItem('pinnedAlerts') || '');
     }
 
@@ -85,7 +85,7 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
     onMaximize(event:any){
         console.log("event", event);
        this.reloadGraph = !this.reloadGraph;
-       this.isMinimized = true;
+       this.isMinimized = false;
     }
 
     
