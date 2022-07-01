@@ -24,6 +24,7 @@ export class UserFormViewComponent implements OnInit, OnChanges {
   @Input() departments: Department[] = [];
   @Input() roles: UserRole[] = [];
   @Output() roleUpdate = new EventEmitter();
+  @Output() updateUser = new EventEmitter();
 
   userForm!: FormGroup;
   roleId:any;
@@ -44,8 +45,10 @@ export class UserFormViewComponent implements OnInit, OnChanges {
   }
   isReady =false;
   ngOnInit(): void {
+    console.log("user", this.user);
   
     this.userForm = this.fb.group({
+      id:[this.user?.id],
       firstName: [this.user?.firstName, Validators.required],
       lastName: [this.user?.lastName, Validators.required],
       email: [this.user?.email, [Validators.required, Validators.email]],
@@ -62,15 +65,7 @@ export class UserFormViewComponent implements OnInit, OnChanges {
 
   saveUser(){
     let form = this.userForm.value;
-
-    // const data  = {
-    //   departmentId: 0,
-    //   firstName: "string",
-    //   lastName: "string",
-    //   phone: "string"
-    // }
-
-
+    this.updateUser.emit(form);
   }
 
   changeRole(event:any){
@@ -78,7 +73,6 @@ export class UserFormViewComponent implements OnInit, OnChanges {
     let role:UserRole = {id:event?.value, name:name, userId:this.user?.id!, createdAt: new Date()};
 
       this.roleUpdate.emit(role);
-
   }
 
 }
