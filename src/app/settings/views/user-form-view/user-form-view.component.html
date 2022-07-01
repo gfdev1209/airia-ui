@@ -238,9 +238,12 @@
       type="button"
       label="Save Changes"
       class="p-button-rounded"
-      [disabled]="isformChanged"
+      [disabled]="!(isformChanged && userForm.valid)"
       (click)="saveUser()"
     ></button>
+    {{!(isformChanged && userForm.valid)}}--
+    {{isformChanged}}--
+    {{userForm.valid}}
   </div>
 </div>
 <!-- <pre
