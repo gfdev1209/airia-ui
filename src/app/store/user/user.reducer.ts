@@ -111,11 +111,12 @@ export const userReducer = createReducer(
     };
   }),
   on(Actions.updateSuccess, (state, { user }) => {
-    return {
+    return adapter.upsertOne(user, {
       ...state,
-      loading: true,
-      showOverview: false,
-  };
+      updated:user,
+      loading: false,
+      loaded: true,
+    });
   }),
   on(Actions.updateFailed, (state) => {
     return {

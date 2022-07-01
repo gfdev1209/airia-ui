@@ -24,6 +24,7 @@
         formControlName="firstName"
         type="text"
         pInputText
+        (change)="isInputChanged($event)"
       />
       <small
         class="p-error"
@@ -40,7 +41,7 @@
     </div>
     <div class="p-field p-col-12 p-md-6">
       <label for="lastName">Last Name</label>
-      <input id="lastName" formControlName="lastName" type="text" pInputText />
+      <input id="lastName" formControlName="lastName" type="text" pInputText  (change)="isInputChanged($event)"/>
       <small
         class="p-error"
         *ngIf="
@@ -56,7 +57,7 @@
     </div>
     <div class="p-field p-col-12 p-md-6">
       <label for="email">Email</label>
-      <input id="email" formControlName="email" type="email" pInputText />
+      <input id="email" formControlName="email" type="email" pInputText (change)="isInputChanged($event)"/>
       <small
         class="p-error"
         *ngIf="
@@ -77,6 +78,7 @@
         formControlName="phone"
         type="tel"
         mask="(999) 999-9999"
+        (ngModelChange)="isInputChanged($event)"
       ></p-inputMask>
       <small
         class="p-error"
@@ -101,6 +103,7 @@
         optionValue="id"
         placeholder="Select a department"
         dataKey="id"
+        (onChange)="isInputChanged($event)"
       ></p-dropdown>
       <small
         class="p-error"
@@ -132,6 +135,7 @@
         optionLabel="name"
         display="chip"
         optionValue="id"
+        (onChange)="isInputChanged($event)"
       ></p-multiSelect>
       <small
         class="p-error"
@@ -154,7 +158,7 @@
         placeholder="Select a default Location"
         optionLabel="name"
         optionValue="id"
-       
+        (onChange)="isInputChanged($event)"
       ></p-dropdown>
       <small
         class="p-error"
@@ -234,7 +238,7 @@
       type="button"
       label="Save Changes"
       class="p-button-rounded"
-      [disabled]="!userForm.valid"
+      [disabled]="isformChanged"
       (click)="saveUser()"
     ></button>
   </div>
