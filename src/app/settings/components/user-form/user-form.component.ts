@@ -44,4 +44,8 @@ export class UserFormComponent implements OnInit {
   updateUserRole(role:any){
     this.store.dispatch(UserActions.updateRole({role}));
   }
+
+  updateUser(user:any){
+    this.store.dispatch(UserActions.update({user}));
+  }
 }

@@ -5,6 +5,7 @@ import {
   map,
   mergeMap,
   switchMap,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { User, UserRole } from '@map/models';
@@ -91,14 +92,15 @@ export class UserEffects {
   )
 );
 
-// updateUser$ = createEffect(() =>
-// this.actions$.pipe(
-//     ofType(UserActions.update),
-//     mergeMap(({ user }) =>
-//         this.userService.update<User>(`${user?.userId}/Role/${user?.name}`,{}).pipe(
-//             map((updatedUser: User) => UserActions.updateSuccess({ user })),
-//             catchError((error) => of(UserActions.updateFailed()))
-//         )
-//     )
-// ));
+updateUser$ = createEffect(() =>
+this.actions$.pipe(
+    ofType(UserActions.update),
+    mergeMap(({ user }) =>
+        this.userService.update<User>(`${user?.id}`,user).pipe(
+            tap(res=>console.log("user udpated",res)),
+            map((updatedUser: User) => UserActions.updateSuccess({ user:updatedUser })),
+            catchError((error) => of(UserActions.updateFailed()))
+        )
+    )
+));
 }
