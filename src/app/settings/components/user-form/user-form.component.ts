@@ -13,6 +13,7 @@ import * as LocationActions from '@store/location/location.actions';
 import * as LocationSelectors from '@store/location/location.selectors';
 import { tap } from 'rxjs/operators';
 import { NotificationService } from '@shared/services/notification.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-form',
@@ -31,7 +32,7 @@ export class UserFormComponent implements OnInit {
   departments$ = this.store.select(DepartmentSelectors.selectAll);
   roles$ = this.store.select(RoleSelectors.selectAll);
   updatedUser$ = this.store.select(UserSelectors.selectUpdatedUser);
-
+  updateuserSubs?: Subscription;
   userId?: string | null;
 
   constructor(private store: Store<RootState>, private route: ActivatedRoute, private notifier: NotificationService) {}
@@ -42,9 +43,10 @@ export class UserFormComponent implements OnInit {
     this.store.dispatch(DepartmentActions.getAll());
     this.store.dispatch(RoleActions.getAll());
 
-    this.updatedUser$.subscribe(user=>{
-      if(user){
+   this.updateuserSubs = this.updatedUser$.subscribe(update=>{
+      if(update){
         this.notifier.displaySuccess("User Updated Successfully");
+        this.store.dispatch(UserActions.updateFailed());
       }
      
     })
@@ -57,6 +59,11 @@ export class UserFormComponent implements OnInit {
 
   updateUser(user:any){
     this.store.dispatch(UserActions.update({user}));
+    
+  }
+
+  ngOnDestroy(){
+    this.updateuserSubs?.unsubscribe();
   }
 
 }

@@ -28,7 +28,8 @@ export class UserFormViewComponent implements OnInit, OnChanges {
 
   userForm!: FormGroup;
   roleId:any;
-  isformChanged = true;
+  isformChanged = false;
+  isSubmitted = false;
   constructor(private fb: FormBuilder) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -64,7 +65,12 @@ export class UserFormViewComponent implements OnInit, OnChanges {
 
   saveUser(){
     let form = this.userForm.value;
-    this.updateUser.emit(form);
+    this.isSubmitted = true;
+
+    if(this.userForm.valid){
+      this.updateUser.emit(form);
+    }
+   
   }
 
   changeRole(event:any){
@@ -72,11 +78,11 @@ export class UserFormViewComponent implements OnInit, OnChanges {
     let role:UserRole = {id:event?.value, name:name, userId:this.user?.id!, createdAt: new Date()};
 
       this.roleUpdate.emit(role);
-      this.isformChanged = false;
+      this.isformChanged = true;
   }
 
   isInputChanged(event:any){
-      this.isformChanged = false;
+      this.isformChanged = true;
   }
 
 }
