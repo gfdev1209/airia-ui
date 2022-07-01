@@ -7,6 +7,7 @@ export interface UserState extends EntityState<User> {
   searchResults: User[] | null;
   loaded: boolean;
   loading: boolean;
+  updated:User |null;
 }
 export const adapter = createEntityAdapter<User>();
 export const initialState: UserState = adapter.getInitialState({
@@ -15,4 +16,5 @@ export const initialState: UserState = adapter.getInitialState({
   searchResults: [],
   loaded: false,
   loading: false,
+  updated:null
 });

@@ -28,6 +28,7 @@ export class UserFormViewComponent implements OnInit, OnChanges {
 
   userForm!: FormGroup;
   roleId:any;
+  isformChanged = true;
   constructor(private fb: FormBuilder) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -44,9 +45,7 @@ export class UserFormViewComponent implements OnInit, OnChanges {
     }
   }
   isReady =false;
-  ngOnInit(): void {
-    console.log("user", this.user);
-  
+  ngOnInit(): void {  
     this.userForm = this.fb.group({
       id:[this.user?.id],
       firstName: [this.user?.firstName, Validators.required],
@@ -57,8 +56,8 @@ export class UserFormViewComponent implements OnInit, OnChanges {
         [Validators.required, Validators.minLength(10)],
       ],
       departmentId: [this.user?.departmentId, [Validators.required]],
-      locations: ['', [Validators.required]],
-      defaultLocation: ['', Validators.required],
+      locations: [''],
+      defaultLocation: [''],
       roleId: [this.user?.roleId, [Validators.required]],
     });
   }
@@ -73,6 +72,11 @@ export class UserFormViewComponent implements OnInit, OnChanges {
     let role:UserRole = {id:event?.value, name:name, userId:this.user?.id!, createdAt: new Date()};
 
       this.roleUpdate.emit(role);
+      this.isformChanged = false;
+  }
+
+  isInputChanged(event:any){
+      this.isformChanged = false;
   }
 
 }
