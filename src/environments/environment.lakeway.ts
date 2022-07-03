@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://lakeway-api.airia20.com/b2c/',
+  apiUrl: 'https://lakeway-api.airia20.com/api/',
   // Client
   timeZone: 'America/New_York',
   timeZoneOffsetUTC: -(new Date().getTimezoneOffset() / 60),
