@@ -18,7 +18,7 @@ export const environment = {
   b2cClientId: 'c0813e87-e3d0-4df3-9f84-0bd301763e1f',
   b2cNameSignUpSignIn: 'B2C_1A_SIGNUP_SIGNIN',
   b2cNameEditProfile: 'B2C_1A_profile',
-  b2cAuthorityForgotPassword: 'B2C_1A_PASSWORDRESET'
+  b2cForgotPassword: 'B2C_1A_PASSWORDRESET'
   b2cAuthorityDomain: 'airialakeway.b2clogin.com',
   b2cAuthoritySignUpSignIn:
     'https://airialakeway.b2clogin.com/lakeway.airia20.com/B2C_1A_SIGNUP_SIGNIN',
