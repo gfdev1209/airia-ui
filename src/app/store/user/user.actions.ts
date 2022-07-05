@@ -1,6 +1,5 @@
 import { createAction, props } from '@ngrx/store';
 import { User, UserRole } from '@map/models';
-import { Update } from '@ngrx/entity';
 
 export const getSelf = createAction('[User List Page] Get Self');
 export const getSelfSuccess = createAction(
@@ -47,5 +46,5 @@ export const updateRoleSuccess = createAction('[Role Effect] Update User Role Su
 export const updateRoleFailed = createAction('[Role Effect] Update User Role Failed');
 
 export const update = createAction('[Update User] Update User', props<{ user: User }>());
-export const updateSuccess = createAction('[User Effect] Update User Success', props<{ updated:boolean }>());
+export const updateSuccess = createAction('[User Effect] Update User Success', props<{  user: User }>());
 export const updateFailed = createAction('[User Effect] Update User Failed');

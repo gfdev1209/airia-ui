@@ -110,10 +110,10 @@ export const userReducer = createReducer(
         showOverview: false,
     };
   }),
-  on(Actions.updateSuccess, (state, updated) => {
+  on(Actions.updateSuccess, (state, user) => {
     return {
       ...state,
-      updated:true,
+      user,
       loading: true,
       showOverview: false,
   };

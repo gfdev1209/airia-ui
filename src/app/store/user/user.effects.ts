@@ -98,7 +98,7 @@ this.actions$.pipe(
     mergeMap(({ user }) =>
         this.userService.update<User>(`${user?.id}`,user).pipe(
             tap(res=>console.log("user udpated",res)),
-            map((updatedUser: User) => UserActions.updateSuccess({ updated:true })),
+            map((updatedUser: User) => UserActions.updateSuccess({ user:updatedUser})),
             catchError((error) => of(UserActions.updateFailed()))
         )
     )
