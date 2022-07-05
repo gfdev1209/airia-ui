@@ -6,11 +6,18 @@
         <span class="display-block line-height-1-25 font-size-90-percent {{ alert.alertSeverity | colorByAlertSeverity }}">{{
             alert.alertType
         }}</span>
-        <small>{{ alert.region?.regionName }} </small
+        <small>{{ alert.region?.regionName }}</small
         ><br />
         <small class="color-text-medium">{{ alert.alertEndTime | date: 'dd MMM h:mm a' }}</small>
     </div>
-    <div *ngIf="alert.acknowledgedAt" class="p-flex-column p-ml-3 acknowledged">
-        <i class="far fa-check-circle icon color-green"></i>
+    <div class="p-ml-3 p-d-flex">
+       
+        <div *ngIf="alert?.isPinned" class="isPinned p-pr-2">
+            <i class="fa fa-thumbtack icon color-green"></i>
+        </div>
+        <div *ngIf="alert.acknowledgedAt" class="acknowledged ">
+            <i class="far fa-check-circle icon color-green"></i>
+        </div>
     </div>
+    
 </div>

@@ -24,6 +24,7 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
     @Input() showNetworkHealth!: boolean;
     @Input() showAPStatus!: boolean;
     @Input() showCapacity!: boolean;
+    @Input() pinnedAlerts?: Alert[] | null = null;
     @Input() knobValue!: number | unknown;
     // List of alerts for lazy loading
     virtualAlerts: Alert[] = [];
@@ -38,7 +39,12 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
         setTimeout(() => (this.visible = true), 500);
     }
     ngOnChanges(changes: SimpleChanges): void {
-       
+        if(changes.pinnedAlerts){
+           
+            this.pinnedAlerts?.map(al=> al.isPinned = true)
+            console.log("pinnedAlerts", this.pinnedAlerts);
+        }
+
         const currentAlerts: SimpleChange = changes.alerts;
         const sortType: SimpleChange = changes.sortType;
         const sortDirection: SimpleChange = changes.sortDirection;
@@ -84,7 +90,29 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
             }
 
         }
-     
+        if (sortType) {
+            this.sortType = sortType.currentValue;
+            this.sort(sortType.currentValue);
+        }
+        if (sortDirection && this.sortType) {
+            this.sort(this.sortType);
+        }
+        if (
+            changes.showSevereUrgency ||
+            changes.showHighUrgency ||
+            changes.showMediumUrgency ||
+            changes.showLowUrgency ||
+            changes.showAcknowledged ||
+            changes.showNetworkHealth ||
+            changes.showAPStatus ||
+            changes.showCapacity
+        ) {
+            const filteredAlerts = this.filterAlerts();
+            this.virtualAlerts = [...filteredAlerts];
+           
+        }
+
+        this.pinnedAlerts?.forEach(alert=>this.virtualAlerts.unshift(alert));
     }
 
     loadAlertsLazy(event: LazyLoadEvent): void {

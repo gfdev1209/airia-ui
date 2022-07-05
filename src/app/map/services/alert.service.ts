@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BaseService } from '@shared/services/base.service';
 import { Alert } from '@map/models';
 import { Observable } from 'rxjs';
-import { retry, map, catchError, share } from 'rxjs/operators';
+import { retry, map, catchError, share, tap } from 'rxjs/operators';
 import { LazyLoadEvent } from 'primeng/api';
 import { SkipTakeInput } from '@shared/models/skip-take-input.model';
 import Helpers from '@core/utils/helpers';
@@ -164,7 +164,13 @@ export class AlertService extends BaseService {
         return response.map((responseJson: any) => new Alert(responseJson));
     }
 
-   
-
-
+    pinnedAlert(ids: string): Observable<Alert[]> {
+        return this.http.get(`${this.apiUrl}/List?ids=${ids}`).pipe(
+            map((response: any) => this.mapArrayResponseToObject(response)),
+            catchError((error) => {
+                return this.handleError(error);
+            }),
+            share()
+        );
+    }
 }

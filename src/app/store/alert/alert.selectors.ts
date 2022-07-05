@@ -28,6 +28,11 @@ export const selectSortDirection = createSelector(
   (state: AlertState) => state.sortDirection
 );
 
+export const selectPinnedAlerts = createSelector(
+  selectFeature,
+  (state: AlertState) => state.pinnedAlert
+);
+
 // export const selectByBuildingId = createSelector(
 //   selectAll,
 //   (state: any, props: any) =>
