@@ -1,7 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { adapter, initialState } from './alert.state';
 import * as Actions from './alert.actions';
-import { state } from '@angular/animations';
 
 export const alertReducer = createReducer(
   initialState,
@@ -151,6 +150,26 @@ export const alertReducer = createReducer(
   })),
 
   on(Actions.pinAlertFailed, (state) => {
+    return {
+      ...state,
+      loading: false,
+    };
+  }),
+  on(Actions.getPinnedAlert, (state) => { 
+    return {
+    ...state,
+    loading: true,
+  }
+}),
+  on(Actions.getPinnedAlertSuccess, (state, { alerts }) =>{
+  return adapter.upsertMany(alerts, {
+    ...state,
+    pinnedAlert: alerts,
+    loading: false,
+    loaded: true,
+  });
+}),
+  on(Actions.getPinnedAlertFailed, (state) => {
     return {
       ...state,
       loading: false,

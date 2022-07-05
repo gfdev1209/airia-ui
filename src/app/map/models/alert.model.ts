@@ -36,7 +36,7 @@ export class Alert implements IBase {
     visualizationUrl?: string;
     visualizationJsonUrl?: string;
     alertGraph?: OccupancyAlertGraph;
-
+    isPinned?:boolean;
     constructor(args: {
         alertId: number;
         accessPointId: number;
@@ -60,6 +60,7 @@ export class Alert implements IBase {
         buildingId: number;
         visualizationUrl: string;
         visualizationJsonUrl: string;
+        isPinned?:boolean;
     }) {
         this.id = args.alertId;
         this.accessPointId = args.accessPointId;
@@ -78,6 +79,7 @@ export class Alert implements IBase {
 
         this.hasPagination = args.hasPagination;
         this.count = args.count;
+        this.isPinned = args.isPinned;
 
         if (args.acknowledgedAt) {
             this.acknowledgedAt = Helpers.utcDateToEnvironmentDate(args.acknowledgedAt);

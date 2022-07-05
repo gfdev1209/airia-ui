@@ -21,6 +21,7 @@ export class AlertPreviewComponent {
   ) {}
 
   alertSelected(alert: Alert): void {
+    console.log("alertSelected", alert);
     this.store.dispatch(AlertActions.deselect());
     this.mapService.resetPlaybackSlider();
     this.mapService.stopPlayback();

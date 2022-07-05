@@ -3,9 +3,10 @@ import { Store } from '@ngrx/store';
 import { RootState } from 'src/app/store';
 import { MapService } from '@map/services/map.service';
 import * as AlertSelectors from '@store/alert/alert.selectors';
+import * as UserSelectors from '@store/user/user.selectors';
 import * as AlertActions from '@store/alert/alert.actions';
 import * as BuildingSelectors from '@store/building/building.selectors';
-import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-alert-panel',
@@ -22,6 +23,8 @@ export class AlertPanelComponent implements OnInit {
   selectedAlert$ = this.store.select(AlertSelectors.selectSelectedAlert);
   alertSortType$ = this.store.select(AlertSelectors.selectSortType);
   alertSortDirection$ = this.store.select(AlertSelectors.selectSortDirection);
+  pinnedAlerts$ = this.store.select(AlertSelectors.selectPinnedAlerts);
+  self$ = this.store.select(UserSelectors.selectSelf);
 
   showSevereUrgency = true;
   showHighUrgency = true;
@@ -31,13 +34,25 @@ export class AlertPanelComponent implements OnInit {
   showNetworkHealth = true;
   showAPStatus = true;
   showCapacity = true;
-
   constructor(
     private store: Store<RootState>,
-    private mapService: MapService
+    private mapService: MapService, 
+
   ) {}
 
   ngOnInit(): void {
+    this.self$.subscribe(res=>{
+      let pinnedAlertsIDs= res?.userPreferences?.pinnedAlertIds?.$values;
+      if(pinnedAlertsIDs?.length){
+        let ids:string = pinnedAlertsIDs?.join("&ids=");
+        this.store.dispatch(
+          AlertActions.getPinnedAlert({ids})
+      );
+       
+      }
+    });
+  
+
     this.store.dispatch(
       AlertActions.skipAndTakeAlertTable({
         skipTakeInput: {
@@ -48,6 +63,7 @@ export class AlertPanelComponent implements OnInit {
       })
     );
   }
+
 
   onToggleSevereUrgency($event: any): void {
     this.showSevereUrgency = $event.checked;
@@ -73,4 +89,5 @@ export class AlertPanelComponent implements OnInit {
   onToggleShowCapacity($event: any): void {
     this.showCapacity = $event.checked;
   }
+
 }

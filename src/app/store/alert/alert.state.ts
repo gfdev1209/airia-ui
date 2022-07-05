@@ -9,6 +9,7 @@ export interface AlertState extends EntityState<Alert> {
   sortType: AlertSortType;
   sortDirection: number;
   sortField: string | null;
+  pinnedAlert:Alert[] | null;
 }
 export const adapter = createEntityAdapter<Alert>();
 export const initialState: AlertState = adapter.getInitialState({
@@ -18,4 +19,5 @@ export const initialState: AlertState = adapter.getInitialState({
   sortType: AlertSortType.Date,
   sortDirection: -1,
   sortField: null,
+  pinnedAlert:[]
 });

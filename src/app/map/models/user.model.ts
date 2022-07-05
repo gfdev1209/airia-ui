@@ -1,6 +1,7 @@
 import { IBase } from '@shared/interfaces';
 import { Department } from './department.model';
 import { UserRole } from './user-role.model';
+import { UserPreferences } from './user.preferences.model';
 
 export class User implements IBase {
   id!: number;
@@ -16,8 +17,7 @@ export class User implements IBase {
   role?: UserRole;
   b2cGuid!: string;
   createdAt!: Date;
-  pinnedALerts:number[];
-
+  userPreferences!:UserPreferences;
   constructor(args: {
     $id: string;
     userId: number;
@@ -32,7 +32,7 @@ export class User implements IBase {
     createdAt: Date;
     department?: Department;
     role?: UserRole;
-    pinnedALerts:number[];
+    userPreferences:UserPreferences
   }) {
     this.id = args.userId;
     this.firstName = args.firstName;
@@ -51,6 +51,6 @@ export class User implements IBase {
     }
     this.b2cGuid = args.b2cGuid;
     this.createdAt = args.createdAt;
-    this.pinnedALerts = args.pinnedALerts
+    this.userPreferences = args.userPreferences;
   }
 }

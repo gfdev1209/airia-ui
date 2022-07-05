@@ -110,3 +110,15 @@ export const pinAlertSuccess = createAction(
 export const pinAlertFailed = createAction(
   '[Alert Effect] Pin Alert Failed'
 );
+
+export const getPinnedAlert = createAction(
+  '[Alert Details] Get Pinned Alerts',
+  props<{ ids:string }>()
+);
+export const getPinnedAlertSuccess = createAction(
+  '[Alert Effect] Get Pinned Alert Success',
+  props<{ alerts: Alert[] }>()
+);
+export const getPinnedAlertFailed = createAction(
+  '[Alert Effect] Get Pinned Alert Failed'
+);
