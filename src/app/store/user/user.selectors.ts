@@ -29,5 +29,5 @@ export const selectSelectedUser = createSelector(
 
 export const selectUpdatedUser = createSelector(
   selectFeature,
-  (state: UserState) => state.updated
+  (state: UserState) => state.selected
 );

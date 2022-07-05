@@ -1,6 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { User, UserRole } from '@map/models';
-import { Update } from '@ngrx/entity';
+import { UserRole } from '@map/models';
 
 export const getAll = createAction('[Map] Get All Roles');
 export const getAllSuccess = createAction(
