@@ -164,7 +164,7 @@ export class AlertService extends BaseService {
         return response.map((responseJson: any) => new Alert(responseJson));
     }
 
-    pinnedAlert(ids: string): Observable<Alert[]> {
+    getPinnedAlertsByIds(ids: string): Observable<Alert[]> {
         return this.http.get(`${this.apiUrl}/List?ids=${ids}`).pipe(
             map((response: any) => this.mapArrayResponseToObject(response)),
             catchError((error) => {

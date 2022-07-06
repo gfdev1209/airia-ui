@@ -139,11 +139,11 @@ export class AlertEffects {
 
     getPinnedAlerts$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(AlertActions.getPinnedAlert),
+            ofType(AlertActions.getPinnedAlerts),
             mergeMap(({ ids }) =>
-                this.alertService.pinnedAlert(ids).pipe(
-                    map((alerts: Alert[]) => AlertActions.getPinnedAlertSuccess({alerts})),
-                    catchError(() => of(AlertActions.getPinnedAlertFailed()))
+                this.alertService.getPinnedAlertsByIds(ids).pipe(
+                    map((alerts: Alert[]) => AlertActions.getPinnedAlertsSuccess({alerts})),
+                    catchError(() => of(AlertActions.getPinnedAlertsFailed()))
                 )
             )
         )
