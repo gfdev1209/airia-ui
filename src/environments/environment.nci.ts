@@ -15,16 +15,16 @@ export const environment = {
   hidePOIs: false,
   hideStreetLabels: false,
   // Azure B2C Configuration
-  b2cClientId: '8f71168b-00a6-4be2-b6cd-dc71a7c38a07',
-  b2cNameSignUpSignIn: 'B2C_1_airiasignupin',
-  b2cNameEditProfile: 'B2C_1_airiaprofile',
-  b2cAuthorityDomain: 'airianci.b2clogin.com',
+  b2cClientId: '12f51651-1035-41f9-af21-f30407622422',
+  b2cNameSignUpSignIn: 'B2C_1A_SIGNUP_SIGNIN',
+  b2cNameEditProfile: 'B2C_1A_profile',
+  b2cForgotPassword: 'B2C_1A_PASSWORDRESET',
   b2cAuthoritySignUpSignIn:
-    'https://airianci.b2clogin.com/nci.airia20.com/B2C_1_airiasignupin',
+    'https://airianci.b2clogin.com/nci.airia20.com/B2C_1A_SIGNUP_SIGNIN',
   b2cAuthorityEditProfile:
-    'https://airianci.b2clogin.com/nci.airia20.com/B2C_1_airiaprofile',
+    'https://airianci.b2clogin.com/nci.airia20.com/B2C_1A_profileedit',
   b2cAuthorityForgotPassword:
-    'https://airianci.b2clogin.com/nci.airia20.com/b2c_1_airiapwreset',
+    'https://airianci.b2clogin.com/nci.airia20.com/B2C_1A_PASSWORDRESET',
   b2cScopes: ['https://nci.airia20.com/api/demo.read'],
   b2cApiUrl: 'https://nci-api.airia20.com',
 };
