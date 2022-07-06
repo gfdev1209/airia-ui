@@ -107,13 +107,13 @@ export class MapViewComponent implements OnChanges {
     };
 
 
-    loadingAlert$:Observable<any>;
-    constructor(private confirmationService: ConfirmationService, private store:Store<RootState>) {
-      this.loadingAlert$ = this.store.select(selectLoading);
+    loadingAlert$: Observable<any>;
+    constructor(private confirmationService: ConfirmationService, private store: Store<RootState>) {
+        this.loadingAlert$ = this.store.select(selectLoading);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        
+
         if (changes.buildings?.firstChange === false) {
             if (changes.buildings.currentValue) {
                 this.addCustomBuildings();
@@ -126,11 +126,11 @@ export class MapViewComponent implements OnChanges {
             this.addAccessPointsToMap();
         }
         if (changes.devices?.firstChange === false) {
-            
+
             this.addDevices();
         }
         if (changes.filterBySSID?.firstChange === false) {
-           
+
             this.addSSIDFilterDevices();
         }
         if (changes.zoomIn?.firstChange === false) {
@@ -273,9 +273,9 @@ export class MapViewComponent implements OnChanges {
 
             this.map.setCenter([this.centeredCoordinates.lng, this.centeredCoordinates.lat]);
             this.map.flyTo({
-              center: this.centeredCoordinates,
-              essential: true,
-              zoom: this.initialZoomLevel,
+                center: this.centeredCoordinates,
+                essential: true,
+                zoom: this.initialZoomLevel,
             });
         }
     }
@@ -644,7 +644,7 @@ export class MapViewComponent implements OnChanges {
         const style = this.map.getStyle();
 
         if (this.mapLiveDeviceData.dataSource && style.sources) {
-          
+
             const clusterSource: any = style.sources[this.mapLiveDeviceData.dataSourceName];
             clusterSource.cluster = this.showClusters;
             this.map.setStyle(style);
@@ -677,7 +677,7 @@ export class MapViewComponent implements OnChanges {
             this.mapLiveDeviceData.showAllLayers();
             this.addDevices();
         }
-    } 
+    }
     toggleAccessPoints(): void {
         if (!this.showAccessPoints) {
             this.mapAccessPointData.hideAllLayers();
@@ -739,35 +739,45 @@ export class MapViewComponent implements OnChanges {
 
     /** Add all devices to map */
     addDevices(): void {
-       
+
         if (this.map && this.devices) {
             const liveDevices = this.devices.filter((d) => !d.fixedPosition);
-           
-            if(this.showDevices){
-             this.addDevicesToMap(liveDevices, this.liveDeviceDetails, this.mapLiveDeviceData);
+
+            if (this.showDevices) {
+                this.addDevicesToMap(liveDevices, this.liveDeviceDetails, this.mapLiveDeviceData);
             }
-            
-            if(this.showStaticDevices){
+
+            if (this.showStaticDevices) {
                 const staticDevices = this.devices.filter((d) => d.fixedPosition);
                 this.addDevicesToMap(staticDevices, this.staticDeviceDetails, this.mapStaticDeviceData);
             }
-           
+
         }
     }
 
     /** Add SSID filtered devices to map */
     addSSIDFilterDevices(): void {
-       
+
         if (this.map && this.devices) {
             const liveDevices = this.devices.filter((d) => !d.fixedPosition);
-          
-           const filteredLiveDevices = liveDevices.filter((el:any) => {
-            return this.filterBySSID?.some((f) => {
-              return f === el.ssid;
+
+            const filteredLiveDevices = liveDevices.filter((el: any) => {
+                return this.filterBySSID?.some((f) => {
+                    return f === el.ssid;
+                });
             });
-          });
-           
-             this.addDevicesToMap(filteredLiveDevices, this.liveDeviceDetails, this.mapLiveDeviceData);
+
+
+            const staticDevices = this.devices.filter((d) => d.fixedPosition);
+
+            const filteredStaticDevices = staticDevices.filter((el: any) => {
+                return this.filterBySSID?.some((f) => {
+                    return f === el.ssid;
+                });
+            });
+
+            this.addDevicesToMap(filteredStaticDevices, this.staticDeviceDetails, this.mapStaticDeviceData);
+            this.addDevicesToMap(filteredLiveDevices, this.liveDeviceDetails, this.mapLiveDeviceData);
 
         }
     }
@@ -878,7 +888,7 @@ export class MapViewComponent implements OnChanges {
                                 this.selectedPosition = feature.geometry.coordinates;
                             }
                             return true;
-                        }else if (this.isFeatureStaticDeviceCluster(feature)) {
+                        } else if (this.isFeatureStaticDeviceCluster(feature)) {
                             this.map.getCanvasContainer().style.cursor = 'pointer';
                             this.hoveredDevice = feature;
                             this.map.setFeatureState(
