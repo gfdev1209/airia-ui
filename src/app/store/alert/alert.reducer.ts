@@ -155,13 +155,13 @@ export const alertReducer = createReducer(
       loading: false,
     };
   }),
-  on(Actions.getPinnedAlert, (state) => { 
+  on(Actions.getPinnedAlerts, (state) => { 
     return {
     ...state,
     loading: true,
   }
 }),
-  on(Actions.getPinnedAlertSuccess, (state, { alerts }) =>{
+  on(Actions.getPinnedAlertsSuccess, (state, { alerts }) =>{
   return adapter.upsertMany(alerts, {
     ...state,
     pinnedAlert: alerts,
@@ -169,7 +169,7 @@ export const alertReducer = createReducer(
     loaded: true,
   });
 }),
-  on(Actions.getPinnedAlertFailed, (state) => {
+  on(Actions.getPinnedAlertsFailed, (state) => {
     return {
       ...state,
       loading: false,

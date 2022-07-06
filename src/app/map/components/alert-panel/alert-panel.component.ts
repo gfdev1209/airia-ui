@@ -6,6 +6,7 @@ import * as AlertSelectors from '@store/alert/alert.selectors';
 import * as UserSelectors from '@store/user/user.selectors';
 import * as AlertActions from '@store/alert/alert.actions';
 import * as BuildingSelectors from '@store/building/building.selectors';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class AlertPanelComponent implements OnInit {
   showNetworkHealth = true;
   showAPStatus = true;
   showCapacity = true;
+  selfSubscription: Subscription | undefined;
   constructor(
     private store: Store<RootState>,
     private mapService: MapService, 
@@ -41,12 +43,12 @@ export class AlertPanelComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.self$.subscribe(res=>{
+   this.selfSubscription = this.self$.subscribe(res=>{
       let pinnedAlertsIDs= res?.userPreferences?.pinnedAlertIds?.$values;
       if(pinnedAlertsIDs?.length){
         let ids:string = pinnedAlertsIDs?.join("&ids=");
         this.store.dispatch(
-          AlertActions.getPinnedAlert({ids})
+          AlertActions.getPinnedAlerts({ids})
       );
        
       }
@@ -88,6 +90,10 @@ export class AlertPanelComponent implements OnInit {
   }
   onToggleShowCapacity($event: any): void {
     this.showCapacity = $event.checked;
+  }
+
+  ngOnDestroy(){
+    this.selfSubscription?.unsubscribe();
   }
 
 }
