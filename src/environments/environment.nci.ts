@@ -19,6 +19,7 @@ export const environment = {
   b2cNameSignUpSignIn: 'B2C_1A_SIGNUP_SIGNIN',
   b2cNameEditProfile: 'B2C_1A_profile',
   b2cForgotPassword: 'B2C_1A_PASSWORDRESET',
+  b2cAuthorityDomain: 'airianci.b2clogin.com',
   b2cAuthoritySignUpSignIn:
     'https://airianci.b2clogin.com/nci.airia20.com/B2C_1A_SIGNUP_SIGNIN',
   b2cAuthorityEditProfile:
