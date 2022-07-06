@@ -121,7 +121,6 @@ export const userReducer = createReducer(
   on(Actions.updateFailed, (state) => {
     return {
         ...state,
-        updated:false,
         loading: false,
     };
   }),
