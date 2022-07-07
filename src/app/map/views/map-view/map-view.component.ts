@@ -776,8 +776,15 @@ export class MapViewComponent implements OnChanges {
                 });
             });
 
-            this.addDevicesToMap(filteredStaticDevices, this.staticDeviceDetails, this.mapStaticDeviceData);
-            this.addDevicesToMap(filteredLiveDevices, this.liveDeviceDetails, this.mapLiveDeviceData);
+            if(this.showStaticDevices){
+                this.addDevicesToMap(filteredStaticDevices, this.staticDeviceDetails, this.mapStaticDeviceData);
+
+            }
+
+            if(this.showDevices){
+                this.addDevicesToMap(filteredLiveDevices, this.liveDeviceDetails, this.mapLiveDeviceData);
+
+            }
 
         }
     }
