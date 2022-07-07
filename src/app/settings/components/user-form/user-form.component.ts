@@ -11,7 +11,7 @@ import * as RoleActions from '@store/role/role.actions';
 import * as RoleSelectors from '@store/role/role.selectors';
 import * as LocationActions from '@store/location/location.actions';
 import * as LocationSelectors from '@store/location/location.selectors';
-import { tap ,filter} from 'rxjs/operators';
+import { tap ,filter, skip} from 'rxjs/operators';
 import { NotificationService } from '@shared/services/notification.service';
 import { Subscription } from 'rxjs';
 
@@ -31,7 +31,7 @@ export class UserFormComponent implements OnInit {
   locations$ = this.store.select(LocationSelectors.selectAll);
   departments$ = this.store.select(DepartmentSelectors.selectAll);
   roles$ = this.store.select(RoleSelectors.selectAll);
-  updatedUser$ = this.store.select(UserSelectors.selectUpdatedUser).pipe(filter(res=>!!res));
+  updatedUser$ = this.store.select(UserSelectors.selectSelectedUser).pipe(skip(1));
   updateuserSubs: Subscription | undefined;
   userId?: string | null;
 
@@ -52,10 +52,8 @@ export class UserFormComponent implements OnInit {
   updateUser(user:any){
     this.store.dispatch(UserActions.update({user}));
     this.updateuserSubs = this.updatedUser$.subscribe(user=>{
-      if(user){
+       
         this.notifier.displaySuccess("User Updated Successfully");
-      }
-     
   })
     
   }
