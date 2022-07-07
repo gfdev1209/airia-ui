@@ -204,8 +204,9 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
    
     onToggleSSID(event: any): void {
             this.ssidDevices = event.checked;
-            // this.toggledStaticDevices.emit(true);
-            // this.iotDevices = true;
+            this.toggledStaticDevices.emit(true);
+            
+            this.iotDevices = true;
     }
     onChangeSSIDFilter(event:any):void {
        
