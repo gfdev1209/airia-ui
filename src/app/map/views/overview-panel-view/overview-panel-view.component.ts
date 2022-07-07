@@ -187,21 +187,27 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     onToggleDevices(event: any): void {
         this.toggleDevices.emit(event.checked);
 
-        if(event.checked){
+        if(this.iotDevices || event.checked){
             this.SSIDList.map(item=> this.selectedSSID.push(item.ssid));
         }else{
             this.selectedSSID = [];
         }
+           
+        
        
     }
     onToggleIOT(event: any): void {
         this.toggledStaticDevices.emit(event.checked);
+        if(this.staticDevices || event.checked){
+            this.SSIDList.map(item=> this.selectedSSID.push(item.ssid));
+        }else{
+            this.selectedSSID = [];
+        }
     }
     onToggleClusters(event: any): void {
         this.toggledClusters.emit(event.checked);
     }
 
-   
     onToggleSSID(event: any): void {
             this.ssidDevices = event.checked;
             this.toggledStaticDevices.emit(true);
