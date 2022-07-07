@@ -126,13 +126,14 @@ export class MapViewComponent implements OnChanges {
             this.addAccessPointsToMap();
         }
         if (changes.devices?.firstChange === false) {
-
+            
             this.addDevices();
         }
         if (changes.filterBySSID?.firstChange === false) {
-
+           
             this.addSSIDFilterDevices();
         }
+       
         if (changes.zoomIn?.firstChange === false) {
             this.onZoomIn();
         }
@@ -675,7 +676,13 @@ export class MapViewComponent implements OnChanges {
             this.mapLiveDeviceData.hideAllLayers();
         } else {
             this.mapLiveDeviceData.showAllLayers();
-            this.addDevices();
+            // this.addDevices();
+            if(this.filterBySSID?.length){
+                this.addSSIDFilterDevices();
+            }else{
+                this.addDevices();
+            }
+           
         }
     }
     toggleAccessPoints(): void {
@@ -690,7 +697,11 @@ export class MapViewComponent implements OnChanges {
         if (!this.showStaticDevices) {
             this.mapStaticDeviceData.hideAllLayers();
         } else {
-            this.addDevices();
+            if(this.filterBySSID?.length){
+                this.addSSIDFilterDevices();
+            }else{
+                this.addDevices();
+            }
             this.mapStaticDeviceData.showAllLayers();
         }
     }
@@ -758,6 +769,7 @@ export class MapViewComponent implements OnChanges {
     /** Add SSID filtered devices to map */
     addSSIDFilterDevices(): void {
 
+        console.log("filterBySSID", this.filterBySSID);
         if (this.map && this.devices) {
             const liveDevices = this.devices.filter((d) => !d.fixedPosition);
 

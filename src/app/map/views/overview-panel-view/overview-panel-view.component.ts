@@ -120,15 +120,19 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
         this.devicesList$ =  this.store.select(DeviceSelectors.selectAll);
         this._deviceListSubscription = this.devicesList$.subscribe((data:any)=>{
         let list = [...new Set(data.map((item:any) =>item['ssid']))];
+
+        console.log("list",list);
         if(list.length){
             this.SSIDList = [];
-            this.selectedSSID = [];
+            // this.SSIDList.push({ssid:'Unknown'});
             list.map((data:any) => {
                 if(data){
                     this.SSIDList.push({ssid:data});
-                    this.selectedSSID.push(data);
                 }
             });
+            this.SSIDList.map(item=> this.selectedSSID.push(item.ssid));
+            console.log("this.SSIDList", this.SSIDList);
+            console.log("this.selectedSSID", this.selectedSSID);
         }
         });
     }
@@ -186,23 +190,9 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     }
     onToggleDevices(event: any): void {
         this.toggleDevices.emit(event.checked);
-
-        if(this.iotDevices || event.checked){
-            this.SSIDList.map(item=> this.selectedSSID.push(item.ssid));
-        }else{
-            this.selectedSSID = [];
-        }
-           
-        
-       
     }
     onToggleIOT(event: any): void {
         this.toggledStaticDevices.emit(event.checked);
-        if(this.staticDevices || event.checked){
-            this.SSIDList.map(item=> this.selectedSSID.push(item.ssid));
-        }else{
-            this.selectedSSID = [];
-        }
     }
     onToggleClusters(event: any): void {
         this.toggledClusters.emit(event.checked);
@@ -210,21 +200,19 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
 
     onToggleSSID(event: any): void {
             this.ssidDevices = event.checked;
-            this.toggledStaticDevices.emit(true);
+            this.selectedSSID = [];
+            if( this.iotDevices || this.staticDevices){
+                this.SSIDList.map(item=> this.selectedSSID.push(item.ssid));
+            }else{
+                this.selectedSSID = [];
+            }
             
-            this.iotDevices = true;
-            this.SSIDList.map(item=> this.selectedSSID.push(item.ssid));
     }
     onChangeSSIDFilter(event:any):void {
        
         this.toggleSSID.emit(event.value);
-        // this.toggledStaticDevices.emit(true);
         if(!event.value.length){
-            // this.toggleDevices.emit(true);
-           
-            // this.staticDevices = true;
-            // this.iotDevices = true;
-           
+          
             this.SSIDList.map(item=> this.selectedSSID.push(item.ssid));
         }
     }
