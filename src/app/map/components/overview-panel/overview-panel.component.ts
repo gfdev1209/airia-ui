@@ -154,6 +154,7 @@ export class OverviewPanelComponent implements OnInit, OnDestroy {
         this.mapService.setShowClusters(checked);
     }
     onToggledSSID(value: any): void {
+        console.log("filterBySSID", value);
         this.mapService.filterBySSID(value);
     }
 
