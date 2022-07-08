@@ -128,6 +128,8 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
             list.map((data:any) => {
                 if(data){
                     this.SSIDList.push({ssid:data});
+                } else {
+                    this.SSIDList.push({ssid:"UNKNOWN"});
                 }
             });
             this.SSIDList.map(item=> this.selectedSSID.push(item.ssid));

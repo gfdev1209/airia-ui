@@ -775,7 +775,10 @@ export class MapViewComponent implements OnChanges {
 
             const filteredLiveDevices = liveDevices.filter((el: any) => {
                 return this.filterBySSID?.some((f) => {
-                    return f === el.ssid;
+                    if (f === "UNKNOWN")
+                        return "" === el.ssid
+                    else
+                        return f === el.ssid;
                 });
             });
 
