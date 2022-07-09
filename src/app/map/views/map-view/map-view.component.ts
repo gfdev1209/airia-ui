@@ -668,8 +668,11 @@ export class MapViewComponent implements OnChanges {
         //   this.addDeviceData(deviceLayer.details, deviceLayer.dataSource);
         // });
 
-        this.addDevices();
-        console.log(this.showClusters);
+        if(this.filterBySSID?.length){
+            this.addSSIDFilterDevices();
+        }else{
+            this.addDevices();
+        }
     }
     toggleDevices(): void {
         if (!this.showDevices) {
