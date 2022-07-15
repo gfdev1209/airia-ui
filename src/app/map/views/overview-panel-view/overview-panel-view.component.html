@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="p-flex-column">
                                         <p-calendar [(ngModel)]="currentDateTime" [showIcon]="true"
-                                            [maxDate]="currentDateTime" icon="fas fa-clock" inputId="icon"
+                                            [maxDate]="maxDateTime" icon="fas fa-clock" inputId="icon"
                                             appendTo="body" class="only-icon" (click)="stopPropagation($event)"
                                             (onShow)="onCalendarOpen($event)"
                                             (onSelect)="onPlaybackCalendarSelect($event)" panelStyleClass="small"
