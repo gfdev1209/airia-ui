@@ -44,8 +44,6 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-       
-        console.log("alert", this.alert);
         if (changes.alert && !changes.alert.firstChange) {
             if (changes.alert.currentValue?.acknowledgedAt) {
                 this.acknowledgedAt = moment(changes.alert.currentValue?.acknowledgedAt).tz(environment.timeZone).toDate();
@@ -84,7 +82,6 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
 
   
     onMaximize(event:any){
-        console.log("event", event);
        this.reloadGraph = !this.reloadGraph;
        this.isMinimized = false;
     }
