@@ -71,6 +71,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     activeState: boolean[] = [false, false, false];
 
     currentDateTime = new Date();
+    maxDateTime = new Date();
    
     footTraffic = true;
     staticDevices = true;
@@ -270,7 +271,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
         // this.currentDateTime = new Date(
         //   moment().tz(environment.timeZone).format('YYYY-MM-DD HH:mm')
         // );
-        this.currentDateTime = new Date();
+        // this.currentDateTime = new Date();
     }
     onPlaybackCalendarSelect(newDate: any): void {
         this.changeDate(newDate);
