@@ -45,3 +45,5 @@ export const updateRoleFailed = createAction('[Role Effect] Update User Role Fai
 
 export const update = createAction('[Update User] Update User', props<{ user: User }>());
 
+export const updateSuccess = createAction('[User Effect] Update User Success', props<{  user: User }>());
+export const updateFailed = createAction('[User Effect] Update User Failed');
