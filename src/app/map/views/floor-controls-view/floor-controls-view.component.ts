@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { Floor } from '@map/models';
 
@@ -22,7 +23,19 @@ export class FloorControlsViewComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    
+  }
+
+  ngOnChanges(changes:SimpleChanges){
+
+    if(changes.floors.currentValue){
+      this.floors?.sort(function(a, b) {
+        return a - b;
+      });
+    }
+   
+  }
 
   onSelectFloor(floorNumber: number): void {
     if (floorNumber) {
