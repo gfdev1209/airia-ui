@@ -109,6 +109,21 @@ export const userReducer = createReducer(
         loading: true,
         showOverview: false,
     };
+  }),
+  on(Actions.updateSuccess, (state, {user}) => {
+    return {
+        ...state,
+        selected:user,
+        loading: true,
+        showOverview: false,
+    };
+  }),
+  on(Actions.updateFailed, (state) => {
+    return {
+        ...state,
+        loading: false,
+        
+    };
   })
 )
 

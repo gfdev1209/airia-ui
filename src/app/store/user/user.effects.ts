@@ -97,8 +97,8 @@ this.actions$.pipe(
     ofType(UserActions.update),
     mergeMap(({ user }) =>
         this.userService.update<User>(`${user?.id}`,user).pipe(
-            map((updatedUser: User) => UserActions.selectSuccess({ user: updatedUser})),
-            catchError((error) => of(UserActions.selectFailed()))
+            map((updatedUser: User) => UserActions.updateSuccess({ user: updatedUser})),
+            catchError((error) => of(UserActions.updateFailed()))
         )
     )
 ));
