@@ -40,7 +40,7 @@ export class AlertDetailsViewComponent implements OnInit, OnChanges {
 
     ngOnInit(): void {
         this.isMinimized = false;
-        this.pinnedAlerts = JSON.parse(localStorage.getItem('pinnedAlerts') || '');
+        this.pinnedAlerts = JSON.parse(localStorage.getItem('pinnedAlerts') || '[]');
     }
 
     ngOnChanges(changes: SimpleChanges): void {
