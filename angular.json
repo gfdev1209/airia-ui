@@ -50,6 +50,14 @@
             ]
           },
           "configurations": {
+            "collegedemo": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.collegedemo.ts"
+                }
+              ]
+            },
             "schooldemo": {
               "fileReplacements": [
                 {
@@ -151,6 +159,9 @@
           "configurations": {
             "production": {
               "browserTarget": "airia:build:production"
+            },
+            "collegedemo": {
+              "browserTarget": "airia:build:collegedemo"
             },
             "schooldemo": {
               "browserTarget": "airia:build:schooldemo"
