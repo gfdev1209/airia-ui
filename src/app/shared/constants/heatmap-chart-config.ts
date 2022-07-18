@@ -191,7 +191,7 @@ export const heatMapChartConfig = {
       if(val < 0){
         return 'no data'
       }
-      return val === 0 ? '0': val.toFixed(0) + '%';
+      return val = val.toFixed(0) + '%';
     },
     
   },
