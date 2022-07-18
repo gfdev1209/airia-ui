@@ -89,6 +89,7 @@ export class AnalyticsPanelViewComponent implements OnInit, OnChanges {
       if (occupancyData?.occupancyStats?.length > 0) {
         const stats: number[] = [];
         const labels: string[] = [];
+        const deviceCount: number[] = [];
         const lastStat =
           occupancyData.occupancyStats[occupancyData.occupancyStats.length - 1];
         const liveTime = new Date(
@@ -116,6 +117,7 @@ export class AnalyticsPanelViewComponent implements OnInit, OnChanges {
                 occupancyData.maxOccupancyHistoric) *
                 100
             );
+            deviceCount.push(occupancyData.occupancyStats[h].deviceCount);
           } else {
             labels.push(
               moment(
@@ -128,29 +130,36 @@ export class AnalyticsPanelViewComponent implements OnInit, OnChanges {
               ).toLocaleString()
             );
             stats.push(-1);
+            deviceCount.push(0);
           }
         }
         this.chartData = {
           stats,
           labels,
+          deviceCount
         };
         this.updateChart(this.chartData, liveTime);
       }
     }else{
       const stats: number[] = [];
+      const deviceCount: number[] = [];
         const labels: string[] = [];
         this.chartData = {
           stats,
           labels,
+          deviceCount
         };
       this.updateChart(null, this.occupancyDate);
     }
   }
 
   updateChart(data: any, liveTime: Date): void {
+
     if (this.chartData && this.date) {
       const chartOptions2 = _.cloneDeep(chartOptionsConfig);
+      console.log('devicecount--->', this.chartData.deviceCount)
       chartOptions2.series[0].data = this.chartData.stats;
+      chartOptions2.chart.deviceCounts = this.chartData.deviceCount;
       chartOptions2.labels = this.chartData.labels;
       chartOptions2.chart.redrawOnParentResize = true;
       chartOptions2.chart.height = 120;

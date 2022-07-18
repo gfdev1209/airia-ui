@@ -1,3 +1,4 @@
+import { values } from 'lodash';
 import {} from 'ng-apexcharts';
 
 import {
@@ -81,23 +82,37 @@ export const chartOptionsConfig: any = {
       },
     ],
   },
-  tooltip: {
+  tooltip: { 
     enabled: true,
     followCursor: true,
     style: {
       fontSize: '12px',
       fontFamily: undefined,
     },
-    x: {
-      show: true,
-      format: 'MMM dd, yyyy H:mm:ss',
-    },
-    y: {
-      title: {
-        formatter: (seriesName: any) => seriesName,
-      },
-      formatter: (value: any) => (value >= 0 ? value.toFixed(2) + '%' : ''),
-    },
+    // x: {
+    //   show: true,
+    //   format: 'MMM dd, yyyy H:mm:ss',
+    // },
+    custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
+      let value = series[seriesIndex][dataPointIndex];
+      let label = new Date(w.globals.seriesX[seriesIndex][dataPointIndex]);
+      let deviceCount = w.globals.initialConfig.chart.deviceCounts[dataPointIndex];
+      console.log("label", w.globals.initialConfig.chart.deviceCounts);
+      return (
+        '<div class="custom_tooltip">' + 
+        '<div class="custom_tooltip_header">' + 
+        '<span>' + label.toLocaleDateString('en-us', {year:"numeric", month:"short", day:"numeric"}) + ' ' + label.toLocaleTimeString('en-GB') + '</span>' + '</div>' +
+        '<div class="custom_tooltip_body"><span class="custom_tooltip_value">'+ w.globals.seriesNames[0] +' ' + (value >= 0 ? value.toFixed(2) + '%' : '')  + '</span>' + 
+        '<br /><span class="custom_tooltip_value">Device Counts ' + deviceCount + 
+        '</span></div></div>'
+      )
+    }
+    // y: {
+    //   title: {
+    //     formatter: (seriesName: any) => seriesName,
+    //   },
+    //   formatter: (value: any) => (value >= 0 ? value.toFixed(2) + '%' : ''),
+    // },
     // y: {
     //   formatter: (value: any, options: FormatterOptions) => {
     //     return `Hour ${

@@ -75,3 +75,29 @@ p-virtualScroller,
   flex-direction: column;
 }
 
+.custom_tooltip {
+  font-size: 12px;
+}
+
+.custom_tooltip_header {
+  padding: 5px;
+  background-color: black;
+  border-bottom: 1px solid grey;
+}
+
+.custom_tooltip_body {
+  padding: 4px 8px;
+}
+
+.custom_tooltip_value::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  -moz-border-radius: 7.5px;
+  -webkit-border-radius: 7.5px;
+  border-radius: 7.5px;
+  background-color: #9f64d1;
+  margin-right: 8px;
+}
+
