@@ -42,7 +42,6 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
         if(changes.pinnedAlerts){
            
             this.pinnedAlerts?.map(al=> al.isPinned = true)
-            console.log("pinnedAlerts", this.pinnedAlerts);
         }
 
         const currentAlerts: SimpleChange = changes.alerts;
