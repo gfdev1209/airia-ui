@@ -122,7 +122,6 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
         this._deviceListSubscription = this.devicesList$.subscribe((data:any)=>{
         let list = [...new Set(data.map((item:any) =>item['ssid']))];
 
-        console.log("list",list);
         if(list.length){
             this.SSIDList = [];
             // this.SSIDList.push({ssid:'Unknown'});
@@ -134,8 +133,6 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
                 }
             });
             this.SSIDList.map(item=> this.selectedSSID.push(item.ssid));
-            console.log("this.SSIDList", this.SSIDList);
-            console.log("this.selectedSSID", this.selectedSSID);
         }
         });
     }
