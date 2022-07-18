@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from '@shared/services/base.service';
 import { Device } from '@map/models';
-import { Observable, of } from 'rxjs';
+import { Observable, of, EMPTY } from 'rxjs';
 import {
-  retry, map, catchError, share, debounceTime, concatMap
+  retry, map, catchError, share, debounceTime,
+  expand, reduce
 } from 'rxjs/operators';
 import * as moment from 'moment-timezone';
 import Helpers from '@core/utils/helpers';
@@ -52,7 +53,17 @@ export class DeviceService extends BaseService {
       .pipe(
         debounceTime(1000),
         retry(2),
-        concatMap((response: any) => this.getSelfThenNext(response, [])),
+        expand((response: any) => this.getNext(response)),
+        map((response: any) => {
+          return response._embedded.records.map((record: any) =>
+            new Device(record)
+          );
+        }),
+        // TODO: this "reduce" here will put all the data
+        // together in one array.  If we want large data
+        // streaming (> 1 hour), then this will need to be
+        // reworked.
+        reduce((acc, val) => acc.concat(val)),
         catchError((error) => {
           return this.handleError(error);
         }),
@@ -60,24 +71,17 @@ export class DeviceService extends BaseService {
       );
   }
 
-  getSelfThenNext(response: any, devices: Device[]): Observable<Device[]> {
+  getNext(response: any): Observable<any> {
     if (response._embedded === null ||
         response._links === null) {
       throw new Error('Invalid parameter to getSelfThenNext');
     }
 
-    let nextDevices = devices.concat(response._embedded
-      .records
-      .map((responseJson: any) => new Device(responseJson))
-    );
-
-    if (response._links.next) {
-      return this.http.get(response._links.next).pipe(
-        concatMap(x => this.getSelfThenNext(x, nextDevices))
-      );
-    } else {
-      return of(nextDevices);
+    if (response._links.next === null) {
+      return EMPTY;
     }
+
+    return this.http.get(response._links.next)
   }
 
   mapResponseToObject<T>(response: any): T {
