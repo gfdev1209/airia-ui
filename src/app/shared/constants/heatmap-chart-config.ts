@@ -58,6 +58,12 @@ export const heatMapChartConfig = {
       colorScale: {
         ranges: [
           {
+            from: undefined,
+            to: undefined,
+            color: '#FFB200',
+            name:'nodata'
+          },
+          {
             from: 0,
             to: 0.1,
             color: '#dddddd',
@@ -182,8 +188,12 @@ export const heatMapChartConfig = {
     },
     formatter: (val: any) => {
       console.log("value", val)
-      return val < 0.1 ? 'no data': val.toFixed(0) + '%';
+      if(val < 0){
+        return 'no data'
+      }
+      return val === 0 ? '0': val.toFixed(0) + '%';
     },
+    
   },
 };
 

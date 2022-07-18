@@ -118,9 +118,16 @@ export class BuildingDetailsOccupancyViewComponent implements OnInit, OnChanges 
             console.log(changes.analytics?.currentValue);
         }
         if (changes.occupancy && changes.occupancy.currentValue) {
-            const occupancyData = this.mapOccupancyData(changes.occupancy.currentValue);
-            // console.log(occupancyData);
+            let occupancyData = this.mapOccupancyData(changes.occupancy.currentValue);
+            
             this.chartData = Object.values(occupancyData).reverse();
+            this.chartData?.map((item: any)=>{
+                if(item['data'].length < 7){
+                    for(let i = item['data']?.length; i < 7; i++){
+                        item['data'].push({x:moment().day(i).format('ddd'), y:-1, hour:item['name']});
+                    } 
+                }
+            })
             this.chartData.forEach(entry=>{
               const tranformedData=  entry.data.reduce((prev,curr,index)=>{
                    const dayEntry = prev.find(pre=>pre.x===curr.x);
