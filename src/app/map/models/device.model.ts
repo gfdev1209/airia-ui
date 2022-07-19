@@ -44,7 +44,7 @@ export class Device {
     os: string;
     buildingFloor: Floor;
   }) {
-    this.id = args.$id;
+    this.id = `${args.deviceratId}_${args.$id}`;
     this.deviceratId = args.deviceratId;
     this.fixedPosition = args.fixedPosition;
     this.buildingFloorId = args.buildingFloorId;
