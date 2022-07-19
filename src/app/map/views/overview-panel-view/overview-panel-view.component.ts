@@ -35,7 +35,7 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     @Input() mapDateTime?: Date | null;
     @Input() displayedMapDateTime?: string | null;
     @Input() playbackSliderValue?: number | null = 0;
-    @Input() playbackSliderMax?: number | null = 10;
+    @Input() playbackSliderMax?: number | null = 30;
     @Input() playbackSpeed?: number | null = 1;
     @Input() isExpanded?: boolean | null;
     @Input() isPlaybackLive?: boolean | null;
