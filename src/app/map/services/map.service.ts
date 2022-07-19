@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class MapService {
-  public playbackSliderMaxAmt = 10;
+  public playbackSliderMaxAmt = 30;
 
   private overviewPanelHeight: BehaviorSubject<number> = new BehaviorSubject(0);
   overviewPanelHeight$ = this.overviewPanelHeight.asObservable();
