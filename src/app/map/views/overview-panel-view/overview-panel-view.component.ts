@@ -220,12 +220,16 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
         this.alertSortTypeChanged.emit(event?.value);
     }
     onSortDirectionChange(event: any): void {
+
         if (this.sortDirection > 0) {
             this.sortDirection = -1;
         } else {
             this.sortDirection = 1;
         }
-        this.alertSortDirectionChanged.emit(this.sortDirection);
+        if(this.knobAlertValue > 0){
+            this.alertSortDirectionChanged.emit(this.sortDirection);
+        }
+       
     }
     onPlaybackSpeedChange(event: any): void {
         this.playbackSpeedChanged.emit(event?.value);

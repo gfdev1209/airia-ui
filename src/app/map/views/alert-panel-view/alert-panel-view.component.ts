@@ -121,6 +121,7 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
             const loadedAlerts = filteredAlerts.slice(event.first, event.first + event.rows);
             // Update virtual array
             this.virtualAlerts.splice(event.first, event.first + event.rows, ...loadedAlerts);
+            this.pinnedAlerts?.forEach(alert=>this.virtualAlerts.unshift(alert));
             // apply existing filters and trigger change detection
             this.filterAlerts();
         }
