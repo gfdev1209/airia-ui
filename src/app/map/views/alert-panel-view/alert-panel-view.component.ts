@@ -44,6 +44,8 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
             this.pinnedAlerts?.map(al=> al.isPinned = true)
         }
 
+       
+
         const currentAlerts: SimpleChange = changes.alerts;
         const sortType: SimpleChange = changes.sortType;
         const sortDirection: SimpleChange = changes.sortDirection;
@@ -111,6 +113,14 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
            
         }
 
+        if(!changes.pinnedAlerts?.isFirstChange){
+            this.virtualAlerts.forEach((alert, i)=> {
+            if(alert?.isPinned){
+                 this.virtualAlerts.splice(i, 1);
+            }
+        });
+        }
+        
         this.pinnedAlerts?.forEach(alert=>this.virtualAlerts.unshift(alert));
     }
 
