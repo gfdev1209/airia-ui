@@ -12,8 +12,8 @@ export const environment = {
   mapboxAccessToken:
     'pk.eyJ1IjoibWlrZWFpcmlhIiwiYSI6ImNrbnF1cnNnaTBnaG8ydm15dXRuOGVodDgifQ.LbEjDzKyUje8uRE220hoqQ',
   zoomLevel: 16,
-  hidePOIs: true,
-  hideStreetLabels: true,
+  hidePOIs: false,
+  hideStreetLabels: false,
   // Azure B2C Configuration
   b2cClientId: '70778b4b-053f-434c-9d86-d91faced2b30',
   b2cNameSignUpSignIn: 'B2C_1_airiasignupin',
