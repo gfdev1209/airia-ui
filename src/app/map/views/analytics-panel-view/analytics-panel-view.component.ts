@@ -28,7 +28,7 @@ import {
 } from 'ng-apexcharts';
 import * as _ from 'lodash';
 import {
-  chartOptionsConfig,
+  chartOptionsCustomConfig,
   LineChartOptions,
 } from '@shared/constants/line-chart-config';
 import * as moment from 'moment';
@@ -156,7 +156,7 @@ export class AnalyticsPanelViewComponent implements OnInit, OnChanges {
   updateChart(data: any, liveTime: Date): void {
 
     if (this.chartData && this.date) {
-      const chartOptions2 = _.cloneDeep(chartOptionsConfig);
+      const chartOptions2 = _.cloneDeep(chartOptionsCustomConfig);
       console.log('devicecount--->', this.chartData.deviceCount)
       chartOptions2.series[0].data = this.chartData.stats;
       chartOptions2.chart.deviceCounts = this.chartData.deviceCount;
