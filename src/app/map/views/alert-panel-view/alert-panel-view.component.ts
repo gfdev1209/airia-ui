@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { AlertSeverity, AlertSortType, AlertType } from '../../enums';
 import { Alert, Building } from '../../models';
 
@@ -32,8 +33,15 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
     alertsDisplayedNum = 9;
 
     visible = false;
-
-    constructor() {}
+    disableAlertsKnob:boolean = true;
+    enableAlertsKnob:any;
+    constructor() {
+        this.enableAlertsKnob = environment?.enableAlertsKnobTime; 
+        let datenow = new Date().getTime();
+        if(datenow > this.enableAlertsKnob){
+                this.disableAlertsKnob = false;
+        }
+    }
     ngOnInit(): void {
         this.virtualAlerts = Array.from({ length: this.alertsDisplayedNum });
         setTimeout(() => (this.visible = true), 500);
@@ -113,15 +121,21 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
            
         }
 
+        
         if(!changes.pinnedAlerts?.isFirstChange){
             this.virtualAlerts.forEach((alert, i)=> {
-            if(alert?.isPinned){
-                 this.virtualAlerts.splice(i, 1);
-            }
-        });
+                if(alert?.isPinned){
+                    this.virtualAlerts.splice(i, 1);
+                }
+            });
+        }
+
+        
+        if(!this.disableAlertsKnob){
+            this.pinnedAlerts?.forEach(alert=>this.virtualAlerts.unshift(alert));
         }
         
-        this.pinnedAlerts?.forEach(alert=>this.virtualAlerts.unshift(alert));
+        // this.pinnedAlerts?.forEach(alert=>this.virtualAlerts.unshift(alert));
     }
 
     loadAlertsLazy(event: LazyLoadEvent): void {

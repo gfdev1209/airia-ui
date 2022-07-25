@@ -20,9 +20,8 @@ import { BehaviorSubject, Observable, of, Subject, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as DeviceSelectors from '@store/device/device.selectors';
 import { RootState } from 'src/app/store';
-import { MultiSelect } from 'primeng/multiselect';
-import { reduce } from 'lodash';
 import AccessLevels from '@core/utils/access-levels';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-overview-panel-view',
@@ -115,9 +114,14 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     knobPreviousValue = -1
     devicesList$: Observable<any>;
     selectedSSID:any[]=[];
-    private _deviceListSubscription = new Subscription();;
-    constructor(private store:Store<RootState>) {
-        
+    disableAlertsKnob = true;
+    enableAlertsKnob: any;
+
+    private _deviceListSubscription = new Subscription();
+    constructor(private store:Store<RootState>) {   
+        // this.disableAlertsKnob = environment?.disableAlertsKnob; 
+        this.enableAlertsKnob = environment?.enableAlertsKnobTime; 
+
         this.devicesList$ =  this.store.select(DeviceSelectors.selectAll);
         this._deviceListSubscription = this.devicesList$.subscribe((data:any)=>{
         let list = [...new Set(data.map((item:any) =>item['ssid']))];
@@ -135,7 +139,14 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
             this.SSIDList.map(item=> this.selectedSSID.push(item.ssid));
         }
         });
+
+      
+        let datenow = new Date().getTime();
+        if(datenow > this.enableAlertsKnob){
+                this.disableAlertsKnob = false;
+        }
     }
+
 
     ngOnChanges(changes: SimpleChanges): void {
         
@@ -158,6 +169,8 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
 
     ngAfterViewInit(): void {
         this.playbackSpeedChanged.emit(1);
+
+       
     }
 
     expandPanel(): void {

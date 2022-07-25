@@ -27,4 +27,5 @@ export const environment = {
     'https://airiaaitest.b2clogin.com/aitest.airia20.com/b2c_1_airiapwreset',
   b2cScopes: ['https://aitest.airia20.com/api/demo.read'],
   b2cApiUrl: 'https://aitest-api.dev.airia20.com',
+  
 };
