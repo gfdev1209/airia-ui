@@ -27,4 +27,6 @@ export const environment = {
     'https://airiadevtest.b2clogin.com/devtest.airia20.com/b2c_1_airiapwreset',
   b2cScopes: ['https://devtest.airia20.com/api/demo.read'],
   b2cApiUrl: 'https://devtest-api.dev.airia20.com',
+  disableAlertsKnob:true,
+  enableAlertsKnobTime:new Date("2022-09-01").getTime()
 };

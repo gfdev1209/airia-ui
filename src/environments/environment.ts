@@ -27,4 +27,7 @@ export const environment = {
     'https://airia20develop.b2clogin.com/airia20develop.airia20.com/b2c_1_airiapwreset',
   b2cScopes: ['https://airia20develop.onmicrosoft.com/api/demo.read'],
   b2cApiUrl: 'https://api.dev.airia20.com',
+  disableAlertsKnob:true,
+  enableAlertsKnobTime:new Date("2022-09-01").getTime()
+
 };
