@@ -10,6 +10,7 @@
     [lazy]="true"
     [rows]="alertsDisplayedNum"
     (onLazyLoad)="loadAlertsLazy($event)"
+    *ngIf="!disableAlertsKnob"
   >
     <ng-template pTemplate="item" let-alert>
       <app-alert-preview

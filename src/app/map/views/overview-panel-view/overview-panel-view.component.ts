@@ -119,7 +119,6 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
 
     private _deviceListSubscription = new Subscription();
     constructor(private store:Store<RootState>) {   
-        // this.disableAlertsKnob = environment?.disableAlertsKnob; 
         this.enableAlertsKnob = environment?.enableAlertsKnobTime; 
 
         this.devicesList$ =  this.store.select(DeviceSelectors.selectAll);
