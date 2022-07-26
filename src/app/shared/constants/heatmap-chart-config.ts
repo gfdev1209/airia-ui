@@ -66,7 +66,7 @@ export const heatMapChartConfig = {
           {
             from: 0,
             to: 0.1,
-            color: '#dddddd',
+            color: '#2a1d32',
           },
           {
             from: 0.1,
