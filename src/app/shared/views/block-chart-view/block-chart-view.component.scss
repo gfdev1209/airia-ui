@@ -5,6 +5,10 @@
   fill: rgb(42 29 50 / 36%) !important;
   border: 1px solid #fff;
 }
+::ng-deep .apexcharts-heatmap-rect:not([val~='0.']){
+  fill: rgb(42 29 50 / 36%) !important;
+  border: 1px solid #fff;
+}
 ::ng-deep .apexcharts-heatmap-rect[val='0'] + .apexcharts-data-labels text{
   fill: #ddd !important;
 }
