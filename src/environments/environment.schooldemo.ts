@@ -27,4 +27,7 @@ export const environment = {
     'https://airiaschooldemo.b2clogin.com/schooldemo.airia20.com/b2c_1_airiapwreset',
   b2cScopes: ['https://schooldemo.airia20.com/api/demo.read'],
   b2cApiUrl: 'https://school-api.demo.airia20.com',
+  disableAlertsKnob:false,
+  enableAlertsKnobTime:new Date("2022-06-01").getTime()
+
 };

@@ -28,5 +28,5 @@ export const environment = {
   b2cScopes: ['https://college.demo.airia20.com/api/demo.read'],
   b2cApiUrl: 'https://college-api.demo.airia20.com',
   disableAlertsKnob:false,
-  enableAlertsKnobTime:new Date("2022-08-01").getTime()
+  enableAlertsKnobTime:new Date("2022-06-01").getTime()
 };
