@@ -187,7 +187,6 @@ export const heatMapChartConfig = {
       fontWeight: 'normal',
     },
     formatter: (val: any) => {
-      console.log("value", val)
       if(val < 0){
         return 'no data'
       }

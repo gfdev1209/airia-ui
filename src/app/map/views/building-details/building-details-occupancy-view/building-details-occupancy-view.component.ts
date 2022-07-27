@@ -119,12 +119,17 @@ export class BuildingDetailsOccupancyViewComponent implements OnInit, OnChanges 
         }
         if (changes.occupancy && changes.occupancy.currentValue) {
             let occupancyData = this.mapOccupancyData(changes.occupancy.currentValue);
-            
-            this.chartData = Object.values(occupancyData).reverse();
+            this.chartData = [...Object.values(occupancyData).reverse()];
+            let maxLength = 0;
+            this.chartData?.forEach(item => {
+                if (maxLength < item.data.length)
+                    maxLength = item.data.length
+            });
             this.chartData?.map((item: any)=>{
-                if(item['data'].length < 7){
-                    for(let i = item['data']?.length; i < 7; i++){
-                        item['data'].push({x:moment().day(i).format('ddd'), y:-1, hour:item['name']});
+                const length = item['data'].length
+                if(length > 0 && length < maxLength){
+                    for(let i = length; i < maxLength; i++){
+                        item['data'].push({x:moment().day(item['data'][i-1].day + 1).format('ddd'), y:-1, hour:item['name'], day:item['data'][i-1].day + 1});
                     } 
                 }
             })
@@ -194,6 +199,7 @@ export class BuildingDetailsOccupancyViewComponent implements OnInit, OnChanges 
                     if (dayKey) {
                         const days = dataArray[dayKey];
                         // Calculate the average occupancy for all days in this hour
+                        let day = new Date(days[0].year+'-'+days[0].month+'-'+days[0].day).getDay();
                         const average =
                             days.reduce((total: any, next: any) => {
                                 const avg =
@@ -204,9 +210,10 @@ export class BuildingDetailsOccupancyViewComponent implements OnInit, OnChanges 
                             }, 0) / days.length;
                         // Update dictionary value
                         dataArray[dayKey] = {
-                            x: moment().day(dayKey).format('ddd'),
+                            x: moment().day(day).format('ddd'),
                             y: average,
                             hour: key,
+                            day: day,
                         };
                     }
                 }
