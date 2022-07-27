@@ -115,11 +115,10 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
     devicesList$: Observable<any>;
     selectedSSID:any[]=[];
     disableAlertsKnob = true;
-    enableAlertsKnob: any;
 
     private _deviceListSubscription = new Subscription();
     constructor(private store:Store<RootState>) {   
-        this.enableAlertsKnob = environment?.enableAlertsKnobTime; 
+        this.disableAlertsKnob = environment?.disableAlertsKnob; 
 
         this.devicesList$ =  this.store.select(DeviceSelectors.selectAll);
         this._deviceListSubscription = this.devicesList$.subscribe((data:any)=>{
@@ -138,12 +137,6 @@ export class OverviewPanelViewComponent implements AfterViewInit, OnChanges {
             this.SSIDList.map(item=> this.selectedSSID.push(item.ssid));
         }
         });
-
-      
-        let datenow = new Date().getTime();
-        if(datenow > this.enableAlertsKnob){
-                this.disableAlertsKnob = false;
-        }
     }
 
 

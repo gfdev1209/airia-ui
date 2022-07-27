@@ -28,5 +28,4 @@ export const environment = {
   b2cScopes: ['https://devtest.airia20.com/api/demo.read'],
   b2cApiUrl: 'https://devtest-api.dev.airia20.com',
   disableAlertsKnob:false,
-  enableAlertsKnobTime:new Date("2022-09-01").getTime()
 };

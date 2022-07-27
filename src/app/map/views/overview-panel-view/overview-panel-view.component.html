@@ -310,11 +310,11 @@
                                                     [min]="0" [max]="10" 
                                                     styleClass="customKnobClass"
                                                     (onChange)="onAlertSliderChange($event)"
-                                                    [disabled]="!canChangeKnob() || disableAlertsKnob"
+                                                    [disabled]="disableAlertsKnob"
                                                     
                                                 ></p-knob>
                                                
-                                                <!-- {{canChangeKnob()}} -->
+                                                <!-- !canChangeKnob() && -->
                                             </div>
                                           
                                             <!-- <div class="p-mt-2">

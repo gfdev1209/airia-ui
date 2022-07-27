@@ -26,7 +26,7 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
     @Input() showAPStatus!: boolean;
     @Input() showCapacity!: boolean;
     @Input() pinnedAlerts?: Alert[] | null = null;
-    @Input() knobValue!: number | unknown;
+    @Input() knobValue: number =0;
     // List of alerts for lazy loading
     virtualAlerts: Alert[] = [];
     // Amount of alerts displayed in panel at one time
@@ -34,16 +34,15 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
 
     visible = false;
     disableAlertsKnob:boolean = true;
-    enableAlertsKnob:any;
     constructor() {
-        this.enableAlertsKnob = environment?.enableAlertsKnobTime; 
-        let datenow = new Date().getTime();
-        if(datenow > this.enableAlertsKnob){
-                this.disableAlertsKnob = false;
-        }
+        this.disableAlertsKnob = environment?.disableAlertsKnob; 
     }
     ngOnInit(): void {
-        this.virtualAlerts = Array.from({ length: this.alertsDisplayedNum });
+        if(!this.knobValue){
+            this.virtualAlerts = [];
+        }else{
+            this.virtualAlerts = Array.from({ length: this.alertsDisplayedNum });
+        }
         setTimeout(() => (this.visible = true), 500);
     }
     ngOnChanges(changes: SimpleChanges): void {
@@ -57,17 +56,17 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
         const currentAlerts: SimpleChange = changes.alerts;
         const sortType: SimpleChange = changes.sortType;
         const sortDirection: SimpleChange = changes.sortDirection;
+      
         if(!this.knobValue){
-           
             this.virtualAlerts = [];
         }else{
-            
+
             if (currentAlerts && this.selectedBuilding === null) {
                 if (currentAlerts.currentValue) {
                     this.loadAlertsLazy({
                         first: 0,
                         rows: currentAlerts.currentValue.length,
-                    });
+                    }); 
                     if (currentAlerts.currentValue?.length > 0) {
                         if (this.sortType) {
                             this.sort(this.sortType);
@@ -85,56 +84,59 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
                 this.sort(this.sortType);
             }
             if (
+                
                 changes.showSevereUrgency ||
                 changes.showHighUrgency ||
                 changes.showMediumUrgency ||
                 changes.showLowUrgency ||
-                changes.showAcknowledged ||
-                changes.showNetworkHealth ||
-                changes.showAPStatus ||
-                changes.showCapacity
+                changes.showAcknowledged
+                // changes.showNetworkHealth ||
+                // changes.showAPStatus ||
+                // changes.showCapacity
             ) {
                 const filteredAlerts = this.filterAlerts();
                 this.virtualAlerts = [...filteredAlerts];
             }
 
-        }
-        if (sortType) {
-            this.sortType = sortType.currentValue;
-            this.sort(sortType.currentValue);
-        }
-        if (sortDirection && this.sortType) {
-            this.sort(this.sortType);
-        }
-        if (
-            changes.showSevereUrgency ||
-            changes.showHighUrgency ||
-            changes.showMediumUrgency ||
-            changes.showLowUrgency ||
-            changes.showAcknowledged ||
-            changes.showNetworkHealth ||
-            changes.showAPStatus ||
-            changes.showCapacity
-        ) {
-            const filteredAlerts = this.filterAlerts();
-            this.virtualAlerts = [...filteredAlerts];
-           
+        
+            if (sortType) {
+                this.sortType = sortType.currentValue;
+                this.sort(sortType.currentValue);
+            }
+            if (sortDirection && this.sortType) {
+                this.sort(this.sortType);
+            }
+            if ( 
+                changes.showSevereUrgency ||
+                changes.showHighUrgency ||
+                changes.showMediumUrgency ||
+                changes.showLowUrgency ||
+                changes.showAcknowledged
+               
+                // changes.showNetworkHealth ||
+                // changes.showAPStatus ||
+                // changes.showCapacity
+            ) {
+                const filteredAlerts = this.filterAlerts();
+                this.virtualAlerts = [...filteredAlerts];
+            
+            }
+
+            if(!changes.pinnedAlerts?.isFirstChange){
+                this.virtualAlerts.forEach((alert, i)=> {
+                    if(alert?.isPinned){
+                        this.virtualAlerts.splice(i, 1);
+                    }
+                });
+            }
+    
+            
+            if(!this.disableAlertsKnob){
+                this.pinnedAlerts?.forEach(alert=>this.virtualAlerts.unshift(alert));
+            }
+
         }
 
-        
-        if(!changes.pinnedAlerts?.isFirstChange){
-            this.virtualAlerts.forEach((alert, i)=> {
-                if(alert?.isPinned){
-                    this.virtualAlerts.splice(i, 1);
-                }
-            });
-        }
-
-        
-        if(!this.disableAlertsKnob){
-            this.pinnedAlerts?.forEach(alert=>this.virtualAlerts.unshift(alert));
-        }
-        
         // this.pinnedAlerts?.forEach(alert=>this.virtualAlerts.unshift(alert));
     }
 
@@ -164,29 +166,31 @@ export class AlertPanelViewComponent implements OnInit, OnChanges {
                     this.filterSeverityHigh,
                     this.filterSeverityMedium,
                     this.filterSeverityLow,
-                    this.filterAcknowledged
+                    this.filterAcknowledged,
                     // this.filterNetworkHealth,
                     // this.filterAPStatus,
                     // this.filterCapacity
                 )
             );
         }
+
+        console.log(" return alerts", alerts);
         return alerts;
     }
     filterSeveritySevere = (alert: Alert) => {
-        return this.showSevereUrgency ? true : alert?.alertSeverity !== AlertSeverity.Red;
+        return this.showSevereUrgency ? true : alert?.alertSeverity !== AlertSeverity.Red || alert?.acknowledgedBy !== null;
     };
     filterSeverityHigh = (alert: Alert) => {
-        return this.showHighUrgency ? true : alert?.alertSeverity !== AlertSeverity.Orange;
+        return this.showHighUrgency ? true : alert?.alertSeverity !== AlertSeverity.Orange || alert?.acknowledgedBy !== null;
     };
     filterSeverityMedium = (alert: Alert) => {
-        return this.showMediumUrgency ? true : alert?.alertSeverity !== AlertSeverity.Yellow;
+        return this.showMediumUrgency ? true : alert?.alertSeverity !== AlertSeverity.Yellow || alert?.acknowledgedBy !== null;
     };
     filterSeverityLow = (alert: Alert) => {
-        return this.showLowUrgency ? true : alert?.alertSeverity !== AlertSeverity.White;
+        return this.showLowUrgency ? true : alert?.alertSeverity !== AlertSeverity.White || alert?.acknowledgedBy !== null;
     };
     filterAcknowledged = (alert: Alert) => {
-        return this.showAcknowledged ? true : alert?.acknowledgedAt === undefined;
+        return this.showAcknowledged ? true : alert?.acknowledgedBy == null;
     };
 
     filterNoAlerts = (alert: Alert) => {
