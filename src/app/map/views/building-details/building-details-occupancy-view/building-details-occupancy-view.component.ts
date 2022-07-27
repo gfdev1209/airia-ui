@@ -199,7 +199,7 @@ export class BuildingDetailsOccupancyViewComponent implements OnInit, OnChanges 
                     if (dayKey) {
                         const days = dataArray[dayKey];
                         // Calculate the average occupancy for all days in this hour
-                        let day = new Date(days[0].year+'-'+days[0].month+'-'+days[0].day).getDay();
+                        let day = new Date(days[0].year, days[0].month - 1, days[0].day, days[0].hour).getDay();
                         const average =
                             days.reduce((total: any, next: any) => {
                                 const avg =
