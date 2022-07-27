@@ -28,5 +28,5 @@ export const environment = {
   b2cScopes: ['https://lakewaydev.airia20.com/api/demo.read'],
   b2cApiUrl: 'https://lakeway-api.dev.airia20.com',
   disableAlertsKnob:false,
-  enableAlertsKnobTime:new Date("2022-09-01").getTime()
+  enableAlertsKnobTime:new Date("2022-08-01").getTime()
 };
